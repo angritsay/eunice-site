@@ -1,8 +1,10 @@
 # eunice.ai
 
-The Eunice website as code: six pages, one stylesheet, no framework, no dependencies. It replaces the Framer project.
+The Eunice website as code: eighteen pages, one stylesheet, no framework, no dependencies. It replaces the Framer project.
 
-**Pages:** Home · Private Markets · Digital Assets (Token Disclosure is a section inside it) · Company · Careers · Insights
+**Pages:** Home · Private Markets · Digital Assets · Token Disclosure · Company · Careers · Insights
+
+Each of the three desks also has a personalised page per client type — `/private-markets/lps/`, `/token-disclosure/issuers/` and so on — plus `/token-disclosure/register/`. Those are generated from `audiencePages` in `src/content/index.js` through one template in `src/pages/audience.js`, so adding a client type is an edit to the content file and nothing else.
 
 ## Why a repo instead of Framer
 
@@ -34,7 +36,9 @@ Pushing to `main` deploys automatically (`.github/workflows/deploy.yml`). One-ti
 
 ## Before going live
 
-- Real assets: the Eunice master logo SVG, team portraits, the City of London and Mayfair photographs, and the Private Markets Documents and Portfolio screenshots (currently drawn in HTML as stand-ins). Product images in `src/assets/img/` were cropped from page exports and should be replaced with full-resolution originals.
+- **The register has no listing.** `/token-disclosure/register/` explains what the register is and what an entry carries, but the list of published papers is a marked placeholder. It needs a source — the papers Eunice has notified — and a decision on how that reaches the build.
+- **The copy on the personalised pages is a first draft.** The eleven client-type pages were written from material already on the site rather than by the desks. No new claims or numbers, but they need the desks' own words before anyone points a client at them.
+- Real assets: team portraits, and the Private Markets Documents and Portfolio screenshots (currently drawn in HTML as stand-ins). Product images in `src/assets/img/` were cropped from page exports and should be replaced with full-resolution originals. The master logo and the City of London and Mayfair photographs are in.
 - Bios for Yi, Philip and Chrislyn; the text of the 4 September note.
 - Contact: confirm `contactEmail` / `careersEmail`, and pick a form service for `formEndpoint` (until then the form opens the visitor's mail app).
 - Links for each insight (`url` field) once the articles move over from Framer.

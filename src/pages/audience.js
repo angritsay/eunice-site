@@ -31,6 +31,18 @@ const DESK = {
     quote: quotes.falconx,
     insights: { label: 'Insights on digital assets', aside: 'Exploits, risk and regulation, as they happen.', deskFilter: ['digital-assets', 'token-disclosure'] },
   },
+  'token-disclosure': {
+    hero: { img: 'da-token-disclosure.png', alt: 'A hosted MiCAR white paper' },
+    facts: [
+      { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
+      { title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
+      { title: 'gunnercooke', text: 'UK token classification, since July 2026' },
+      { title: '1,000+ pre-filled papers', text: 'The library a new white paper is drafted from' },
+    ],
+    // No client quote on this desk yet; the section is left out until there is one.
+    quote: null,
+    insights: { label: 'Insights on token disclosure', aside: 'Regulation and disclosure, as they change.', deskFilter: ['token-disclosure'] },
+  },
 };
 
 // Turn one entry from the content file into a page the build can write.
@@ -70,7 +82,7 @@ function page(a) {
 
 <section class="wrap section">
   ${facts(d.facts, 2)}
-  <div class="grid grid--1 quotes">${quoteBlock(d.quote)}</div>
+  ${d.quote ? `<div class="grid grid--1 quotes">${quoteBlock(d.quote)}</div>` : ''}
 </section>
 
 ${insightsBlock(ctx, { ...d.insights, featured: 1, rows: 2 })}
