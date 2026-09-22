@@ -1,6 +1,6 @@
 import { quotes } from '../content/index.js';
 import {
-  button, sectionHead, audiences, facts, plate, feature, bullets,
+  button, sectionHead, audiences, facts, photo, plate, feature, bullets,
   insightsBlock, eventsBlock, peopleGrid, cta,
 } from '../components.js';
 
@@ -24,7 +24,7 @@ export default {
     </div>
   </div>
   <div class="hero__visual hero__visual--stacked">
-    <div class="photo photo--city" role="img" aria-label="Aerial photograph of the City of London"><span>City of London, aerial</span></div>
+    ${photo(ctx, { img: 'city-of-london.jpg', variant: 'city', alt: 'The City of London at dusk, looking along the Thames to St Paul’s' })}
     ${plate(ctx, { img: 'home-hero.png', alt: 'Pipeline: five funds, one in tracking' })}
   </div>
 </section>
@@ -46,7 +46,7 @@ export default {
 </section>
 
 <section class="wrap section split">
-  <div class="photo photo--mayfair" role="img" aria-label="Aerial photograph of Mayfair"><span>Mayfair, aerial</span></div>
+  ${photo(ctx, { img: 'mayfair.jpg', variant: 'mayfair', alt: 'A Mayfair street corner after rain' })}
   ${facts([
     { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
     { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },

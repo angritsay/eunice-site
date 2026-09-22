@@ -123,6 +123,11 @@ export const partnersRow = () => `
   <ul>${partners.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
 </div>`;
 
+// A photograph that fills its frame. The frame sets the crop, not the file.
+export function photo(ctx, { img, alt, variant }) {
+  return `<figure class="photo photo--${variant}"><img src="${ctx.asset('img/' + img)}" alt="${esc(alt)}" loading="lazy"></figure>`;
+}
+
 // A product image on a tinted field. `img` is a file under /assets/img; `html` is inline markup.
 export function plate(ctx, { img, html, alt = '', tint = 'none', bleed = false }) {
   const inner = img ? `<img src="${ctx.asset('img/' + img)}" alt="${esc(alt)}" loading="lazy">` : html;
