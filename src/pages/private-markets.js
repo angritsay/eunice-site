@@ -136,4 +136,4 @@ function portfolioMock() {
 </div>`;
 }
 
-const markSmall = () => mark(14, '#f08a4b');
+const markSmall = () => mark(11, '#f08a4b');

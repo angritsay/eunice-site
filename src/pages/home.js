@@ -81,7 +81,7 @@ function tile(ctx, { desk, title, text, img }) {
   <span class="tile__shot"><img src="${ctx.asset('img/' + img)}" alt="" loading="lazy"></span>
   <span class="tile__foot">
     <span>
-      <span class="tile__title">${mark(22, '#fff')}${esc(title)}</span>
+      <span class="tile__title">${mark(18, '#fff')}${esc(title)}</span>
       <span class="tile__text">${esc(text)}</span>
     </span>
     <span class="btn btn--light">Learn more</span>
