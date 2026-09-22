@@ -18,9 +18,28 @@ export function href(ctx, item) {
   return ctx.link(item.to, item.hash, item.query);
 }
 
-// The Eunice mark. TODO: swap for the master SVG from the brand files.
+// The master brand file, split so the glyph can be used without the wordmark.
+// Both are filled, not stroked, so `color` recolours them at the call site.
+// Coordinates are the master's own, on its 68 x 21 canvas.
+const GLYPH = 'M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z';
+const WORDMARK = [
+  'M23.9966 15.3572H30.8252V13.8549H25.5479V10.4612H29.9342V8.95888H25.5479V5.8779H30.8252V4.37555H23.9966V15.3572Z',
+  'M35.1825 15.5784C36.3474 15.5784 37.2454 15.1284 37.8319 14.3735V15.3572H39.2123V7.12097H37.6464V11.4069C37.6464 13.3592 36.7262 14.0684 35.6127 14.0684C33.9057 14.0684 33.5867 12.4517 33.5867 11.1705V7.12097H32.0132V11.6967C32.0132 12.9702 32.4212 15.5784 35.1825 15.5784Z',
+  'M46.4745 11.3077V15.3572H48.048V10.7815C48.048 9.50796 47.64 6.89981 44.8787 6.89981C43.7138 6.89981 42.8158 7.34975 42.2293 8.10475V7.12097H40.8413V15.3572H42.4148V11.0713C42.4148 9.11903 43.3351 8.40979 44.4485 8.40979C46.1555 8.40979 46.4745 10.0265 46.4745 11.3077Z',
+  'M49.6846 5.77114H51.2359V4.22303H49.6846V5.77114ZM49.6846 15.3572H51.2359V7.12097H49.6846V15.3572Z',
+  'M56.4478 15.586C58.1701 15.586 59.4169 14.709 59.9438 13.0923L58.3703 12.711C58.0436 13.5956 57.4424 14.0837 56.4478 14.0837C54.9785 14.0837 54.2286 12.9397 54.2216 11.2391C54.2286 9.59185 54.9264 8.39454 56.4478 8.39454C57.3458 8.39454 58.0957 8.936 58.4001 9.85877L59.9438 9.4012C59.5428 7.85309 58.2222 6.89219 56.4701 6.89219C54.043 6.89219 52.5883 8.69196 52.5737 11.2391C52.5883 13.7481 53.9916 15.586 56.4478 15.586Z',
+  'M64.3476 15.586C65.8989 15.586 67.257 14.7395 67.8804 13.2677L66.359 12.772C65.9656 13.6185 65.2386 14.0837 64.2732 14.0837C62.9228 14.0837 62.136 13.2143 62.0102 11.689H67.9846C68.148 8.73772 66.7225 6.89219 64.2732 6.89219C61.9282 6.89219 60.3477 8.60808 60.3477 11.3077C60.3477 13.8549 61.9504 15.586 64.3476 15.586ZM62.047 10.446C62.2472 9.0504 63.0041 8.30303 64.333 8.30303C65.5652 8.30303 66.2332 8.99701 66.3965 10.446H62.047Z',
+].map((d) => `<path d="${d}"/>`).join('');
+
+// The glyph on its own, for use beside a heading. Decorative: the words next to
+// it carry the meaning. `size` is its height; the width follows the artwork.
 export const mark = (size = 22, color = 'currentColor') =>
-  `<svg class="mark" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M19.5 7 12 2.8 4.5 7v10l7.5 4.2 7.5-4.2"/><path d="M9 12h7.5"/></svg>`;
+  `<svg class="mark" width="${(size * 18.3 / 20.55).toFixed(2)}" height="${size}" viewBox="0 0 18.3 20.55" fill="${color}" aria-hidden="true"><path d="${GLYPH}"/></svg>`;
+
+// The full lockup, glyph and wordmark, exactly as the master file draws it.
+// It carries the name, so nothing should print "Eunice" beside it. `size` is its height.
+export const logo = (size = 21, color = 'currentColor') =>
+  `<svg class="logo" width="${(size * 68 / 21).toFixed(2)}" height="${size}" viewBox="0 0 68 21" fill="${color}" role="img"><title>Eunice</title><path d="${GLYPH}"/>${WORDMARK}</svg>`;
 
 export const deskLabel = (desk, extra = '') =>
   `<span class="desk desk--${desk}"><span class="dot"></span>${esc(desks[desk].label)}${extra ? ` <span class="desk__meta">· ${esc(extra)}</span>` : ''}</span>`;
@@ -49,7 +68,7 @@ export function header(ctx, navKey = 'company') {
 </div></div>
 <header class="wrap nav">
   <a class="lockup" href="${ctx.link(navKey === 'company' ? '' : navKey)}">
-    ${mark(20)}<span class="lockup__name">Eunice</span>${nav.lockup ? `<span class="lockup__rule"></span><span class="lockup__desk">${esc(nav.lockup)}</span>` : ''}
+    ${logo(21)}${nav.lockup ? `<span class="lockup__rule"></span><span class="lockup__desk">${esc(nav.lockup)}</span>` : ''}
   </a>
   <nav class="nav__links" id="nav-links" aria-label="Main">
     ${nav.main.map((i) => `<a href="${esc(href(ctx, i))}"${current(i)}>${esc(i.label)}</a>`).join('')}
@@ -70,7 +89,7 @@ export function footer(ctx) {
 <footer class="wrap footer">
   <div class="footer__grid">
     <div class="footer__brand">
-      <a class="lockup" href="${ctx.link('')}">${mark(18)}<span class="lockup__name">Eunice</span></a>
+      <a class="lockup" href="${ctx.link('')}">${logo(19)}</a>
       <p>${esc(config.tagline)}</p>
     </div>
     ${config.footer.map((col) => `

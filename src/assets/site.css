@@ -109,8 +109,8 @@ button { font: inherit; color: inherit; }
 .nav::after { content: ''; position: absolute; left: var(--gutter); right: var(--gutter); bottom: 0; height: 1px; background: var(--line-strong); }
 .lockup { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); }
 .lockup:hover { color: var(--ink); }
-.lockup__name, .lockup__desk { font-family: var(--font-head); font-size: 17px; }
-.lockup__name { font-weight: 500; }
+.lockup__desk { font-family: var(--font-head); font-size: 17px; }
+.lockup svg { display: block; }
 .lockup__rule { width: 1px; height: 20px; background: #c9cfd9; margin-inline: 4px; }
 .nav__links { display: flex; gap: 28px; font-size: 15px; }
 .nav__links a { color: var(--text); padding: 6px 0; }
