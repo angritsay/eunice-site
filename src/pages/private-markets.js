@@ -1,6 +1,6 @@
 import { quotes } from '../content/index.js';
 import {
-  button, sectionHead, audiences, facts, plate, feature, bullets,
+  button, sectionHead, audiences, facts, mark, photo, plate, feature, bullets,
   insightsBlock, eventsBlock, peopleGrid, cta,
 } from '../components.js';
 
@@ -24,7 +24,7 @@ export default {
     </div>
   </div>
   <div class="hero__visual hero__visual--stacked">
-    <div class="photo photo--city" role="img" aria-label="Aerial photograph of the City of London"><span>City of London, aerial</span></div>
+    ${photo(ctx, { img: 'city-of-london.jpg', variant: 'city', alt: 'The City of London at dusk, looking along the Thames to St Paul’s' })}
     ${plate(ctx, { img: 'home-hero.png', alt: 'Pipeline: five funds, one in tracking' })}
   </div>
 </section>
@@ -46,7 +46,7 @@ export default {
 </section>
 
 <section class="wrap section split">
-  <div class="photo photo--mayfair" role="img" aria-label="Aerial photograph of Mayfair"><span>Mayfair, aerial</span></div>
+  ${photo(ctx, { img: 'mayfair.jpg', variant: 'mayfair', alt: 'A Mayfair street corner after rain' })}
   ${facts([
     { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
     { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
@@ -141,4 +141,4 @@ function portfolioMock() {
 </div>`;
 }
 
-const markSmall = () => '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f08a4b" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M19.5 7 12 2.8 4.5 7v10l7.5 4.2 7.5-4.2"/><path d="M9 12h7.5"/></svg>';
+const markSmall = () => mark(14, '#f08a4b');
