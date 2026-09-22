@@ -64,7 +64,7 @@ ${feature({
 
 <section class="band band--td section" id="token-disclosure"><div class="wrap feature feature--flat">
   <div class="feature__text">
-    <h2 class="h2 td-title">${mark(26, '#b27a14')}Token Disclosure</h2>
+    <h2 class="h2 td-title">${mark(21, '#b27a14')}Token Disclosure</h2>
     <p class="body">The other side of the same desk. A MiCA white paper drafted from the library of 1,000+ pre-filled papers, reviewed by CMS where a legal opinion is needed, notified to the authority and hosted on a public page any exchange can check. UK token classification with gunnercooke since July 2026.</p>
     <div class="buttons">${button(ctx, { label: 'Start a white paper', talk: 'token-disclosure' })}</div>
   </div>

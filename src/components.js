@@ -68,7 +68,7 @@ export function header(ctx, navKey = 'company') {
 </div></div>
 <header class="wrap nav">
   <a class="lockup" href="${ctx.link(navKey === 'company' ? '' : navKey)}">
-    ${logo(21)}${nav.lockup ? `<span class="lockup__rule"></span><span class="lockup__desk">${esc(nav.lockup)}</span>` : ''}
+    ${logo(17)}${nav.lockup ? `<span class="lockup__rule"></span><span class="lockup__desk">${esc(nav.lockup)}</span>` : ''}
   </a>
   <nav class="nav__links" id="nav-links" aria-label="Main">
     ${nav.main.map((i) => `<a href="${esc(href(ctx, i))}"${current(i)}>${esc(i.label)}</a>`).join('')}
@@ -89,7 +89,7 @@ export function footer(ctx) {
 <footer class="wrap footer">
   <div class="footer__grid">
     <div class="footer__brand">
-      <a class="lockup" href="${ctx.link('')}">${logo(19)}</a>
+      <a class="lockup" href="${ctx.link('')}">${logo(15)}</a>
       <p>${esc(config.tagline)}</p>
     </div>
     ${config.footer.map((col) => `
