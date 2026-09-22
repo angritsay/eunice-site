@@ -149,6 +149,63 @@ export const audiencePages = [
     ],
     cta: { title: 'Run it against your book', text: 'Send us the assets you make markets in. We will show you what changed on them in the last quarter, and when we would have told you.' },
   },
+  {
+    id: 'issuers', desk: 'token-disclosure', nav: 'For issuers',
+    card: { title: 'Issuers', text: 'A white paper that has to be accepted once, and stay true after that.' },
+    title: 'Eunice for issuers — a MiCA white paper accepted once',
+    description: 'Drafted from a library of 1,000+ pre-filled papers, reviewed where a legal opinion is needed, notified to the authority and hosted where anyone can check it.',
+    h1: 'A white paper accepted once',
+    lead: 'Drafted from a library of 1,000+ pre-filled papers, reviewed where a legal opinion is needed, notified to the authority, and hosted on a page anyone can open.',
+    now: [
+      'The paper has to be right before it is filed, and there is no second first submission.',
+      'Every exchange that might list the token asks for the same document a different way.',
+      'A disclosure that was true at filing quietly stops being true.',
+    ],
+    work: [
+      { title: 'Drafted from the library', text: 'A MiCA white paper drafted from 1,000+ pre-filled papers, so the starting point is a document that has already been through this.' },
+      { title: 'Reviewed where it counts', text: 'CMS reviews the points that need a legal opinion, rather than a legal bill for the whole document.' },
+      { title: 'Notified and hosted', text: 'Notified to the authority and hosted on a public page, so there is one address for the version that stands.' },
+    ],
+    cta: { title: 'Start a white paper', text: 'Tell us about the token and the jurisdiction. We will show you the draft the library produces and what would still need an opinion.' },
+  },
+  {
+    id: 'counsel', desk: 'token-disclosure', nav: 'For counsel',
+    card: { title: 'Counsel', text: 'A draft that arrives in the shape the regime asks for.' },
+    title: 'Eunice for counsel — review the paper, not the boilerplate',
+    description: 'The draft arrives in the shape the regime asks for, so the hours go on the judgement calls rather than on assembling a document from nothing.',
+    h1: 'Review the paper, not the boilerplate',
+    lead: 'The draft arrives already in the shape the regime asks for, so your hours go on the judgement calls rather than on assembling a document from nothing.',
+    now: [
+      'The first draft is a blank page, and the first week goes on structure.',
+      'The same recitals are rewritten for every client, slightly differently each time.',
+      'Classification is the hard part, and it is the part with the least time left.',
+    ],
+    work: [
+      { title: 'Structure already settled', text: 'The draft follows the regime’s own shape, drawn from 1,000+ pre-filled papers, so review starts at the substance.' },
+      { title: 'Opinions where they are needed', text: 'CMS reviews the points that need one. UK token classification runs with gunnercooke, since July 2026.' },
+      { title: 'A version you can point at', text: 'What was notified is hosted publicly, so advice given later refers to a document anyone can open.' },
+    ],
+    cta: { title: 'Put a live matter through it', text: 'Bring a paper you are drafting now. We will show you what the library fills and what it leaves to you.' },
+  },
+  {
+    id: 'exchanges', desk: 'token-disclosure', nav: 'For exchanges',
+    card: { title: 'Exchanges', text: 'Check what an issuer published, without asking them for it.' },
+    title: 'Eunice for exchanges — check the disclosure yourself',
+    description: 'Every paper Eunice notifies is hosted on a public page, so a listing team can read what an issuer published without a request and a wait.',
+    h1: 'Check the disclosure yourself',
+    lead: 'Every paper Eunice notifies is hosted on a page anyone can open, so a listing team reads what the issuer published without sending a request and waiting on the answer.',
+    now: [
+      'The disclosure arrives as an attachment in a thread, and nobody is certain it is the current one.',
+      'Confirming a filing means asking the issuer and waiting.',
+      'The paper behind a listing decision is somewhere in an inbox.',
+    ],
+    work: [
+      { title: 'One public address', text: 'A notified paper lives on a page anyone can open, so there is nothing to request and nothing to chase.' },
+      { title: 'The version that stands', text: 'The hosted page carries the paper as it stands, so what a listing team reads is what is true today rather than an attachment from a thread.' },
+      { title: 'Beside the listing report', text: 'The same desk produces the listing diligence report, so the disclosure and the review sit together.' },
+    ],
+    cta: { title: 'Look up a token you are reviewing', text: 'Name an asset in your queue. We will show you what the register holds on it, and what the listing report adds.' },
+  },
 ];
 
 // Portrait: drop a square JPG into /src/assets/img/people/ and set `photo` to its file name.

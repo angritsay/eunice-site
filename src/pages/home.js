@@ -41,7 +41,7 @@ export default {
     { desk: 'private-markets', title: 'Family offices', text: 'Run the diligence of a full team, whatever the size of yours. Fewer people, same rigor, better decisions.', to: 'private-markets/family-offices' },
     { desk: 'digital-assets', title: 'Exchanges', text: 'A listing queue that grows faster than the team reviewing it.', to: 'digital-assets/exchanges' },
     { desk: 'digital-assets', title: 'Custodians and market makers', text: 'You hold the asset. You are the last to hear when something moves.', to: 'digital-assets/custodians' },
-    { desk: 'token-disclosure', title: 'Issuers and their counsel', text: 'A white paper that has to be accepted once, and stay true after that.', to: 'digital-assets', hash: 'token-disclosure' },
+    { desk: 'token-disclosure', title: 'Issuers and their counsel', text: 'A white paper that has to be accepted once, and stay true after that.', to: 'token-disclosure' },
   ])}
 </div></section>
 

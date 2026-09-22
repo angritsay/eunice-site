@@ -34,6 +34,7 @@ export default {
       main: [
         { label: 'Private Markets', to: 'private-markets' },
         { label: 'Digital Assets', to: 'digital-assets' },
+        { label: 'Token Disclosure', to: 'token-disclosure' },
         { label: 'Insights', to: 'insights' },
         { label: 'Company', to: 'company' },
       ],
@@ -60,9 +61,23 @@ export default {
       ],
       main: [
         ...tabs('digital-assets'),
-        { label: 'Token Disclosure', to: 'digital-assets', hash: 'token-disclosure' },
+        { label: 'Token Disclosure', to: 'token-disclosure' },
         { label: 'Insights', to: 'digital-assets', hash: 'insights' },
         { label: 'Events', to: 'digital-assets', hash: 'events' },
+      ],
+    },
+    'token-disclosure': {
+      lockup: 'Token Disclosure',
+      top: [
+        { label: 'Private Markets', to: 'private-markets' },
+        { label: 'Digital Assets', to: 'digital-assets' },
+        { label: 'Company', to: 'company' },
+        { label: 'Log in', href: 'login' },
+      ],
+      main: [
+        ...tabs('token-disclosure'),
+        { label: 'The register', to: 'token-disclosure/register' },
+        { label: 'Insights', to: 'token-disclosure', hash: 'insights' },
       ],
     },
   },
@@ -72,8 +87,11 @@ export default {
     { title: 'Digital assets', links: [
       { label: 'Listing diligence', to: 'digital-assets', hash: 'listing' },
       { label: 'Monitoring', to: 'digital-assets', hash: 'monitoring' },
-      { label: 'Token Disclosure', to: 'digital-assets', hash: 'token-disclosure' },
-      { label: 'MiCA whitepaper library', to: 'digital-assets', hash: 'token-disclosure' },
+      ...tabs('digital-assets'),
+    ] },
+    { title: 'Token disclosure', links: [
+      ...tabs('token-disclosure'),
+      { label: 'The register', to: 'token-disclosure/register' },
     ] },
     { title: 'Insights', links: [
       { label: 'Private markets', to: 'insights', query: 'private-markets' },

@@ -13,11 +13,16 @@ import digitalAssets from './src/pages/digital-assets.js';
 import company from './src/pages/company.js';
 import careers from './src/pages/careers.js';
 import insightsPage from './src/pages/insights.js';
+import tokenDisclosure from './src/pages/token-disclosure.js';
+import register from './src/pages/register.js';
 import audiencePagesBuilt from './src/pages/audience.js';
 
 // The personalised client-type pages are generated from content, so adding one
 // is an edit to src/content/index.js and nothing here.
-const PAGES = [home, privateMarkets, digitalAssets, company, careers, insightsPage, ...audiencePagesBuilt];
+const PAGES = [
+  home, privateMarkets, digitalAssets, tokenDisclosure, register,
+  company, careers, insightsPage, ...audiencePagesBuilt,
+];
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.join(ROOT, 'src');
 const DIST = path.join(ROOT, 'dist');

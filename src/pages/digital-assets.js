@@ -29,7 +29,7 @@ export default {
   ${sectionHead('Who we build for', 'Pick the one that sounds like your week.')}
   ${audiences(ctx, [
     ...audienceCards(DESK),
-    { desk: 'token-disclosure', title: 'Issuers and counsel', text: 'A white paper that has to be accepted once, and stay true after that.', to: DESK, hash: 'token-disclosure' },
+    { desk: 'token-disclosure', title: 'Issuers and counsel', text: 'A white paper that has to be accepted once, and stay true after that.', to: 'token-disclosure' },
   ])}
 </div></section>
 
@@ -66,7 +66,10 @@ ${feature({
   <div class="feature__text">
     <h2 class="h2 td-title">${mark(21, '#b27a14')}Token Disclosure</h2>
     <p class="body">The other side of the same desk. A MiCA white paper drafted from the library of 1,000+ pre-filled papers, reviewed by CMS where a legal opinion is needed, notified to the authority and hosted on a public page any exchange can check. UK token classification with gunnercooke since July 2026.</p>
-    <div class="buttons">${button(ctx, { label: 'Start a white paper', talk: 'token-disclosure' })}</div>
+    <div class="buttons">
+      ${button(ctx, { label: 'See Token Disclosure', to: 'token-disclosure' })}
+      ${button(ctx, { label: 'Start a white paper', kind: 'outline', talk: 'token-disclosure' })}
+    </div>
   </div>
   <div class="feature__visual">${plate(ctx, { img: 'da-token-disclosure.png', alt: 'A hosted MiCAR white paper' })}</div>
 </div></section>
