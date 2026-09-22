@@ -8,6 +8,149 @@ export const desks = {
   company: { label: 'Company' },
 };
 
+// One personalised page per client type. Each entry becomes /<desk>/<id>/, supplies its
+// desk's nav tab, and is what the audience card on the desk page links to — so a client
+// type is written once here and never pasted into a page.
+//   nav        the tab label in the desk nav
+//   card       the title and one line shown on the desk page's card
+//   now        what the week looks like without us; three lines, no more
+//   work       what Eunice does about it; three, in the order they happen
+export const audiencePages = [
+  {
+    id: 'lps', desk: 'private-markets', nav: 'For LPs',
+    card: { title: 'LPs and asset owners', text: 'Ten fund documents, one committee, and a question you have to answer by Thursday.' },
+    title: 'Eunice for LPs and asset owners — operational due diligence',
+    description: 'Every fund document read against the ODD checklist you already use, every finding cited to its page, and the same questions asked again each quarter.',
+    h1: 'Diligence on every fund, before the committee sits',
+    lead: 'An agent does the messy work — chasing the data down and checking it is right. Investment and operational due diligence, then monitoring, against the checklist you already use.',
+    now: [
+      'Ten fund documents arrive, the committee date is fixed, and the answer you need is not in the summary.',
+      'The same diligence runs again next quarter, and last quarter’s version is in somebody’s inbox.',
+      'A finding without a page reference is a finding you have to verify yourself.',
+    ],
+    work: [
+      { title: 'Your checklist, not ours', text: 'Every PPM, DDQ, LPA, valuation policy and audited statement read against the ODD checklist your committee already signed off.' },
+      { title: 'What is missing is the finding', text: 'The gap is the output, not a summary of what is present. Every finding cites the page it came from, so the committee can check it.' },
+      { title: 'Asked again each quarter', text: 'The same questions run across every fund you hold, as often as suits your cycle. What changed comes back as a diff.' },
+    ],
+    cta: { title: 'Talk to us about the fund you are reviewing now', text: 'A thirty-minute call with the desk. Bring the fund; we show you what Eunice reads, what it returns and how the quarterly cycle runs.' },
+  },
+  {
+    id: 'managers', desk: 'private-markets', nav: 'For managers',
+    card: { title: 'Fund managers', text: 'The same ODD questionnaire, asked eleven ways, by eleven different LPs.' },
+    title: 'Eunice for fund managers — answer the diligence questionnaire once',
+    description: 'The same ODD questionnaire arrives eleven ways from eleven LPs. Eunice reads your own documents once and answers from them, with the page attached.',
+    h1: 'Answer the same questionnaire once',
+    lead: 'Eleven LPs, eleven formats, one set of facts. Eunice reads your own documents once and answers from them, so the version that goes out is the version you can stand behind.',
+    now: [
+      'The same question arrives in eleven shapes, and each one is answered from scratch.',
+      'Two answers to the same question disagree, and nobody notices until an LP does.',
+      'The people who know the answer are the people raising the next fund.',
+    ],
+    work: [
+      { title: 'Read your side once', text: 'Your fund documents, policies and statements read into one structure, so every answer comes from the same place.' },
+      { title: 'Answer in the LP’s format', text: 'The questionnaire in front of you filled from that structure, with the page each answer came from attached.' },
+      { title: 'Stay true after the raise', text: 'When a document changes, the answers that depended on it are flagged rather than quietly going stale.' },
+    ],
+    cta: { title: 'Bring us the questionnaire on your desk', text: 'Send the one you are answering this week. We will show you what Eunice fills from your own documents, and what it leaves for you.' },
+  },
+  {
+    id: 'family-offices', desk: 'private-markets', nav: 'For family offices',
+    card: { title: 'Family offices', text: 'Enable you to do more with a lean team.' },
+    title: 'Eunice for family offices — the diligence of a full team',
+    description: 'Run the diligence of a full team, whatever the size of yours. Fewer people, the same rigour, better decisions.',
+    h1: 'The diligence of a full team, whatever the size of yours',
+    lead: 'Fewer people, the same rigour. The work that would need a diligence team runs against your checklist, and what comes back is a memo your principals can read.',
+    now: [
+      'The diligence that decides the allocation is done by the person who also runs everything else.',
+      'A fund is passed on because there was no week to read it properly, not because it failed.',
+      'What was checked last time lives in one person’s memory.',
+    ],
+    work: [
+      { title: 'One checklist, held for you', text: 'Your standard written down once and applied to every fund, so the bar does not move with whoever is free that week.' },
+      { title: 'The reading done for you', text: 'The dataroom read in full, with the findings and their page references in a memo your principals can take to a meeting.' },
+      { title: 'A record that outlasts the week', text: 'What was asked, what came back and what changed since, kept in one place rather than in an inbox.' },
+    ],
+    cta: { title: 'Put one fund through it', text: 'Pick a fund you are looking at now. We will run it and show you the memo, the findings and the page each one came from.' },
+  },
+  {
+    id: 'consultants', desk: 'private-markets', nav: 'For consultants',
+    card: { title: 'Investment consultants', text: 'Twenty managers to compare on terms that were never written the same way.' },
+    title: 'Eunice for investment consultants — compare managers like for like',
+    description: 'Twenty managers, twenty document sets, and terms that were never written the same way. Eunice reads them into one shape so the comparison holds.',
+    h1: 'Compare twenty managers on the same terms',
+    lead: 'Twenty document sets, and no two of them written the same way. Eunice reads them into one shape, so the comparison your client sees is like for like.',
+    now: [
+      'The same term is called three things across three managers, and the comparison quietly stops being one.',
+      'The differences that matter are on page 40, not in the summary.',
+      'Every refresh of the screen means reading all of it again.',
+    ],
+    work: [
+      { title: 'One shape for every manager', text: 'Each set read against the same framework, so the fee, the term and the governance line up in a column rather than a paragraph.' },
+      { title: 'The difference, with its page', text: 'Where two managers differ, the finding says where in each document it differs, so your recommendation can be checked.' },
+      { title: 'Refresh without re-reading', text: 'When a document is replaced, only what changed comes back to you.' },
+    ],
+    cta: { title: 'Bring us a screen you are running now', text: 'Send the managers you are comparing. We will read them into one shape and show you where they actually differ.' },
+  },
+  {
+    id: 'exchanges', desk: 'digital-assets', nav: 'For exchanges',
+    card: { title: 'Exchanges', text: 'A listing queue that grows faster than the team reviewing it.' },
+    title: 'Eunice for exchanges — listing diligence your committee signs off',
+    description: 'One report per asset covering the team, the code, the reserve and the jurisdiction, in the shape a listing committee already signs off.',
+    h1: 'A listing queue the review team can keep up with',
+    lead: 'One report per asset — the team, the code, the reserve and the jurisdiction — in the shape your listing committee already signs off.',
+    now: [
+      'The queue grows faster than the team reviewing it, and the backlog is the product decision.',
+      'Two analysts review the same asset to two different standards.',
+      'An asset cleared under one regime is cleared again from scratch under the next.',
+    ],
+    work: [
+      { title: 'One report per asset', text: 'Team, code, reserve and jurisdiction in a single document, in the format the committee already reads.' },
+      { title: 'The same standard every time', text: 'The review runs the same way whoever is on the desk, and every claim carries the source it came from.' },
+      { title: 'Cleared once, across regimes', text: 'MiCA, the UK regime, MAS and VARA in one view, so a cleared asset is not re-cleared from nothing.' },
+    ],
+    cta: { title: 'Put one asset through it', text: 'Pick a token in your queue now. We will run it and show you the report and the monitoring feed side by side.' },
+  },
+  {
+    id: 'custodians', desk: 'digital-assets', nav: 'For custodians',
+    card: { title: 'Custodians', text: 'You hold the asset. You are the last to hear when something moves.' },
+    title: 'Eunice for custodians — monitoring that reaches you first',
+    description: 'Exploits, protocol changes, enforcement actions and reserve movements, surfaced the hour they land with the source attached.',
+    h1: 'Hear it before the trade press does',
+    lead: 'You hold the asset, so you should not be the last to know. Exploits, protocol changes, enforcement actions and reserve movements, surfaced the hour they land with the source attached.',
+    now: [
+      'The first notice of an exploit is a client asking about it.',
+      'The asset was reviewed at onboarding, and the review is as old as the relationship.',
+      'An alert with no source behind it cannot be passed to a client.',
+    ],
+    work: [
+      { title: 'Watched, not sampled', text: 'Every asset you hold monitored continuously rather than revisited at review time.' },
+      { title: 'The hour it lands', text: 'Exploits, protocol changes, enforcement actions and reserve movements surfaced as they happen, each with its source named.' },
+      { title: 'Something you can forward', text: 'What reaches you is specific enough to act on and sourced well enough to send to a client.' },
+    ],
+    cta: { title: 'Point it at what you hold', text: 'Give us a handful of the assets on your book. We will show you what the monitoring feed would have told you this quarter.' },
+  },
+  {
+    id: 'market-makers', desk: 'digital-assets', nav: 'For market makers',
+    card: { title: 'Market makers', text: 'Inventory in something whose disclosure changed this morning.' },
+    title: 'Eunice for market makers — know what changed before the position does',
+    description: 'Inventory in an asset whose disclosure changed this morning is a risk you can price, if you hear about it in time.',
+    h1: 'Know what changed before the position does',
+    lead: 'Inventory in an asset whose disclosure changed this morning is a risk you can price — as long as you hear about it in time, and with the source attached.',
+    now: [
+      'The disclosure changed at 09:00 and the position was still on at noon.',
+      'The research that justified the inventory is a quarter old.',
+      'Risk asks why the book holds it, and the answer is in a chat thread.',
+    ],
+    work: [
+      { title: 'A view per asset', text: 'The team, the code, the reserve and the jurisdiction in one place, so the reason for holding is written down.' },
+      { title: 'Changes as they land', text: 'Protocol changes, enforcement actions and reserve movements surfaced the hour they happen, with the source named.' },
+      { title: 'Defensible to risk', text: 'Every claim cites where it came from, so the position has a record behind it rather than a recollection.' },
+    ],
+    cta: { title: 'Run it against your book', text: 'Send us the assets you make markets in. We will show you what changed on them in the last quarter, and when we would have told you.' },
+  },
+];
+
 // Portrait: drop a square JPG into /src/assets/img/people/ and set `photo` to its file name.
 // Bio: shown when a visitor hovers or taps the name. Leave empty to show nothing.
 export const people = {

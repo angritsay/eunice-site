@@ -13,8 +13,11 @@ import digitalAssets from './src/pages/digital-assets.js';
 import company from './src/pages/company.js';
 import careers from './src/pages/careers.js';
 import insightsPage from './src/pages/insights.js';
+import audiencePagesBuilt from './src/pages/audience.js';
 
-const PAGES = [home, privateMarkets, digitalAssets, company, careers, insightsPage];
+// The personalised client-type pages are generated from content, so adding one
+// is an edit to src/content/index.js and nothing here.
+const PAGES = [home, privateMarkets, digitalAssets, company, careers, insightsPage, ...audiencePagesBuilt];
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.join(ROOT, 'src');
 const DIST = path.join(ROOT, 'dist');
@@ -24,8 +27,9 @@ const FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link 
 
 // ---------- Link and asset resolution ----------
 function siteCtx(page) {
-  const depth = page.slug ? 1 : 0;
-  const up = depth ? '../' : '';
+  // Pages nest: 'private-markets' is one level down, 'private-markets/lps' is two.
+  const depth = page.slug ? page.slug.split('/').length : 0;
+  const up = '../'.repeat(depth);
   return {
     slug: page.slug, today: TODAY, preview: false,
     link(to = '', hash, query) {

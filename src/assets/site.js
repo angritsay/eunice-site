@@ -110,7 +110,16 @@
     function go() {
       const raw = location.hash.replace(/^#\/?/, '');
       const [pathPart, query = ''] = raw.split('?');
-      let [slug, anchor] = pathPart.split('/');
+      // A slug can itself contain a slash ('private-markets/lps'), so match the
+      // longest known route and treat whatever is left over as the anchor.
+      const names = new Set([...routes].map((r) => r.dataset.route));
+      let slug = pathPart;
+      let anchor = '';
+      while (slug && !names.has(slug) && slug.includes('/')) {
+        const cut = slug.lastIndexOf('/');
+        anchor = slug.slice(cut + 1);
+        slug = slug.slice(0, cut);
+      }
       if (!slug) slug = 'home';
       let found = false;
       routes.forEach((r) => { const on = r.dataset.route === slug; r.hidden = !on; if (on) found = true; });

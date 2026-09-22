@@ -169,6 +169,10 @@ button { font: inherit; color: inherit; }
 .audience .h4 { margin-top: 6px; }
 .audience .more { margin-top: auto; padding-top: 8px; }
 .audience:target { border-top-color: var(--ink); }
+/* A card that leads to a personalised page is the link, not the words inside it. */
+.audience--link { color: inherit; transition: border-top-color .15s ease; }
+.audience--link:hover, .audience--link:focus-visible { border-top-color: var(--ink); }
+.audience--link:hover .more::after { transform: translateX(3px); }
 .facts { margin-top: 56px; }
 .fact .h4 { font-family: var(--font-head); font-weight: 400; font-size: 20px; letter-spacing: -.01em; }
 
@@ -213,6 +217,10 @@ button { font: inherit; color: inherit; }
 .steps { counter-reset: step; background: var(--pm-tint); border-radius: var(--radius); padding: clamp(24px, 3vw, 44px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 40px; }
 .steps li { counter-increment: step; display: flex; flex-direction: column; gap: 8px; }
 .steps li::before { content: counter(step, decimal-leading-zero); font-size: 13px; color: var(--pm-ink); }
+/* Colour belongs to the desk: these carry the tint of whichever one they sit on. */
+.steps--digital-assets { background: var(--da-tint); }
+.steps--digital-assets li::before { color: var(--da-ink); }
+.bullets--digital-assets li::before { background: var(--da-ink); }
 
 /* Token Disclosure band */
 .band--td { background: var(--td-tint); }

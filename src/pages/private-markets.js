@@ -1,6 +1,6 @@
 import { quotes } from '../content/index.js';
 import {
-  button, sectionHead, audiences, facts, mark, photo, plate, feature, bullets,
+  button, sectionHead, audiences, audienceCards, facts, mark, photo, plate, feature, bullets,
   insightsBlock, eventsBlock, peopleGrid, cta,
 } from '../components.js';
 
@@ -33,12 +33,7 @@ export default {
 
 <section class="wrap section" id="who">
   ${sectionHead('Who we build for', 'Pick the one that sounds like your week.')}
-  ${audiences(ctx, [
-    { id: 'lps', desk: DESK, title: 'LPs and asset owners', text: 'Ten fund documents, one committee, and a question you have to answer by Thursday.' },
-    { id: 'managers', desk: DESK, title: 'Fund managers', text: 'The same ODD questionnaire, asked eleven ways, by eleven different LPs.' },
-    { id: 'family-offices', desk: DESK, title: 'Family offices', text: 'Enable you to do more with a lean team.' },
-    { id: 'consultants', desk: DESK, title: 'Investment consultants', text: 'Twenty managers to compare on terms that were never written the same way.' },
-  ])}
+  ${audiences(ctx, audienceCards(DESK))}
   <figure class="quoteline">
     <blockquote>“${quotes.fof.text}”</blockquote>
     <figcaption class="muted">${quotes.fof.who}</figcaption>
