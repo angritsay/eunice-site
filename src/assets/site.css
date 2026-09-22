@@ -383,6 +383,10 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
   .grid--6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .grid--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .nav__links { gap: 20px; font-size: 11.2px; }
+  /* Five link columns beside the brand leaves each about 110px here, which is
+     narrower than the longest label. Give the brand its own row instead. */
+  .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .footer__brand { grid-column: 1 / -1; }
 }
 @media (max-width: 960px) {
   .nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: #fff; flex-direction: column; gap: 0; padding: 8px var(--gutter) 20px; border-bottom: 1px solid var(--line); box-shadow: 0 20px 40px rgba(17,18,20,.08); }
@@ -396,8 +400,10 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
   .feature--flip .feature__text { order: 0; }
   .hero__visual, .hero__visual--stacked { margin-right: calc(-1 * var(--gutter)); }
   .hero__visual--stacked { min-height: 0; }
-  .hero__visual--stacked .photo--city { top: 0; height: 200px; }
-  .hero__visual--stacked .plate { margin-top: 80px; }
+  /* The overlap is a desktop composition. Narrower than this the plate covers
+     almost all of the photograph, so the two stack instead. */
+  .hero__visual--stacked .photo--city { position: static; width: 100%; height: 190px; border-radius: var(--radius) 0 0 var(--radius); }
+  .hero__visual--stacked .plate { margin-top: 16px; width: 100%; }
   .grid--3, .grid--4, .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tiles { grid-template-columns: minmax(0, 1fr); }
   .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -410,6 +416,39 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
   .partners { flex-direction: column; align-items: flex-start; gap: 16px; }
   .partners ul { justify-content: flex-start; }
 }
+
+/* Small screens: the -20% scale was set for a desktop reading distance. Here the
+   single column already supplies the air, so body-level type goes back up while
+   the headings keep the reduced scale. Links also get vertical padding: at
+   desktop sizes a footer link is an 11px-tall target, which is not tappable. */
+@media (max-width: 960px) {
+  :root { --h3: 19px; --h4: 15px; --body: 15px; --small: 14px; --caption: 12px; }
+  .lead, .body { font-size: 15.5px; }
+  .label, .kicker { font-size: 11px; }
+  .btn { font-size: 14px; }
+  .btn--sm { font-size: 13px; }
+  .more { font-size: 13px; padding-block: 7px; }
+  .topbar { font-size: 12px; }
+  .topbar a { display: inline-block; padding-block: 8px; }
+  .nav__links a { font-size: 15px; }
+  .footer__col { font-size: 13px; }
+  .footer__col a, .footer__col .linklike { padding-block: 8px; }
+  .person__name { padding-block: 6px; }
+  .lockup { padding-block: 8px; }
+  .footer__legal { font-size: 12px; }
+  .footer__legal-links a { display: inline-block; padding-block: 8px; }
+  /* A 4/3 frame is 525px tall once the split collapses to one column. */
+  .photo--mayfair { aspect-ratio: 16 / 9; }
+}
+
+/* A touch device wider than the mobile layout — tablet landscape and up — keeps
+   the desktop layout but still needs targets a finger can hit. */
+@media (pointer: coarse) and (min-width: 961px) {
+  .topbar a, .footer__col a, .footer__col .linklike, .footer__legal-links a { display: inline-block; padding-block: 8px; }
+  .more { padding-block: 7px; }
+  .lockup, .person__name { padding-block: 8px; }
+}
+
 @media (max-width: 600px) {
   .nav .btn--dark { display: none; }
   .grid--2, .grid--3, .grid--4, .grid--5, .grid--6, .steps, .form { grid-template-columns: minmax(0, 1fr); }
