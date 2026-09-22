@@ -1,6 +1,6 @@
 // Shared building blocks. Pages compose these; nothing here holds page copy.
 import config from './site.config.js';
-import { desks, people, insights, events, partners } from './content/index.js';
+import { desks, people, insights, events, partners, audiencePages } from './content/index.js';
 
 export const esc = (s = '') =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -111,16 +111,31 @@ export function footer(ctx) {
 export const sectionHead = (label, aside = '') =>
   `<div class="shead"><h2 class="label">${esc(label)}</h2>${aside ? `<p class="shead__aside">${esc(aside)}</p>` : ''}</div>`;
 
+// The cards for a desk's personalised pages, in the order the content file lists
+// them. A desk page shows these; the home page writes its own, since it speaks to
+// someone who has not picked a desk yet.
+export const audienceCards = (desk) => audiencePages
+  .filter((a) => a.desk === desk)
+  .map((a) => ({ id: a.id, desk, title: a.card.title, text: a.card.text, to: `${desk}/${a.id}` }));
+
 // items: { id, desk, title, text, to, hash }
-export function audiences(ctx, items, { links = false } = {}) {
+// An item with a `to` is the whole card: the card itself is the link, so the
+// click target is the tile rather than four words at the bottom of it.
+export function audiences(ctx, items) {
   return `<div class="grid grid--${items.length > 4 ? 6 : 4} audiences">
-  ${items.map((a) => `
-    <div class="audience" ${a.id ? `id="${a.id}"` : ''}>
+  ${items.map((a) => {
+    const body = `
       ${deskLabel(a.desk)}
       <h3 class="h4">${esc(a.title)}</h3>
-      <p class="small muted">${esc(a.text)}</p>
-      ${links && a.to ? `<a class="more" href="${ctx.link(a.to, a.hash)}">See how</a>` : ''}
-    </div>`).join('')}
+      <p class="small muted">${esc(a.text)}</p>`;
+    const id = a.id ? ` id="${a.id}"` : '';
+    return a.to
+      ? `<a class="audience audience--link"${id} href="${esc(ctx.link(a.to, a.hash))}">${body}
+      <span class="more">See how</span>
+    </a>`
+      : `<div class="audience"${id}>${body}
+    </div>`;
+  }).join('')}
   </div>`;
 }
 

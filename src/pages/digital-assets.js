@@ -1,6 +1,6 @@
 import { quotes } from '../content/index.js';
 import {
-  button, sectionHead, audiences, facts, quoteBlock, partnersRow, plate, feature,
+  button, sectionHead, audiences, audienceCards, facts, quoteBlock, partnersRow, plate, feature,
   insightsBlock, eventsBlock, cta, mark,
 } from '../components.js';
 
@@ -28,11 +28,9 @@ export default {
 <section class="band section" id="who"><div class="wrap">
   ${sectionHead('Who we build for', 'Pick the one that sounds like your week.')}
   ${audiences(ctx, [
-    { id: 'exchanges', desk: DESK, title: 'Exchanges', text: 'A listing queue that grows faster than the team reviewing it.', to: DESK, hash: 'listing' },
-    { id: 'custodians', desk: DESK, title: 'Custodians', text: 'You hold the asset. You are the last to hear when something moves.', to: DESK, hash: 'monitoring' },
-    { id: 'market-makers', desk: DESK, title: 'Market makers', text: 'Inventory in something whose disclosure changed this morning.', to: DESK, hash: 'monitoring' },
+    ...audienceCards(DESK),
     { desk: 'token-disclosure', title: 'Issuers and counsel', text: 'A white paper that has to be accepted once, and stay true after that.', to: DESK, hash: 'token-disclosure' },
-  ], { links: true })}
+  ])}
 </div></section>
 
 <section class="wrap section">

@@ -1,4 +1,11 @@
 // Site-wide settings. Everything a non-developer is likely to change lives in /src/content.
+import { audiencePages } from './content/index.js';
+
+// A desk's nav tabs are its personalised client-type pages, in the order the
+// content file lists them. Add an audience there and its tab appears here.
+const tabs = (desk) => audiencePages
+  .filter((a) => a.desk === desk)
+  .map((a) => ({ label: a.nav, to: `${desk}/${a.id}` }));
 
 export default {
   name: 'Eunice',
@@ -39,10 +46,7 @@ export default {
         { label: 'Log in', href: 'login' },
       ],
       main: [
-        { label: 'For LPs', to: 'private-markets', hash: 'lps' },
-        { label: 'For managers', to: 'private-markets', hash: 'managers' },
-        { label: 'For family offices', to: 'private-markets', hash: 'family-offices' },
-        { label: 'For consultants', to: 'private-markets', hash: 'consultants' },
+        ...tabs('private-markets'),
         { label: 'Insights', to: 'private-markets', hash: 'insights' },
         { label: 'Events', to: 'private-markets', hash: 'events' },
       ],
@@ -55,9 +59,7 @@ export default {
         { label: 'Log in', href: 'login' },
       ],
       main: [
-        { label: 'For exchanges', to: 'digital-assets', hash: 'exchanges' },
-        { label: 'For custodians', to: 'digital-assets', hash: 'custodians' },
-        { label: 'For market makers', to: 'digital-assets', hash: 'market-makers' },
+        ...tabs('digital-assets'),
         { label: 'Token Disclosure', to: 'digital-assets', hash: 'token-disclosure' },
         { label: 'Insights', to: 'digital-assets', hash: 'insights' },
         { label: 'Events', to: 'digital-assets', hash: 'events' },
@@ -66,12 +68,7 @@ export default {
   },
 
   footer: [
-    { title: 'Private markets', links: [
-      { label: 'For LPs', to: 'private-markets', hash: 'lps' },
-      { label: 'For fund managers', to: 'private-markets', hash: 'managers' },
-      { label: 'For family offices', to: 'private-markets', hash: 'family-offices' },
-      { label: 'For consultants', to: 'private-markets', hash: 'consultants' },
-    ] },
+    { title: 'Private markets', links: tabs('private-markets') },
     { title: 'Digital assets', links: [
       { label: 'Listing diligence', to: 'digital-assets', hash: 'listing' },
       { label: 'Monitoring', to: 'digital-assets', hash: 'monitoring' },
