@@ -1,0 +1,11 @@
+{
+  "name": "eunice-site",
+  "private": true,
+  "type": "module",
+  "description": "eunice.ai — static site, built with plain Node, no dependencies",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs --preview"
+  },
+  "engines": { "node": ">=20" }
+}
