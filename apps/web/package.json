@@ -11,7 +11,8 @@
     "test:update": "UPDATE_GOLDEN=1 playwright test dom",
     "check:determinism": "node scripts/check-determinism.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "import:live": "node scripts/import-live.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
