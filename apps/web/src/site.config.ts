@@ -1,28 +1,42 @@
 // Site-wide settings. Everything a non-developer is likely to change lives in /src/content.
-import { audiencePages } from './content/index.js';
+import { audiencePages } from './content/index.ts';
+import type { NavItem, NavKey, ProductDesk } from './lib/types.ts';
+
+export interface SiteConfig {
+  name: string;
+  legalLine: string;
+  tagline: string;
+  contactEmail: string;
+  careersEmail: string;
+  formEndpoint: string;
+  basePath: string;
+  loginUrl: string;
+  nav: Record<NavKey, { lockup?: string; top: NavItem[]; main: NavItem[] }>;
+  footer: { title: string; links: NavItem[] }[];
+}
 
 // A desk's nav tabs are its personalised client-type pages, in the order the
 // content file lists them. Add an audience there and its tab appears here.
-const tabs = (desk) => audiencePages
-  .filter((a) => a.desk === desk)
-  .map((a) => ({ label: a.nav, to: `${desk}/${a.id}` }));
+const tabs = (desk: ProductDesk): NavItem[] =>
+  audiencePages.filter((a) => a.desk === desk).map((a) => ({ label: a.nav, to: `${desk}/${a.id}` }));
 
-export default {
+const config: SiteConfig = {
   name: 'Eunice',
   legalLine: 'Reasoon Limited, trading as Eunice · London · SOC 2 Type II · GDPR · FCA regulatory sandbox',
   tagline: 'Due diligence, disclosure and monitoring for regulated finance.',
 
-  // Where "Talk to us" and "Apply" submissions go.
-  // formEndpoint: any service that accepts a JSON POST (Formspree, a Cloudflare Worker, etc).
-  // While it is empty, the form opens the visitor's mail app addressed to contactEmail.
-  // TODO: confirm both with the team before going live.
+  // Where "Talk to us" and "Apply" submissions go. formEndpoint is intake's
+  // POST /v1/submissions; it is set per build with PUBLIC_FORM_ENDPOINT, and a production
+  // build refuses it until there is a privacy page (ADR-0007). While it is empty, the
+  // form opens the visitor's mail app addressed to contactEmail or careersEmail.
+  // TODO: confirm both addresses with the team before going live.
   contactEmail: 'hello@eunice.ai',
   careersEmail: 'careers@eunice.ai',
   formEndpoint: '',
 
   // Path the site is served from. '/' on a custom domain (eunice.ai);
   // '/<repo-name>/' while it lives at <user>.github.io/<repo-name>. Only the 404 page uses it.
-  basePath: process.env.BASE_PATH || '/',
+  basePath: process.env['BASE_PATH'] || '/',
 
   loginUrl: 'https://app.eunice.ai', // TODO: confirm
 
@@ -84,26 +98,37 @@ export default {
 
   footer: [
     { title: 'Private markets', links: tabs('private-markets') },
-    { title: 'Digital assets', links: [
-      { label: 'Listing diligence', to: 'digital-assets', hash: 'listing' },
-      { label: 'Monitoring', to: 'digital-assets', hash: 'monitoring' },
-      ...tabs('digital-assets'),
-    ] },
-    { title: 'Token disclosure', links: [
-      ...tabs('token-disclosure'),
-      { label: 'The register', to: 'token-disclosure/register' },
-    ] },
-    { title: 'Insights', links: [
-      { label: 'Private markets', to: 'insights', query: 'private-markets' },
-      { label: 'Digital assets', to: 'insights', query: 'digital-assets' },
-      { label: 'Token disclosure', to: 'insights', query: 'token-disclosure' },
-      { label: 'Company news', to: 'insights', query: 'company' },
-    ] },
-    { title: 'Company', links: [
-      { label: 'About us', to: 'company' },
-      { label: 'Careers', to: 'careers' },
-      { label: 'Security', to: 'company', hash: 'how-we-work' },
-      { label: 'Contact', form: 'general' },
-    ] },
+    {
+      title: 'Digital assets',
+      links: [
+        { label: 'Listing diligence', to: 'digital-assets', hash: 'listing' },
+        { label: 'Monitoring', to: 'digital-assets', hash: 'monitoring' },
+        ...tabs('digital-assets'),
+      ],
+    },
+    {
+      title: 'Token disclosure',
+      links: [...tabs('token-disclosure'), { label: 'The register', to: 'token-disclosure/register' }],
+    },
+    {
+      title: 'Insights',
+      links: [
+        { label: 'Private markets', to: 'insights', query: 'private-markets' },
+        { label: 'Digital assets', to: 'insights', query: 'digital-assets' },
+        { label: 'Token disclosure', to: 'insights', query: 'token-disclosure' },
+        { label: 'Company news', to: 'insights', query: 'company' },
+      ],
+    },
+    {
+      title: 'Company',
+      links: [
+        { label: 'About us', to: 'company' },
+        { label: 'Careers', to: 'careers' },
+        { label: 'Security', to: 'company', hash: 'how-we-work' },
+        { label: 'Contact', form: 'general' },
+      ],
+    },
   ],
 };
+
+export default config;

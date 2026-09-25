@@ -2,7 +2,16 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
-    "includes": ["**", "!**/__golden__", "!**/generated", "!pnpm-lock.yaml"]
+    // The shipped stylesheet and SVGs are assets: reformatting them would change the
+    // bytes visitors download for no reason, so they keep the design team's layout.
+    "includes": [
+      "**",
+      "!**/__golden__",
+      "!**/generated",
+      "!pnpm-lock.yaml",
+      "!apps/web/src/assets/site.css",
+      "!apps/web/src/assets/**/*.svg"
+    ]
   },
   "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 120 },
   "javascript": {
@@ -17,16 +26,5 @@
         "useLiteralKeys": "off"
       }
     }
-  },
-  "overrides": [
-    {
-      // The generator and the site's own assets predate this config. They come under
-      // it when they are rewritten: site.js and forms.js already have been (P2); the
-      // rest of the generator follows in the TypeScript conversion (P7).
-      "includes": ["apps/web/src/**", "!apps/web/src/assets/site.js", "!apps/web/src/forms.js", "apps/web/build.mjs"],
-      "formatter": { "enabled": false },
-      "linter": { "enabled": false },
-      "assist": { "enabled": false }
-    }
-  ]
+  }
 }

@@ -23,7 +23,7 @@ test.describe('production guard', () => {
 
   test('a production build with a form endpoint but no privacy page refuses to build', () => {
     const build = () =>
-      execFileSync(process.execPath, ['build.mjs'], {
+      execFileSync(process.execPath, ['build.ts'], {
         cwd: WEB,
         env: { ...process.env, SITE_ENV: 'production', PUBLIC_FORM_ENDPOINT: 'https://intake.example/v1/submissions' },
         stdio: 'pipe',
@@ -35,7 +35,7 @@ test.describe('production guard', () => {
 
   test('a production build with analytics but no privacy page refuses to build', () => {
     const build = () =>
-      execFileSync(process.execPath, ['build.mjs'], {
+      execFileSync(process.execPath, ['build.ts'], {
         cwd: WEB,
         env: {
           ...process.env,
