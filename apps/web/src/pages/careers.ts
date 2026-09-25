@@ -29,7 +29,7 @@ export default {
   <ul class="roles">${roles.map(
     (r) => html`
     <li class="role">
-      <h3 class="h4">${r.title}</h3>
+      <h3 class="h4"><a href="${ctx.link(`careers/${r.slug}`)}">${r.title}</a></h3>
       <span class="caption muted">${r.where}</span>
       <p class="small">${r.what}</p>
       ${button(ctx, { label: 'Apply', small: true, href: r.applyUrl, newTab: true })}

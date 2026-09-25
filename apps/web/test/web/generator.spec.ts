@@ -3,6 +3,8 @@
 import { expect, test } from '@playwright/test';
 import { AudiencePages, content, Insight } from '../../src/content/schema.ts';
 import { html, join, raw } from '../../src/lib/html.ts';
+import { richText } from '../../src/lib/rich-text.ts';
+import type { Ctx } from '../../src/lib/types.ts';
 
 test.describe('html``', () => {
   test('escapes interpolated text, in content and in attributes', () => {
@@ -60,4 +62,43 @@ test.describe('content schema', () => {
       ]),
     ).toThrow(/duplicate page digital-assets\/exchanges/);
   });
+});
+
+test.describe('imported copy (richText)', () => {
+  const ctx: Ctx = {
+    slug: 'blog/x',
+    today: '2026-01-01',
+    preview: false,
+    link: (to = '', hash) => `../../${to ? `${to}/` : ''}${hash ? `#${hash}` : ''}`,
+    asset: (p) => `../../assets/${p}`,
+  };
+  const ok = (s: string) => String(richText(ctx, s, 'test'));
+
+  test('keeps the allowed tags, and turns site paths and images into this page’s links', () => {
+    expect(ok('<h2>A</h2><p>b <strong>c</strong> <a href="/careers/eng/">d</a></p>')).toBe(
+      '<h2>A</h2><p>b <strong>c</strong> <a href="../../careers/eng/">d</a></p>',
+    );
+    expect(ok('<p><a href="https://example.com/a?b=1">x</a> <a href="mailto:a@b.example">y</a></p>')).toContain(
+      'href="https://example.com/a?b=1"',
+    );
+    expect(ok('<img src="img/blog/x-1.png" alt="A chart" width="10" height="5">')).toBe(
+      '<img src="../../assets/img/blog/x-1.png" alt="A chart" width="10" height="5" loading="lazy" decoding="async">',
+    );
+  });
+
+  for (const bad of [
+    '<script>alert(1)</script>',
+    '<p onclick="x()">a</p>',
+    '<p style="color:red">a</p>',
+    '<a href="javascript:alert(1)">a</a>',
+    '<a href="http://example.com">a</a>',
+    '<img src="https://tracker.example/p.gif" alt="">',
+    '<iframe src="https://example.com"></iframe>',
+    '<p>unclosed',
+    '<p>a</strong>',
+  ]) {
+    test(`refuses ${bad}`, () => {
+      expect(() => richText(ctx, bad, 'test')).toThrow(/^test: /);
+    });
+  }
 });

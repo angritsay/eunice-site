@@ -13,6 +13,7 @@ import company from './src/pages/company.ts';
 import digitalAssets from './src/pages/digital-assets.ts';
 import home from './src/pages/home.ts';
 import insightsPage from './src/pages/insights.ts';
+import jobPages from './src/pages/jobs.ts';
 import micaWhitepaper from './src/pages/mica-whitepaper.ts';
 import privateMarkets from './src/pages/private-markets.ts';
 import register from './src/pages/register.ts';
@@ -32,6 +33,7 @@ const PAGES: Page[] = [
   company,
   security,
   careers,
+  ...jobPages,
   insightsPage,
   ...audiencePagesBuilt,
 ];
