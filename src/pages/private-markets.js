@@ -104,7 +104,7 @@ function documentsMock() {
   const row = (name, cat, stage, date, cls = '') =>
     `<div class="mock__row ${cls}"><span>${name}</span><span>${cat}</span><span class="${stage === 'Monitoring' ? 'ok' : 'blue'}">${stage}</span><span class="faint">${date}</span></div>`;
   const group = (name, date) => `<div class="mock__row mock__row--group"><span>${name}</span><span></span><span></span><span class="faint">${date}</span></div>`;
-  return `<div class="mock" aria-label="Documents view for Gridiron Capital Fund V">
+  return `<div class="mock" role="img" aria-label="Documents view for Gridiron Capital Fund V">
   <div class="mock__bar">${markSmall()}<b>Gridiron Capital Fund V</b><i>Fund</i><i class="warm">Onboarding</i></div>
   <div class="mock__tabs"><span>Overview</span><span class="on">Documents 78</span><span>Reports</span></div>
   <div class="mock__row mock__row--head"><span>Name</span><span>Category</span><span>Stage</span><span>Uploaded</span></div>
@@ -120,7 +120,7 @@ function documentsMock() {
 }
 
 function portfolioMock() {
-  return `<div class="mock" aria-label="Portfolio overview">
+  return `<div class="mock" role="img" aria-label="Portfolio overview">
   <div class="mock__bar">${markSmall()}<b>Portfolio</b></div>
   <div class="mock__tabs"><span class="on">Overview</span><span>Dashboards</span><span>Investments</span><span>Data</span></div>
   <div class="mock__ask"><b>Ask anything about your portfolio</b><span class="mock__input">Type a question, or pick one below</span>

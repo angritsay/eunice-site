@@ -1,0 +1,17 @@
+{
+  "$comment": "Accessibility violations we know about and have not fixed yet, per page. Each entry: the axe rule, a stable part of the element's selector, and why it is still here. Fix one and delete its entry in the same PR — the test fails until you do.",
+  "pages": {
+    "home": [
+      {
+        "rule": "color-contrast",
+        "target": ".tile--private-markets",
+        "reason": "White text on --pm-field is 3.5:1 (AA needs 4.5:1). Fixing it changes how the desk tiles look; a design decision for the team, not a refactor."
+      },
+      {
+        "rule": "color-contrast",
+        "target": ".tile--digital-assets",
+        "reason": "White text on --da-field is 2.4:1 (AA needs 4.5:1). Same decision as the Private Markets tile."
+      }
+    ]
+  }
+}
