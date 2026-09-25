@@ -52,6 +52,8 @@ function page(a) {
   return {
     slug: `${a.desk}/${a.id}`,
     nav: a.desk,
+    // Recorded with any form sent from this page: the lead arrives saying which client type it came from.
+    audience: a.id,
     title: a.title,
     description: a.description,
     render: (ctx) => `
@@ -61,7 +63,7 @@ function page(a) {
     <h1 class="h1">${esc(a.h1)}</h1>
     <p class="lead">${esc(a.lead)}</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Talk to us', talk: a.desk })}
+      ${button(ctx, { label: 'Talk to us', form: a.desk, placement: 'hero' })}
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
     </div>
   </div>
@@ -90,7 +92,7 @@ ${insightsBlock(ctx, { ...d.insights, featured: 1, rows: 2 })}
 ${cta(ctx, {
   title: a.cta.title,
   text: a.cta.text,
-  buttons: [{ label: 'Talk to us', kind: 'light', talk: a.desk }],
+  buttons: [{ label: 'Talk to us', kind: 'light', form: a.desk }],
 })}`,
   };
 }

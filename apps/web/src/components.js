@@ -46,11 +46,14 @@ export const deskLabel = (desk, extra = '') =>
 
 // ---------- Buttons ----------
 // kind: 'dark' | 'light' | 'outline' | 'outline-light'
-export function button(ctx, { label, kind = 'dark', to, hash, query, href: h, talk, role }) {
-  const cls = `btn btn--${kind}`;
-  if (talk !== undefined || role !== undefined) {
-    const data = role ? `data-role="${esc(role)}"` : `data-talk="${esc(talk)}"`;
-    return `<button type="button" class="${cls}" ${data}>${esc(label)}</button>`;
+// A button that opens the contact dialog names its form variant (see
+// @eunice/contracts/forms) and where on the page it sits. With the page path, that is
+// the entry point the submission records: which page, which button, which form.
+export function button(ctx, { label, kind = 'dark', small = false, to, hash, query, href: h, form, placement = 'body', role }) {
+  const cls = `btn btn--${kind}${small ? ' btn--sm' : ''}`;
+  if (form !== undefined) {
+    const roleAttr = role ? ` data-role="${esc(role)}"` : '';
+    return `<button type="button" class="${cls}" data-form="${esc(form)}" data-placement="${esc(placement)}"${roleAttr}>${esc(label)}</button>`;
   }
   return `<a class="${cls}" href="${esc(href(ctx, { to, hash, query, href: h }))}">${esc(label)}</a>`;
 }
@@ -58,7 +61,7 @@ export function button(ctx, { label, kind = 'dark', to, hash, query, href: h, ta
 // ---------- Header ----------
 export function header(ctx, navKey = 'company') {
   const nav = config.nav[navKey];
-  const deskTalk = navKey === 'company' ? 'general' : navKey;
+  const deskForm = navKey === 'company' ? 'general' : navKey;
   const topLeft = navKey === 'company' ? '' : `<a href="${ctx.link('')}">Eunice</a>`;
   const current = (item) => (!item.hash && item.to === ctx.slug ? ' aria-current="page"' : '');
   return `
@@ -75,7 +78,7 @@ export function header(ctx, navKey = 'company') {
     <span class="nav__mobile-extra">${nav.top.map((i) => `<a href="${esc(href(ctx, i))}">${esc(i.label)}</a>`).join('')}</span>
   </nav>
   <div class="nav__actions">
-    <button type="button" class="btn btn--dark" data-talk="${deskTalk}">Talk to us</button>
+    <button type="button" class="btn btn--dark" data-form="${deskForm}" data-placement="nav">Talk to us</button>
     <button type="button" class="nav__menu" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
     </button>
@@ -95,8 +98,8 @@ export function footer(ctx) {
     ${config.footer.map((col) => `
     <div class="footer__col">
       <p class="label">${esc(col.title)}</p>
-      ${col.links.map((l) => (l.talk
-        ? `<button type="button" class="linklike" data-talk="${l.talk}">${esc(l.label)}</button>`
+      ${col.links.map((l) => (l.form
+        ? `<button type="button" class="linklike" data-form="${l.form}" data-placement="footer">${esc(l.label)}</button>`
         : `<a href="${esc(href(ctx, l))}">${esc(l.label)}</a>`)).join('')}
     </div>`).join('')}
   </div>
@@ -273,6 +276,6 @@ export const cta = (ctx, { title, text, buttons }) => `
 <section class="wrap section">
   <div class="cta">
     <div><h2 class="h2">${esc(title)}</h2><p class="cta__text">${esc(text)}</p></div>
-    <div class="cta__buttons">${buttons.map((b) => button(ctx, b)).join('')}</div>
+    <div class="cta__buttons">${buttons.map((b) => button(ctx, { placement: 'closing', ...b })).join('')}</div>
   </div>
 </section>`;

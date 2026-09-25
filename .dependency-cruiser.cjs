@@ -96,6 +96,9 @@ module.exports = {
     enhancedResolveOptions: {
       extensions: ['.ts', '.js', '.mjs', '.json'],
       conditionNames: ['import', 'node', 'default'],
+      // Workspace packages expose entry points through package.json exports.
+      exportsFields: ['exports'],
+      mainFields: ['module', 'main'],
     },
   },
 };

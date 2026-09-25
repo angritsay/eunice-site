@@ -18,7 +18,7 @@ export default {
     <p class="lead">A MiCA white paper drafted from a library of 1,000+ pre-filled papers, reviewed by CMS where a legal opinion is needed, notified to the authority, and hosted on a public page any exchange can check.</p>
     <p class="lead">UK token classification with gunnercooke since July 2026.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Start a white paper', talk: DESK })}
+      ${button(ctx, { label: 'Start a white paper', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
     </div>
   </div>
@@ -81,7 +81,7 @@ ${cta(ctx, {
   text: 'Tell us about the token and the jurisdiction. We will show you the draft the library produces, and what would still need an opinion.',
   buttons: [
     { label: 'The register', kind: 'outline-light', to: `${DESK}/register` },
-    { label: 'Start a white paper', kind: 'light', talk: DESK },
+    { label: 'Start a white paper', kind: 'light', form: DESK },
   ],
 })}`,
 };

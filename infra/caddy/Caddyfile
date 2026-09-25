@@ -1,0 +1,48 @@
+# The local edge: the static site and the intake API on one origin, as a browser sees
+# production. Security headers are set here, once, for every page.
+{
+	admin off
+	auto_https off
+}
+
+(site_headers) {
+	header {
+		# Nothing inline and nothing third-party: every script, style, font and image
+		# comes from this origin. The page config is JSON, which CSP does not execute.
+		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Cross-Origin-Opener-Policy same-origin
+		-Server
+	}
+}
+
+:8080 {
+	encode zstd gzip
+
+	# The API. Admin endpoints are never reachable through the edge: an operator calls
+	# them on the internal network, so a leaked token alone is not enough.
+	handle /api/intake/v1/admin/* {
+		respond 404
+	}
+	handle_path /api/intake/* {
+		# Caddy ignores X-Forwarded-For sent by clients and sets its own, so intake can
+		# trust this header for the client address (CLIENT_IP_HEADER).
+		reverse_proxy intake:3000
+	}
+
+	handle {
+		import site_headers
+		root * /srv
+		file_server
+	}
+
+	handle_errors 404 {
+		import site_headers
+		root * /srv
+		rewrite * /404.html
+		file_server
+	}
+}

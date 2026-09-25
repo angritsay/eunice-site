@@ -14,7 +14,7 @@ export default {
     <h1 class="h1">The register</h1>
     <p class="lead">Every white paper we notify is hosted here. An exchange, a counterparty or an authority can read what an issuer published, and at what address, without asking the issuer for a copy.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Start a white paper', talk: DESK })}
+      ${button(ctx, { label: 'Start a white paper', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'Token Disclosure', kind: 'outline', to: DESK })}
     </div>
   </div>
@@ -47,6 +47,6 @@ export default {
 ${cta(ctx, {
   title: 'Put a paper on the register',
   text: 'Tell us about the token and the jurisdiction. We will show you the draft the library produces, what would still need an opinion, and where it would be hosted.',
-  buttons: [{ label: 'Start a white paper', kind: 'light', talk: DESK }],
+  buttons: [{ label: 'Start a white paper', kind: 'light', form: DESK }],
 })}`,
 };

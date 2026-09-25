@@ -1,0 +1,34 @@
+{
+  "name": "@eunice/platform",
+  "private": true,
+  "type": "module",
+  "description": "Runtime plumbing every service needs the same way: config, logging, tracing, errors, health, database, migrations, outbox",
+  "exports": {
+    ".": "./src/index.ts",
+    "./config": "./src/config.ts",
+    "./telemetry": "./src/telemetry.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "1.9.1",
+    "@opentelemetry/exporter-trace-otlp-http": "0.222.0",
+    "@opentelemetry/instrumentation": "0.222.0",
+    "@opentelemetry/instrumentation-http": "0.222.0",
+    "@opentelemetry/instrumentation-pg": "0.74.0",
+    "@opentelemetry/instrumentation-undici": "0.32.0",
+    "@opentelemetry/resources": "2.11.0",
+    "@opentelemetry/sdk-node": "0.222.0",
+    "@opentelemetry/semantic-conventions": "1.43.0",
+    "hono": "4.13.8",
+    "kysely": "0.29.6",
+    "pg": "8.23.0",
+    "pino": "10.3.1",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/pg": "8.23.1"
+  }
+}

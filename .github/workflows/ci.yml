@@ -37,6 +37,63 @@ jobs:
         run: pnpm typecheck
       - name: Architecture rules (.dependency-cruiser.cjs)
         run: pnpm check:architecture
+      - name: The committed OpenAPI document is the one the code serves
+        run: |
+          pnpm openapi
+          if [ -n "$(git status --porcelain -- services/intake/generated)" ]; then
+            git --no-pager diff -- services/intake/generated
+            echo "::error::services/intake/generated is out of date. Run 'pnpm openapi' and commit the result."
+            exit 1
+          fi
+
+  services:
+    name: Services · unit and integration (Postgres in a container)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Unit tests (contracts, platform, services)
+        run: pnpm --filter './packages/*' --filter './services/*' test
+      - name: Integration tests against Postgres 18 (Testcontainers)
+        run: pnpm --filter './services/*' test:integration
+
+  system:
+    name: System · docker compose, end to end in a browser
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Start the stack
+        run: docker compose up --build --wait --wait-timeout 300
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: pnpm --filter @eunice/e2e exec playwright install --with-deps chromium
+      - name: Lead flow from three entry points, validation, spam, CSP
+        run: pnpm test:e2e
+      - name: Service logs
+        if: failure()
+        run: docker compose logs --no-color
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          path: e2e/playwright-report/
+          retention-days: 7
 
   web:
     name: Web · build and test
@@ -73,7 +130,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
-    needs: [quality, web]
+    needs: [quality, web, services, system]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     permissions:

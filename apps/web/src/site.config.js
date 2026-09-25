@@ -103,7 +103,7 @@ export default {
       { label: 'About us', to: 'company' },
       { label: 'Careers', to: 'careers' },
       { label: 'Security', to: 'company', hash: 'how-we-work' },
-      { label: 'Contact', talk: 'general' },
+      { label: 'Contact', form: 'general' },
     ] },
   ],
 };

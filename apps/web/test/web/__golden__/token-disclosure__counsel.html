@@ -8,9 +8,8 @@
 <meta property="og:title" content="Eunice for counsel — review the paper, not the boilerplate">
 <meta property="og:description" content="The draft arrives in the shape the regime asks for, so the hours go on the judgement calls rather than on assembling a document from nothing.">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@400;500&display=swap">
+<link rel="preload" href="../../assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../../assets/site.css">
 </head>
 <body>
@@ -57,7 +56,7 @@
 </span>
 </nav>
 <div class="nav__actions">
-<button type="button" class="btn btn--dark" data-talk="token-disclosure">Talk to us</button>
+<button type="button" class="btn btn--dark" data-form="token-disclosure" data-placement="nav">Talk to us</button>
 <button type="button" class="nav__menu" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
 <path d="M4 8h16M4 16h16"/>
@@ -72,7 +71,7 @@
 <h1 class="h1">Review the paper, not the boilerplate</h1>
 <p class="lead">The draft arrives already in the shape the regime asks for, so your hours go on the judgement calls rather than on assembling a document from nothing.</p>
 <div class="buttons">
-<button type="button" class="btn btn--dark" data-talk="token-disclosure">Talk to us</button>
+<button type="button" class="btn btn--dark" data-form="token-disclosure" data-placement="hero">Talk to us</button>
 <a class="btn btn--outline" href="../../token-disclosure/">All of Token Disclosure</a>
 </div>
 </div>
@@ -173,7 +172,7 @@
 <p class="cta__text">Bring a paper you are drafting now. We will show you what the library fills and what it leaves to you.</p>
 </div>
 <div class="cta__buttons">
-<button type="button" class="btn btn--light" data-talk="token-disclosure">Talk to us</button>
+<button type="button" class="btn btn--light" data-form="token-disclosure" data-placement="closing">Talk to us</button>
 </div>
 </div>
 </section>
@@ -229,7 +228,7 @@
 <a href="../../company/">About us</a>
 <a href="../../careers/">Careers</a>
 <a href="../../company/#how-we-work">Security</a>
-<button type="button" class="linklike" data-talk="general">Contact</button>
+<button type="button" class="linklike" data-form="general" data-placement="footer">Contact</button>
 </div>
 </div>
 <div class="footer__legal">
@@ -254,33 +253,161 @@
 </div>
 <p class="small muted dialog__lead" data-lead>
 </p>
-<form class="form" novalidate>
-<input type="hidden" name="topic">
-<input type="hidden" name="role">
+<form class="form">
+<fieldset class="form__fields full" data-variant="general" data-title="Talk to us" data-lead="Tell us what you are reviewing. Someone from the right desk replies within one working day." data-queue="leads" hidden disabled>
+<legend class="sr-only">Talk to us</legend>
 <label class="field">
 <span>Name</span>
-<input name="name" autocomplete="name" required>
+<input id="f-general-name" name="name" required autocomplete="name" type="text">
 </label>
 <label class="field">
 <span>Work email</span>
-<input name="email" type="email" autocomplete="email" required>
+<input id="f-general-email" name="email" required autocomplete="email" type="email">
 </label>
 <label class="field full">
 <span>Firm</span>
-<input name="company" autocomplete="organization">
+<input id="f-general-company" name="company" autocomplete="organization" type="text">
 </label>
 <label class="field full">
 <span>What would you like to cover?</span>
-<textarea name="message">
+<textarea id="f-general-message" name="message" placeholder="The fund, token or question you have in mind">
 </textarea>
 </label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="private-markets" data-title="Talk to the Private Markets desk" data-lead="Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns." data-queue="leads" hidden disabled>
+<legend class="sr-only">Talk to the Private Markets desk</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-private-markets-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-private-markets-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>Firm</span>
+<input id="f-private-markets-company" name="company" autocomplete="organization" type="text">
+</label>
+<label class="field full">
+<span>The fund you are reviewing</span>
+<input id="f-private-markets-fund" name="fund" type="text">
+</label>
+<label class="field full">
+<span>What would you like to cover?</span>
+<textarea id="f-private-markets-message" name="message" placeholder="Your committee date, the documents you have, what worries you">
+</textarea>
+</label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="digital-assets" data-title="Talk to the Digital Assets desk" data-lead="Pick a token you are reviewing now. We run it and show you the report and the monitoring feed." data-queue="leads" hidden disabled>
+<legend class="sr-only">Talk to the Digital Assets desk</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-digital-assets-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-digital-assets-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>Firm</span>
+<input id="f-digital-assets-company" name="company" autocomplete="organization" type="text">
+</label>
+<label class="field full">
+<span>The token you are reviewing</span>
+<input id="f-digital-assets-token" name="token" type="text">
+</label>
+<label class="field full">
+<span>What would you like to cover?</span>
+<textarea id="f-digital-assets-message" name="message" placeholder="Listing, custody, market making — and where it will trade">
+</textarea>
+</label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="token-disclosure" data-title="Start a white paper" data-lead="Tell us about the token and where it will be offered. We come back with scope and timing." data-queue="leads" hidden disabled>
+<legend class="sr-only">Start a white paper</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-token-disclosure-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-token-disclosure-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>Firm</span>
+<input id="f-token-disclosure-company" name="company" autocomplete="organization" type="text">
+</label>
+<label class="field">
+<span>Token</span>
+<input id="f-token-disclosure-token" name="token" type="text">
+</label>
+<label class="field">
+<span>Where it will be offered</span>
+<select id="f-token-disclosure-jurisdiction" name="jurisdiction">
+<option value="">Choose one</option>
+<option>EU — MiCA</option>
+<option>United Kingdom</option>
+<option>Singapore — MAS</option>
+<option>UAE — VARA</option>
+<option>Not decided yet</option>
+</select>
+</label>
+<label class="field full">
+<span>Anything else we should know?</span>
+<textarea id="f-token-disclosure-message" name="message" placeholder="Timing, counsel already involved, exchanges you are talking to">
+</textarea>
+</label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="sample-report" data-title="See a sample report" data-lead="We send a redacted listing report so your committee can see the format." data-queue="leads" hidden disabled>
+<legend class="sr-only">See a sample report</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-sample-report-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-sample-report-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>Firm</span>
+<input id="f-sample-report-company" name="company" autocomplete="organization" type="text">
+</label>
+<label class="field full">
+<span>Anything to tailor it to?</span>
+<textarea id="f-sample-report-message" name="message" placeholder="The kind of asset your committee reviews most">
+</textarea>
+</label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="careers" data-title="Write to the team" data-lead="Send a CV or a link to something you built, and two lines on why regulated finance. We answer everyone." data-queue="careers" hidden disabled>
+<legend class="sr-only">Write to the team</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-careers-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-careers-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>Link to your CV or work</span>
+<input id="f-careers-link" name="link" required placeholder="https://" type="url">
+</label>
+<label class="field full">
+<span>Why regulated finance?</span>
+<textarea id="f-careers-message" name="message" required placeholder="Two lines on why regulated finance">
+</textarea>
+</label>
+</fieldset>
+<div class="hp" aria-hidden="true">
+<label>Leave this empty<input name="website" tabindex="-1" autocomplete="off">
+</label>
+</div>
 <div class="form__foot full">
 <p class="form__note">We use your details only to reply.</p>
 <button type="submit" class="btn btn--dark">Send</button>
 </div>
-<p class="form__note full" data-error hidden>That did not go through. Email us instead at hello@eunice.ai.</p>
+<p class="form__note full" data-error role="alert" hidden>That did not go through. Email us instead at <a href="mailto:hello@eunice.ai">hello@eunice.ai</a>.</p>
 </form>
-<div class="dialog__done">
+<div class="dialog__done" role="status">
 <p class="body">Thank you — your note is on its way to <span data-done-to>the desk</span>. We reply within one working day.</p>
 <div class="buttons">
 <button type="button" class="btn btn--outline" data-close>Close</button>
@@ -288,7 +415,7 @@
 </div>
 </div>
 </dialog>
-<script>window.EUNICE={"preview":false,"contactEmail":"hello@eunice.ai","careersEmail":"careers@eunice.ai","formEndpoint":""}</script>
+<script type="application/json" id="eunice-config">{"preview":false,"contactEmail":"hello@eunice.ai","careersEmail":"careers@eunice.ai","formEndpoint":"","page":"token-disclosure/counsel/","audience":"counsel"}</script>
 <script src="../../assets/site.js" defer>
 </script>
 </body>
