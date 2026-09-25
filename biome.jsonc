@@ -17,6 +17,15 @@
   "javascript": {
     "formatter": { "quoteStyle": "single", "semicolons": "always", "trailingCommas": "all" }
   },
+  "overrides": [
+    {
+      // Copy imported word for word from eunice.ai (scripts/import-live.ts). A "here" link
+      // inside a sentence meets WCAG 2.4.4 (purpose from context); rewording it would
+      // change the live copy, which these fragments must not do.
+      "includes": ["apps/web/src/content/**/*.html"],
+      "linter": { "rules": { "a11y": { "noAmbiguousAnchorText": "off" } } }
+    }
+  ],
   "linter": {
     "rules": {
       "preset": "recommended",

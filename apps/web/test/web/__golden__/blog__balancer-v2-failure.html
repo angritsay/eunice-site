@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anatomy of a 'Legacy Code' Exploit: The $100M Balancer V2 Failure — Eunice</title>
+<meta name="description" content="How a latent arithmetic bug was amplified by protocol mechanics and missed by layered audits.">
+<meta property="og:title" content="Anatomy of a 'Legacy Code' Exploit: The $100M Balancer V2 Failure — Eunice">
+<meta property="og:description" content="How a latent arithmetic bug was amplified by protocol mechanics and missed by layered audits.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../../assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<div class="topbar">
+<div class="wrap topbar__in">
+<div class="topbar__left">
+<span>Eunice</span>
+</div>
+<nav class="topbar__right" aria-label="Secondary">
+<a href="https://app.eunice.ai">Log in</a>
+</nav>
+</div>
+</div>
+<header class="wrap nav">
+<a class="lockup" href="../../">
+<svg class="logo" width="55.05" height="17" viewBox="0 0 68 21" fill="currentColor" role="img">
+<title>Eunice</title>
+<path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
+<path d="M23.9966 15.3572H30.8252V13.8549H25.5479V10.4612H29.9342V8.95888H25.5479V5.8779H30.8252V4.37555H23.9966V15.3572Z"/>
+<path d="M35.1825 15.5784C36.3474 15.5784 37.2454 15.1284 37.8319 14.3735V15.3572H39.2123V7.12097H37.6464V11.4069C37.6464 13.3592 36.7262 14.0684 35.6127 14.0684C33.9057 14.0684 33.5867 12.4517 33.5867 11.1705V7.12097H32.0132V11.6967C32.0132 12.9702 32.4212 15.5784 35.1825 15.5784Z"/>
+<path d="M46.4745 11.3077V15.3572H48.048V10.7815C48.048 9.50796 47.64 6.89981 44.8787 6.89981C43.7138 6.89981 42.8158 7.34975 42.2293 8.10475V7.12097H40.8413V15.3572H42.4148V11.0713C42.4148 9.11903 43.3351 8.40979 44.4485 8.40979C46.1555 8.40979 46.4745 10.0265 46.4745 11.3077Z"/>
+<path d="M49.6846 5.77114H51.2359V4.22303H49.6846V5.77114ZM49.6846 15.3572H51.2359V7.12097H49.6846V15.3572Z"/>
+<path d="M56.4478 15.586C58.1701 15.586 59.4169 14.709 59.9438 13.0923L58.3703 12.711C58.0436 13.5956 57.4424 14.0837 56.4478 14.0837C54.9785 14.0837 54.2286 12.9397 54.2216 11.2391C54.2286 9.59185 54.9264 8.39454 56.4478 8.39454C57.3458 8.39454 58.0957 8.936 58.4001 9.85877L59.9438 9.4012C59.5428 7.85309 58.2222 6.89219 56.4701 6.89219C54.043 6.89219 52.5883 8.69196 52.5737 11.2391C52.5883 13.7481 53.9916 15.586 56.4478 15.586Z"/>
+<path d="M64.3476 15.586C65.8989 15.586 67.257 14.7395 67.8804 13.2677L66.359 12.772C65.9656 13.6185 65.2386 14.0837 64.2732 14.0837C62.9228 14.0837 62.136 13.2143 62.0102 11.689H67.9846C68.148 8.73772 66.7225 6.89219 64.2732 6.89219C61.9282 6.89219 60.3477 8.60808 60.3477 11.3077C60.3477 13.8549 61.9504 15.586 64.3476 15.586ZM62.047 10.446C62.2472 9.0504 63.0041 8.30303 64.333 8.30303C65.5652 8.30303 66.2332 8.99701 66.3965 10.446H62.047Z"/>
+</svg>
+</a>
+<nav class="nav__links" id="nav-links" aria-label="Main">
+<a href="../../private-markets/">Private Markets</a>
+<a href="../../digital-assets/">Digital Assets</a>
+<a href="../../token-disclosure/">Token Disclosure</a>
+<a href="../../insights/">Insights</a>
+<a href="../../company/">Company</a>
+<span class="nav__mobile-extra">
+<a href="https://app.eunice.ai">Log in</a>
+</span>
+</nav>
+<div class="nav__actions">
+<button type="button" class="btn btn--dark" data-form="general" data-placement="nav">Talk to us</button>
+<button type="button" class="nav__menu" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+<path d="M4 8h16M4 16h16"/>
+</svg>
+</button>
+</div>
+</header>
+<main>
+<section class="wrap hero hero--short post">
+<div class="hero__text">
+<nav class="crumbs" aria-label="Breadcrumb">
+<a href="../../insights/">Insights</a>
+<span aria-hidden="true">/</span>
+<span aria-current="page">Anatomy of a 'Legacy Code' Exploit: The $100M Balancer V2 Failure</span>
+</nav>
+<p class="kicker tag--digital-assets">Digital Assets · Article · <time datetime="2025-11-17">17 Nov 2025</time>
+</p>
+<h1 class="h1 post__title">Anatomy of a 'Legacy Code' Exploit: The $100M Balancer V2 Failure</h1>
+<p class="lead">How a latent arithmetic bug was amplified by protocol mechanics and missed by layered audits.</p>
+</div>
+</section>
+<section class="wrap section section--tight post__body">
+<figure class="post__cover">
+<img src="../../assets/img/blog/balancer-v2-failure.png" alt="" width="992" height="1024">
+</figure>
+<div class="prose body">
+<p>On November 3, 2025, a sophisticated attacker exploited Balancer V2, resulting in over $100 million in losses. The attack did not target the newer Balancer V3 but was confined to V2 Composable Stable Pools and their forks across nine networks, including Ethereum, Base, Avalanche, and Berachain. The incident provides a critical case study in the fragility of 'battle-tested' legacy code, the limitations of time-boxed audits, and the evolving sophistication of DeFi exploits.</p>
+<h2>The Root Cause: A Latent Rounding Flaw</h2>
+<p>The vulnerability was not a complex logic flaw but a fundamental arithmetic rounding error in the <code>_upscale</code> function.</p>
+<p>This function, used for <code>EXACT_OUT</code> swaps, universally rounded down (<code>mulDown</code>). This violated the core DeFi security principle that rounding must always favour the protocol, not the user, as under the right conditions it can create a guaranteed, profitable arbitrage.</p>
+<p>The flaw was latent, and its risk was known. Code comments from the original implementation warned that this rounding method was safe <em>unless</em> the <code>_scalingFactor()</code> function was overridden.</p>
+<p>The vulnerable Composable Stable Pools, added to the protocol in September 2021, did exactly that. They overrode the function to include non-unitary exchange rates, not just decimal normalisation, which introduced the fatal rounding error.</p>
+<h2>The Attack Vector: Amplifying the Flaw</h2>
+<p>The exploit's profitability was contingent on amplifying the rounding bug by combining it with two core Balancer V2 architectural features: <code>batchSwap</code> and <strong>composability</strong>.</p>
+<p>The <code>batchSwap</code> function enables multiple swap operations to be bundled into a single atomic transaction. Critically, its "deferred settlement" feature effectively permits flashloan-like behaviour. This allowed the attacker to operate without upfront capital by borrowing and repaying assets within the same transaction.</p>
+<p>The second feature, <strong>composability</strong>, meant the pool's own LP token (its <strong>BPT</strong>) was treated as just another swappable asset <em>inside</em> the pool.</p>
+<p>The attacker leveraged these features in a precise sequence:</p>
+<ol>
+<li>Using <code>batchSwap</code>, the attacker "borrowed" the pool's BPT via deferred settlement.</li>
+<li>They swapped this BPT for the pool's underlying assets (e.g., WETH), purposefully engineering a <strong>low-liquidity state</strong>.</li>
+<li>In this low-liquidity condition, the rounding error was <strong>magnified</strong> from a negligible discrepancy into a significant, exploitable value drain.</li>
+<li>The attacker then executed a "long, alternating batch-swap sequence". These repeated swaps, leveraging the magnified rounding error, systematically manipulated and deflated the pool's core invariant (<strong>D</strong>).</li>
+<li>Because the <code>1</code>, deflating the invariant (D), artificially crashed the perceived price of the BPT shares.</li>
+<li>To finalise the exploit, the attacker swapped their underlying assets back into this now-artificially-cheap BPT, settling their internal "loan" and extracting the accumulated profit.</li>
+</ol>
+<p>This was intentionally structured as a <strong>two-stage attack</strong> to evade detection. The first transaction performed only the complex manipulation, while a second, separate transaction withdrew the accumulated internal balances.</p>
+<h2>Systemic Impact and Contagion</h2>
+<p>The exploit's impact was immediate, forcing extreme mitigation measures across multiple protocols and chains.</p>
+<ul>
+<li>
+<strong>Chain Halt:</strong> Berachain validators executed a coordinated, purposeful network halt. This was done to allow the core team to perform an emergency hard fork to contain the Balancer V2-related exploit on its native BEX exchange.</li>
+<li>
+<strong>Asset Freezes:</strong> Sonic Labs froze suspected attacker addresses on its network to inhibit the movement of funds from Beets, a Balancer V2 fork. On the Gnosis chain, Monerium froze ~1.3M in EURe stablecoins within the Vault.</li>
+</ul>
+<h2>The Audit Blind Spot</h2>
+<p>The incident exposes critical gaps in protocol audit coverage, especially for mature, evolving codebases.</p>
+<p>
+<strong>OpenZeppelin</strong> noted that its 2021 audits of Balancer V2 concluded <em>before</em> the vulnerable <code>ComposableStablePool</code> contract was added to the codebase. The code they reviewed was not vulnerable, as it did not contain the critical <code>_scalingFactor()</code> override that enabled the exploit.</p>
+<p>
+<strong>Trail of Bits (ToB)</strong> reported a similar gap. While they had flagged rounding risks in a <em>different</em> pool type (Linear Pools) in their 2021 audit, their September 2022 review of the <em>hacked</em>
+<code>ComposableStablePool</code> had the underlying Stable Math library "explicitly out of scope".</p>
+<p>ToB emphasised that this class of arithmetic bug was not considered a primary threat vector when the code was originally written. The industry focus at the time was on access control flaws and private key compromise. Attackers have since "become more sophisticated".</p>
+<p>The protocol was suffering from <strong>"battle-tested bias"</strong>. With Balancer's core team focused on the V3 launch, V2 was in "maintenance mode," making its legacy components a prime target for attackers hunting for vulnerabilities missed by elite researchers.</p>
+<h2>Regulatory Takeaway</h2>
+<p>This event provides three primary insights for supervisors assessing protocol risk.</p>
+<ul>
+<li>
+<strong>Audit Scope is Not Continuous:</strong> A protocol's "audited" status is not monolithic. Supervisors must scrutinise which components were audited and when. The Balancer exploit is a primary example of this risk. The vulnerable component, ComposableStablePool, was not part of the protocol's original, heavily reviewed design. OpenZeppelin noted that this code was added after their audits concluded. Similarly, Trail of Bits stated their 2022 review of this component had the underlying math library "explicitly out of scope". This shows how new features or minor overrides added post-audit can introduce systemic vulnerabilities that are not covered by any prior report.</li>
+<li>
+<strong>'Battle-Tested' Is a Liability:</strong> This incident proves that legacy code, especially when in "maintenance mode" or superseded by newer versions (like Balancer V3), creates a distinct risk vector. This code suffers from "battle-tested bias": elite security researchers and auditors often skip it, assuming it is stable or that all bugs have been found. Meanwhile, this exact code is a prime target for sophisticated attackers, who hunt for complex arithmetic edge cases that the industry at large "did not consider a significant risk" years ago when the code was written.</li>
+<li>
+<strong>Systemic Contagion and the Decentralisation Trade-Off: </strong>The exploit of a single protocol (Balancer V2) forced a full, coordinated <strong>chain halt</strong> on Berachain and emergency <strong>asset freezes</strong> by third-party issuers (Monerium) and chains (Sonic Labs). This demonstrates that vulnerabilities in core DeFi "money legos" represent a direct systemic risk to the ecosystems built upon them. This incident also forces a direct confrontation with the trade-offs between decentralisation and user protection. The <em>vulnerability</em> stemmed from a decentralised protocol. However, the <em>only effective emergency responses</em> were highly centralised and coordinated actions. Validators halting a chain and issuers freezing assets are non-decentralised interventions. This reveals a core tension: when a crisis hits, ecosystem actors are forced to choose between ideological decentralisation and the practical, centralised actions required to protect retail users and contain financial losses.</li>
+</ul>
+<p>
+<strong>Threat Evolution:</strong> The attack vector itself, amplifying a minor arithmetic edge case, confirms that threat actors are moving beyond common logic flaws. They are now systematically hunting for complex, mathematical edge cases that were previously considered theoretical or unprofitable.</p>
+</div>
+<p class="all">
+<a class="more" href="../../insights/">All insights</a>
+</p>
+</section>
+</main>
+<footer class="wrap footer">
+<div class="footer__grid">
+<div class="footer__brand">
+<a class="lockup" href="../../">
+<svg class="logo" width="48.57" height="15" viewBox="0 0 68 21" fill="currentColor" role="img">
+<title>Eunice</title>
+<path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
+<path d="M23.9966 15.3572H30.8252V13.8549H25.5479V10.4612H29.9342V8.95888H25.5479V5.8779H30.8252V4.37555H23.9966V15.3572Z"/>
+<path d="M35.1825 15.5784C36.3474 15.5784 37.2454 15.1284 37.8319 14.3735V15.3572H39.2123V7.12097H37.6464V11.4069C37.6464 13.3592 36.7262 14.0684 35.6127 14.0684C33.9057 14.0684 33.5867 12.4517 33.5867 11.1705V7.12097H32.0132V11.6967C32.0132 12.9702 32.4212 15.5784 35.1825 15.5784Z"/>
+<path d="M46.4745 11.3077V15.3572H48.048V10.7815C48.048 9.50796 47.64 6.89981 44.8787 6.89981C43.7138 6.89981 42.8158 7.34975 42.2293 8.10475V7.12097H40.8413V15.3572H42.4148V11.0713C42.4148 9.11903 43.3351 8.40979 44.4485 8.40979C46.1555 8.40979 46.4745 10.0265 46.4745 11.3077Z"/>
+<path d="M49.6846 5.77114H51.2359V4.22303H49.6846V5.77114ZM49.6846 15.3572H51.2359V7.12097H49.6846V15.3572Z"/>
+<path d="M56.4478 15.586C58.1701 15.586 59.4169 14.709 59.9438 13.0923L58.3703 12.711C58.0436 13.5956 57.4424 14.0837 56.4478 14.0837C54.9785 14.0837 54.2286 12.9397 54.2216 11.2391C54.2286 9.59185 54.9264 8.39454 56.4478 8.39454C57.3458 8.39454 58.0957 8.936 58.4001 9.85877L59.9438 9.4012C59.5428 7.85309 58.2222 6.89219 56.4701 6.89219C54.043 6.89219 52.5883 8.69196 52.5737 11.2391C52.5883 13.7481 53.9916 15.586 56.4478 15.586Z"/>
+<path d="M64.3476 15.586C65.8989 15.586 67.257 14.7395 67.8804 13.2677L66.359 12.772C65.9656 13.6185 65.2386 14.0837 64.2732 14.0837C62.9228 14.0837 62.136 13.2143 62.0102 11.689H67.9846C68.148 8.73772 66.7225 6.89219 64.2732 6.89219C61.9282 6.89219 60.3477 8.60808 60.3477 11.3077C60.3477 13.8549 61.9504 15.586 64.3476 15.586ZM62.047 10.446C62.2472 9.0504 63.0041 8.30303 64.333 8.30303C65.5652 8.30303 66.2332 8.99701 66.3965 10.446H62.047Z"/>
+</svg>
+</a>
+<p>Due diligence, disclosure and monitoring for regulated finance.</p>
+</div>
+<div class="footer__col">
+<p class="label">Private markets</p>
+<a href="../../private-markets/lps/">For LPs</a>
+<a href="../../private-markets/managers/">For managers</a>
+<a href="../../private-markets/family-offices/">For family offices</a>
+<a href="../../private-markets/consultants/">For consultants</a>
+</div>
+<div class="footer__col">
+<p class="label">Digital assets</p>
+<a href="../../digital-assets/#listing">Listing diligence</a>
+<a href="../../digital-assets/#monitoring">Monitoring</a>
+<a href="../../digital-assets/exchanges/">For exchanges</a>
+<a href="../../digital-assets/custodians/">For custodians</a>
+<a href="../../digital-assets/market-makers/">For market makers</a>
+</div>
+<div class="footer__col">
+<p class="label">Token disclosure</p>
+<a href="../../token-disclosure/issuers/">For issuers</a>
+<a href="../../token-disclosure/counsel/">For counsel</a>
+<a href="../../token-disclosure/exchanges/">For exchanges</a>
+<a href="../../mica-whitepaper/">MiCA Whitepaper</a>
+<a href="../../token-disclosure/register/">The register</a>
+</div>
+<div class="footer__col">
+<p class="label">Insights</p>
+<a href="../../insights/?desk=private-markets">Private markets</a>
+<a href="../../insights/?desk=digital-assets">Digital assets</a>
+<a href="../../insights/?desk=token-disclosure">Token disclosure</a>
+<a href="../../insights/?desk=company">Company news</a>
+</div>
+<div class="footer__col">
+<p class="label">Company</p>
+<a href="../../company/">About us</a>
+<a href="../../careers/">Careers</a>
+<a href="../../security/">Security</a>
+<button type="button" class="linklike" data-form="general" data-placement="footer">Contact</button>
+</div>
+</div>
+<div class="footer__legal">
+<span>Reasoon Limited, trading as Eunice · London · SOC 2 Type II · GDPR · FCA regulatory sandbox</span>
+<span class="footer__legal-links">
+<a href="#">Privacy</a>
+<a href="#">Terms</a>
+<a href="../../security/">Security</a>
+<a href="#">Status</a>
+</span>
+</div>
+</footer>
+<dialog class="dialog" id="talk" aria-labelledby="talk-title">
+<div class="dialog__in">
+<div class="dialog__head">
+<h2 class="h3" id="talk-title" data-title>Talk to us</h2>
+<button type="button" class="dialog__close" data-close aria-label="Close">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+<path d="M6 6l12 12M18 6 6 18"/>
+</svg>
+</button>
+</div>
+<p class="small muted dialog__lead" data-lead>
+</p>
+<form class="form">
+<fieldset class="form__fields full" data-variant="general" data-title="Talk to us" data-lead="Tell us what you are reviewing. Someone from the right desk replies within one working day." hidden disabled>
+<legend class="sr-only">Talk to us</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-general-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-general-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>What would you like to cover?</span>
+<textarea id="f-general-message" name="message" placeholder="The fund, token or question you have in mind">
+</textarea>
+</label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="private-markets" data-title="Talk to the Private Markets desk" data-lead="Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns." hidden disabled>
+<legend class="sr-only">Talk to the Private Markets desk</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-private-markets-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-private-markets-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>What would you like to cover?</span>
+<textarea id="f-private-markets-message" name="message" placeholder="The fund you are reviewing, your committee date, what worries you">
+</textarea>
+</label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="digital-assets" data-title="Talk to the Digital Assets desk" data-lead="Pick a token you are reviewing now. We run it and show you the report and the monitoring feed." hidden disabled>
+<legend class="sr-only">Talk to the Digital Assets desk</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-digital-assets-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-digital-assets-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>What would you like to cover?</span>
+<textarea id="f-digital-assets-message" name="message" placeholder="The token you are reviewing, and listing, custody or market making">
+</textarea>
+</label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="token-disclosure" data-title="Start a white paper" data-lead="Tell us about the token and where it will be offered. We come back with scope and timing." hidden disabled>
+<legend class="sr-only">Start a white paper</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-token-disclosure-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-token-disclosure-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>About the token</span>
+<textarea id="f-token-disclosure-message" name="message" placeholder="The token, where it will be offered, and your timing">
+</textarea>
+</label>
+</fieldset>
+<fieldset class="form__fields full" data-variant="sample-report" data-title="See a sample report" data-lead="We send a redacted listing report so your committee can see the format." hidden disabled>
+<legend class="sr-only">See a sample report</legend>
+<label class="field">
+<span>Name</span>
+<input id="f-sample-report-name" name="name" required autocomplete="name" type="text">
+</label>
+<label class="field">
+<span>Work email</span>
+<input id="f-sample-report-email" name="email" required autocomplete="email" type="email">
+</label>
+<label class="field full">
+<span>Anything to tailor it to?</span>
+<textarea id="f-sample-report-message" name="message" placeholder="The kind of asset your committee reviews most">
+</textarea>
+</label>
+</fieldset>
+<div class="hp" aria-hidden="true">
+<label>Leave this empty<input name="website" tabindex="-1" autocomplete="off">
+</label>
+</div>
+<div class="form__foot full">
+<p class="form__note">We use your details only to reply.</p>
+<button type="submit" class="btn btn--dark">Send</button>
+</div>
+<p class="form__note full" data-error role="alert" hidden>That did not go through. Email us instead at <a href="mailto:hello@eunice.ai">hello@eunice.ai</a>.</p>
+</form>
+<div class="dialog__done" role="status">
+<p class="body">Thank you — your note is on its way to <span data-done-to>the desk</span>. We reply within one working day.</p>
+<div class="buttons">
+<button type="button" class="btn btn--outline" data-close>Close</button>
+</div>
+</div>
+</div>
+</dialog>
+<script type="application/json" id="eunice-config">{"preview":false,"contactEmail":"hello@eunice.ai","formEndpoint":"","page":"blog/balancer-v2-failure/"}</script>
+<script src="../../assets/site.js" defer>
+</script>
+</body>
+</html>

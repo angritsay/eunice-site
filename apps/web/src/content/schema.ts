@@ -64,6 +64,8 @@ export const Insight = z.strictObject({
   featured: z.boolean().optional(),
   /** Where the piece lives today. Absent: not linked yet. */
   url: z.url().optional(),
+  /** Its page on this site, blog/<post>/, imported from eunice.ai (content/posts/). */
+  post: slugId.optional(),
   placeholder: z.boolean().optional(),
 });
 export type Insight = z.infer<typeof Insight>;

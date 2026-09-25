@@ -1,0 +1,8 @@
+{
+  "title": "Anatomy of a 'Legacy Code' Exploit: The $100M Balancer V2 Failure",
+  "type": "Article",
+  "date": "2025-11-17T00:00:00.000Z",
+  "standfirst": "How a latent arithmetic bug was amplified by protocol mechanics and missed by layered audits.",
+  "hero": "img/blog/balancer-v2-failure.png",
+  "video": ""
+}
