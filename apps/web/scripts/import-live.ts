@@ -4,6 +4,7 @@
 //
 //   node scripts/import-live.ts jobs    → src/content/jobs/<slug>.{html,json}
 //   node scripts/import-live.ts posts   → src/content/posts/<slug>.{html,json}, images in src/assets/img/blog/
+//   node scripts/import-live.ts legal   → src/content/legal/<slug>.{html,json} (terms, privacy policy)
 //
 // Framer renders its pages server-side, so a headless browser reads the finished DOM.
 // Each body is reduced to a small set of tags (src/lib/rich-text.ts checks the same set
@@ -38,13 +39,16 @@ export const POSTS = [
   'eunice-moodys-for-tokens',
 ] as const;
 
+/** The legal pages the live footer links to. */
+export const LEGAL = ['terms-and-conditions', 'privacy-policy'] as const;
+
 /** Paths on the live site that exist on this one, under the same or a new name. */
 const SITE_PATHS: [RegExp, string][] = [
   [/^\/?blog\/([a-z0-9-]+)\/?$/, '/blog/$1/'],
   [/^\/?blog\/?$/, '/insights/'],
   [/^\/?careers\/([a-z0-9-]+)\/?$/, '/careers/$1/'],
   [/^\/?careers\/?$/, '/careers/'],
-  [/^\/?(mica-whitepaper|security|private-markets)\/?$/, '/$1/'],
+  [/^\/?(mica-whitepaper|security|private-markets|terms-and-conditions|privacy-policy)\/?$/, '/$1/'],
   [/^\/?digital-asset\/?$/, '/digital-assets/'],
   [/^\/?$/, '/'],
 ];
@@ -284,9 +288,24 @@ async function importPosts(browser: Browser) {
   }
 }
 
+async function importLegal(browser: Browser) {
+  for (const slug of LEGAL) {
+    const page = await load(browser, `${LIVE}/${slug}`);
+    const x = await extract(page);
+    await page.close();
+    // The body opens with the page's own title; the page sets that as its heading.
+    const html = tidy(x.html).replace(/^<h2>[^<]*<\/h2>\n?/, '');
+    const dir = path.join(CONTENT, 'legal');
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, `${slug}.html`), `${html}\n`);
+    fs.writeFileSync(path.join(dir, `${slug}.json`), `${JSON.stringify({ title: x.title }, null, 2)}\n`);
+    console.log(`legal/${slug}: ${x.title}`);
+  }
+}
+
 const what = process.argv[2];
-if (what !== 'jobs' && what !== 'posts') {
-  console.error('usage: node scripts/import-live.ts jobs|posts');
+if (what !== 'jobs' && what !== 'posts' && what !== 'legal') {
+  console.error('usage: node scripts/import-live.ts jobs|posts|legal');
   process.exit(2);
 }
 const proxy = process.env['HTTPS_PROXY'];
@@ -295,7 +314,7 @@ const browser = await chromium.launch({
   ...(proxy ? { proxy: { server: proxy } } : {}),
 });
 try {
-  await (what === 'jobs' ? importJobs(browser) : importPosts(browser));
+  await (what === 'jobs' ? importJobs(browser) : what === 'posts' ? importPosts(browser) : importLegal(browser));
 } finally {
   await browser.close();
 }

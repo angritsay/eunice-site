@@ -14,6 +14,7 @@ import digitalAssets from './src/pages/digital-assets.ts';
 import home from './src/pages/home.ts';
 import insightsPage from './src/pages/insights.ts';
 import jobPages from './src/pages/jobs.ts';
+import legalPages from './src/pages/legal.ts';
 import micaWhitepaper from './src/pages/mica-whitepaper.ts';
 import { blogIndex, postPages } from './src/pages/posts.ts';
 import privateMarkets from './src/pages/private-markets.ts';
@@ -39,6 +40,7 @@ const PAGES: Page[] = [
   blogIndex,
   ...postPages,
   ...audiencePagesBuilt,
+  ...legalPages,
 ];
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.join(ROOT, 'src');

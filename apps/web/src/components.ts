@@ -162,14 +162,16 @@ export function footer(ctx: Ctx): Html {
       ${col.links.map((l) =>
         l.form
           ? html`<button type="button" class="linklike" data-form="${l.form}" data-placement="footer">${l.label}</button>`
-          : html`<a href="${href(ctx, l)}">${l.label}</a>`,
+          : l.href?.startsWith('https://')
+            ? html`<a href="${l.href}" target="_blank" rel="noopener noreferrer">${l.label}</a>`
+            : html`<a href="${href(ctx, l)}">${l.label}</a>`,
       )}
     </div>`,
     )}
   </div>
   <div class="footer__legal">
     <span>${config.legalLine}</span>
-    <span class="footer__legal-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="${ctx.link('security')}">Security</a><a href="#">Status</a></span>
+    <span class="footer__legal-links"><a href="${ctx.link('privacy-policy')}">Privacy</a><a href="${ctx.link('terms-and-conditions')}">Terms</a><a href="${ctx.link('security')}">Security</a></span>
   </div>
 </footer>`;
 }
@@ -347,6 +349,7 @@ export function insightsBlock(
   const list = insights.filter((i) => !deskFilter || deskFilter.includes(i.desk)).sort(byDateDesc);
   const cards = list.filter((i) => i.featured).slice(0, featured);
   const rest = list.filter((i) => !cards.includes(i)).slice(0, rows);
+  if (!list.length) return html``;
   return html`
 <section class="${band ? 'band ' : ''}section" id="${id}"><div class="wrap">
   ${sectionHead(label, aside)}

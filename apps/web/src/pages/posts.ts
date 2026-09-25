@@ -1,11 +1,11 @@
 // One page per post from the eunice.ai blog, at blog/<slug>/ as there. Title, date,
 // standfirst and body are the live copy, word for word, imported by
-// scripts/import-live.ts into content/posts/. The Insights list links here.
+// scripts/import-live.ts into content/posts/. The blog and Insights lists link here.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
-import { fmtDay, insightRow } from '../components.ts';
+import { fmtDay } from '../components.ts';
 import { desks, insights } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import { richText } from '../lib/rich-text.ts';
@@ -45,22 +45,27 @@ const cover = (ctx: Ctx, file: string) => {
 };
 
 // Each post is listed in content/index.ts `insights`; that entry says which desk it is.
-export const postPages = insights
+const posts = insights
   .filter((it) => it.post)
   .map((it) => {
     const slug = it.post as string;
     const live = Imported.parse(JSON.parse(fs.readFileSync(path.join(DIR, `${slug}.json`), 'utf8')));
-    const body = fs.readFileSync(path.join(DIR, `${slug}.html`), 'utf8');
-    const watch = live.video ? `https://www.youtube.com/watch?v=${live.video}` : '';
-    return {
-      slug: `blog/${slug}`,
-      nav: 'company',
-      title: `${live.title} — Eunice`,
-      description: live.standfirst || it.standfirst || it.title,
-      render: (ctx) => html`
+    return { it, slug, live };
+  })
+  .sort((a, b) => (a.live.date < b.live.date ? 1 : -1));
+
+export const postPages = posts.map(({ it, slug, live }) => {
+  const body = fs.readFileSync(path.join(DIR, `${slug}.html`), 'utf8');
+  const watch = live.video ? `https://www.youtube.com/watch?v=${live.video}` : '';
+  return {
+    slug: `blog/${slug}`,
+    nav: 'company',
+    title: `${live.title} — Eunice`,
+    description: live.standfirst || it.standfirst || it.title,
+    render: (ctx) => html`
 <section class="wrap hero hero--short post">
   <div class="hero__text">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="${ctx.link('insights')}">Insights</a><span aria-hidden="true">/</span><span aria-current="page">${live.title}</span></nav>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="${ctx.link('blog')}">Blog</a><span aria-hidden="true">/</span><span aria-current="page">${live.title}</span></nav>
     <p class="kicker tag--${it.desk}">${desks[it.desk].label} · ${live.type} · <time datetime="${live.date.slice(0, 10)}">${fmtDay(live.date.slice(0, 10))}</time></p>
     <h1 class="h1 post__title">${live.title}</h1>
     ${live.standfirst ? html`<p class="lead">${live.standfirst}</p>` : ''}
@@ -76,28 +81,34 @@ export const postPages = insights
         : ''
   }
   <div class="prose body">${richText(ctx, body, `content/posts/${slug}.html`)}</div>
-  <p class="all"><a class="more" href="${ctx.link('insights')}">All insights</a></p>
+  <p class="all"><a class="more" href="${ctx.link('blog')}">All posts</a></p>
 </section>`,
-    } satisfies Page;
-  });
+  } satisfies Page;
+});
 
-// /blog/ on eunice.ai is the list of posts; here that list is Insights. This page keeps
-// the old address useful after the domain moves.
+// /blog/ is the list of posts, newest first, as on eunice.ai: a cover, the type and
+// date, and the title. Insights lists the same posts by desk, with our notes.
 export const blogIndex = {
   slug: 'blog',
   nav: 'company',
   title: 'Blog — Eunice',
-  description: 'Articles, press and talks from Eunice. The blog is now part of Insights.',
+  description: 'Articles, press releases and talks from Eunice.',
   render: (ctx) => html`
 <section class="wrap hero hero--short">
   <div class="hero__text">
     <p class="kicker">Blog</p>
-    <h1 class="h1">The blog is now part of Insights</h1>
-    <p class="lead">Every post from the blog, alongside our notes and talks.</p>
-    <div class="buttons"><a class="btn btn--dark" href="${ctx.link('insights')}">Go to Insights</a></div>
+    <h1 class="h1">News and articles</h1>
+    <p class="lead">Articles, press releases and talks from the Eunice team.</p>
   </div>
 </section>
 <section class="wrap section section--tight">
-  <ul class="irows">${insights.filter((it) => it.post).map((it) => insightRow(ctx, it))}</ul>
+  <ul class="bcards">${posts.map(
+    ({ it, slug, live }) => html`
+    <li><a class="bcard" href="${ctx.link(`blog/${slug}`)}">
+      <span class="bcard__cover">${live.hero ? cover(ctx, live.hero) : ''}</span>
+      <span class="bcard__meta tag--${it.desk}">${live.type} <span>· <time datetime="${live.date.slice(0, 10)}">${fmtDay(live.date.slice(0, 10))}</time></span></span>
+      <span class="bcard__title">${live.title}</span>
+    </a></li>`,
+  )}</ul>
 </section>`,
 } satisfies Page;

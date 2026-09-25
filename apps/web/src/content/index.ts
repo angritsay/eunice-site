@@ -412,27 +412,6 @@ export const people = contentRecord('people', Person, {
 // url: where the piece lives today. Empty = not linked yet.
 export const insights = content('insights', z.array(Insight), [
   {
-    date: '2026-09-04',
-    desk: 'private-markets',
-    type: 'Note',
-    featured: true,
-    title: 'What allocators asked us three times at the BVCA Summit',
-    standfirst:
-      'The same three questions from six allocators in two days — on subscription lines, whole-fund reporting, and who signs off.',
-  },
-  {
-    date: '2026-08-21',
-    desk: 'private-markets',
-    type: 'Article',
-    title: 'Reading an LPA for the subscription line, and why it matters to net IRR',
-  },
-  {
-    date: '2026-08-07',
-    desk: 'private-markets',
-    type: 'Note',
-    title: 'Whole-fund reporting and the concentration you cannot see',
-  },
-  {
     date: '2026-07-23',
     desk: 'token-disclosure',
     type: 'Video',
