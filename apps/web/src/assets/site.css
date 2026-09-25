@@ -335,7 +335,9 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 .prose h3 { font-family: var(--font-head); font-weight: 500; font-size: var(--h4); line-height: 1.35; color: var(--ink); margin-top: 32px; }
 .prose > h2:first-child, .prose > h3:first-child { margin-top: 0; }
 .prose strong { font-weight: 500; color: var(--ink); }
-.prose a { color: var(--pm-ink); text-decoration: underline; text-underline-offset: 3px; }
+/* Padding makes an inline link a full tap target without moving the text. */
+.prose a { padding-block: 4px; color: var(--pm-ink); text-decoration: underline; text-underline-offset: 3px; }
+.irow__title a { display: inline-block; padding-block: 5px; margin-block: -5px; }
 .prose ul, .prose ol { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
 .prose ul { list-style: disc; }
 .prose ol { list-style: decimal; }
@@ -345,6 +347,15 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 .prose pre code { background: none; padding: 0; }
 .prose img { height: auto; border-radius: 8px; }
 .prose figcaption { font-size: var(--caption); color: var(--muted); margin-top: 8px; }
+.post__title { max-width: 20em; }
+.post .lead { margin-top: 20px; max-width: 40em; }
+.post__cover { display: block; position: relative; max-width: 44em; margin: 0 0 40px; border-radius: var(--radius); overflow: hidden; background: var(--band); }
+.post__cover img { width: 100%; height: auto; }
+.post__video { color: #fff; }
+.post__video:hover { color: #fff; }
+.post__play { position: absolute; left: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 16px; border-radius: 999px; background: rgba(17, 18, 20, .82); font-size: var(--small); font-weight: 500; }
+.post__play::before { content: ''; width: 0; height: 0; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent currentColor; }
+.post__body .all { margin-top: 40px; }
 .role .h4 a { display: inline-block; padding-block: 4px; margin-block: -4px; color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
 .role .h4 a:hover { text-decoration-color: currentColor; }
 

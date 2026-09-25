@@ -66,6 +66,14 @@ async function load(browser: Browser, url: string): Promise<Page> {
     try {
       await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
       await page.waitForSelector('h1', { timeout: 20_000 });
+      // Scroll through once, so lazy images load and report their size.
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 600) {
+          window.scrollTo(0, y);
+          await new Promise((done) => setTimeout(done, 100));
+        }
+        window.scrollTo(0, 0);
+      });
       await page.waitForTimeout(1_500);
       return page;
     } catch (err) {
@@ -134,42 +142,62 @@ const extract = (page: Page) =>
       if (tag === 'img') {
         const i = n as HTMLImageElement;
         images.push(src(i));
-        return `<img src="${attr(src(i))}" alt="${attr(i.alt)}" width="${i.naturalWidth}" height="${i.naturalHeight}">`;
+        const size = i.naturalWidth ? ` width="${i.naturalWidth}" height="${i.naturalHeight}"` : '';
+        const img = `<img src="${attr(src(i))}" alt="${attr(i.alt)}"${size}>`;
+        // An image on its own line is a figure; inside a paragraph it stays inline.
+        return n.closest('p, li') ? img : `<figure>${img}</figure>`;
       }
+      // A link wrapping a paragraph is a button (Framer's "Book a Demo"): the site has
+      // its own calls to action, so it is left out.
+      if (tag === 'a' && n.querySelector('p')) return '';
       if (tag === 'a') return `<a href="${attr(n.getAttribute('href') ?? '')}">${inner}</a>`;
       return `<${tag}>${inner}</${tag}>`;
     };
     const boxes = [...document.querySelectorAll<HTMLElement>('[data-framer-component-type="RichTextContainer"]')];
-    const body = boxes.sort((a, b) => b.innerText.length - a.innerText.length)[0];
-    if (!body) throw new Error('no rich text on the page');
+    const time = document.querySelector('time');
+    const textOf = (el: HTMLElement) =>
+      [...el.querySelectorAll<HTMLElement>('*')].find((x) =>
+        [...x.childNodes].some((c) => c.nodeType === Node.TEXT_NODE && c.textContent?.trim()),
+      ) ?? el;
+    // A post: the column of text blocks below its date. A job: its one long block.
+    let blocks: HTMLElement[];
+    if (time) {
+      const below = time.getBoundingClientRect().bottom;
+      blocks = boxes.filter((b) => {
+        const r = b.getBoundingClientRect();
+        return r.width >= 600 && r.top >= below && b.innerText.trim();
+      });
+    } else {
+      const longest = boxes.sort((a, b) => b.innerText.length - a.innerText.length)[0];
+      blocks = longest ? [longest] : [];
+    }
+    if (!blocks.length) throw new Error('no text on the page');
+    // A post's standfirst: the first block, when it is set larger than the body.
+    let standfirst = '';
+    const first = blocks[0];
+    if (time && first && blocks.length > 1 && Number.parseFloat(getComputedStyle(textOf(first)).fontSize) > 18) {
+      standfirst = first.innerText.trim();
+      blocks.shift();
+    }
+    const inBody = (el: Element) => blocks.some((b) => b.contains(el));
     const h1 = document.querySelector('h1');
     // The label above the title: a job's team, a post's type.
     const before = [...document.querySelectorAll<HTMLElement>('h5, p')].filter(
       (e) => h1 && e.compareDocumentPosition(h1) & Node.DOCUMENT_POSITION_FOLLOWING && e.innerText.trim(),
     );
-    const time = document.querySelector('time');
-    // A post's standfirst: the first block of text between the date and the body.
-    let standfirst = '';
-    if (time) {
-      for (const el of document.querySelectorAll<HTMLElement>('div, p')) {
-        if (el.children.length === 0 && el.innerText.trim() && !body.contains(el)) {
-          const after = time.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING;
-          const beforeBody = el.compareDocumentPosition(body) & Node.DOCUMENT_POSITION_FOLLOWING;
-          if (after && beforeBody) {
-            standfirst = el.innerText.trim();
-            break;
-          }
-        }
-      }
-    }
     // A post's header image: a large picture outside the body, above it.
     const hero =
       [...document.querySelectorAll<HTMLImageElement>('img')]
-        .filter((i) => !body.contains(i) && i.getBoundingClientRect().width > 400 && src(i))
+        .filter((i) => !inBody(i) && i.getBoundingClientRect().width > 400 && src(i))
         .map(src)[0] ?? '';
     const yt = document.documentElement.innerHTML.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{11})/);
+    // A block of bare text is one paragraph.
+    const html = blocks
+      .map((b) => walk(b).trim())
+      .map((h) => (/^<(p|h2|h3|ul|ol|blockquote|pre|figure)>/.test(h) ? h : `<p>${h}</p>`))
+      .join('');
     return {
-      html: walk(body),
+      html,
       images,
       title: h1?.innerText.trim() ?? '',
       label: before.at(-1)?.innerText.trim() ?? '',
@@ -184,15 +212,18 @@ const extract = (page: Page) =>
 function tidy(html: string): string {
   return html
     .replace(/(<br>)+<\/(p|li|h2|h3)>/g, '</$2>')
-    .replace(/<p>(\s|<br>)*<\/p>/g, '')
+    .replace(/<(p|h2|h3)>(\s|<br>)*<\/\1>/g, '')
     .replace(/<(h2|h3)><strong>([\s\S]*?)<\/strong><\/\1>/g, '<$1>$2</$1>')
     .replace(/<a href="([^"]*)">/g, (_, href: string) => `<a href="${siteLink(href.replace(/&amp;/g, '&'))}">`)
     .replace(/(<\/(?:p|h2|h3|ul|ol|li|blockquote|pre|figure)>)/g, '$1\n')
     .trim();
 }
 
+/** Framer serves a smaller copy on request; 1024 px is sharp at the width a post shows. */
+const sized = (url: string) => (/framerusercontent\.com\/images\//.test(url) ? `${url}?scale-down-to=1024` : url);
+
 async function download(url: string, file: string) {
-  const res = await fetch(url);
+  const res = await fetch(sized(url));
   if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, Buffer.from(await res.arrayBuffer()));

@@ -15,6 +15,7 @@ import home from './src/pages/home.ts';
 import insightsPage from './src/pages/insights.ts';
 import jobPages from './src/pages/jobs.ts';
 import micaWhitepaper from './src/pages/mica-whitepaper.ts';
+import { blogIndex, postPages } from './src/pages/posts.ts';
 import privateMarkets from './src/pages/private-markets.ts';
 import register from './src/pages/register.ts';
 import security from './src/pages/security.ts';
@@ -35,6 +36,8 @@ const PAGES: Page[] = [
   careers,
   ...jobPages,
   insightsPage,
+  blogIndex,
+  ...postPages,
   ...audiencePagesBuilt,
 ];
 const ROOT = path.dirname(fileURLToPath(import.meta.url));

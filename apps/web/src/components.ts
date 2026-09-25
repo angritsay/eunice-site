@@ -292,8 +292,12 @@ export const bullets = (items: readonly string[], desk: Desk = 'private-markets'
 // ---------- Insights ----------
 const byDateDesc = (a: Insight, b: Insight) => (a.date < b.date ? 1 : -1);
 
-export function insightRow(_ctx: Ctx, it: Insight, { showDesk = true } = {}): Html {
-  const title = it.url ? html`<a href="${it.url}">${it.title}</a>` : esc(it.title);
+/** Where an insight is read: its post on this site, or wherever else it lives. */
+const insightHref = (ctx: Ctx, it: Insight) => (it.post ? ctx.link(`blog/${it.post}`) : it.url);
+
+export function insightRow(ctx: Ctx, it: Insight, { showDesk = true } = {}): Html {
+  const href = insightHref(ctx, it);
+  const title = href ? html`<a href="${href}">${it.title}</a>` : esc(it.title);
   return html`<li class="irow" data-desk="${it.desk}">
     <span class="irow__date">${fmtDay(it.date)}</span>
     <span class="irow__title">${title}</span>
@@ -301,13 +305,14 @@ export function insightRow(_ctx: Ctx, it: Insight, { showDesk = true } = {}): Ht
   </li>`;
 }
 
-export function insightCard(_ctx: Ctx, it: Insight, override: Partial<Insight> | null = null): Html {
+export function insightCard(ctx: Ctx, it: Insight, override: Partial<Insight> | null = null): Html {
   const o = { ...it, ...(override || {}) };
+  const href = insightHref(ctx, o);
   return html`<article class="icard">
     <p class="icard__meta tag--${o.desk}">${desks[o.desk].label} <span>· ${o.type} · ${fmtDay(o.date)}</span></p>
     <h3 class="h3 ${o.placeholder ? 'placeholder' : ''}">${o.title}</h3>
     ${o.standfirst ? html`<p class="small muted ${o.placeholder ? 'placeholder' : ''}">${o.standfirst}</p>` : ''}
-    ${o.url || o.placeholder ? html`<a class="more" href="${o.url || '#'}">Read the ${o.type.toLowerCase()}</a>` : ''}
+    ${href || o.placeholder ? html`<a class="more" href="${href || '#'}">${o.type === 'Video' ? 'Watch' : 'Read'} the ${o.type.toLowerCase()}</a>` : ''}
   </article>`;
 }
 

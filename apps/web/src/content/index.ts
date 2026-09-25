@@ -438,6 +438,7 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Video',
     featured: true,
     title: 'Preparing for the new UK crypto regime: getting ahead on A&D and MARC',
+    post: 'preparing-for-the-new-uk-crypto-regime-getting-ahead-on-a-d-and-marc',
     standfirst:
       'A session on the UK’s incoming regime for crypto-asset activities and disclosure, and what an issuer or an exchange should have ready before it lands.',
   },
@@ -446,6 +447,7 @@ export const insights = content('insights', z.array(Insight), [
     desk: 'token-disclosure',
     type: 'Press',
     title: 'Eunice and gunnercooke partner to make UK token classification clearer',
+    post: 'eunice-and-gunnercooke-partner-to-make-uk-token-classification-clearer',
   },
   {
     date: '2026-06-16',
@@ -453,20 +455,36 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Press',
     featured: true,
     title: 'Eunice is part of the London FinTech delegation to Singapore',
+    post: 'eunice-is-part-of-the-london-fintech-delegation-to-singapore',
     standfirst: 'A week with the London delegation, meeting the exchanges and custodians that operate under MAS.',
   },
-  { date: '2026-05-06', desk: 'company', type: 'Press', title: 'Eunice makes the Fintech 50' },
+  {
+    date: '2026-05-06',
+    desk: 'company',
+    type: 'Press',
+    title: 'Eunice makes the Fintech 50',
+    post: 'eunice-makes-the-fintech-50',
+  },
   {
     date: '2026-03-27',
     desk: 'company',
     type: 'Press',
     title: 'Eunice raises $8m to replace manual due diligence with institutional-grade AI infrastructure',
+    post: 'eunice-raises-8m-to-replace-manual-due-diligence',
+  },
+  {
+    date: '2025-12-02',
+    desk: 'token-disclosure',
+    type: 'Article',
+    title: 'ESMA publishes consolidated statement on MiCA technical standards',
+    post: 'esma-consolidated-statement-on-mica-technical-standards',
   },
   {
     date: '2025-11-28',
     desk: 'token-disclosure',
     type: 'Article',
     title: 'Eunice accepted into the FCA regulatory sandbox to advance digital asset disclosure standards',
+    post: 'eunice-accepted-into-fca-regulatory-sandbox',
   },
   {
     date: '2025-11-17',
@@ -474,6 +492,7 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Article',
     featured: true,
     title: 'Anatomy of a “legacy code” exploit: the $100M Balancer V2 failure',
+    post: 'balancer-v2-failure',
     standfirst:
       'How an old contract, still live, became the largest failure of the year — and what monitoring should have flagged.',
   },
@@ -482,6 +501,21 @@ export const insights = content('insights', z.array(Insight), [
     desk: 'company',
     type: 'Video',
     title: 'Unveiling Eunice: bridging gaps in crypto and AI-powered risk monitoring',
+    post: 'unveiling-eunice-bridging-gaps-in-crypto-transparency-ai-powered-risk-monitoring',
+  },
+  {
+    date: '2025-03-12',
+    desk: 'token-disclosure',
+    type: 'Article',
+    title: 'Cryptoasset classification under MiCA and other regimes',
+    post: 'cryptoasset-classification-under-mica-other-regimes',
+  },
+  {
+    date: '2025-03-06',
+    desk: 'token-disclosure',
+    type: 'Press',
+    title: 'Introducing Eunice’s AI-powered MiCA whitepaper library',
+    post: 'introducing-the-ai-powered-mica-whitepaper-library',
   },
   {
     date: '2024-10-16',
@@ -489,6 +523,7 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Video',
     featured: true,
     title: 'Macroeconomic drivers of crypto assets (ETHSofia 2024)',
+    post: 'macroeconomic-drivers-of-cryptoassets-ethsofia',
     standfirst: 'A talk on rates, liquidity and the correlations that actually hold.',
   },
   {
@@ -497,10 +532,23 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Article',
     featured: true,
     title: 'What is the role of risk management in cryptoassets?',
+    post: 'what-is-the-role-of-risk-management-in-cryptoassets',
     standfirst: 'Risk management as a function, not a dashboard. What a listing committee should own.',
   },
-  { date: '2024-05-31', desk: 'digital-assets', type: 'Video', title: 'De-risking DeFi (Consensus 2024)' },
-  { date: '2024-04-21', desk: 'digital-assets', type: 'Article', title: 'Eunice — Moody’s for tokens' },
+  {
+    date: '2024-05-31',
+    desk: 'digital-assets',
+    type: 'Video',
+    title: 'De-risking DeFi (Consensus 2024)',
+    post: 'derisking-defi-consensus',
+  },
+  {
+    date: '2024-04-21',
+    desk: 'digital-assets',
+    type: 'Article',
+    title: 'Eunice — Moody’s for tokens',
+    post: 'eunice-moodys-for-tokens',
+  },
 ]);
 
 // month: 'YYYY-MM'. desks: which product pages list it (the home page lists every past event).
