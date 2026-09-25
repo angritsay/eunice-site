@@ -29,10 +29,14 @@ test('a visit and the form funnel are recorded per entry point, without cookies 
   await page.waitForFunction(() => 'umami' in window);
 
   await page.locator('main [data-form="private-markets"][data-placement="hero"]').first().click();
+  // Events are separate requests and can overtake each other when sent milliseconds
+  // apart. A person takes seconds to start typing; the test waits for the open to land.
+  await eventually(async () => (recorded(tag).some((r) => r.name === 'form_open') ? true : undefined));
   const form = page.locator('#talk fieldset:not([disabled])');
   const email = `${tag}@example.com`;
   await form.locator('[name="name"]').fill('Jane Analytics');
   await form.locator('[name="email"]').fill(email);
+  await eventually(async () => (recorded(tag).some((r) => r.name === 'form_start') ? true : undefined));
   await page.clock.fastForward('00:05');
   await page.locator('#talk [type="submit"]').click();
   await expect(page.locator('#talk')).toHaveClass(/is-done/);
