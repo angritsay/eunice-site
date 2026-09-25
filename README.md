@@ -6,6 +6,25 @@ The Eunice website as code: eighteen pages, one stylesheet, no framework, no dep
 
 Each of the three desks also has a personalised page per client type — `/private-markets/lps/`, `/token-disclosure/issuers/` and so on — plus `/token-disclosure/register/`. Those are generated from `audiencePages` in `apps/web/src/content/index.js` through one template in `apps/web/src/pages/audience.js`, so adding a client type is an edit to the content file and nothing else.
 
+## Start here (a ten-minute tour)
+
+1. **Run it.** `docker compose up --build --wait`, then open http://localhost:8080 and send
+   a form. The email is at http://localhost:8025, the trace of that one request at
+   http://localhost:16686, and the funnel at http://localhost:3001.
+2. **What it is.** [docs/architecture/overview.md](docs/architecture/overview.md) has
+   the C4 context and containers, and the boundaries with the ADRs behind them.
+3. **How a lead moves.** [docs/architecture/flows.md](docs/architecture/flows.md) has
+   sequence diagrams, each naming the code and the test that proves it.
+4. **Why.** [docs/adr/](docs/adr/) records ten decisions, including what was deliberately
+   *not* built.
+5. **What it must do, and how we know.** [docs/analysis/requirements.md](docs/analysis/requirements.md)
+   lists the measurable requirements and where each is verified.
+   [Failure modes](docs/architecture/failure-modes.md) covers what happens when each
+   part is down.
+6. **The code.** Start with the form registry (`packages/contracts/src/forms/`), which
+   the page and the server both use. Then `services/intake/src/`: `domain` → `application`
+   → `adapters` → `server.ts`, with the layering enforced in CI.
+
 ## Why a repo instead of Framer
 
 - **Branches that stay put.** In Framer a branch follows main, so a fix on main can break work in progress. Here a branch is a git branch: nothing moves until it is merged.
