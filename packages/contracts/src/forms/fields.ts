@@ -14,9 +14,6 @@ export const singleLine = (max: number) =>
 
 export const multiLine = (max: number) => z.string().trim().min(1).max(max);
 
-/** Only https links: no javascript:, data: or plain-http URLs reach the ops inbox. */
-export const httpsUrl = z.url({ protocol: /^https$/, hostname: z.regexes.domain }).max(500);
-
 export type FieldKind = 'text' | 'email' | 'url' | 'textarea' | 'select';
 
 export interface FieldSpec {
@@ -55,6 +52,7 @@ export const common = {
     autocomplete: 'email',
     schema: z.email().max(254),
   }),
+  /** Not asked today: kept for a form that needs the firm up front. */
   company: field({
     name: 'company',
     label: 'Firm',

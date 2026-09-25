@@ -16,7 +16,6 @@ const event = (): SubmissionReceived => ({
     submissionId: '0199a0c2-0000-7000-8000-000000000001',
     variant: 'general',
     desk: 'General',
-    queue: 'leads',
     receivedAt: '2026-09-25T10:00:00.000Z',
     contact: { name: 'Jane Doe', email: 'jane@acme.example' },
     details: {},
@@ -40,7 +39,7 @@ function setup(mailer: Mailer['send'] = async () => ({ providerId: 'p-1' })) {
   const notify = makeNotify({
     mailer: { send },
     deliveries,
-    routing: { opsInbox: 'ops@eunice.ai', careersInbox: 'careers@eunice.ai', siteUrl: 'https://eunice.ai' },
+    routing: { opsInbox: 'ops@eunice.ai', siteUrl: 'https://eunice.ai' },
     clock: { now: () => new Date() },
     log,
   });

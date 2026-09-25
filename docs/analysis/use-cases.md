@@ -22,9 +22,9 @@ deleted after the retention period.
 
 ## UC-2 Apply for a role
 
-**Actor:** a candidate on the careers page. As UC-1, except:
-- the form asks for an https link to a CV or work, and why regulated finance;
-- the email goes to the hiring inbox, and its subject names the role.
+**Actor:** a candidate on the careers page. Not handled by the site's backend: "Apply"
+opens the role's application form on Tally. A candidate for a role that is not listed
+writes to `career@eunice.ai` from a plain email link.
 
 ## UC-3 Request a sample report
 

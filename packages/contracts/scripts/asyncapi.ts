@@ -34,7 +34,7 @@ const doc = {
     notifyOps: {
       action: 'receive',
       channel: { $ref: '#/channels/submissionReceived' },
-      summary: 'notifier (durable consumer "notifier") emails the ops or careers inbox, once per event id.',
+      summary: 'notifier (durable consumer "notifier") emails the ops inbox, once per event id.',
       messages: [{ $ref: '#/channels/submissionReceived/messages/SubmissionReceived' }],
     },
   },

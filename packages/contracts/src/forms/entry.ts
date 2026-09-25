@@ -2,10 +2,9 @@
 // which page and which button — the context ops needs to open the conversation well,
 // and the dimension analytics groups the funnel by.
 import { z } from 'zod';
-import { singleLine } from './fields.ts';
 
 /** Where on a page a form can be opened from. New placements are added here. */
-export const PLACEMENTS = ['nav', 'hero', 'body', 'band', 'roles', 'closing', 'footer'] as const;
+export const PLACEMENTS = ['nav', 'hero', 'body', 'band', 'closing', 'footer'] as const;
 export type Placement = (typeof PLACEMENTS)[number];
 
 export const EntryPoint = z.strictObject({
@@ -20,8 +19,6 @@ export const EntryPoint = z.strictObject({
     .string()
     .regex(/^[a-z][a-z-]{0,39}$/)
     .optional(),
-  /** Set when applying for a specific role. */
-  role: singleLine(120).optional(),
 });
 export type EntryPoint = z.infer<typeof EntryPoint>;
 

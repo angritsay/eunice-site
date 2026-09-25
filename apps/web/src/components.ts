@@ -91,20 +91,31 @@ export interface ButtonOptions {
   /** A form variant from @eunice/contracts/forms: the button opens the dialog instead of linking. */
   form?: string;
   placement?: Placement;
-  /** For an application, the role applied for. */
-  role?: string;
+  /** An external page (an application form): opens in a new tab. */
+  newTab?: boolean;
 }
 
 export function button(
   ctx: Ctx,
-  { label, kind = 'dark', small = false, to, hash, query, href: h, form, placement = 'body', role }: ButtonOptions,
+  {
+    label,
+    kind = 'dark',
+    small = false,
+    to,
+    hash,
+    query,
+    href: h,
+    form,
+    placement = 'body',
+    newTab = false,
+  }: ButtonOptions,
 ): Html {
   const cls = `btn btn--${kind}${small ? ' btn--sm' : ''}`;
   if (form !== undefined) {
-    const roleAttr = role ? html` data-role="${role}"` : '';
-    return html`<button type="button" class="${cls}" data-form="${form}" data-placement="${placement}"${roleAttr}>${label}</button>`;
+    return html`<button type="button" class="${cls}" data-form="${form}" data-placement="${placement}">${label}</button>`;
   }
-  return html`<a class="${cls}" href="${href(ctx, { to, hash, query, href: h })}">${label}</a>`;
+  const tab = newTab ? html` target="_blank" rel="noopener noreferrer"` : '';
+  return html`<a class="${cls}" href="${href(ctx, { to, hash, query, href: h })}"${tab}>${label}</a>`;
 }
 
 // ---------- Header ----------

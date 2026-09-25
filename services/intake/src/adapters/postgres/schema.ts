@@ -10,7 +10,6 @@ export interface SubmissionsTable {
   fingerprint: string;
   variant: string;
   desk: string;
-  queue: 'leads' | 'careers';
   name: string;
   email: string;
   company: string | null;
@@ -19,7 +18,6 @@ export interface SubmissionsTable {
   entry_page: string;
   entry_placement: string;
   entry_audience: string | null;
-  entry_role: string | null;
   referrer: string | null;
   utm: ColumnType<Record<string, string> | null, string | null, string | null>;
   received_at: Date;

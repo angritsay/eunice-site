@@ -3,6 +3,7 @@ import { button, cta, facts, insightRow, partnersRow, peopleGrid, plate, section
 import { insights, people } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Ctx, Page } from '../lib/types.ts';
+import config from '../site.config.ts';
 
 export default {
   slug: 'company',
@@ -68,7 +69,7 @@ ${cta(ctx, {
   title: 'Come and build it',
   text: 'Three open roles in London, remote-friendly. Your work ships into regulated financial workflows, where every output has to be defensible.',
   buttons: [
-    { label: 'Email the team', kind: 'outline-light', form: 'careers' },
+    { label: 'Email the team', kind: 'outline-light', href: `mailto:${config.careersEmail}` },
     { label: 'See open roles', kind: 'light', to: 'careers', hash: 'roles' },
   ],
 })}`,

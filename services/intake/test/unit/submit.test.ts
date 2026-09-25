@@ -6,7 +6,7 @@ import { fixedClock, memoryStore, silentLog } from './fakes.ts';
 
 const request: SubmissionRequest = {
   variant: 'private-markets',
-  fields: { name: 'Jane Doe', email: 'Jane@Acme.example', company: 'Acme Capital', fund: 'Gridiron V' },
+  fields: { name: 'Jane Doe', email: 'Jane@Acme.example', message: 'Gridiron V, committee in March' },
   entry: { page: 'private-markets/lps/', placement: 'hero', audience: 'lps' },
   attribution: { referrer: 'https://www.google.com/', utm: { source: 'newsletter' } },
   elapsedMs: 8200,
@@ -36,8 +36,8 @@ describe('submit', () => {
     expect(rows[0]?.submission).toMatchObject({
       variant: 'private-markets',
       desk: 'Private Markets',
-      queue: 'leads',
-      details: { fund: 'Gridiron V' },
+      details: {},
+      message: 'Gridiron V, committee in March',
       entry: { placement: 'hero', audience: 'lps' },
     });
     expect(rows[0]?.purgeAfter.toISOString()).toBe('2027-09-25T10:00:00.000Z');
@@ -47,7 +47,11 @@ describe('submit', () => {
     // The event is exactly what the published contract says consumers will receive.
     const event = SubmissionReceived.parse(outbox[0]?.payload);
     expect(event.subject).toBe(outcome.kind === 'accepted' ? outcome.id : '');
-    expect(event.data).toMatchObject({ submissionId: event.subject, contact: { company: 'Acme Capital' } });
+    expect(event.data).toMatchObject({
+      submissionId: event.subject,
+      contact: { name: 'Jane Doe' },
+      message: 'Gridiron V, committee in March',
+    });
   });
 
   it('answers a retry with the original id and stores nothing new', async () => {

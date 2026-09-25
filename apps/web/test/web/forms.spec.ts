@@ -72,7 +72,7 @@ test.describe('entry points open the right form', () => {
       page: 'private-markets/lps/',
       button: 'main >> [data-placement="hero"]',
       title: 'Talk to the Private Markets desk',
-      field: 'The fund you are reviewing',
+      field: 'What would you like to cover?',
     },
     {
       page: 'digital-assets/',
@@ -84,19 +84,13 @@ test.describe('entry points open the right form', () => {
       page: 'token-disclosure/',
       button: 'main >> [data-placement="hero"]',
       title: 'Start a white paper',
-      field: 'Where it will be offered',
+      field: 'About the token',
     },
     {
       page: 'mica-whitepaper/',
       button: 'main >> [data-placement="band"]',
       title: 'Start a white paper',
-      field: 'Where it will be offered',
-    },
-    {
-      page: 'careers/',
-      button: '[data-placement="roles"] >> nth=0',
-      title: 'Apply: GTM Lead, Digital Assets',
-      field: 'Link to your CV or work',
+      field: 'About the token',
     },
     { page: '', button: 'footer [data-form="general"]', title: 'Talk to us', field: 'What would you like to cover?' },
   ];
@@ -111,6 +105,8 @@ test.describe('entry points open the right form', () => {
       // Only the active variant is enabled; every other field is out of the form.
       const enabled = await dialog.locator('fieldset:not([disabled])').count();
       expect(enabled).toBe(1);
+      // Name, work email and a note: nothing else to fill.
+      await expect(dialog.locator('fieldset:not([disabled])').locator('input, textarea, select')).toHaveCount(3);
     });
   }
 
@@ -133,22 +129,42 @@ test.describe('entry points open the right form', () => {
     const active = dialog.locator('fieldset:not([disabled])');
     await active.getByLabel('Name').fill('Jane Doe');
     await active.getByLabel('Work email').fill('jane@acme.example');
-    await active.getByLabel('The fund you are reviewing').fill('Gridiron Capital Fund V');
+    await active.getByLabel('What would you like to cover?').fill('Gridiron Capital Fund V');
     await dialog.getByRole('button', { name: 'Send' }).click();
     await expect(dialog.getByText('your note is on its way')).toBeVisible();
     expect(posts).toEqual([]);
     const mailto = decodeURIComponent(await page.evaluate(() => (window as unknown as { mailto: string }).mailto));
     expect(mailto).toMatch(/^mailto:hello@eunice\.ai\?subject=private-markets — Jane Doe&body=/);
-    expect(mailto).toContain('fund: Gridiron Capital Fund V');
+    expect(mailto).toContain('message: Gridiron Capital Fund V');
   });
 
   test('required fields are enforced before anything is sent', async ({ page }) => {
-    await page.goto(`${BASE}careers/`);
-    await page.locator('[data-placement="roles"] >> nth=0').click();
+    await page.goto(BASE);
+    await page.locator('footer [data-form="general"]').click();
     const dialog = page.getByRole('dialog');
     await dialog.getByRole('button', { name: 'Send' }).click();
     await expect(dialog.getByText('your note is on its way')).toBeHidden();
     const invalid = await dialog.locator('fieldset:not([disabled]) :invalid').count();
     expect(invalid).toBeGreaterThan(0);
+  });
+});
+
+test.describe('careers', () => {
+  test('each Apply opens that role’s application form in a new tab', async ({ page }) => {
+    await page.goto(`${BASE}careers/`);
+    const apply = page.locator('#roles a', { hasText: 'Apply' });
+    await expect(apply).toHaveCount(3);
+    const hrefs = await apply.evaluateAll((as) => as.map((a) => [a.getAttribute('href'), a.getAttribute('target')]));
+    expect(hrefs).toEqual([
+      ['https://tally.so/r/VLdQOv', '_blank'],
+      ['https://tally.so/r/1Axdpb', '_blank'],
+      ['https://tally.so/r/PdBqJQ', '_blank'],
+    ]);
+  });
+
+  test('a role that is not listed is an email, not a form', async ({ page }) => {
+    await page.goto(`${BASE}careers/`);
+    await expect(page.locator('main a[href="mailto:career@eunice.ai"]').first()).toBeVisible();
+    await expect(page.locator('main [data-form]')).toHaveCount(0);
   });
 });

@@ -57,7 +57,7 @@ dc exec -T intake node -e "fetch('http://127.0.0.1:3000/v1/admin/erasures',{meth
   body:JSON.stringify({email:process.argv[2]})}).then(r=>r.text()).then(console.log)" "$token" 'person@example.com'
 ```
 
-Then delete the matching emails from the ops and careers inboxes. Backups age out
+Then delete the matching emails from the ops inbox. Backups age out
 after 35 days.
 
 ## Backups and restore

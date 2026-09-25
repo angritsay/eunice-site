@@ -138,7 +138,6 @@ const runtimeConfig = (preview: boolean, page: Pick<Page, 'slug' | 'audience'>) 
   `<script type="application/json" id="eunice-config">${JSON.stringify({
     preview,
     contactEmail: config.contactEmail,
-    careersEmail: config.careersEmail,
     formEndpoint: FORM_ENDPOINT,
     page: preview ? '' : pagePath(page),
     ...(page.audience ? { audience: page.audience } : {}),

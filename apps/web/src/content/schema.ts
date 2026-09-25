@@ -79,7 +79,16 @@ export type Event = z.infer<typeof Event>;
 export const Quote = z.strictObject({ desk: Desk, text, who: text });
 export type Quote = z.infer<typeof Quote>;
 
-export const Role = z.strictObject({ id: slugId, title: text, where: text, what: text });
+export const Role = z.strictObject({
+  id: slugId,
+  /** The role's page, careers/<slug>/, as on eunice.ai. */
+  slug: slugId,
+  title: text,
+  where: text,
+  what: text,
+  /** The role's application form, on Tally. */
+  applyUrl: z.url({ protocol: /^https$/ }),
+});
 export type Role = z.infer<typeof Role>;
 
 /** Parses content, naming the file and path of the first mistake. */

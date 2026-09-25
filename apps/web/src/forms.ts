@@ -33,7 +33,7 @@ function control(variant: Variant, f: FieldSpec): Html {
 }
 
 const fieldset = (v: Variant) => html`
-      <fieldset class="form__fields full" data-variant="${v.id}" data-title="${v.title}" data-lead="${v.lead}" data-queue="${v.queue}" hidden disabled>
+      <fieldset class="form__fields full" data-variant="${v.id}" data-title="${v.title}" data-lead="${v.lead}" hidden disabled>
         <legend class="sr-only">${v.title}</legend>
         ${join(
           v.fields.map((f) => control(v, f)),

@@ -7,7 +7,6 @@ const env = {
   DATABASE_URL: 'postgres://notifier_app:x@db/eunice',
   NATS_URL: 'nats://nats:4222',
   OPS_INBOX: 'ops@eunice.ai',
-  CAREERS_INBOX: 'careers@eunice.ai',
   MAIL_FROM: 'Eunice site <notify@notify.eunice.ai>',
   SITE_URL: 'https://eunice.ai',
   SMTP_HOST: 'smtp-relay.gmail.com',

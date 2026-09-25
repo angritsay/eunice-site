@@ -14,14 +14,13 @@ export const SubmissionReceivedData = z.object({
   submissionId: z.uuid(),
   variant: z.string(),
   desk: z.string(),
-  queue: z.enum(['leads', 'careers']),
   receivedAt: z.iso.datetime({ offset: true }),
   contact: z.object({
     name: z.string(),
     email: z.email(),
     company: z.string().optional(),
   }),
-  /** The variant's other fields, e.g. { fund } or { token, jurisdiction }. */
+  /** The variant's other fields, if it asks any beyond name, email and message. */
   details: z.record(z.string(), z.string()),
   message: z.string().optional(),
   entry: EntryPoint,

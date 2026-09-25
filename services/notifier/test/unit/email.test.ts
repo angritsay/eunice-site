@@ -2,12 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { composeEmail, subjectFor } from '../../src/domain/email.ts';
 import type { Lead } from '../../src/domain/lead.ts';
 
-const routing = { opsInbox: 'ops@eunice.ai', careersInbox: 'careers@eunice.ai', siteUrl: 'https://eunice.ai' };
+const routing = { opsInbox: 'ops@eunice.ai', siteUrl: 'https://eunice.ai' };
 
 const lead: Lead = {
   submissionId: '0199a0c2-0000-7000-8000-000000000001',
   desk: 'Private Markets',
-  queue: 'leads',
   receivedAt: new Date('2026-09-25T10:00:00Z'),
   contact: { name: 'Jane Doe', email: 'jane@acme.example', company: 'Acme Capital' },
   details: { fund: 'Gridiron Fund V' },
@@ -38,19 +37,9 @@ describe('the ops email', () => {
     expect(text).toContain(lead.submissionId);
   });
 
-  it('sends applications to hiring, titled by the role', () => {
-    const application: Lead = {
-      ...lead,
-      desk: 'Careers',
-      queue: 'careers',
-      contact: { name: 'Alex Engineer', email: 'alex@example.com' },
-      details: { link: 'https://github.com/alex' },
-      entry: { page: 'careers/', placement: 'roles', role: 'Senior Software / AI Engineer' },
-    };
-    const email = composeEmail(application, routing);
-    expect(email.to).toBe('careers@eunice.ai');
-    expect(email.subject).toBe('[Careers · Senior Software / AI Engineer · roles] Alex Engineer');
-    expect(email.text).toContain('New application for Senior Software / AI Engineer.');
+  it('names only the person when no firm was given', () => {
+    const { company: _, ...contact } = lead.contact;
+    expect(subjectFor({ ...lead, contact })).toBe('[Private Markets · lps · hero] Jane Doe');
   });
 
   it('cannot be made to inject a header through a name', () => {

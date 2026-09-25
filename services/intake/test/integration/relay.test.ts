@@ -63,7 +63,6 @@ async function storeOne(traceparent: string | null = TRACEPARENT) {
       submission: {
         variant: 'general',
         desk: 'General',
-        queue: 'leads',
         contact: { name: 'Jane', email: 'jane@acme.example' },
         details: {},
         entry: { page: '', placement: 'nav' },

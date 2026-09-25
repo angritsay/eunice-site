@@ -106,12 +106,6 @@
                     "maxLength": 254,
                     "format": "email"
                   },
-                  "company": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 160,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
                   "message": {
                     "type": "string",
                     "minLength": 1,
@@ -139,7 +133,6 @@
                       "hero",
                       "body",
                       "band",
-                      "roles",
                       "closing",
                       "footer"
                     ]
@@ -147,12 +140,6 @@
                   "audience": {
                     "type": "string",
                     "pattern": "^[a-z][a-z-]{0,39}$"
-                  },
-                  "role": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
                   }
                 },
                 "required": [
@@ -248,18 +235,6 @@
                     "maxLength": 254,
                     "format": "email"
                   },
-                  "company": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 160,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
-                  "fund": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 160,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
                   "message": {
                     "type": "string",
                     "minLength": 1,
@@ -287,7 +262,6 @@
                       "hero",
                       "body",
                       "band",
-                      "roles",
                       "closing",
                       "footer"
                     ]
@@ -295,12 +269,6 @@
                   "audience": {
                     "type": "string",
                     "pattern": "^[a-z][a-z-]{0,39}$"
-                  },
-                  "role": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
                   }
                 },
                 "required": [
@@ -396,18 +364,6 @@
                     "maxLength": 254,
                     "format": "email"
                   },
-                  "company": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 160,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
-                  "token": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
                   "message": {
                     "type": "string",
                     "minLength": 1,
@@ -435,7 +391,6 @@
                       "hero",
                       "body",
                       "band",
-                      "roles",
                       "closing",
                       "footer"
                     ]
@@ -443,12 +398,6 @@
                   "audience": {
                     "type": "string",
                     "pattern": "^[a-z][a-z-]{0,39}$"
-                  },
-                  "role": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
                   }
                 },
                 "required": [
@@ -544,28 +493,6 @@
                     "maxLength": 254,
                     "format": "email"
                   },
-                  "company": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 160,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
-                  "token": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
-                  "jurisdiction": {
-                    "type": "string",
-                    "enum": [
-                      "EU — MiCA",
-                      "United Kingdom",
-                      "Singapore — MAS",
-                      "UAE — VARA",
-                      "Not decided yet"
-                    ]
-                  },
                   "message": {
                     "type": "string",
                     "minLength": 1,
@@ -593,7 +520,6 @@
                       "hero",
                       "body",
                       "band",
-                      "roles",
                       "closing",
                       "footer"
                     ]
@@ -601,12 +527,6 @@
                   "audience": {
                     "type": "string",
                     "pattern": "^[a-z][a-z-]{0,39}$"
-                  },
-                  "role": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
                   }
                 },
                 "required": [
@@ -702,12 +622,6 @@
                     "maxLength": 254,
                     "format": "email"
                   },
-                  "company": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 160,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
                   "message": {
                     "type": "string",
                     "minLength": 1,
@@ -735,7 +649,6 @@
                       "hero",
                       "body",
                       "band",
-                      "roles",
                       "closing",
                       "footer"
                     ]
@@ -743,155 +656,6 @@
                   "audience": {
                     "type": "string",
                     "pattern": "^[a-z][a-z-]{0,39}$"
-                  },
-                  "role": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
-                  }
-                },
-                "required": [
-                  "page",
-                  "placement"
-                ],
-                "additionalProperties": false
-              },
-              "attribution": {
-                "type": "object",
-                "properties": {
-                  "referrer": {
-                    "type": "string",
-                    "maxLength": 500
-                  },
-                  "utm": {
-                    "type": "object",
-                    "properties": {
-                      "source": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 100,
-                        "pattern": "^[^\\r\\n]*$"
-                      },
-                      "medium": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 100,
-                        "pattern": "^[^\\r\\n]*$"
-                      },
-                      "campaign": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 100,
-                        "pattern": "^[^\\r\\n]*$"
-                      },
-                      "term": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 100,
-                        "pattern": "^[^\\r\\n]*$"
-                      },
-                      "content": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 100,
-                        "pattern": "^[^\\r\\n]*$"
-                      }
-                    },
-                    "additionalProperties": false
-                  }
-                },
-                "additionalProperties": false
-              },
-              "website": {
-                "type": "string",
-                "maxLength": 500
-              },
-              "elapsedMs": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 86400000
-              }
-            },
-            "required": [
-              "variant",
-              "fields",
-              "entry",
-              "elapsedMs"
-            ],
-            "additionalProperties": false
-          },
-          {
-            "type": "object",
-            "properties": {
-              "variant": {
-                "type": "string",
-                "enum": [
-                  "careers"
-                ]
-              },
-              "fields": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
-                  },
-                  "email": {
-                    "type": "string",
-                    "maxLength": 254,
-                    "format": "email"
-                  },
-                  "link": {
-                    "type": "string",
-                    "maxLength": 500,
-                    "format": "uri"
-                  },
-                  "message": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4000
-                  }
-                },
-                "required": [
-                  "name",
-                  "email",
-                  "link",
-                  "message"
-                ],
-                "additionalProperties": false
-              },
-              "entry": {
-                "type": "object",
-                "properties": {
-                  "page": {
-                    "type": "string",
-                    "maxLength": 200,
-                    "pattern": "^([a-z0-9-]+\\/)*$"
-                  },
-                  "placement": {
-                    "type": "string",
-                    "enum": [
-                      "nav",
-                      "hero",
-                      "body",
-                      "band",
-                      "roles",
-                      "closing",
-                      "footer"
-                    ]
-                  },
-                  "audience": {
-                    "type": "string",
-                    "pattern": "^[a-z][a-z-]{0,39}$"
-                  },
-                  "role": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 120,
-                    "pattern": "^[^\\r\\n]*$"
                   }
                 },
                 "required": [
