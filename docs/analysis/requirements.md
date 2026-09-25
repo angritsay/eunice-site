@@ -35,7 +35,7 @@ What the system must do, and how well, each with where it is verified. Status:
 | ID | Quality | Target | Status | Verified by |
 |---|---|---|---|---|
 | NFR-1 | **Durability of leads** | 0 leads lost when broker, notifier or email provider is down | Met | `e2e/resilience.spec.ts`, `relay.test.ts` |
-| NFR-2 | **Exactly-once notification** | 1 email per lead under redelivery and retry | Met (Resend); see failure modes for Mailpit | `notify.test.ts`, `e2e/resilience.spec.ts` |
+| NFR-2 | **Exactly-once notification** | 1 email per lead under redelivery and retry | Met; see failure modes for a crash mid-send | `notify.test.ts`, `e2e/resilience.spec.ts` |
 | NFR-3 | **Latency to ops** | Email within 10 s of submission when all parts are up | Met locally (≈1–2 s) | `e2e/lead-flow.spec.ts` (20 s timeout) |
 | NFR-4 | **Availability of the form** | Accepts leads while broker, notifier or email is down | Met | `e2e/resilience.spec.ts` |
 | NFR-5 | **API latency** | p95 < 300 ms for `POST /v1/submissions` at 10 req/s | Planned (P9 load test) | — |

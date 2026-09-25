@@ -6,13 +6,11 @@ import { createDb, createLogger, createPool } from '@eunice/platform';
 import { connectNats, consume } from '@eunice/platform/nats';
 import type { Telemetry } from '@eunice/platform/telemetry';
 import { serve } from '@hono/node-server';
-import { mailpitMailer } from './adapters/email/mailpit.ts';
-import { resendMailer } from './adapters/email/resend.ts';
+import { smtpMailer } from './adapters/email/smtp.ts';
 import { createApp } from './adapters/http/app.ts';
 import { postgresDeliveryLog } from './adapters/postgres/deliveries.ts';
 import type { DB } from './adapters/postgres/schema.ts';
 import { makeNotify } from './application/notify.ts';
-import type { Mailer } from './application/ports.ts';
 import type { NotifierConfig } from './config.ts';
 
 /** Redelivery schedule: quick retries for a blip, then spaced out over about two hours. */
@@ -25,10 +23,12 @@ export async function start(config: NotifierConfig, telemetry: Telemetry) {
   const db = createDb<DB>(pool);
   const deliveries = postgresDeliveryLog(db);
 
-  const mailer: Mailer =
-    config.EMAIL_TRANSPORT === 'resend' && config.RESEND_API_KEY
-      ? resendMailer({ apiKey: config.RESEND_API_KEY, from: config.MAIL_FROM })
-      : mailpitMailer({ baseUrl: config.MAILPIT_URL ?? '', from: config.MAIL_FROM });
+  const mailer = smtpMailer({
+    host: config.SMTP_HOST,
+    port: config.SMTP_PORT,
+    requireTls: config.SMTP_REQUIRE_TLS,
+    from: config.MAIL_FROM,
+  });
 
   const notify = makeNotify({
     mailer,
@@ -83,7 +83,7 @@ export async function start(config: NotifierConfig, telemetry: Telemetry) {
     },
   });
   const server = serve({ fetch: app.fetch, port: config.PORT }, (info) =>
-    log.info({ port: info.port, env: config.SITE_ENV, transport: config.EMAIL_TRANSPORT }, 'notifier ready'),
+    log.info({ port: info.port, env: config.SITE_ENV, smtp: config.SMTP_HOST }, 'notifier ready'),
   );
 
   let stopping = false;

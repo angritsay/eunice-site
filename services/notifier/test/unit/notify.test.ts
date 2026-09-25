@@ -62,7 +62,7 @@ describe('notify', () => {
 
   it('retries when the provider is having a bad moment', async () => {
     const { notify, delivered } = setup(async () => {
-      throw new Error('api.resend.com answered 503');
+      throw new Error('smtp-relay.gmail.com: 421 try again later');
     });
     expect(await notify(bytes(event()), first)).toBe('retry');
     expect(delivered.size).toBe(0);
@@ -70,7 +70,7 @@ describe('notify', () => {
 
   it('gives up, loudly, when retrying cannot help', async () => {
     const { notify, log } = setup(async () => {
-      throw new PermanentMailError('api.resend.com answered 422');
+      throw new PermanentMailError('smtp-relay.gmail.com: 552 message rejected');
     });
     expect(await notify(bytes(event()), first)).toBe('reject');
     expect(log.error).toHaveBeenCalledWith(

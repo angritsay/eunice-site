@@ -10,8 +10,7 @@ const env = {
   CAREERS_INBOX: 'careers@eunice.ai',
   MAIL_FROM: 'Eunice site <notify@notify.eunice.ai>',
   SITE_URL: 'https://eunice.ai',
-  EMAIL_TRANSPORT: 'mailpit',
-  MAILPIT_URL: 'http://mailpit:8025',
+  SMTP_HOST: 'smtp-relay.gmail.com',
 };
 
 describe('notifier configuration', () => {
@@ -22,9 +21,16 @@ describe('notifier configuration', () => {
     });
   });
 
-  it('refuses to run in production without a real email provider', () => {
-    expect(() => loadConfig(notifierConfig, { ...env, SITE_ENV: 'production' })).toThrow(/EMAIL_TRANSPORT/);
-    expect(() => loadConfig(notifierConfig, { ...env, EMAIL_TRANSPORT: 'resend' })).toThrow(/RESEND_API_KEY/);
+  it('sends over TLS on port 587 unless told otherwise', () => {
+    expect(loadConfig(notifierConfig, env)).toMatchObject({ SMTP_PORT: 587, SMTP_REQUIRE_TLS: true });
+    expect(loadConfig(notifierConfig, { ...env, SMTP_REQUIRE_TLS: 'false' }).SMTP_REQUIRE_TLS).toBe(false);
+  });
+
+  it('refuses to send lead details unencrypted in production', () => {
+    expect(() => loadConfig(notifierConfig, { ...env, SITE_ENV: 'production', SMTP_REQUIRE_TLS: 'false' })).toThrow(
+      /SMTP_REQUIRE_TLS/,
+    );
+    expect(loadConfig(notifierConfig, { ...env, SITE_ENV: 'production' }).SMTP_REQUIRE_TLS).toBe(true);
   });
 
   it('refuses a sender that could inject a header', () => {
