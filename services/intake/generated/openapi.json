@@ -1,0 +1,1113 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Eunice intake",
+    "version": "1.0.0",
+    "description": "Receives form submissions from eunice.ai. Errors are RFC 9457 problem details."
+  },
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "SubmissionAccepted": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Quote this when asking about a submission."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "received"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "status"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "A URI identifying the kind of problem, or \"about:blank\"."
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 400,
+            "maximum": 599
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "message"
+              ]
+            },
+            "description": "Which inputs were rejected, for 400s."
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "status"
+        ],
+        "description": "RFC 9457 problem details"
+      },
+      "SubmissionRequest": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "variant": {
+                "type": "string",
+                "enum": [
+                  "general"
+                ]
+              },
+              "fields": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email"
+                  },
+                  "company": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  }
+                },
+                "required": [
+                  "name",
+                  "email"
+                ],
+                "additionalProperties": false
+              },
+              "entry": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "pattern": "^([a-z0-9-]+\\/)*$"
+                  },
+                  "placement": {
+                    "type": "string",
+                    "enum": [
+                      "nav",
+                      "hero",
+                      "body",
+                      "band",
+                      "roles",
+                      "closing",
+                      "footer"
+                    ]
+                  },
+                  "audience": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z-]{0,39}$"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  }
+                },
+                "required": [
+                  "page",
+                  "placement"
+                ],
+                "additionalProperties": false
+              },
+              "attribution": {
+                "type": "object",
+                "properties": {
+                  "referrer": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "utm": {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "medium": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "campaign": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "term": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "content": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "website": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "elapsedMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400000
+              }
+            },
+            "required": [
+              "variant",
+              "fields",
+              "entry",
+              "elapsedMs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "variant": {
+                "type": "string",
+                "enum": [
+                  "private-markets"
+                ]
+              },
+              "fields": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email"
+                  },
+                  "company": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "fund": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  }
+                },
+                "required": [
+                  "name",
+                  "email"
+                ],
+                "additionalProperties": false
+              },
+              "entry": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "pattern": "^([a-z0-9-]+\\/)*$"
+                  },
+                  "placement": {
+                    "type": "string",
+                    "enum": [
+                      "nav",
+                      "hero",
+                      "body",
+                      "band",
+                      "roles",
+                      "closing",
+                      "footer"
+                    ]
+                  },
+                  "audience": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z-]{0,39}$"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  }
+                },
+                "required": [
+                  "page",
+                  "placement"
+                ],
+                "additionalProperties": false
+              },
+              "attribution": {
+                "type": "object",
+                "properties": {
+                  "referrer": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "utm": {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "medium": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "campaign": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "term": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "content": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "website": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "elapsedMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400000
+              }
+            },
+            "required": [
+              "variant",
+              "fields",
+              "entry",
+              "elapsedMs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "variant": {
+                "type": "string",
+                "enum": [
+                  "digital-assets"
+                ]
+              },
+              "fields": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email"
+                  },
+                  "company": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "token": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  }
+                },
+                "required": [
+                  "name",
+                  "email"
+                ],
+                "additionalProperties": false
+              },
+              "entry": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "pattern": "^([a-z0-9-]+\\/)*$"
+                  },
+                  "placement": {
+                    "type": "string",
+                    "enum": [
+                      "nav",
+                      "hero",
+                      "body",
+                      "band",
+                      "roles",
+                      "closing",
+                      "footer"
+                    ]
+                  },
+                  "audience": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z-]{0,39}$"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  }
+                },
+                "required": [
+                  "page",
+                  "placement"
+                ],
+                "additionalProperties": false
+              },
+              "attribution": {
+                "type": "object",
+                "properties": {
+                  "referrer": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "utm": {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "medium": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "campaign": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "term": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "content": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "website": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "elapsedMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400000
+              }
+            },
+            "required": [
+              "variant",
+              "fields",
+              "entry",
+              "elapsedMs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "variant": {
+                "type": "string",
+                "enum": [
+                  "token-disclosure"
+                ]
+              },
+              "fields": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email"
+                  },
+                  "company": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "token": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "jurisdiction": {
+                    "type": "string",
+                    "enum": [
+                      "EU — MiCA",
+                      "United Kingdom",
+                      "Singapore — MAS",
+                      "UAE — VARA",
+                      "Not decided yet"
+                    ]
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  }
+                },
+                "required": [
+                  "name",
+                  "email"
+                ],
+                "additionalProperties": false
+              },
+              "entry": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "pattern": "^([a-z0-9-]+\\/)*$"
+                  },
+                  "placement": {
+                    "type": "string",
+                    "enum": [
+                      "nav",
+                      "hero",
+                      "body",
+                      "band",
+                      "roles",
+                      "closing",
+                      "footer"
+                    ]
+                  },
+                  "audience": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z-]{0,39}$"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  }
+                },
+                "required": [
+                  "page",
+                  "placement"
+                ],
+                "additionalProperties": false
+              },
+              "attribution": {
+                "type": "object",
+                "properties": {
+                  "referrer": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "utm": {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "medium": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "campaign": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "term": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "content": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "website": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "elapsedMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400000
+              }
+            },
+            "required": [
+              "variant",
+              "fields",
+              "entry",
+              "elapsedMs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "variant": {
+                "type": "string",
+                "enum": [
+                  "sample-report"
+                ]
+              },
+              "fields": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email"
+                  },
+                  "company": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  }
+                },
+                "required": [
+                  "name",
+                  "email"
+                ],
+                "additionalProperties": false
+              },
+              "entry": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "pattern": "^([a-z0-9-]+\\/)*$"
+                  },
+                  "placement": {
+                    "type": "string",
+                    "enum": [
+                      "nav",
+                      "hero",
+                      "body",
+                      "band",
+                      "roles",
+                      "closing",
+                      "footer"
+                    ]
+                  },
+                  "audience": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z-]{0,39}$"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  }
+                },
+                "required": [
+                  "page",
+                  "placement"
+                ],
+                "additionalProperties": false
+              },
+              "attribution": {
+                "type": "object",
+                "properties": {
+                  "referrer": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "utm": {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "medium": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "campaign": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "term": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "content": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "website": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "elapsedMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400000
+              }
+            },
+            "required": [
+              "variant",
+              "fields",
+              "entry",
+              "elapsedMs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "variant": {
+                "type": "string",
+                "enum": [
+                  "careers"
+                ]
+              },
+              "fields": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "format": "email"
+                  },
+                  "link": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "format": "uri"
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "link",
+                  "message"
+                ],
+                "additionalProperties": false
+              },
+              "entry": {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "pattern": "^([a-z0-9-]+\\/)*$"
+                  },
+                  "placement": {
+                    "type": "string",
+                    "enum": [
+                      "nav",
+                      "hero",
+                      "body",
+                      "band",
+                      "roles",
+                      "closing",
+                      "footer"
+                    ]
+                  },
+                  "audience": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z-]{0,39}$"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "pattern": "^[^\\r\\n]*$"
+                  }
+                },
+                "required": [
+                  "page",
+                  "placement"
+                ],
+                "additionalProperties": false
+              },
+              "attribution": {
+                "type": "object",
+                "properties": {
+                  "referrer": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "utm": {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "medium": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "campaign": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "term": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      },
+                      "content": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[^\\r\\n]*$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "website": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "elapsedMs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 86400000
+              }
+            },
+            "required": [
+              "variant",
+              "fields",
+              "entry",
+              "elapsedMs"
+            ],
+            "additionalProperties": false
+          }
+        ],
+        "description": "A form submitted on the site. `fields` is validated against the chosen `variant`."
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/v1/submissions": {
+      "post": {
+        "tags": [
+          "Submissions"
+        ],
+        "summary": "Submit a form",
+        "description": "Stores a form submission and announces it to the rest of the system. Retrying with the same `Idempotency-Key` returns the original result instead of creating a second submission.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "A UUID generated when the form was opened. Reused on retry."
+            },
+            "required": true,
+            "description": "A UUID generated when the form was opened. Reused on retry.",
+            "name": "idempotency-key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmissionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Stored, or recognised as a retry of a stored submission.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmissionAccepted"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The submission did not validate. `errors` says which fields.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The Idempotency-Key was already used for a different submission.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many submissions from this address. See Retry-After.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/admin/erasures": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Erase everything held for an email address",
+        "description": "GDPR Art. 17. Deletes every submission, and any unpublished event, for the address.",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Done.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deleted": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "deleted"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong admin token.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}

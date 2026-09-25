@@ -27,7 +27,7 @@ export default {
       <h3 class="h4">${esc(r.title)}</h3>
       <span class="caption muted">${esc(r.where)}</span>
       <p class="small">${esc(r.what)}</p>
-      <button type="button" class="btn btn--dark btn--sm" data-role="${esc(r.title)}">Apply</button>
+      ${button(ctx, { label: 'Apply', small: true, form: 'careers', placement: 'roles', role: r.title })}
     </li>`).join('')}
   </ul>
 </section>
@@ -60,7 +60,7 @@ ${cta(ctx, {
   title: 'Apply, or just write',
   text: 'Send a CV or a link to something you built, and two lines on why regulated finance. We answer everyone.',
   buttons: [
-    { label: 'Email the team', kind: 'outline-light', role: 'general' },
+    { label: 'Email the team', kind: 'outline-light', form: 'careers' },
     { label: 'Apply', kind: 'light', to: 'careers', hash: 'roles' },
   ],
 })}

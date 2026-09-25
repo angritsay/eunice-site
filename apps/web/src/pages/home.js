@@ -15,7 +15,7 @@ export default {
     <h1 class="h1">Due diligence<br>for regulated finance.</h1>
     <p class="lead">Every output sourced, checked, and monitored, across disclosure and risk assessment.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Talk to us', talk: 'general' })}
+      ${button(ctx, { label: 'Talk to us', form: 'general', placement: 'hero' })}
       ${button(ctx, { label: 'See how it works', kind: 'outline', to: '', hash: 'products' })}
     </div>
   </div>
@@ -71,7 +71,7 @@ ${eventsBlock(ctx, { label: 'Where we have been', aside: 'Talks, panels and dele
 ${cta(ctx, {
   title: 'Bring us the fund, or the token, you are reviewing now',
   text: 'A thirty-minute call with the desk that would run it. We show you what Eunice reads and what it returns; you decide.',
-  buttons: [{ label: 'Talk to us', kind: 'light', talk: 'general' }],
+  buttons: [{ label: 'Talk to us', kind: 'light', form: 'general' }],
 })}`,
 };
 

@@ -39,7 +39,7 @@ Every dependency comes in under these controls:
 | Control | Where | What it stops |
 |---|---|---|
 | Exact versions, committed lockfile, `--frozen-lockfile` in CI | `package.json`, `pnpm-lock.yaml`, `ci.yml` | A build silently picking up a different version than the one reviewed |
-| Install scripts blocked unless named | `onlyBuiltDependencies` in `pnpm-workspace.yaml` | A package running code on every developer machine and CI runner at install |
+| Install scripts blocked unless named | `allowBuilds` in `pnpm-workspace.yaml` | A package running code on every developer machine and CI runner at install |
 | 3-day release quarantine | `minimumReleaseAge` in `pnpm-workspace.yaml` | Installing a compromised release in the window before it is caught and pulled. Verified: pnpm refuses a `@playwright/test` pre-release published the day before |
 | 7-day update cooldown, grouped weekly | `.github/dependabot.yml` | The same risk, through automated update PRs |
 | A dependency is justified in the PR that adds it | review | Accumulation of packages nobody chose on purpose |
@@ -50,3 +50,13 @@ Every dependency comes in under these controls:
 - The first dependencies are test tooling only (`@playwright/test`, `@axe-core/playwright`).
   Nothing reaches the browser.
 - `CLAUDE.md` is updated to state the new rule.
+
+## Amendment, 2026-09-25
+
+pnpm 12 replaced `onlyBuiltDependencies` with `allowBuilds`, a map in which every package
+that ships an install script must be named with `true` or `false`; an unnamed one fails the
+install. The three present today (`protobufjs` via OpenTelemetry, `ssh2` and `cpu-features`
+via Testcontainers) are all `false`: none needs its script to work for how we use it. The
+control is unchanged in intent and now stricter — a new install script cannot slip in
+unnoticed.
+

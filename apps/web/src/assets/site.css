@@ -1,5 +1,12 @@
 /* Eunice site — one stylesheet. Tokens first; change a token, not a rule. */
 
+/* Fonts are served from this site (OFL, see fonts/OFL-*.txt): latin subset, the two
+   weights the type roles use. No third-party request on a page view. */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('fonts/inter-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('fonts/inter-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 400; font-display: swap; src: url('fonts/manrope-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Manrope'; font-style: normal; font-weight: 500; font-display: swap; src: url('fonts/manrope-latin-500-normal.woff2') format('woff2'); }
+
 :root {
   /* Ground and ink. The master brand is plain black on white; no warm greys. */
   --white: #ffffff;
@@ -377,6 +384,13 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 .dialog__done { display: none; }
 .dialog.is-done .form, .dialog.is-done .dialog__lead { display: none; }
 .dialog.is-done .dialog__done { display: block; }
+/* One fieldset per form variant; only the active one is enabled, shown and submitted. */
+.form__fields { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; border: 0; margin: 0; padding: 0; min-width: 0; }
+.form__fields[hidden] { display: none; }
+/* The honeypot: present for bots that fill every input, absent for everyone else. */
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.field [aria-invalid="true"] { border-color: #b3261e; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
@@ -451,7 +465,7 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 
 @media (max-width: 600px) {
   .nav .btn--dark { display: none; }
-  .grid--2, .grid--3, .grid--4, .grid--5, .grid--6, .steps, .form { grid-template-columns: minmax(0, 1fr); }
+  .grid--2, .grid--3, .grid--4, .grid--5, .grid--6, .steps, .form, .form__fields { grid-template-columns: minmax(0, 1fr); }
   .shead { flex-direction: column; gap: 6px; }
   .irow { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .irow__tag { text-align: left; order: -1; }

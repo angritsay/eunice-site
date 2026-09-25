@@ -1,0 +1,13 @@
+{
+  "name": "@eunice/e2e",
+  "private": true,
+  "type": "module",
+  "description": "End-to-end tests against the whole system running under docker compose",
+  "scripts": {
+    "e2e": "playwright test",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

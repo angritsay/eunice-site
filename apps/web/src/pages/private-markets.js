@@ -19,7 +19,7 @@ export default {
     <p class="lead">Eunice reads the dataroom against your ODD checklist, cites every finding to its page and asks the same questions again each quarter. Our team runs the process with you.</p>
     <p class="lead">Eunice was built in London, the city that invented the modern investment fund, pioneered institutional venture capital, and wrote the rules of underwriting syndication the industry still runs on. We hold ourselves to the same standard the world now measures private markets by.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Talk to us', talk: DESK })}
+      ${button(ctx, { label: 'Talk to us', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'How it works', kind: 'outline', to: DESK, hash: 'odd' })}
     </div>
   </div>
@@ -95,7 +95,7 @@ ${eventsBlock(ctx, { label: 'Events', aside: 'Where the desk will be, and where 
 ${cta(ctx, {
   title: 'Talk to us about the fund you are reviewing now',
   text: 'A thirty-minute call with the desk. Bring the fund; we show you what Eunice reads, what it returns and how the quarterly cycle runs.',
-  buttons: [{ label: 'Talk to us', kind: 'light', talk: DESK }],
+  buttons: [{ label: 'Talk to us', kind: 'light', form: DESK }],
 })}`,
 };
 

@@ -4,10 +4,21 @@ packages:
   - apps/*
   - services/*
   - packages/*
+  - e2e
 
 # Refuse versions published in the last 3 days: most malicious releases are caught
 # and yanked inside that window.
 minimumReleaseAge: 4320
 
-# Install scripts are blocked by default. Anything that needs one is named here.
-onlyBuiltDependencies: []
+# Install scripts. Nothing runs code at install time unless it is named here as true.
+# A package with a script that is not listed fails the install, so a new one cannot
+# slip in unnoticed: each entry is a script someone has read and decided about.
+allowBuilds:
+  # Via OpenTelemetry. Its postinstall only prints a version-scheme warning; the
+  # library works without it.
+  protobufjs: false
+  # Via testcontainers (test-only), for reaching a Docker host over SSH, which we never
+  # do. ssh2's script compiles an optional native crypto binding and has a pure-JS
+  # fallback; cpu-features is its optional C++ helper, built with node-gyp.
+  ssh2: false
+  cpu-features: false

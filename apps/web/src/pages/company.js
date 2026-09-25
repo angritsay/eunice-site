@@ -65,7 +65,7 @@ ${cta(ctx, {
   title: 'Come and build it',
   text: 'Three open roles in London, remote-friendly. Your work ships into regulated financial workflows, where every output has to be defensible.',
   buttons: [
-    { label: 'Email the team', kind: 'outline-light', role: 'general' },
+    { label: 'Email the team', kind: 'outline-light', form: 'careers' },
     { label: 'See open roles', kind: 'light', to: 'careers', hash: 'roles' },
   ],
 })}`,

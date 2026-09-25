@@ -18,8 +18,8 @@ export default {
     <h1 class="h1">End to end listing</h1>
     <p class="lead">Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Talk to us', talk: DESK })}
-      ${button(ctx, { label: 'See a sample report', kind: 'outline', talk: 'sample-report' })}
+      ${button(ctx, { label: 'Talk to us', form: DESK, placement: 'hero' })}
+      ${button(ctx, { label: 'See a sample report', kind: 'outline', form: 'sample-report', placement: 'hero' })}
     </div>
   </div>
   <div class="hero__visual">${plate(ctx, { img: 'da-hero.png', alt: 'Due diligence reports, searching for a token', bleed: true })}</div>
@@ -68,7 +68,7 @@ ${feature({
     <p class="body">The other side of the same desk. A MiCA white paper drafted from the library of 1,000+ pre-filled papers, reviewed by CMS where a legal opinion is needed, notified to the authority and hosted on a public page any exchange can check. UK token classification with gunnercooke since July 2026.</p>
     <div class="buttons">
       ${button(ctx, { label: 'See Token Disclosure', to: 'token-disclosure' })}
-      ${button(ctx, { label: 'Start a white paper', kind: 'outline', talk: 'token-disclosure' })}
+      ${button(ctx, { label: 'Start a white paper', kind: 'outline', form: 'token-disclosure', placement: 'band' })}
     </div>
   </div>
   <div class="feature__visual">${plate(ctx, { img: 'da-token-disclosure.png', alt: 'A hosted MiCAR white paper' })}</div>
@@ -85,8 +85,8 @@ ${cta(ctx, {
   title: 'Put one asset through it',
   text: 'Pick a token you are reviewing now. We will run it and show you the report and the monitoring feed side by side.',
   buttons: [
-    { label: 'See a sample report', kind: 'outline-light', talk: 'sample-report' },
-    { label: 'Talk to us', kind: 'light', talk: DESK },
+    { label: 'See a sample report', kind: 'outline-light', form: 'sample-report' },
+    { label: 'Talk to us', kind: 'light', form: DESK },
   ],
 })}`,
 };

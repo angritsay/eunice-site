@@ -36,6 +36,31 @@ pnpm test:web           # the site in a real browser: see below
 
 Every pull request runs the build and the web tests; `main` deploys only what passed, then checks the live URLs (`.github/workflows/ci.yml`). A daily run rebuilds so dated content stays current. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
 
+## The whole system, locally
+
+The forms post to **intake**, a small service that stores each submission and announces it
+to the rest of the system ([services/](services/), decisions in [docs/adr/](docs/adr/)).
+One command runs it all — Postgres, migrations, intake, the site behind a Caddy edge with a
+strict CSP, and Jaeger for traces:
+
+```
+docker compose up --build --wait
+open http://localhost:8080                  # the site; its forms submit for real
+open http://localhost:8080/api/intake/docs  # the API, from its OpenAPI document
+open http://localhost:16686                 # one trace per submission, down to the SQL
+pnpm test:e2e                               # forms from three entry points, in a browser
+docker compose down -v                      # stop, and delete the local data
+```
+
+No `.env` is needed; `.env.example` lists what can be changed.
+
+| Command | Runs |
+| --- | --- |
+| `pnpm check` | Biome, strict TypeScript everywhere, architecture rules |
+| `pnpm --filter './packages/*' --filter './services/*' test` | Unit tests, no containers |
+| `pnpm --filter @eunice/intake test:integration` | intake against real Postgres 18 (Testcontainers) |
+| `pnpm openapi` | Regenerates `services/intake/generated/openapi.json`; CI fails if it is stale |
+
 ## Tests
 
 `pnpm test:web` builds nothing itself — run `pnpm build` first — then checks, on every page:
@@ -57,6 +82,6 @@ Every pull request runs the build and the web tests; `main` deploys only what pa
 - **The copy on the personalised pages is a first draft.** The ten client-type pages were written from material already on the site rather than by the desks. No new claims or numbers, but they need the desks' own words before anyone points a client at them.
 - Real assets: team portraits, and the Private Markets Documents and Portfolio screenshots (currently drawn in HTML as stand-ins). Product images in `apps/web/src/assets/img/` were cropped from page exports and should be replaced with full-resolution originals. The master logo and the City of London and Mayfair photographs are in.
 - Bios for Yi, Philip and Chrislyn; the text of the 4 September note.
-- Contact: confirm `contactEmail` / `careersEmail`, and pick a form service for `formEndpoint` (until then the form opens the visitor's mail app).
+- Contact: confirm `contactEmail` / `careersEmail`. The live form keeps opening the visitor's mail app until intake is deployed and a privacy notice is published; the production build refuses a form endpoint without one ([ADR-0007](docs/adr/0007-personal-data-in-intake.md)).
 - Links for each insight (`url` field) once the articles move over from Framer.
 - DNS: point `eunice.ai` at GitHub Pages and set `BASE_PATH` back to `/`.

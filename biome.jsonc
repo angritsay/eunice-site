@@ -21,9 +21,9 @@
   "overrides": [
     {
       // The generator and the site's own assets predate this config. They come under
-      // it when they are rewritten — site.js with the forms registry (P2), the
-      // generator in the TypeScript conversion (P7) — so this move stays a pure move.
-      "includes": ["apps/web/src/**", "apps/web/build.mjs"],
+      // it when they are rewritten: site.js and forms.js already have been (P2); the
+      // rest of the generator follows in the TypeScript conversion (P7).
+      "includes": ["apps/web/src/**", "!apps/web/src/assets/site.js", "!apps/web/src/forms.js", "apps/web/build.mjs"],
       "formatter": { "enabled": false },
       "linter": { "enabled": false },
       "assist": { "enabled": false }
