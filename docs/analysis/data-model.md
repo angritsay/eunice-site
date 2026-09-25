@@ -13,7 +13,6 @@ erDiagram
     text fingerprint "sha256 of variant, fields, entry"
     text variant "general, private-markets, ..."
     text desk
-    text queue "leads | careers"
     text name "personal"
     text email "personal"
     text company "personal, optional"
@@ -22,7 +21,6 @@ erDiagram
     text entry_page
     text entry_placement
     text entry_audience
-    text entry_role
     text referrer
     jsonb utm
     timestamptz received_at

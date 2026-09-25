@@ -38,7 +38,6 @@ export function makeSubmit(deps: SubmitDeps) {
     const submission = toSubmission({
       variant: v.id,
       desk: v.desk,
-      queue: v.queue,
       fields: request.fields,
       entry: request.entry,
       ...(request.attribution ? { attribution: request.attribution } : {}),
@@ -66,7 +65,6 @@ export function makeSubmit(deps: SubmitDeps) {
             submissionId: id,
             variant: submission.variant,
             desk: submission.desk,
-            queue: submission.queue,
             receivedAt: receivedAt.toISOString(),
             contact: submission.contact,
             details: submission.details,

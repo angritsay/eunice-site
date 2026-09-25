@@ -39,9 +39,6 @@ Parameters:
   OpsInbox:
     Type: String
     Default: ops@eunice.ai
-  CareersInbox:
-    Type: String
-    Default: careers@eunice.ai
   MailFrom:
     Type: String
     Default: Eunice site <notify@eunice.ai>
@@ -170,9 +167,6 @@ Resources:
   ParamOpsInbox:
     Type: AWS::SSM::Parameter
     Properties: { Name: /eunice-site/prod/config/OPS_INBOX, Type: String, Value: !Ref OpsInbox }
-  ParamCareersInbox:
-    Type: AWS::SSM::Parameter
-    Properties: { Name: /eunice-site/prod/config/CAREERS_INBOX, Type: String, Value: !Ref CareersInbox }
   ParamMailFrom:
     Type: AWS::SSM::Parameter
     Properties: { Name: /eunice-site/prod/config/MAIL_FROM, Type: String, Value: !Ref MailFrom }

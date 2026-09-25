@@ -557,20 +557,26 @@ export const partners = content('partners', z.array(z.string().min(1)), [
 export const roles = content('roles', z.array(Role), [
   {
     id: 'gtm-da',
+    slug: 'gtm-lead-digital-assets',
     title: 'GTM Lead, Digital Assets',
     where: 'London · remote-friendly',
     what: 'Own the exchange, custodian and market-maker pipeline. You have sold into a risk or compliance team before.',
+    applyUrl: 'https://tally.so/r/VLdQOv',
   },
   {
     id: 'impl-pm',
+    slug: 'client-implementation-consultant-private-markets',
     title: 'Client Implementation Consultant, Private Markets',
     where: 'London · remote-friendly',
     what: 'Sit with LPs and fund managers while Eunice reads their first dataroom. You have run diligence yourself.',
+    applyUrl: 'https://tally.so/r/1Axdpb',
   },
   {
     id: 'eng',
+    slug: 'software-ai-engineer',
     title: 'Senior Software / AI Engineer',
     where: 'London · remote-friendly',
     what: 'Your code ships into regulated financial workflows, where every output has to be defensible.',
+    applyUrl: 'https://tally.so/r/PdBqJQ',
   },
 ]);

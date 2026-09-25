@@ -4,7 +4,6 @@
 export interface Lead {
   readonly submissionId: string;
   readonly desk: string;
-  readonly queue: 'leads' | 'careers';
   readonly receivedAt: Date;
   readonly contact: { readonly name: string; readonly email: string; readonly company?: string | undefined };
   readonly details: Readonly<Record<string, string>>;
@@ -13,7 +12,6 @@ export interface Lead {
     readonly page: string;
     readonly placement: string;
     readonly audience?: string | undefined;
-    readonly role?: string | undefined;
   };
   readonly attribution?:
     | {

@@ -15,8 +15,6 @@ export interface Email {
 export interface Routing {
   /** Business operations: every lead. */
   readonly opsInbox: string;
-  /** Hiring: every application. */
-  readonly careersInbox: string;
   /** The site's origin, to turn a page path into a link, e.g. https://eunice.ai */
   readonly siteUrl: string;
 }
@@ -36,13 +34,12 @@ const table = (rows: readonly (readonly [string, string | undefined])[]) => {
 };
 
 export function subjectFor(lead: Lead): string {
-  const where = [lead.desk, lead.entry.audience, lead.entry.role, lead.entry.placement].filter(Boolean).join(' · ');
+  const where = [lead.desk, lead.entry.audience, lead.entry.placement].filter(Boolean).join(' · ');
   const who = lead.contact.company ? `${lead.contact.name} — ${lead.contact.company}` : lead.contact.name;
   return oneLine(`[${where}] ${who}`, 200);
 }
 
 export function composeEmail(lead: Lead, routing: Routing): Email {
-  const isApplication = lead.queue === 'careers';
   const first = lead.contact.name.split(/\s+/)[0] ?? lead.contact.name;
   const pageUrl = new URL(lead.entry.page, `${routing.siteUrl.replace(/\/$/, '')}/`).toString();
   const utm = Object.entries(lead.attribution?.utm ?? {})
@@ -51,9 +48,7 @@ export function composeEmail(lead: Lead, routing: Routing): Email {
     .join(', ');
 
   const sections = [
-    isApplication
-      ? `New application${lead.entry.role ? ` for ${lead.entry.role}` : ''}.`
-      : `New lead for the ${lead.desk} desk.`,
+    `New lead for the ${lead.desk} desk.`,
     table([
       ['Name', lead.contact.name],
       ['Email', lead.contact.email],
@@ -65,7 +60,6 @@ export function composeEmail(lead: Lead, routing: Routing): Email {
       ['Page', pageUrl],
       ['Button', lead.entry.placement],
       ['Audience', lead.entry.audience],
-      ['Role', lead.entry.role],
       ['Referrer', lead.attribution?.referrer],
       ['Campaign', utm || undefined],
     ])}`,
@@ -73,7 +67,7 @@ export function composeEmail(lead: Lead, routing: Routing): Email {
   ];
 
   return {
-    to: isApplication ? routing.careersInbox : routing.opsInbox,
+    to: routing.opsInbox,
     replyTo: { email: lead.contact.email, name: oneLine(lead.contact.name) },
     subject: subjectFor(lead),
     text: `${sections.filter(Boolean).join('\n\n')}\n`,

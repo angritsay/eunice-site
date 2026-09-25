@@ -27,7 +27,6 @@ afterAll(async () => {
 const submission = (email = 'jane@acme.example'): NewSubmission => ({
   variant: 'token-disclosure',
   desk: 'Token Disclosure',
-  queue: 'leads',
   contact: { name: 'Jane Doe', email, company: 'Acme' },
   details: { token: 'ACME', jurisdiction: 'EU — MiCA' },
   message: 'Launching in Q1',

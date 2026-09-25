@@ -42,7 +42,7 @@
       "channel": {
         "$ref": "#/channels/submissionReceived"
       },
-      "summary": "notifier (durable consumer \"notifier\") emails the ops or careers inbox, once per event id.",
+      "summary": "notifier (durable consumer \"notifier\") emails the ops inbox, once per event id.",
       "messages": [
         {
           "$ref": "#/channels/submissionReceived/messages/SubmissionReceived"
@@ -123,13 +123,6 @@
                       "desk": {
                         "type": "string"
                       },
-                      "queue": {
-                        "type": "string",
-                        "enum": [
-                          "leads",
-                          "careers"
-                        ]
-                      },
                       "receivedAt": {
                         "type": "string",
                         "format": "date-time",
@@ -183,7 +176,6 @@
                               "hero",
                               "body",
                               "band",
-                              "roles",
                               "closing",
                               "footer"
                             ]
@@ -191,12 +183,6 @@
                           "audience": {
                             "type": "string",
                             "pattern": "^[a-z][a-z-]{0,39}$"
-                          },
-                          "role": {
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 120,
-                            "pattern": "^[^\\r\\n]*$"
                           }
                         },
                         "required": [
@@ -256,7 +242,6 @@
                       "submissionId",
                       "variant",
                       "desk",
-                      "queue",
                       "receivedAt",
                       "contact",
                       "details",

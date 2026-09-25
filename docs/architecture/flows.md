@@ -68,7 +68,7 @@ sequenceDiagram
   alt already delivered
     C-->>N: ack
   else new
-    C->>M: send (Message-ID = event id)<br/>To: OPS_INBOX or CAREERS_INBOX, Reply-To: lead
+    C->>M: send (Message-ID = event id)<br/>To: OPS_INBOX, Reply-To: lead
     M->>O: [Private Markets · lps · hero] Jane Doe — Acme Capital
     C->>L: record event id
     C-->>N: ack (message deleted)

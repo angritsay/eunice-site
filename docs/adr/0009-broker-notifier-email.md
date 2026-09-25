@@ -41,8 +41,8 @@ checks that exactly one email arrives once the part is back.
 `Reply-To` is the lead, so a reply goes straight to them. The body lists every field, the
 page as a link, the referrer and the campaign, and the submission id. It is plain text
 only, because everything in it was typed by a stranger. Line breaks are removed from
-anything that goes into a header. Recipients come from configuration only: leads go to
-`OPS_INBOX`, applications to `CAREERS_INBOX`. The client never chooses an address, so the
+anything that goes into a header. Recipients come from configuration only: every lead goes to
+`OPS_INBOX` (job applications are no longer taken by the site). The client never chooses an address, so the
 form cannot be used as a relay.
 
 **One `Mailer` port, two HTTP adapters.** Mailpit's send API locally and in CI, where

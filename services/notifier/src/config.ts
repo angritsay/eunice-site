@@ -17,8 +17,6 @@ export const notifierConfig = baseConfig
     NATS_URL: z.url(),
     /** Business operations: every lead goes here. */
     OPS_INBOX: z.email(),
-    /** Hiring: every application goes here. */
-    CAREERS_INBOX: z.email(),
     MAIL_FROM: mailbox,
     /** The site's origin, for links in the email. */
     SITE_URL: z.url(),

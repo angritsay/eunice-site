@@ -88,7 +88,6 @@ services:
       DATABASE_URL: postgres://notifier_app:${NOTIFIER_APP_PASSWORD}@postgres:5432/eunice
       NATS_URL: nats://nats:4222
       OPS_INBOX: ${OPS_INBOX}
-      CAREERS_INBOX: ${CAREERS_INBOX}
       MAIL_FROM: ${MAIL_FROM}
       SITE_URL: ${SITE_URL}
       # Google Workspace SMTP relay: accepts mail only from this instance's Elastic IP,

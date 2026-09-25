@@ -2,6 +2,7 @@ import { button, cta, peopleGrid, plate, quoteBlock, sectionHead } from '../comp
 import { quotes, roles } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
+import config from '../site.config.ts';
 
 export default {
   slug: 'careers',
@@ -31,7 +32,7 @@ export default {
       <h3 class="h4">${r.title}</h3>
       <span class="caption muted">${r.where}</span>
       <p class="small">${r.what}</p>
-      ${button(ctx, { label: 'Apply', small: true, form: 'careers', placement: 'roles', role: r.title })}
+      ${button(ctx, { label: 'Apply', small: true, href: r.applyUrl, newTab: true })}
     </li>`,
   )}
   </ul>
@@ -68,11 +69,11 @@ export default {
 </div></section>
 
 ${cta(ctx, {
-  title: 'Apply, or just write',
-  text: 'Send a CV or a link to something you built, and two lines on why regulated finance. We answer everyone.',
+  title: 'Your role is not listed?',
+  text: `Write to ${config.careersEmail} with a CV or a link to something you built, and two lines on why regulated finance. We answer everyone.`,
   buttons: [
-    { label: 'Email the team', kind: 'outline-light', form: 'careers' },
-    { label: 'Apply', kind: 'light', to: 'careers', hash: 'roles' },
+    { label: 'Email the team', kind: 'outline-light', href: `mailto:${config.careersEmail}` },
+    { label: 'See the roles', kind: 'light', to: 'careers', hash: 'roles' },
   ],
 })}
 

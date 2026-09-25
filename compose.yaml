@@ -92,7 +92,6 @@ services:
       DATABASE_URL: postgres://notifier_app:${NOTIFIER_APP_PASSWORD:-local-notifier-app}@postgres:5432/eunice
       NATS_URL: nats://nats:4222
       OPS_INBOX: ${OPS_INBOX:-ops@eunice.local}
-      CAREERS_INBOX: ${CAREERS_INBOX:-careers@eunice.local}
       MAIL_FROM: Eunice site <notify@eunice.local>
       SITE_URL: http://localhost:${EDGE_PORT:-8080}
       # The same SMTP adapter production uses with Google Workspace's relay; Mailpit

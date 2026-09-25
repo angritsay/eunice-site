@@ -11,14 +11,13 @@ const KEY = '0199a0c2-7d7e-7c3e-9f5a-3c1f2b6d4e10';
 const ACCEPTED_ID = '0199a0c2-0000-7000-8000-000000000001';
 
 const body = {
-  variant: 'careers',
+  variant: 'token-disclosure',
   fields: {
     name: 'Jane Doe',
     email: 'jane@example.com',
-    link: 'https://github.com/jane',
-    message: 'I like hard problems.',
+    message: 'ACME, offered in the EU next quarter.',
   },
-  entry: { page: 'careers/', placement: 'roles', role: 'Founding engineer' },
+  entry: { page: 'token-disclosure/', placement: 'hero' },
   elapsedMs: 30_000,
 };
 
@@ -51,19 +50,19 @@ describe('POST /v1/submissions', () => {
     const res = await post(app, body);
     expect(res.status).toBe(202);
     expect(await res.json()).toEqual({ id: ACCEPTED_ID, status: 'received' });
-    expect(deps.submit).toHaveBeenCalledWith(expect.objectContaining({ variant: 'careers' }), KEY);
+    expect(deps.submit).toHaveBeenCalledWith(expect.objectContaining({ variant: 'token-disclosure' }), KEY);
   });
 
   it('names each rejected field in RFC 9457 problem details', async () => {
     const { app, deps } = setup();
     const res = await post(app, {
       ...body,
-      fields: { ...body.fields, link: 'http://insecure.example', email: 'nope' },
+      fields: { ...body.fields, name: 'Jane\r\nBcc: x@example.com', email: 'nope' },
     });
     expect(res.status).toBe(400);
     expect(res.headers.get('content-type')).toBe('application/problem+json');
     const problem = (await res.json()) as { errors: { path: string }[] };
-    expect(problem.errors.map((e) => e.path).sort()).toEqual(['fields.email', 'fields.link']);
+    expect(problem.errors.map((e) => e.path).sort()).toEqual(['fields.email', 'fields.name']);
     expect(deps.submit).not.toHaveBeenCalled();
   });
 

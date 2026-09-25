@@ -33,7 +33,7 @@ export async function start(config: NotifierConfig, telemetry: Telemetry) {
   const notify = makeNotify({
     mailer,
     deliveries,
-    routing: { opsInbox: config.OPS_INBOX, careersInbox: config.CAREERS_INBOX, siteUrl: config.SITE_URL },
+    routing: { opsInbox: config.OPS_INBOX, siteUrl: config.SITE_URL },
     clock: { now: () => new Date() },
     log,
   });

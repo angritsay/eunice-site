@@ -18,7 +18,7 @@ aws cloudformation deploy --region eu-west-2 --stack-name eunice-site \
   --parameter-overrides \
     VpcId=vpc-XXXXXXXX SubnetId=subnet-XXXXXXXX \
     AlertEmail=you@eunice.ai \
-    OpsInbox=ops@eunice.ai CareersInbox=careers@eunice.ai \
+    OpsInbox=ops@eunice.ai \
     MailFrom='Eunice site <notify@eunice.ai>'
 # If the account already trusts GitHub Actions (token.actions.githubusercontent.com),
 # add: CreateGitHubOidcProvider=false
@@ -44,8 +44,9 @@ Admin console → **Apps → Google Workspace → Gmail → Routing → SMTP rel
 | Require SMTP Authentication | Off (the IP is the authentication) |
 | Encryption | **Require TLS encryption**: on |
 
-Make sure `notify@eunice.ai` exists as a user or an alias, and that `ops@` and
-`careers@` receive mail.
+Make sure `notify@eunice.ai` exists as a user or an alias, and that `ops@` receives
+mail. (Job applications do not come through the site: each role links to its
+application form, and open applications go straight to `career@eunice.ai`.)
 
 ## 4. Connect GitHub to the stack (repository admin)
 

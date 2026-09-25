@@ -14,10 +14,15 @@ With a backend, the same definition exists twice — what the browser asks, and 
 server accepts. Two copies drift: a field added to one side is rejected, or silently
 dropped, by the other.
 
+*Update, Sep 2026:* every variant now asks the same three things — name, work email and
+an optional note — to make the forms quicker to send, and job applications moved to each
+role's own application form (Tally), so the `careers` variant is gone. The registry
+still decides the wording, the desk and validation, on both sides.
+
 ## Decision
 
 **One registry, `packages/contracts/src/forms/`, is the only definition.** Each *variant*
-(general, private-markets, digital-assets, token-disclosure, sample-report, careers)
+(general, private-markets, digital-assets, token-disclosure, sample-report)
 lists its fields; each field carries its label, input kind *and its zod schema*.
 
 - The site's build renders the dialog from it: one disabled `<fieldset>` per variant,

@@ -2,8 +2,6 @@
 // and where on the site they were when they did. No framework or wire-format types:
 // the application layer maps requests into this, so the model outlives both.
 
-export type Queue = 'leads' | 'careers';
-
 export interface Contact {
   readonly name: string;
   readonly email: string;
@@ -14,7 +12,6 @@ export interface EntryPoint {
   readonly page: string;
   readonly placement: string;
   readonly audience?: string | undefined;
-  readonly role?: string | undefined;
 }
 
 export interface Attribution {
@@ -25,9 +22,8 @@ export interface Attribution {
 export interface NewSubmission {
   readonly variant: string;
   readonly desk: string;
-  readonly queue: Queue;
   readonly contact: Contact;
-  /** The variant's own fields, e.g. { fund } or { token, jurisdiction }. */
+  /** Any fields a variant asks beyond name, email, company and message. */
   readonly details: Readonly<Record<string, string>>;
   readonly message?: string;
   readonly entry: EntryPoint;
@@ -41,7 +37,6 @@ const CONTACT_FIELDS = new Set(['name', 'email', 'company', 'message']);
 export function toSubmission(input: {
   variant: string;
   desk: string;
-  queue: Queue;
   fields: Readonly<Record<string, string | undefined>>;
   entry: EntryPoint;
   attribution?: Attribution;
@@ -54,7 +49,6 @@ export function toSubmission(input: {
   return {
     variant: input.variant,
     desk: input.desk,
-    queue: input.queue,
     contact: { name, email, ...(company ? { company } : {}) },
     details,
     ...(message ? { message } : {}),

@@ -25,13 +25,14 @@ const config: SiteConfig = {
   legalLine: 'Reasoon Limited, trading as Eunice · London · SOC 2 Type II · GDPR · FCA regulatory sandbox',
   tagline: 'Due diligence, disclosure and monitoring for regulated finance.',
 
-  // Where "Talk to us" and "Apply" submissions go. formEndpoint is intake's
-  // POST /v1/submissions; it is set per build with PUBLIC_FORM_ENDPOINT, and a production
-  // build refuses it until there is a privacy page (ADR-0007). While it is empty, the
-  // form opens the visitor's mail app addressed to contactEmail or careersEmail.
-  // TODO: confirm both addresses with the team before going live.
+  // Where "Talk to us" submissions go. formEndpoint is intake's POST /v1/submissions;
+  // it is set per build with PUBLIC_FORM_ENDPOINT, and a production build refuses it
+  // until there is a privacy page (ADR-0007). While it is empty, the form opens the
+  // visitor's mail app addressed to contactEmail. TODO: confirm it before going live.
   contactEmail: 'hello@eunice.ai',
-  careersEmail: 'careers@eunice.ai',
+  // Job applications go to each role's application form (roles in content/index.ts).
+  // This address is for everyone else who wants to work with us, as on eunice.ai.
+  careersEmail: 'career@eunice.ai',
   formEndpoint: '',
 
   // Path the site is served from. '/' on a custom domain (eunice.ai);

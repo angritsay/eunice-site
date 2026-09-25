@@ -25,4 +25,4 @@ its migrations and production dependencies, running as a non-root user.
 | Service | Owns | Status |
 | --- | --- | --- |
 | [intake](intake/) | Form submissions (personal data, with a purge date) and the events announcing them | Implemented |
-| [notifier](notifier/) | Nothing personal (a log of delivered event ids): turns a submission event into an email to the ops or careers inbox | Implemented |
+| [notifier](notifier/) | Nothing personal (a log of delivered event ids): turns a submission event into an email to the ops inbox | Implemented |

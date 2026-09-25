@@ -263,7 +263,7 @@
 <p class="small muted dialog__lead" data-lead>
 </p>
 <form class="form">
-<fieldset class="form__fields full" data-variant="general" data-title="Talk to us" data-lead="Tell us what you are reviewing. Someone from the right desk replies within one working day." data-queue="leads" hidden disabled>
+<fieldset class="form__fields full" data-variant="general" data-title="Talk to us" data-lead="Tell us what you are reviewing. Someone from the right desk replies within one working day." hidden disabled>
 <legend class="sr-only">Talk to us</legend>
 <label class="field">
 <span>Name</span>
@@ -274,16 +274,12 @@
 <input id="f-general-email" name="email" required autocomplete="email" type="email">
 </label>
 <label class="field full">
-<span>Firm</span>
-<input id="f-general-company" name="company" autocomplete="organization" type="text">
-</label>
-<label class="field full">
 <span>What would you like to cover?</span>
 <textarea id="f-general-message" name="message" placeholder="The fund, token or question you have in mind">
 </textarea>
 </label>
 </fieldset>
-<fieldset class="form__fields full" data-variant="private-markets" data-title="Talk to the Private Markets desk" data-lead="Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns." data-queue="leads" hidden disabled>
+<fieldset class="form__fields full" data-variant="private-markets" data-title="Talk to the Private Markets desk" data-lead="Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns." hidden disabled>
 <legend class="sr-only">Talk to the Private Markets desk</legend>
 <label class="field">
 <span>Name</span>
@@ -294,20 +290,12 @@
 <input id="f-private-markets-email" name="email" required autocomplete="email" type="email">
 </label>
 <label class="field full">
-<span>Firm</span>
-<input id="f-private-markets-company" name="company" autocomplete="organization" type="text">
-</label>
-<label class="field full">
-<span>The fund you are reviewing</span>
-<input id="f-private-markets-fund" name="fund" type="text">
-</label>
-<label class="field full">
 <span>What would you like to cover?</span>
-<textarea id="f-private-markets-message" name="message" placeholder="Your committee date, the documents you have, what worries you">
+<textarea id="f-private-markets-message" name="message" placeholder="The fund you are reviewing, your committee date, what worries you">
 </textarea>
 </label>
 </fieldset>
-<fieldset class="form__fields full" data-variant="digital-assets" data-title="Talk to the Digital Assets desk" data-lead="Pick a token you are reviewing now. We run it and show you the report and the monitoring feed." data-queue="leads" hidden disabled>
+<fieldset class="form__fields full" data-variant="digital-assets" data-title="Talk to the Digital Assets desk" data-lead="Pick a token you are reviewing now. We run it and show you the report and the monitoring feed." hidden disabled>
 <legend class="sr-only">Talk to the Digital Assets desk</legend>
 <label class="field">
 <span>Name</span>
@@ -318,20 +306,12 @@
 <input id="f-digital-assets-email" name="email" required autocomplete="email" type="email">
 </label>
 <label class="field full">
-<span>Firm</span>
-<input id="f-digital-assets-company" name="company" autocomplete="organization" type="text">
-</label>
-<label class="field full">
-<span>The token you are reviewing</span>
-<input id="f-digital-assets-token" name="token" type="text">
-</label>
-<label class="field full">
 <span>What would you like to cover?</span>
-<textarea id="f-digital-assets-message" name="message" placeholder="Listing, custody, market making — and where it will trade">
+<textarea id="f-digital-assets-message" name="message" placeholder="The token you are reviewing, and listing, custody or market making">
 </textarea>
 </label>
 </fieldset>
-<fieldset class="form__fields full" data-variant="token-disclosure" data-title="Start a white paper" data-lead="Tell us about the token and where it will be offered. We come back with scope and timing." data-queue="leads" hidden disabled>
+<fieldset class="form__fields full" data-variant="token-disclosure" data-title="Start a white paper" data-lead="Tell us about the token and where it will be offered. We come back with scope and timing." hidden disabled>
 <legend class="sr-only">Start a white paper</legend>
 <label class="field">
 <span>Name</span>
@@ -342,31 +322,12 @@
 <input id="f-token-disclosure-email" name="email" required autocomplete="email" type="email">
 </label>
 <label class="field full">
-<span>Firm</span>
-<input id="f-token-disclosure-company" name="company" autocomplete="organization" type="text">
-</label>
-<label class="field">
-<span>Token</span>
-<input id="f-token-disclosure-token" name="token" type="text">
-</label>
-<label class="field">
-<span>Where it will be offered</span>
-<select id="f-token-disclosure-jurisdiction" name="jurisdiction">
-<option value="">Choose one</option>
-<option>EU — MiCA</option>
-<option>United Kingdom</option>
-<option>Singapore — MAS</option>
-<option>UAE — VARA</option>
-<option>Not decided yet</option>
-</select>
-</label>
-<label class="field full">
-<span>Anything else we should know?</span>
-<textarea id="f-token-disclosure-message" name="message" placeholder="Timing, counsel already involved, exchanges you are talking to">
+<span>About the token</span>
+<textarea id="f-token-disclosure-message" name="message" placeholder="The token, where it will be offered, and your timing">
 </textarea>
 </label>
 </fieldset>
-<fieldset class="form__fields full" data-variant="sample-report" data-title="See a sample report" data-lead="We send a redacted listing report so your committee can see the format." data-queue="leads" hidden disabled>
+<fieldset class="form__fields full" data-variant="sample-report" data-title="See a sample report" data-lead="We send a redacted listing report so your committee can see the format." hidden disabled>
 <legend class="sr-only">See a sample report</legend>
 <label class="field">
 <span>Name</span>
@@ -377,32 +338,8 @@
 <input id="f-sample-report-email" name="email" required autocomplete="email" type="email">
 </label>
 <label class="field full">
-<span>Firm</span>
-<input id="f-sample-report-company" name="company" autocomplete="organization" type="text">
-</label>
-<label class="field full">
 <span>Anything to tailor it to?</span>
 <textarea id="f-sample-report-message" name="message" placeholder="The kind of asset your committee reviews most">
-</textarea>
-</label>
-</fieldset>
-<fieldset class="form__fields full" data-variant="careers" data-title="Write to the team" data-lead="Send a CV or a link to something you built, and two lines on why regulated finance. We answer everyone." data-queue="careers" hidden disabled>
-<legend class="sr-only">Write to the team</legend>
-<label class="field">
-<span>Name</span>
-<input id="f-careers-name" name="name" required autocomplete="name" type="text">
-</label>
-<label class="field">
-<span>Work email</span>
-<input id="f-careers-email" name="email" required autocomplete="email" type="email">
-</label>
-<label class="field full">
-<span>Link to your CV or work</span>
-<input id="f-careers-link" name="link" required placeholder="https://" type="url">
-</label>
-<label class="field full">
-<span>Why regulated finance?</span>
-<textarea id="f-careers-message" name="message" required placeholder="Two lines on why regulated finance">
 </textarea>
 </label>
 </fieldset>
@@ -424,7 +361,7 @@
 </div>
 </div>
 </dialog>
-<script type="application/json" id="eunice-config">{"preview":false,"contactEmail":"hello@eunice.ai","careersEmail":"careers@eunice.ai","formEndpoint":"","page":"digital-assets/exchanges/","audience":"exchanges"}</script>
+<script type="application/json" id="eunice-config">{"preview":false,"contactEmail":"hello@eunice.ai","formEndpoint":"","page":"digital-assets/exchanges/","audience":"exchanges"}</script>
 <script src="../../assets/site.js" defer>
 </script>
 </body>

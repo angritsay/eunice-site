@@ -14,7 +14,6 @@ describe('SubmissionReceived', () => {
       submissionId: '0199a3f6-9f1e-7c2d-8a44-000000000001',
       variant: 'private-markets',
       desk: 'Private Markets',
-      queue: 'leads',
       receivedAt: '2026-09-25T09:30:00.000Z',
       contact: { name: 'Jane Doe', email: 'jane@acme.example', company: 'Acme Capital' },
       details: { fund: 'Gridiron V' },

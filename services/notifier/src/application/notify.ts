@@ -19,7 +19,6 @@ export interface NotifyDeps {
 const toLead = (e: SubmissionReceived): Lead => ({
   submissionId: e.data.submissionId,
   desk: e.data.desk,
-  queue: e.data.queue,
   receivedAt: new Date(e.data.receivedAt),
   contact: e.data.contact,
   details: e.data.details,
@@ -58,7 +57,7 @@ export function makeNotify(deps: NotifyDeps) {
     try {
       const { providerId } = await deps.mailer.send(email, event.id);
       await deps.deliveries.record({ ...ref, providerId, deliveredAt: deps.clock.now() });
-      deps.log.info({ ...ref, queue: event.data.queue }, 'ops notified');
+      deps.log.info({ ...ref, desk: event.data.desk }, 'ops notified');
       return 'done';
     } catch (err) {
       const reason = err instanceof Error ? err.message : String(err);

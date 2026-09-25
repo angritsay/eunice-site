@@ -65,7 +65,6 @@ describe('toSubmission', () => {
     const s = toSubmission({
       variant: 'token-disclosure',
       desk: 'Token Disclosure',
-      queue: 'leads',
       fields: {
         name: 'Jane',
         email: 'j@x.example',
@@ -86,7 +85,6 @@ describe('toSubmission', () => {
       toSubmission({
         variant: 'general',
         desk: 'General',
-        queue: 'leads',
         fields: { name: 'Jane' },
         entry: { page: '', placement: 'nav' },
       }),

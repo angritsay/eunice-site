@@ -2,7 +2,7 @@
 // Eunice site behaviour. No framework, no dependencies: this file is all the
 // JavaScript a visitor downloads.
 (() => {
-  /** @type {{ preview: boolean, contactEmail: string, careersEmail: string, formEndpoint: string, page: string, audience?: string }} */
+  /** @type {{ preview: boolean, contactEmail: string, formEndpoint: string, page: string, audience?: string }} */
   const CFG = JSON.parse(document.getElementById('eunice-config')?.textContent || '{}');
   const PREVIEW = Boolean(CFG.preview);
 
@@ -28,7 +28,7 @@
     name.setAttribute('aria-expanded', String(open));
   });
 
-  // ---------- Contact and application dialog ----------
+  // ---------- Contact dialog ----------
   // Every button that opens it names a form variant (data-form) and where it sits
   // (data-placement). With this page's path and audience, that is the entry point:
   // the context sent with the submission so ops knows where the visitor came from.
@@ -37,7 +37,7 @@
 
   /** State for the form that is open now. */
   let open =
-    /** @type {null | { variant: string, entry: Record<string, string>, idempotencyKey: string, openedAt: number, queue: string, started?: boolean }} */ (
+    /** @type {null | { variant: string, entry: Record<string, string>, idempotencyKey: string, openedAt: number, started?: boolean }} */ (
       null
     );
 
@@ -50,14 +50,13 @@
   /** @param {string} name @param {Record<string, string | number>} [extra] */
   function track(name, extra = {}) {
     if (!open) return;
-    const { page = '', placement = '', audience, role } = open.entry;
+    const { page = '', placement = '', audience } = open.entry;
     const data = {
       variant: open.variant,
       entry: `${page || 'home'} · ${placement}`,
       page: `/${page}`,
       placement,
       ...(audience ? { audience } : {}),
-      ...(role ? { role } : {}),
       ...extra,
     };
     try {
@@ -85,20 +84,17 @@
       s.hidden = !on;
       s.disabled = !on; // disabled fields are neither validated nor submitted
     }
-    const role = trigger.dataset['role'];
     const title = /** @type {HTMLElement} */ (dialog.querySelector('[data-title]'));
     const lead = /** @type {HTMLElement} */ (dialog.querySelector('[data-lead]'));
-    title.textContent = role ? `Apply: ${role}` : active.dataset['title'] || '';
+    title.textContent = active.dataset['title'] || '';
     lead.textContent = active.dataset['lead'] || '';
 
     /** @type {Record<string, string>} */
     const entry = { page: CFG.page || '', placement: trigger.dataset['placement'] || 'body' };
     if (CFG.audience) entry['audience'] = CFG.audience;
-    if (role) entry['role'] = role;
     open = {
       variant: active.dataset['variant'] || variant,
       entry,
-      queue: active.dataset['queue'] || 'leads',
       // One key per opening of the form: a double click or a retry after a timeout
       // cannot create two leads, because the server stores each key only once.
       idempotencyKey: crypto.randomUUID(),
@@ -144,8 +140,8 @@
   /** Hands the message to the visitor's own mail app. Returns who it is addressed to. */
   function mailtoFallback(/** @type {Record<string, string>} */ fields) {
     if (!open) return '';
-    const to = open.queue === 'careers' ? CFG.careersEmail : CFG.contactEmail;
-    const subject = [open.entry['role'] || open.variant, fields['name']].filter(Boolean).join(' — ');
+    const to = CFG.contactEmail;
+    const subject = [open.variant, fields['name']].filter(Boolean).join(' — ');
     const body = Object.entries(fields)
       .map(([k, v]) => `${k}: ${v}`)
       .join('\n');
@@ -232,7 +228,7 @@
         });
         if (res.ok) {
           track('form_success', { channel: 'api' });
-          done(current.queue === 'careers' ? 'the team' : 'the desk');
+          done('the desk');
           return;
         }
         if (res.status === 400) markInvalid(await res.json().catch(() => ({})));
