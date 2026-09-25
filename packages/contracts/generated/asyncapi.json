@@ -1,0 +1,287 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "Eunice events",
+    "version": "1.0.0",
+    "description": "Events published on NATS JetStream. Each is a CloudEvents 1.0 envelope; `Nats-Msg-Id` is the event id (the broker de-duplicates on it) and `traceparent` continues the trace of the request that caused it. Messages carrying personal data live on a work-queue stream and are deleted once acknowledged."
+  },
+  "defaultContentType": "application/json",
+  "servers": {
+    "local": {
+      "host": "localhost:4222",
+      "protocol": "nats",
+      "description": "docker compose"
+    }
+  },
+  "channels": {
+    "submissionReceived": {
+      "address": "intake.submission.received.v1",
+      "description": "A form submission was stored by intake. Stream INTAKE (work queue, 7-day maximum age).",
+      "messages": {
+        "SubmissionReceived": {
+          "$ref": "#/components/messages/SubmissionReceived"
+        }
+      }
+    }
+  },
+  "operations": {
+    "publishSubmissionReceived": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/submissionReceived"
+      },
+      "summary": "intake publishes it from its transactional outbox, at least once.",
+      "messages": [
+        {
+          "$ref": "#/channels/submissionReceived/messages/SubmissionReceived"
+        }
+      ]
+    },
+    "notifyOps": {
+      "action": "receive",
+      "channel": {
+        "$ref": "#/channels/submissionReceived"
+      },
+      "summary": "notifier (durable consumer \"notifier\") emails the ops or careers inbox, once per event id.",
+      "messages": [
+        {
+          "$ref": "#/channels/submissionReceived/messages/SubmissionReceived"
+        }
+      ]
+    }
+  },
+  "components": {
+    "messages": {
+      "SubmissionReceived": {
+        "name": "ai.eunice.intake.submission.received.v1",
+        "title": "Submission received",
+        "headers": {
+          "type": "object",
+          "properties": {
+            "Nats-Msg-Id": {
+              "type": "string",
+              "format": "uuid",
+              "description": "The CloudEvents id."
+            },
+            "traceparent": {
+              "type": "string",
+              "description": "W3C Trace Context."
+            }
+          },
+          "required": [
+            "Nats-Msg-Id"
+          ]
+        },
+        "payload": {
+          "schemaFormat": "application/schema+json;version=draft-07",
+          "schema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$ref": "#/definitions/SubmissionReceived",
+            "definitions": {
+              "SubmissionReceived": {
+                "type": "object",
+                "properties": {
+                  "specversion": {
+                    "type": "string",
+                    "const": "1.0"
+                  },
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "ai.eunice.intake.submission.received.v1"
+                  },
+                  "time": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                  },
+                  "datacontenttype": {
+                    "type": "string",
+                    "const": "application/json"
+                  },
+                  "subject": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "submissionId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      },
+                      "variant": {
+                        "type": "string"
+                      },
+                      "desk": {
+                        "type": "string"
+                      },
+                      "queue": {
+                        "type": "string",
+                        "enum": [
+                          "leads",
+                          "careers"
+                        ]
+                      },
+                      "receivedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                      },
+                      "contact": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email",
+                            "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                          },
+                          "company": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "email"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "details": {
+                        "type": "object",
+                        "propertyNames": {
+                          "type": "string"
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "message": {
+                        "type": "string"
+                      },
+                      "entry": {
+                        "type": "object",
+                        "properties": {
+                          "page": {
+                            "type": "string",
+                            "maxLength": 200,
+                            "pattern": "^([a-z0-9-]+\\/)*$"
+                          },
+                          "placement": {
+                            "type": "string",
+                            "enum": [
+                              "nav",
+                              "hero",
+                              "body",
+                              "band",
+                              "roles",
+                              "closing",
+                              "footer"
+                            ]
+                          },
+                          "audience": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z-]{0,39}$"
+                          },
+                          "role": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 120,
+                            "pattern": "^[^\\r\\n]*$"
+                          }
+                        },
+                        "required": [
+                          "page",
+                          "placement"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "attribution": {
+                        "type": "object",
+                        "properties": {
+                          "referrer": {
+                            "type": "string",
+                            "maxLength": 500
+                          },
+                          "utm": {
+                            "type": "object",
+                            "properties": {
+                              "source": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100,
+                                "pattern": "^[^\\r\\n]*$"
+                              },
+                              "medium": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100,
+                                "pattern": "^[^\\r\\n]*$"
+                              },
+                              "campaign": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100,
+                                "pattern": "^[^\\r\\n]*$"
+                              },
+                              "term": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100,
+                                "pattern": "^[^\\r\\n]*$"
+                              },
+                              "content": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100,
+                                "pattern": "^[^\\r\\n]*$"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "submissionId",
+                      "variant",
+                      "desk",
+                      "queue",
+                      "receivedAt",
+                      "contact",
+                      "details",
+                      "entry"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "specversion",
+                  "id",
+                  "source",
+                  "type",
+                  "time",
+                  "datacontenttype",
+                  "subject",
+                  "data"
+                ],
+                "additionalProperties": false,
+                "description": "A form submission was stored. Carries the contact details the notifier needs."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

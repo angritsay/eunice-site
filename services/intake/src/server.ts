@@ -6,6 +6,7 @@ import type { Telemetry } from '@eunice/platform/telemetry';
 import { serve } from '@hono/node-server';
 import { createApp } from './adapters/http/app.ts';
 import { adminToken, clientIp } from './adapters/http/guards.ts';
+import { outboxRelay } from './adapters/outbox/relay.ts';
 import type { DB } from './adapters/postgres/schema.ts';
 import { postgresSubmissionStore } from './adapters/postgres/store.ts';
 import { makeErase, makePurgeExpired } from './application/retention.ts';
@@ -51,6 +52,10 @@ export async function start(config: IntakeConfig, telemetry: Telemetry) {
   const purgeTimer = setInterval(purge, config.PURGE_INTERVAL_MINUTES * 60_000);
   purgeTimer.unref();
 
+  // Not part of readiness: the outbox exists so that intake keeps accepting submissions
+  // while the broker is away. Events wait in the table until it is back.
+  const relay = outboxRelay({ db, natsUrl: config.NATS_URL, log });
+
   const server = serve({ fetch: app.fetch, port: config.PORT }, (info) =>
     log.info({ port: info.port, env: config.SITE_ENV }, 'intake listening'),
   );
@@ -63,6 +68,7 @@ export async function start(config: IntakeConfig, telemetry: Telemetry) {
     clearInterval(purgeTimer);
     // Stop accepting connections and let in-flight requests finish, then release the rest.
     await new Promise<void>((resolve) => server.close(() => resolve()));
+    await relay.stop();
     await db.destroy();
     await telemetry.shutdown();
     process.exit(0);

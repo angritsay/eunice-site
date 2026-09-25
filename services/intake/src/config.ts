@@ -11,6 +11,8 @@ export const intakeConfig = baseConfig
   .extend({
     /** Connects as the runtime role, which can read and write rows but not change the schema. */
     DATABASE_URL: z.url(),
+    /** The broker the outbox relay publishes to. Submissions are accepted while it is down. */
+    NATS_URL: z.url(),
     /** Days a submission is kept. The privacy notice states the same number. */
     RETENTION_DAYS: z.coerce.number().int().min(MIN_RETENTION_DAYS).max(MAX_RETENTION_DAYS).default(365),
     /** Origins allowed to submit from a browser, comma-separated. */

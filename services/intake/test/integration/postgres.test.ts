@@ -63,7 +63,7 @@ const count = async (table: 'intake.submissions' | 'intake.outbox') =>
 
 describe('migrations', () => {
   it('apply in order as the schema owner, and a second run changes nothing', async () => {
-    expect(await runMigrations(db)).toEqual(['0001_submissions.sql', '0002_outbox.sql']);
+    expect(await runMigrations(db)).toEqual(['0001_submissions.sql', '0002_outbox.sql', '0003_outbox_relay.sql']);
     expect(await runMigrations(db)).toEqual([]);
   });
 });

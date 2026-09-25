@@ -37,17 +37,19 @@ jobs:
         run: pnpm typecheck
       - name: Architecture rules (.dependency-cruiser.cjs)
         run: pnpm check:architecture
-      - name: The committed OpenAPI document is the one the code serves
+      - name: The committed OpenAPI and AsyncAPI documents are the ones the code implements
         run: |
-          pnpm openapi
-          if [ -n "$(git status --porcelain -- services/intake/generated)" ]; then
-            git --no-pager diff -- services/intake/generated
-            echo "::error::services/intake/generated is out of date. Run 'pnpm openapi' and commit the result."
+          pnpm generate
+          # The checkout is clean, so any change at all after generating is drift.
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --porcelain
+            git --no-pager diff
+            echo "::error::Generated contracts are out of date. Run 'pnpm generate' and commit the result."
             exit 1
           fi
 
   services:
-    name: Services · unit and integration (Postgres in a container)
+    name: Services · unit and integration (Postgres and NATS in containers)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -60,7 +62,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Unit tests (contracts, platform, services)
         run: pnpm --filter './packages/*' --filter './services/*' test
-      - name: Integration tests against Postgres 18 (Testcontainers)
+      - name: Integration tests against Postgres 18 and NATS (Testcontainers)
         run: pnpm --filter './services/*' test:integration
 
   system:
@@ -83,7 +85,7 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm --filter @eunice/e2e exec playwright install --with-deps chromium
-      - name: Lead flow from three entry points, validation, spam, CSP
+      - name: Lead flow from three entry points to the ops inbox, one trace, outages
         run: pnpm test:e2e
       - name: Service logs
         if: failure()

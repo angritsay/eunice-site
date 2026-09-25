@@ -14,5 +14,9 @@ export default defineConfig({
       ? { executablePath: process.env['PW_CHROMIUM_EXECUTABLE'] }
       : {},
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] }, testIgnore: 'resilience.spec.ts' },
+    // Stops and starts containers, so it runs alone, after everything else.
+    { name: 'resilience', testMatch: 'resilience.spec.ts', dependencies: ['chromium'] },
+  ],
 });
