@@ -16,11 +16,18 @@ function snapshot() {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, e.name);
       if (e.isDirectory()) walk(full);
-      else hashes.set(path.relative(ROOT, full), crypto.createHash('sha256').update(fs.readFileSync(full)).digest('hex'));
+      else
+        hashes.set(path.relative(ROOT, full), crypto.createHash('sha256').update(fs.readFileSync(full)).digest('hex'));
     }
   };
   walk(path.join(ROOT, 'dist'));
-  hashes.set('preview.html', crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, 'preview.html'))).digest('hex'));
+  hashes.set(
+    'preview.html',
+    crypto
+      .createHash('sha256')
+      .update(fs.readFileSync(path.join(ROOT, 'preview.html')))
+      .digest('hex'),
+  );
   return hashes;
 }
 
@@ -28,7 +35,9 @@ const a = snapshot();
 const b = snapshot();
 const differ = [...new Set([...a.keys(), ...b.keys()])].filter((k) => a.get(k) !== b.get(k));
 if (differ.length) {
-  console.error(`Not deterministic: ${differ.length} file(s) differ between two identical builds:\n  ${differ.join('\n  ')}`);
+  console.error(
+    `Not deterministic: ${differ.length} file(s) differ between two identical builds:\n  ${differ.join('\n  ')}`,
+  );
   process.exit(1);
 }
 console.log(`Deterministic: ${a.size} files identical across two builds (SITE_DATE=${env.SITE_DATE}).`);

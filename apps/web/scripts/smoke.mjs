@@ -21,8 +21,11 @@ async function check(url, want) {
 
 const results = await Promise.all([
   ...urls.pages.map((p) => check(base + p, 200)),
-  check(base + 'this-page-does-not-exist/', 404),
+  check(`${base}this-page-does-not-exist/`, 404),
 ]);
 const failures = results.filter(Boolean);
-if (failures.length) { console.error(failures.join('\n')); process.exit(1); }
+if (failures.length) {
+  console.error(failures.join('\n'));
+  process.exit(1);
+}
 console.log(`Smoke: ${urls.pages.length} pages answer 200 and unknown paths 404, at ${base}`);

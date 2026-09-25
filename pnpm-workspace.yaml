@@ -1,7 +1,9 @@
 # Supply-chain controls (ADR-0002). The shipped site has no runtime dependencies;
-# these govern the tooling and, later, the services.
+# these govern the tooling and the services.
 packages:
-  - "."
+  - apps/*
+  - services/*
+  - packages/*
 
 # Refuse versions published in the last 3 days: most malicious releases are caught
 # and yanked inside that window.

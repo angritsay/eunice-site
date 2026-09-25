@@ -3,8 +3,8 @@
 // so it covers all pages in well under a second.
 import fs from 'node:fs';
 import path from 'node:path';
-import { test, expect } from '@playwright/test';
-import { DIST, PAGES, fileFor, readPage, label } from './site.ts';
+import { expect, test } from '@playwright/test';
+import { DIST, fileFor, label, PAGES, readPage } from './site.ts';
 
 /** Links that knowingly go nowhere yet. The list may only shrink. */
 const PLACEHOLDER_LINKS = new Set(['Privacy', 'Terms', 'Status']);
@@ -13,11 +13,13 @@ const EXTERNAL = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i; // http:, mailto:, data:, //cd
 
 const ids = new Map<string, Set<string>>();
 function idsIn(file: string): Set<string> {
-  if (!ids.has(file)) {
+  let found = ids.get(file);
+  if (!found) {
     const html = fs.readFileSync(file, 'utf8');
-    ids.set(file, new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]!)));
+    found = new Set([...html.matchAll(/\sid="([^"]+)"/g)].flatMap(([, id]) => (id ? [id] : [])));
+    ids.set(file, found);
   }
-  return ids.get(file)!;
+  return found;
 }
 
 function target(fromFile: string, ref: string): string {
@@ -31,18 +33,23 @@ for (const page of PAGES) {
     const html = readPage(page);
     const problems: string[] = [];
 
-    for (const [, text] of html.matchAll(/<a href="#">([^<]*)<\/a>/g)) {
-      if (!PLACEHOLDER_LINKS.has(text!)) problems.push(`href="#" on "${text}"`);
+    for (const [, text = ''] of html.matchAll(/<a href="#">([^<]*)<\/a>/g)) {
+      if (!PLACEHOLDER_LINKS.has(text)) problems.push(`href="#" on "${text}"`);
     }
 
-    for (const [, raw] of html.matchAll(/\s(?:href|src)="([^"]*)"/g)) {
-      const ref = raw!;
+    for (const [, ref = ''] of html.matchAll(/\s(?:href|src)="([^"]*)"/g)) {
       if (ref === '#' || EXTERNAL.test(ref)) continue;
-      const [pathAndQuery, fragment] = ref.split('#') as [string, string | undefined];
-      const pathPart = pathAndQuery.split('?')[0]!;
+      const [pathAndQuery = '', fragment] = ref.split('#');
+      const [pathPart = ''] = pathAndQuery.split('?');
       const dest = pathPart === '' || pathPart === './' ? file : target(file, pathPart);
-      if (!dest.startsWith(DIST)) { problems.push(`${ref} leaves the site`); continue; }
-      if (!fs.existsSync(dest)) { problems.push(`${ref} → missing ${path.relative(DIST, dest)}`); continue; }
+      if (!dest.startsWith(DIST)) {
+        problems.push(`${ref} leaves the site`);
+        continue;
+      }
+      if (!fs.existsSync(dest)) {
+        problems.push(`${ref} → missing ${path.relative(DIST, dest)}`);
+        continue;
+      }
       if (fragment && dest.endsWith('.html') && !idsIn(dest).has(fragment)) {
         problems.push(`${ref} → no id="${fragment}" on ${path.relative(DIST, dest)}`);
       }

@@ -1,8 +1,8 @@
 // Layout holds at every width the site is read at, and fingers can hit what they
 // need to. These are the checks that caught the hidden London photograph and the
 // 11px footer links; they run on every page so a new page cannot regress them.
-import { test, expect, type Page } from '@playwright/test';
-import { PAGES, BASE, label } from './site.ts';
+import { expect, type Page, test } from '@playwright/test';
+import { BASE, label, PAGES } from './site.ts';
 
 const WIDTHS = [
   { name: 'phone', width: 390, touch: true },
@@ -15,14 +15,28 @@ const WIDTHS = [
 /** WCAG 2.2 SC 2.5.8 (AA): pointer targets at least 24 × 24 CSS px. */
 const MIN_TARGET = 24;
 
-const overflow = (page: Page) => page.evaluate(() =>
-  document.documentElement.scrollWidth - document.documentElement.clientWidth);
+const overflow = (page: Page) =>
+  page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 
-const smallTargets = (page: Page, min: number) => page.evaluate((m) =>
-  [...document.querySelectorAll<HTMLElement>('a, button')]
-    .filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden'; })
-    .map((el) => { const r = el.getBoundingClientRect(); return { text: (el.textContent || el.getAttribute('aria-label') || '').trim().slice(0, 30), w: Math.round(r.width), h: Math.round(r.height) }; })
-    .filter((t) => t.w < m || t.h < m), min);
+const smallTargets = (page: Page, min: number) =>
+  page.evaluate(
+    (m) =>
+      [...document.querySelectorAll<HTMLElement>('a, button')]
+        .filter((el) => {
+          const r = el.getBoundingClientRect();
+          return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden';
+        })
+        .map((el) => {
+          const r = el.getBoundingClientRect();
+          return {
+            text: (el.textContent || el.getAttribute('aria-label') || '').trim().slice(0, 30),
+            w: Math.round(r.width),
+            h: Math.round(r.height),
+          };
+        })
+        .filter((t) => t.w < m || t.h < m),
+    min,
+  );
 
 for (const w of WIDTHS) {
   test.describe(`${w.name} ${w.width}px`, () => {
@@ -44,8 +58,12 @@ test.describe('base path', () => {
   for (const base of ['/', BASE]) {
     for (const page of PAGES) {
       test(`${label(page)} loads cleanly at ${base}`, async ({ page: p, baseURL }) => {
+        if (!baseURL) throw new Error('playwright.config.ts must set use.baseURL');
+        const origin = baseURL;
         const failed: string[] = [];
-        p.on('response', (r) => { if (r.url().startsWith(baseURL!) && r.status() >= 400) failed.push(`${r.status()} ${r.url()}`); });
+        p.on('response', (r) => {
+          if (r.url().startsWith(origin) && r.status() >= 400) failed.push(`${r.status()} ${r.url()}`);
+        });
         await p.goto(base + page, { waitUntil: 'load' });
         expect(failed).toEqual([]);
       });

@@ -8,9 +8,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
-import { PAGES, BASE, label } from './site.ts';
+// Named import: the package's exports map serves its CommonJS types to ESM importers,
+// under which the default export does not type-check.
+import { AxeBuilder } from '@axe-core/playwright';
+import { expect, test } from '@playwright/test';
+import { BASE, label, PAGES } from './site.ts';
 
 type Known = { rule: string; target: string; reason: string };
 const KNOWN_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), 'known-a11y.json');
@@ -34,7 +36,9 @@ for (const page of PAGES) {
         else unexpected.push(`${v.id} on ${target}: ${node.failureSummary?.split('\n')[1]?.trim() ?? v.help}`);
       }
     }
-    const stale = entries.filter((k) => !used.has(k)).map((k) => `fixed? remove from known-a11y.json: ${k.rule} on ${k.target}`);
+    const stale = entries
+      .filter((k) => !used.has(k))
+      .map((k) => `fixed? remove from known-a11y.json: ${k.rule} on ${k.target}`);
     expect([...unexpected, ...stale]).toEqual([]);
   });
 }

@@ -9,6 +9,7 @@ accepted: a changed mind is a new record that supersedes the old one, so the his
 |---|---|---|
 | [0001](0001-record-architecture-decisions.md) | Record architecture decisions | Accepted |
 | [0002](0002-dependencies-under-supply-chain-controls.md) | Allow dependencies, under supply-chain controls | Accepted |
+| [0003](0003-monorepo-strict-typescript-enforced-architecture.md) | Monorepo, one strict TypeScript baseline, architecture rules enforced in CI | Accepted |
 
 To add one: copy the most recent record, take the next number, and link it here in the
 same pull request.

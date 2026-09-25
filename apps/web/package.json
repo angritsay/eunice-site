@@ -1,0 +1,20 @@
+{
+  "name": "@eunice/web",
+  "private": true,
+  "type": "module",
+  "description": "The eunice.ai site: a static generator whose output ships with no runtime dependencies",
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node build.mjs --preview",
+    "serve": "node scripts/serve-dist.mjs",
+    "test": "playwright test",
+    "test:update": "UPDATE_GOLDEN=1 playwright test dom",
+    "check:determinism": "node scripts/check-determinism.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0"
+  }
+}

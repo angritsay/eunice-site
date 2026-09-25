@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { test, expect } from '@playwright/test';
-import { DIST, PAGES, builtPages } from './site.ts';
+import { expect, test } from '@playwright/test';
+import { builtPages, DIST, PAGES } from './site.ts';
 
 test('the build writes exactly the pages in urls.json', () => {
   const built = builtPages();
