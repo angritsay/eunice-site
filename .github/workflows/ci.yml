@@ -78,7 +78,7 @@ jobs:
           # Project pages live under /<repo-name>/. Only the 404 page uses it; every
           # other link is relative. Set to / once eunice.ai points here.
           BASE_PATH: /${{ github.event.repository.name }}/
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
       - id: deployment
