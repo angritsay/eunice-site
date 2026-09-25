@@ -87,6 +87,12 @@ test.describe('entry points open the right form', () => {
       field: 'Where it will be offered',
     },
     {
+      page: 'mica-whitepaper/',
+      button: 'main >> [data-placement="band"]',
+      title: 'Start a white paper',
+      field: 'Where it will be offered',
+    },
+    {
       page: 'careers/',
       button: '[data-placement="roles"] >> nth=0',
       title: 'Apply: GTM Lead, Digital Assets',

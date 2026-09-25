@@ -13,8 +13,10 @@ import company from './src/pages/company.ts';
 import digitalAssets from './src/pages/digital-assets.ts';
 import home from './src/pages/home.ts';
 import insightsPage from './src/pages/insights.ts';
+import micaWhitepaper from './src/pages/mica-whitepaper.ts';
 import privateMarkets from './src/pages/private-markets.ts';
 import register from './src/pages/register.ts';
+import security from './src/pages/security.ts';
 import tokenDisclosure from './src/pages/token-disclosure.ts';
 import config from './src/site.config.ts';
 
@@ -26,7 +28,9 @@ const PAGES: Page[] = [
   digitalAssets,
   tokenDisclosure,
   register,
+  micaWhitepaper,
   company,
+  security,
   careers,
   insightsPage,
   ...audiencePagesBuilt,

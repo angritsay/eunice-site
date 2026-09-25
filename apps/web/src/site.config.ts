@@ -90,6 +90,7 @@ const config: SiteConfig = {
       ],
       main: [
         ...tabs('token-disclosure'),
+        { label: 'MiCA Whitepaper', to: 'mica-whitepaper' },
         { label: 'The register', to: 'token-disclosure/register' },
         { label: 'Insights', to: 'token-disclosure', hash: 'insights' },
       ],
@@ -108,7 +109,11 @@ const config: SiteConfig = {
     },
     {
       title: 'Token disclosure',
-      links: [...tabs('token-disclosure'), { label: 'The register', to: 'token-disclosure/register' }],
+      links: [
+        ...tabs('token-disclosure'),
+        { label: 'MiCA Whitepaper', to: 'mica-whitepaper' },
+        { label: 'The register', to: 'token-disclosure/register' },
+      ],
     },
     {
       title: 'Insights',
@@ -124,7 +129,7 @@ const config: SiteConfig = {
       links: [
         { label: 'About us', to: 'company' },
         { label: 'Careers', to: 'careers' },
-        { label: 'Security', to: 'company', hash: 'how-we-work' },
+        { label: 'Security', to: 'security' },
         { label: 'Contact', form: 'general' },
       ],
     },
