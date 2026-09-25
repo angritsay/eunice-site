@@ -28,16 +28,33 @@ Anyone using Claude: read `CLAUDE.md` first — it holds the design rules.
 ## Build and publish
 
 ```
-node build.mjs            # → dist/ (the site)
-node build.mjs --preview  # also → preview.html (every page in one file, for sharing)
+pnpm install
+pnpm build              # → dist/ (the site)
+pnpm preview            # also → preview.html (every page in one file, for sharing)
+pnpm test:web           # the site in a real browser: see below
 ```
 
-Pushing to `main` deploys automatically (`.github/workflows/deploy.yml`). One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+Every pull request runs the build and the web tests; `main` deploys only what passed, then checks the live URLs (`.github/workflows/ci.yml`). A daily run rebuilds so dated content stays current. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+
+## Tests
+
+`pnpm test:web` builds nothing itself — run `pnpm build` first — then checks, on every page:
+
+| Check | Catches |
+| --- | --- |
+| `urls` | A page that disappeared or appeared without being added to `test/web/urls.json` |
+| `links` | Any internal link, asset or `#fragment` that points nowhere; new `href="#"` placeholders |
+| `layout` | Horizontal scroll at 390, 768, 1024, 1280 and 1440px; touch targets under 24px (WCAG 2.2 AA) |
+| `layout › base path` | A page that only works at `/` or only under `/eunice-site/` |
+| `a11y` | WCAG 2.2 AA violations via axe; known ones are listed per element in `known-a11y.json`, which can only shrink |
+| `dom` | Any change to rendered HTML, against goldens in `test/web/__golden__/` |
+
+`pnpm check:determinism` builds twice and fails if a single byte differs.
 
 ## Before going live
 
 - **The register has no listing.** `/token-disclosure/register/` explains what the register is and what an entry carries, but the list of published papers is a marked placeholder. It needs a source — the papers Eunice has notified — and a decision on how that reaches the build.
-- **The copy on the personalised pages is a first draft.** The eleven client-type pages were written from material already on the site rather than by the desks. No new claims or numbers, but they need the desks' own words before anyone points a client at them.
+- **The copy on the personalised pages is a first draft.** The ten client-type pages were written from material already on the site rather than by the desks. No new claims or numbers, but they need the desks' own words before anyone points a client at them.
 - Real assets: team portraits, and the Private Markets Documents and Portfolio screenshots (currently drawn in HTML as stand-ins). Product images in `src/assets/img/` were cropped from page exports and should be replaced with full-resolution originals. The master logo and the City of London and Mayfair photographs are in.
 - Bios for Yi, Philip and Chrislyn; the text of the 4 September note.
 - Contact: confirm `contactEmail` / `careersEmail`, and pick a form service for `formEndpoint` (until then the form opens the visitor's mail app).

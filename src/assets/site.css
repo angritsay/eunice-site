@@ -7,13 +7,13 @@
   --ink: #111214;
   --text: #1f2430;
   --muted: #5f6b7a;
-  --faint: #8a94a3;
+  --faint: #6a717d;          /* 4.9:1 on white, 4.6:1 on --band: AA for small text */
   --line: #e4e8ef;
   --line-strong: #111214;
 
   /* Desk colours: `-ink` for text and dots (AA on white), `-field` for fills, `-tint` for plates. */
   --pm-ink: #2f4ae0;  --pm-field: #5b82f7;  --pm-tint: #e9eefb;
-  --da-ink: #c2571a;  --da-field: #f98a45;  --da-tint: #fdeee3;
+  --da-ink: #b45018;  --da-field: #f98a45;  --da-tint: #fdeee3;
   --td-ink: #9a6710;  --td-field: #e0a03a;  --td-tint: #fbf1de;
 
   /* Type: Manrope for headings, Inter for everything else. Four roles only.
@@ -196,7 +196,7 @@ button { font: inherit; color: inherit; }
 .partners { display: flex; align-items: center; gap: 40px; margin-top: 64px; }
 .partners .label { flex: 0 0 auto; }
 .partners ul { flex: 1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px 32px; }
-.partners li { font-size: 13.6px; color: #9aa3b0; }
+.partners li { font-size: 13.6px; color: var(--faint); }
 
 /* Split: photograph beside facts */
 .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: center; }

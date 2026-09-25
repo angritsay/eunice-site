@@ -1,0 +1,23 @@
+{
+  "$comment": "Every public page, as a path under the site root. The build must produce exactly this set: a page that disappears or appears unannounced fails CI. Adding a page means adding it here, in the same PR.",
+  "pages": [
+    "",
+    "private-markets/",
+    "private-markets/lps/",
+    "private-markets/managers/",
+    "private-markets/family-offices/",
+    "private-markets/consultants/",
+    "digital-assets/",
+    "digital-assets/exchanges/",
+    "digital-assets/custodians/",
+    "digital-assets/market-makers/",
+    "token-disclosure/",
+    "token-disclosure/issuers/",
+    "token-disclosure/counsel/",
+    "token-disclosure/exchanges/",
+    "token-disclosure/register/",
+    "company/",
+    "careers/",
+    "insights/"
+  ]
+}

@@ -1,0 +1,11 @@
+# Supply-chain controls (ADR-0002). The shipped site has no runtime dependencies;
+# these govern the tooling and, later, the services.
+packages:
+  - "."
+
+# Refuse versions published in the last 3 days: most malicious releases are caught
+# and yanked inside that window.
+minimumReleaseAge: 4320
+
+# Install scripts are blocked by default. Anything that needs one is named here.
+onlyBuiltDependencies: []

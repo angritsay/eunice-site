@@ -247,7 +247,9 @@ export function person(ctx, id, variant = 'row') {
   const photo = p.photo
     ? `<img src="${ctx.asset('img/people/' + p.photo)}" alt="${esc(p.name)}" loading="lazy">`
     : '';
-  const bioId = `bio-${id}-${Math.random().toString(36).slice(2, 7)}`;
+  // Keyed by page as well as person: preview.html holds every page in one document,
+  // so the same bio appears several times there. Deterministic, unlike a random suffix.
+  const bioId = `bio-${(ctx.slug || 'home').replace(/\//g, '-')}-${id}`;
   const nameEl = p.bio
     ? `<button type="button" class="person__name h4" aria-expanded="false" aria-controls="${bioId}">${esc(p.name)}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>`
     : `<p class="person__name h4">${esc(p.name)}</p>`;

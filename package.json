@@ -2,10 +2,20 @@
   "name": "eunice-site",
   "private": true,
   "type": "module",
-  "description": "eunice.ai — static site, built with plain Node, no dependencies",
+  "description": "eunice.ai — the site, and the services behind its forms",
+  "packageManager": "pnpm@12.6.0",
+  "engines": { "node": ">=22.18" },
   "scripts": {
     "build": "node build.mjs",
-    "preview": "node build.mjs --preview"
+    "preview": "node build.mjs --preview",
+    "serve": "node scripts/serve-dist.mjs",
+    "test:web": "playwright test",
+    "test:web:update": "UPDATE_GOLDEN=1 playwright test dom",
+    "check:determinism": "node scripts/check-determinism.mjs",
+    "smoke": "node scripts/smoke.mjs"
   },
-  "engines": { "node": ">=20" }
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0"
+  }
 }

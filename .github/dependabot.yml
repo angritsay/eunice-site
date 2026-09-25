@@ -1,0 +1,19 @@
+# Weekly updates, grouped, and never for a release younger than a week: the same
+# quarantine pnpm applies at install time (ADR-0002).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      tooling:
+        patterns: ['*']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
