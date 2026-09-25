@@ -85,7 +85,7 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm --filter @eunice/e2e exec playwright install --with-deps chromium
-      - name: Lead flow from three entry points to the ops inbox, one trace, outages
+      - name: Lead flow to the ops inbox, one trace, analytics funnel, outages
         run: pnpm test:e2e
       - name: Service logs
         if: failure()

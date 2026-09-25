@@ -6,4 +6,5 @@ psql --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" \
   -v intake_app_password="$INTAKE_APP_PASSWORD" \
   -v notifier_owner_password="$NOTIFIER_OWNER_PASSWORD" \
   -v notifier_app_password="$NOTIFIER_APP_PASSWORD" \
+  -v umami_password="$UMAMI_DB_PASSWORD" \
   -f /eunice/roles.sql

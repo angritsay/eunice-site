@@ -42,7 +42,7 @@ The forms post to **intake**, which stores each submission and announces it on N
 **notifier** turns that into an email to the ops inbox, with Reply-To set to the lead
 ([services/](services/), decisions in [docs/adr/](docs/adr/)). One command runs it all —
 Postgres, NATS, both services with their migrations, the site behind a Caddy edge with a
-strict CSP, Mailpit to catch the email, and Jaeger for traces:
+strict CSP, Mailpit to catch the email, Umami for analytics, and Jaeger for traces:
 
 ```
 docker compose up --build --wait
@@ -50,7 +50,8 @@ open http://localhost:8080                  # the site; its forms submit for rea
 open http://localhost:8080/api/intake/docs  # the API, from its OpenAPI document
 open http://localhost:8025                  # Mailpit: the email ops receives
 open http://localhost:16686                 # one trace per submission, browser to inbox
-pnpm test:e2e                               # three entry points to the inbox, and outages
+open http://localhost:3001                  # Umami: visits and the form funnel per entry point
+pnpm test:e2e                               # entry points to the inbox, the funnel, outages
 docker compose down -v                      # stop, and delete the local data
 ```
 

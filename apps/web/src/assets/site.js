@@ -37,9 +37,35 @@
 
   /** State for the form that is open now. */
   let open =
-    /** @type {null | { variant: string, entry: Record<string, string>, idempotencyKey: string, openedAt: number, queue: string }} */ (
+    /** @type {null | { variant: string, entry: Record<string, string>, idempotencyKey: string, openedAt: number, queue: string, started?: boolean }} */ (
       null
     );
+
+  // ---------- Form funnel analytics (ADR-0010) ----------
+  // Events go to our own Umami, if the page loaded its tracker; otherwise this does
+  // nothing. They describe the form and where it was opened — never what was typed.
+  // Read at call time: the tracker loads after this script.
+  const umami = () =>
+    /** @type {{ umami?: { track(name: string, data: object): void } }} */ (/** @type {unknown} */ (window)).umami;
+  /** @param {string} name @param {Record<string, string | number>} [extra] */
+  function track(name, extra = {}) {
+    if (!open) return;
+    const { page = '', placement = '', audience, role } = open.entry;
+    const data = {
+      variant: open.variant,
+      entry: `${page || 'home'} · ${placement}`,
+      page: `/${page}`,
+      placement,
+      ...(audience ? { audience } : {}),
+      ...(role ? { role } : {}),
+      ...extra,
+    };
+    try {
+      umami()?.track(name, data);
+    } catch {
+      // Analytics must never get in the way of a lead.
+    }
+  }
 
   const errorBox = () => /** @type {HTMLElement | null} */ (dialog?.querySelector('[data-error]'));
   const hideError = () => {
@@ -78,6 +104,8 @@
       idempotencyKey: crypto.randomUUID(),
       openedAt: performance.now(),
     };
+
+    track('form_open');
 
     dialog.classList.remove('is-done');
     hideError();
@@ -139,6 +167,12 @@
   }
 
   if (dialog && form) {
+    form.addEventListener('input', () => {
+      if (!open || open.started) return;
+      open.started = true;
+      track('form_start');
+    });
+
     dialog.addEventListener('click', (e) => {
       const target = /** @type {HTMLElement} */ (e.target);
       if (target === dialog || target.closest('[data-close]')) dialog.close();
@@ -159,6 +193,7 @@
         if (value) fields[k] = value;
       }
 
+      track('form_submit');
       const done = (/** @type {string} */ to) => {
         const doneTo = dialog.querySelector('[data-done-to]');
         if (doneTo) doneTo.textContent = to;
@@ -170,6 +205,7 @@
       if (!CFG.formEndpoint) {
         // No endpoint (the default until a privacy notice is published): the visitor's
         // own mail app sends it, and nothing is collected on our side.
+        track('form_success', { channel: 'mailto' });
         done(PREVIEW ? 'the desk' : mailtoFallback(fields) || 'the desk');
         return;
       }
@@ -195,12 +231,14 @@
           }),
         });
         if (res.ok) {
+          track('form_success', { channel: 'api' });
           done(current.queue === 'careers' ? 'the team' : 'the desk');
           return;
         }
         if (res.status === 400) markInvalid(await res.json().catch(() => ({})));
         throw new Error(`HTTP ${res.status}`);
-      } catch {
+      } catch (err) {
+        track('form_error', { reason: err instanceof Error ? err.message.slice(0, 40) : 'network' });
         const box = errorBox();
         if (box) box.hidden = false;
       } finally {

@@ -10,7 +10,15 @@ WORKDIR /repo
 COPY . .
 RUN pnpm install --frozen-lockfile --filter @eunice/web...
 ARG PUBLIC_FORM_ENDPOINT=/api/intake/v1/submissions
-RUN SITE_ENV=local PUBLIC_FORM_ENDPOINT=$PUBLIC_FORM_ENDPOINT pnpm --filter @eunice/web build
+ARG PUBLIC_ANALYTICS_SRC=/analytics/script.js
+ARG PUBLIC_ANALYTICS_HOST=/analytics
+ARG PUBLIC_ANALYTICS_WEBSITE_ID
+RUN SITE_ENV=local \
+    PUBLIC_FORM_ENDPOINT=$PUBLIC_FORM_ENDPOINT \
+    PUBLIC_ANALYTICS_SRC=$PUBLIC_ANALYTICS_SRC \
+    PUBLIC_ANALYTICS_HOST=$PUBLIC_ANALYTICS_HOST \
+    PUBLIC_ANALYTICS_WEBSITE_ID=$PUBLIC_ANALYTICS_WEBSITE_ID \
+    pnpm --filter @eunice/web build
 
 FROM caddy:2.10.2-alpine
 COPY infra/caddy/Caddyfile /etc/caddy/Caddyfile
