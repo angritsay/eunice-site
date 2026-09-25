@@ -1,0 +1,28 @@
+{
+  "name": "@eunice/notifier",
+  "private": true,
+  "type": "module",
+  "description": "Tells the business-operations inbox about every submission, so the team can reply",
+  "scripts": {
+    "dev": "node --env-file-if-exists=../../.env src/main.ts",
+    "build": "tsdown",
+    "test": "vitest run test/unit",
+    "test:integration": "vitest run test/integration",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@eunice/contracts": "workspace:*",
+    "@eunice/platform": "workspace:*",
+    "@hono/node-server": "2.1.1",
+    "hono": "4.13.8",
+    "kysely": "0.29.6",
+    "pg": "8.23.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@testcontainers/postgresql": "12.1.0",
+    "@types/pg": "8.23.1",
+    "testcontainers": "12.1.0",
+    "tsdown": "0.23.0"
+  }
+}

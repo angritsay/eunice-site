@@ -1,7 +1,8 @@
-// A visitor opens the form from different places on the site, and each submission is
-// stored with the variant's own fields and the entry point it came from.
+// A visitor opens the form from different places on the site. Each submission is stored
+// with the variant's own fields and the entry point it came from, and reaches the right
+// inbox as an email ops can answer with one click — all under one trace.
 import { expect, type Page, test } from '@playwright/test';
-import { outboxFor, submissionsFor } from './stack.ts';
+import { eventually, mailFor, mailsFrom, submissionsFor, traceSpans } from './stack.ts';
 
 let n = 0;
 const address = () => `e2e-${Date.now()}-${process.pid}-${n++}@example.com`;
@@ -38,7 +39,9 @@ test('Private Markets, from the hero on the LPs page', async ({ page }) => {
   await form(page).locator('[name="email"]').fill(email);
   await form(page).locator('[name="company"]').fill('Acme Capital');
   await form(page).locator('[name="fund"]').fill('Gridiron Fund V');
+  const request = page.waitForRequest((r) => r.url().endsWith('/v1/submissions'));
   await send(page);
+  const traceId = (await request).headers()['traceparent']?.split('-')[1] ?? '';
 
   await expect(page.locator('#talk')).toHaveClass(/is-done/);
   const [row] = submissionsFor(email);
@@ -53,9 +56,29 @@ test('Private Markets, from the hero on the LPs page', async ({ page }) => {
     entry_audience: 'lps',
     utm: { source: 'newsletter', campaign: 'q4' },
   });
-  // Announced to the rest of the system, in the same transaction.
-  expect(outboxFor(email)).toEqual([{ subject: 'intake.submission.received.v1', traceparent: expect.any(String) }]);
   expect(csp).toEqual([]);
+
+  // Ops hears about it: the right inbox, a subject that says where it came from, and a
+  // reply that goes straight to the lead.
+  const [mail] = await mailFor(email);
+  expect(mail?.Subject).toBe('[Private Markets · lps · hero] Jane Doe — Acme Capital');
+  expect(mail?.To.map((t) => t.Address)).toEqual(['ops@eunice.local']);
+  expect(mail?.ReplyTo).toEqual([{ Address: email, Name: 'Jane Doe' }]);
+  expect(mail?.Text).toMatch(/Fund:\s+Gridiron Fund V/);
+  expect(mail?.Text).toContain('utm_source=newsletter, utm_campaign=q4');
+
+  // One trace, started in the browser, through intake, the broker and notifier.
+  const spans = await eventually(async () => {
+    const s = await traceSpans(traceId);
+    return s.some((x) => x.service === 'notifier' && x.name.endsWith('process')) ? s : undefined;
+  });
+  expect(spans).toEqual(
+    expect.arrayContaining([
+      { service: 'intake', name: 'POST /v1/submissions' },
+      { service: 'intake', name: 'intake.submission.received.v1 publish' },
+      { service: 'notifier', name: 'intake.submission.received.v1 process' },
+    ]),
+  );
 });
 
 test('Token Disclosure, from the band on the Digital Assets page', async ({ page }) => {
@@ -95,6 +118,9 @@ test('an application, from a role on the careers page', async ({ page }) => {
   await send(page);
 
   await expect(page.locator('#talk')).toHaveClass(/is-done/);
+  const [mail] = await mailFor(email);
+  expect(mail?.To.map((t) => t.Address)).toEqual(['careers@eunice.local']);
+  expect(mail?.Subject).toBe('[Careers · Senior Software / AI Engineer · roles] Alex Engineer');
   expect(submissionsFor(email)).toMatchObject([
     {
       variant: 'careers',
@@ -137,4 +163,6 @@ test('a bot that fills the hidden field is told "thank you", and nothing is stor
 
   await expect(page.locator('#talk')).toHaveClass(/is-done/);
   expect(submissionsFor(email)).toEqual([]);
+  await new Promise((r) => setTimeout(r, 2000));
+  expect(await mailsFrom(email)).toEqual([]);
 });

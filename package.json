@@ -14,7 +14,7 @@
     "test:web": "pnpm --filter @eunice/web test",
     "test:web:update": "pnpm --filter @eunice/web test:update",
     "test:e2e": "pnpm --filter @eunice/e2e e2e",
-    "openapi": "pnpm --filter @eunice/intake openapi",
+    "generate": "pnpm --filter @eunice/intake openapi && pnpm --filter @eunice/contracts asyncapi",
     "check:determinism": "pnpm --filter @eunice/web check:determinism",
     "lint": "biome check .",
     "format": "biome check --write .",

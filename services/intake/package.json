@@ -23,6 +23,7 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
+    "@nats-io/jetstream": "3.4.0",
     "@testcontainers/postgresql": "12.1.0",
     "@types/pg": "8.23.1",
     "testcontainers": "12.1.0",

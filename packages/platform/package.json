@@ -6,14 +6,18 @@
   "exports": {
     ".": "./src/index.ts",
     "./config": "./src/config.ts",
-    "./telemetry": "./src/telemetry.ts"
+    "./telemetry": "./src/telemetry.ts",
+    "./nats": "./src/nats.ts"
   },
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@nats-io/jetstream": "3.4.0",
+    "@nats-io/transport-node": "3.4.0",
     "@opentelemetry/api": "1.9.1",
+    "@opentelemetry/core": "2.11.0",
     "@opentelemetry/exporter-trace-otlp-http": "0.222.0",
     "@opentelemetry/instrumentation": "0.222.0",
     "@opentelemetry/instrumentation-http": "0.222.0",

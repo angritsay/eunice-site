@@ -30,6 +30,10 @@ export async function startDatabase(): Promise<TestDatabase> {
     'intake_owner_password=owner-pw',
     '-v',
     'intake_app_password=app-pw',
+    '-v',
+    'notifier_owner_password=n-owner-pw',
+    '-v',
+    'notifier_app_password=n-app-pw',
     '-f',
     '/eunice/roles.sql',
   ]);
@@ -39,6 +43,9 @@ export async function startDatabase(): Promise<TestDatabase> {
     `postgres://${user}:${password}@${container.getHost()}:${container.getPort()}/${container.getDatabase()}`;
   const owner = createPool(url('intake_owner', 'owner-pw'), { max: 2, applicationName: 'test-owner' });
   const app = createPool(url('intake_app', 'app-pw'), { max: 10, applicationName: 'test-app' });
+  // An idle connection closed by the server (the container stopping) is reported as an
+  // error event; without a listener it would crash the test run after the tests passed.
+  for (const pool of [owner, app]) pool.on('error', () => {});
   return {
     container,
     owner,

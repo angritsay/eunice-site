@@ -38,17 +38,19 @@ Every pull request runs the build and the web tests; `main` deploys only what pa
 
 ## The whole system, locally
 
-The forms post to **intake**, a small service that stores each submission and announces it
-to the rest of the system ([services/](services/), decisions in [docs/adr/](docs/adr/)).
-One command runs it all — Postgres, migrations, intake, the site behind a Caddy edge with a
-strict CSP, and Jaeger for traces:
+The forms post to **intake**, which stores each submission and announces it on NATS;
+**notifier** turns that into an email to the ops inbox, with Reply-To set to the lead
+([services/](services/), decisions in [docs/adr/](docs/adr/)). One command runs it all —
+Postgres, NATS, both services with their migrations, the site behind a Caddy edge with a
+strict CSP, Mailpit to catch the email, and Jaeger for traces:
 
 ```
 docker compose up --build --wait
 open http://localhost:8080                  # the site; its forms submit for real
 open http://localhost:8080/api/intake/docs  # the API, from its OpenAPI document
-open http://localhost:16686                 # one trace per submission, down to the SQL
-pnpm test:e2e                               # forms from three entry points, in a browser
+open http://localhost:8025                  # Mailpit: the email ops receives
+open http://localhost:16686                 # one trace per submission, browser to inbox
+pnpm test:e2e                               # three entry points to the inbox, and outages
 docker compose down -v                      # stop, and delete the local data
 ```
 
@@ -58,8 +60,8 @@ No `.env` is needed; `.env.example` lists what can be changed.
 | --- | --- |
 | `pnpm check` | Biome, strict TypeScript everywhere, architecture rules |
 | `pnpm --filter './packages/*' --filter './services/*' test` | Unit tests, no containers |
-| `pnpm --filter @eunice/intake test:integration` | intake against real Postgres 18 (Testcontainers) |
-| `pnpm openapi` | Regenerates `services/intake/generated/openapi.json`; CI fails if it is stale |
+| `pnpm --filter './services/*' test:integration` | Services against real Postgres 18 and NATS (Testcontainers) |
+| `pnpm generate` | Regenerates the OpenAPI (intake) and AsyncAPI (events) documents; CI fails if they are stale |
 
 ## Tests
 

@@ -6,6 +6,8 @@
 // route template; auto-instrumentation covers what the service calls out to: Postgres
 // (statement text only, never parameter values) and outgoing HTTP.
 import { register } from 'node:module';
+import { propagation } from '@opentelemetry/api';
+import { W3CTraceContextPropagator } from '@opentelemetry/core';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { PgInstrumentation } from '@opentelemetry/instrumentation-pg';
@@ -23,7 +25,12 @@ export function startTelemetry(opts: {
   serviceVersion: string;
   endpoint: string | undefined;
 }): Telemetry {
-  if (!opts.endpoint) return { shutdown: async () => {} };
+  if (!opts.endpoint) {
+    // Nothing is recorded, but trace context still flows: a request's traceparent
+    // reaches the logs, the outbox and the broker, so the ids line up end to end.
+    propagation.setGlobalPropagator(new W3CTraceContextPropagator());
+    return { shutdown: async () => {} };
+  }
   // Traces only. Metrics and logs are not exported over OTLP (logs go to stdout).
   process.env['OTEL_METRICS_EXPORTER'] ??= 'none';
   process.env['OTEL_LOGS_EXPORTER'] ??= 'none';
@@ -40,7 +47,9 @@ export function startTelemetry(opts: {
       // it does, which would blank the server span, the database spans and the outbox
       // traceparent. Incoming spans come from the tracing middleware instead.
       new HttpInstrumentation({ disableIncomingRequestInstrumentation: true }),
-      new PgInstrumentation({ enhancedDatabaseReporting: false }),
+      // Only inside a request or a message: background polling would otherwise start a
+      // new trace every few hundred milliseconds.
+      new PgInstrumentation({ enhancedDatabaseReporting: false, requireParentSpan: true }),
       new UndiciInstrumentation(),
     ],
   });

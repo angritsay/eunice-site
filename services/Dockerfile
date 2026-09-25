@@ -1,27 +1,31 @@
 # syntax=docker/dockerfile:1
-# Build from the repository root: docker build -f services/intake/Dockerfile .
+# One recipe for every service. Build from the repository root:
+#   docker build -f services/Dockerfile --build-arg SERVICE=intake .
 #
-# Stage 1 installs the workspace and bundles intake with the workspace packages it uses.
+# Stage 1 installs the workspace and bundles the service with the workspace packages it uses.
 # Stage 2 is the runtime: production dependencies only, a non-root user, no pnpm, no
 # compiler, no source — the bundle, its migrations, and node_modules.
 FROM node:24.21.0-slim AS build
+ARG SERVICE
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
 WORKDIR /repo
 COPY . .
-RUN pnpm install --frozen-lockfile --filter @eunice/intake...
-RUN pnpm --filter @eunice/intake build
+RUN test -n "$SERVICE" && pnpm install --frozen-lockfile --filter "@eunice/$SERVICE..."
+RUN pnpm --filter "@eunice/$SERVICE" build
 # A flat node_modules with only production dependencies, including those of the bundled
 # workspace packages (pino, OpenTelemetry), which the bundle imports by name.
-RUN pnpm --filter @eunice/intake deploy --prod --config.node-linker=hoisted /out
+RUN pnpm --filter "@eunice/$SERVICE" deploy --prod --config.node-linker=hoisted /out \
+ && rm -rf /out/dist /out/migrations \
+ && cp -r "services/$SERVICE/dist" "services/$SERVICE/migrations" /out/
 
 FROM node:24.21.0-slim
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build --chown=root:root /out/node_modules ./node_modules
 COPY --from=build --chown=root:root /out/package.json ./package.json
-COPY --from=build --chown=root:root /repo/services/intake/dist ./dist
-COPY --from=build --chown=root:root /repo/services/intake/migrations ./migrations
+COPY --from=build --chown=root:root /out/dist ./dist
+COPY --from=build --chown=root:root /out/migrations ./migrations
 # Files are root-owned and read-only to the service, which runs as an unprivileged user.
 USER node
 EXPOSE 3000

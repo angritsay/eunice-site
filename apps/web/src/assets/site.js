@@ -94,6 +94,13 @@
     openDialog(t);
   });
 
+  /** A W3C traceparent: one trace then follows the submission from here to the ops inbox. */
+  function traceparent() {
+    const hex = (/** @type {number} */ bytes) =>
+      [...crypto.getRandomValues(new Uint8Array(bytes))].map((b) => b.toString(16).padStart(2, '0')).join('');
+    return `00-${hex(16)}-${hex(8)}-01`;
+  }
+
   /** The utm_* parameters on this URL. Nothing is stored to carry them between pages. */
   function utm() {
     const params = new URLSearchParams(location.search);
@@ -176,6 +183,7 @@
             'Content-Type': 'application/json',
             Accept: 'application/json, application/problem+json',
             'Idempotency-Key': current.idempotencyKey,
+            traceparent: traceparent(),
           },
           body: JSON.stringify({
             variant: current.variant,
