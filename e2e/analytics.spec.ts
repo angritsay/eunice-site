@@ -41,9 +41,11 @@ test('a visit and the form funnel are recorded per entry point, without cookies 
   await page.locator('#talk [type="submit"]').click();
   await expect(page.locator('#talk')).toHaveClass(/is-done/);
 
+  // Umami stores an event and its properties in two inserts, so wait for the properties
+  // of the last event too, not just for its row.
   const events = await eventually(async () => {
     const rows = recorded(tag);
-    return rows.some((r) => r.name === 'form_success') ? rows : undefined;
+    return rows.some((r) => r.name === 'form_success' && r.data !== null) ? rows : undefined;
   });
 
   // A page view, then the funnel in order.
