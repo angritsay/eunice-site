@@ -483,7 +483,9 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
    rather than the house rules above, so they read as they do on eunice.ai today.
    Values are measured from the live page at 1440, 810 and 390 px, and the breakpoints
    are the live page's (1199 and 809). The live orange is --da-field; only the
-   highlight behind white text is darker, so that it passes WCAG AA large text. */
+   highlight behind white text is darker, so that it passes WCAG AA large text.
+   MiCA type is the live size taken down 20%, like the rest of the site (never under
+   12px for running text). */
 :root {
   --port-ink: #292929;
   --port-text: #383737;
@@ -492,15 +494,19 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
   --port-card: #f5f5f5;
   --port-mark: #e46a2a;     /* white on it: 3.3:1, AA for large text */
 }
+.mica-v { display: none; }
+@media (min-width: 1200px) { .mica-v--d { display: inline; } }
+@media (min-width: 810px) and (max-width: 1199px) { .mica-v--t { display: inline; } }
+@media (max-width: 809px) { .mica-v--p { display: inline; } }
 .mica-mark { background: var(--port-mark); color: #fff; padding: 0 .06em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .mica-accent { color: var(--da-field); }
-.mica-h2 { font-family: var(--font-head); font-size: 48px; font-weight: 500; line-height: 1.2; letter-spacing: -.01em; color: var(--port-ink); }
+.mica-h2 { font-family: var(--font-head); font-size: 38.4px; font-weight: 500; line-height: 1.2; letter-spacing: -.01em; color: var(--port-ink); }
 
 /* Hero */
 .mica-hero { padding-top: 72px; display: flex; flex-direction: column; align-items: flex-start; }
-.mica-hero__title { font-family: var(--font-head); font-size: 68px; font-weight: 400; line-height: 1.2; letter-spacing: -.01em; color: var(--port-ink); }
-.mica-hero__sub { margin-top: 20px; max-width: 800px; font-size: 20px; line-height: 1.5; color: var(--port-text); }
-.mica-btn { margin-top: 40px; min-height: 48px; padding: 0 24px; font-size: 16px; background: var(--port-ink); }
+.mica-hero__title { font-family: var(--font-head); font-size: 54.4px; font-weight: 400; line-height: 1.2; letter-spacing: -.01em; color: var(--port-ink); }
+.mica-hero__sub { margin-top: 20px; max-width: 800px; font-size: 16px; line-height: 1.5; color: var(--port-text); }
+.mica-btn { margin-top: 40px; min-height: 48px; padding: 0 24px; font-size: 13.6px; background: var(--port-ink); }
 
 /* Why issuers love us: four stone tiles, the product shot above the words. */
 .mica-why { padding-top: 160px; }
@@ -508,8 +514,8 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 .mica-tile { background: var(--port-stone); border-radius: 8px; padding: 32px; display: flex; flex-direction: column; }
 .mica-tile__art { height: 380px; display: flex; align-items: center; justify-content: center; margin-bottom: 32px; }
 .mica-tile__img { width: auto; height: auto; max-width: 100%; max-height: 100%; }
-.mica-tile__title { font-family: var(--font-head); font-size: 28px; font-weight: 500; line-height: 1.1; color: var(--port-ink); }
-.mica-tile__body { margin-top: 12px; font-size: 16px; line-height: 1.5; color: rgba(41, 41, 41, .8); max-width: 572px; }
+.mica-tile__title { font-family: var(--font-head); font-size: 22.4px; font-weight: 500; line-height: 1.1; color: var(--port-ink); }
+.mica-tile__body { margin-top: 12px; font-size: 13.6px; line-height: 1.5; color: rgba(41, 41, 41, .8); max-width: 572px; }
 
 /* How it works: one card per step, image and words alternating sides. On a wide
    screen the cards stack as you scroll, as they do on the live page. */
@@ -520,11 +526,11 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 .mica-step__text { padding: 40px 56px; }
 .mica-step--flip { grid-template-columns: 470px minmax(0, 1fr); }
 .mica-step--flip .mica-step__art { order: -1; }
-.mica-step__num { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; line-height: 1; color: var(--port-ink); }
+.mica-step__num { display: flex; align-items: center; gap: 10px; font-size: 10.4px; font-weight: 500; line-height: 1; color: var(--port-ink); }
 .mica-step__num::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--da-field); }
-.mica-step__title { margin-top: 24px; font-family: var(--font-head); font-size: 28px; font-weight: 400; line-height: 1.1; color: var(--port-ink); }
+.mica-step__title { margin-top: 24px; font-family: var(--font-head); font-size: 22.4px; font-weight: 400; line-height: 1.1; color: var(--port-ink); }
 .mica-step__points { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 349px; }
-.mica-step__points li { position: relative; padding-left: 26px; font-size: 16px; line-height: 1.7; color: #0a0a0a; }
+.mica-step__points li { position: relative; padding-left: 26px; font-size: 13.6px; line-height: 1.7; color: #0a0a0a; }
 .mica-step__points li::before { content: ''; position: absolute; left: 0; top: 6px; width: 16px; height: 16px; background: var(--da-field);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12.75l6 6 9-13.5'/%3E%3C/svg%3E") center/contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12.75l6 6 9-13.5'/%3E%3C/svg%3E") center/contain no-repeat; }
@@ -539,19 +545,19 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 
 /* Trust Center band */
 .mica-trust { background: var(--port-ink); color: var(--port-stone); padding-block: 120px; }
-.mica-trust__title { max-width: 820px; margin-bottom: 20px; font-family: var(--font-head); font-size: 48px; font-weight: 500; line-height: 1.2; letter-spacing: -.01em; color: var(--port-stone); }
-.mica-trust .btn { font-size: 14px; }
+.mica-trust__title { max-width: 820px; margin-bottom: 20px; font-family: var(--font-head); font-size: 38.4px; font-weight: 500; line-height: 1.2; letter-spacing: -.01em; color: var(--port-stone); }
+.mica-trust .btn { font-size: 11.2px; }
 .mica-trust__cards { margin-top: 140px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 60px; }
 .mica-trust__icon { width: 28px; height: 28px; }
-.mica-trust__card-title { margin-top: 56px; font-family: var(--font-head); font-size: 24px; font-weight: 400; line-height: 1.25; color: var(--port-stone); }
-.mica-trust__card-body { margin-top: 12px; font-size: 16px; line-height: 1.5; color: var(--port-stone); }
+.mica-trust__card-title { margin-top: 56px; font-family: var(--font-head); font-size: 19.2px; font-weight: 400; line-height: 1.25; color: var(--port-stone); }
+.mica-trust__card-body { margin-top: 12px; font-size: 13.6px; line-height: 1.5; color: var(--port-stone); }
 .mica-apply { margin-top: 140px; background: #fff; border-radius: 8px; padding: 40px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
 .mica-apply__steps { display: grid; grid-template-columns: repeat(3, minmax(0, 258px)); gap: 58px; }
-.mica-apply__title { font-size: 20px; line-height: 1.5; color: var(--port-text); }
-.mica-apply__body { margin-top: 4px; font-size: 16px; line-height: 1.5; color: var(--port-text); }
+.mica-apply__title { font-size: 16px; line-height: 1.5; color: var(--port-text); }
+.mica-apply__body { margin-top: 4px; font-size: 13.6px; line-height: 1.5; color: var(--port-text); }
 .mica-apply__cta { display: flex; flex-direction: column; align-items: center; gap: 12px; flex: none; }
 .mica-apply__cta .btn { background: var(--port-ink); }
-.mica-apply__note { font-size: 13px; line-height: 1.4; color: var(--port-text); }
+.mica-apply__note { font-size: 12px; line-height: 1.4; color: var(--port-text); }
 
 /* Security */
 .sec-hero { padding-top: 72px; text-align: center; display: flex; flex-direction: column; align-items: center; }
@@ -580,7 +586,7 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 
 /* Tablet: the live page's 810–1199 layout. */
 @media (max-width: 1199px) {
-  .mica-hero__sub { font-size: 16px; }
+  .mica-hero__sub { font-size: 13.6px; }
   .mica-tile__art { height: 260px; }
   .mica-steps__list { max-width: none; }
   .mica-step { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 350px; }
@@ -588,21 +594,22 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
   .mica-step__art { min-height: 350px; }
   .mica-step__text { padding: 32px 24px; }
   .mica-trust__cards { gap: 40px; }
-  .mica-trust__card-title { font-family: var(--font-body); font-size: 20px; }
+  .mica-trust__card-title { font-family: var(--font-body); font-size: 16px; }
   .mica-apply { padding: 32px 24px; }
   .mica-apply__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-  .mica-apply__title { font-size: 16px; }
+  .mica-apply__title { font-size: 13.6px; }
   .mica-apply__body, .mica-apply__note { font-size: 12px; }
 }
 
 /* Phone: the live page's layout below 810. */
 @media (max-width: 809px) {
-  .mica-hero__title, .sec-hero__title { font-size: 48px; }
-  .mica-h2, .mica-trust__title { font-size: 32px; font-weight: 400; }
+  .mica-hero__title { font-size: 38.4px; }
+  .sec-hero__title { font-size: 48px; }
+  .mica-h2, .mica-trust__title { font-size: 25.6px; font-weight: 400; }
   .mica-why { padding-top: 120px; }
   .mica-why__grid { margin-top: 40px; grid-template-columns: minmax(0, 1fr); }
   .mica-tile__art { height: 240px; }
-  .mica-tile__title { font-size: 24px; }
+  .mica-tile__title { font-size: 19.2px; }
   .mica-steps { padding-top: 120px; }
   .mica-steps__list { margin-top: 40px; }
   .mica-step, .mica-step--flip { position: static; grid-template-columns: minmax(0, 1fr); padding: 20px; }
@@ -614,8 +621,8 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
   .mica-trust__card-title { margin-top: 20px; }
   .mica-apply { margin-top: 80px; flex-direction: column; align-items: stretch; }
   .mica-apply__steps { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-  .mica-apply__body { font-size: 16px; }
-  .mica-apply__title { font-size: 16px; }
+  .mica-apply__body { font-size: 13.6px; }
+  .mica-apply__title { font-size: 13.6px; }
   .mica-apply__note { font-size: 12px; }
   .sec-hero__title br { display: none; }
   .sec-cards { margin-top: 80px; grid-template-columns: minmax(0, 1fr); gap: 24px; }
