@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "includes": ["**", "!**/__golden__", "!**/generated", "!pnpm-lock.yaml"]
+  },
+  "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 120 },
+  "javascript": {
+    "formatter": { "quoteStyle": "single", "semicolons": "always", "trailingCommas": "all" }
+  },
+  "linter": {
+    "rules": {
+      "preset": "recommended",
+      "complexity": {
+        // Contradicts TypeScript's noPropertyAccessFromIndexSignature, which is the
+        // stronger rule: env['PORT'] says in the code that the key may be missing.
+        "useLiteralKeys": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      // The generator and the site's own assets predate this config. They come under
+      // it when they are rewritten — site.js with the forms registry (P2), the
+      // generator in the TypeScript conversion (P7) — so this move stays a pure move.
+      "includes": ["apps/web/src/**", "apps/web/build.mjs"],
+      "formatter": { "enabled": false },
+      "linter": { "enabled": false },
+      "assist": { "enabled": false }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# One pipeline: build and test on every pull request; on main, deploy only what
+# One pipeline: check and test on every pull request; on main, deploy only what
 # passed, then check the live site. A daily run rebuilds so dated content (events
 # moving from upcoming to past) stays current without a commit.
 name: CI
@@ -19,13 +19,35 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  quality:
+    name: Lint · types · architecture rules
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Biome (lint and format)
+        run: pnpm lint
+      - name: TypeScript, strict
+        run: pnpm typecheck
+      - name: Architecture rules (.dependency-cruiser.cjs)
+        run: pnpm check:architecture
+
   web:
     name: Web · build and test
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: apps/web
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v5
         with:
           node-version: 24
@@ -35,23 +57,23 @@ jobs:
         run: pnpm check:determinism
       - run: pnpm build
       - name: Cache Playwright browsers
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm exec playwright install --with-deps chromium
       - name: URLs, links, layout at five widths, touch targets, WCAG 2.2 AA, rendered-HTML goldens
-        run: pnpm test:web
+        run: pnpm test
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report/
+          path: apps/web/playwright-report/
           retention-days: 7
 
   deploy:
     name: Deploy to GitHub Pages
-    needs: web
+    needs: [quality, web]
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     permissions:
@@ -66,8 +88,8 @@ jobs:
     outputs:
       page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v5
         with:
           node-version: 24
@@ -78,19 +100,23 @@ jobs:
           # Project pages live under /<repo-name>/. Only the 404 page uses it; every
           # other link is relative. Set to / once eunice.ai points here.
           BASE_PATH: /${{ github.event.repository.name }}/
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
-          path: dist
+          path: apps/web/dist
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
   smoke:
     name: Smoke-test the live site
     needs: deploy
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-      - run: node scripts/smoke.mjs "${{ needs.deploy.outputs.page_url }}"
+          # setup-node reads packageManager from package.json and turns on pnpm
+          # caching by default, which fails in a job that never installs pnpm.
+          # This job needs no dependencies, only Node.
+          package-manager-cache: false
+      - run: node apps/web/scripts/smoke.mjs "${{ needs.deploy.outputs.page_url }}"

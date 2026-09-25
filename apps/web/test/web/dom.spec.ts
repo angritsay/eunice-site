@@ -6,19 +6,20 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { test, expect } from '@playwright/test';
-import { PAGES, readPage, label } from './site.ts';
+import { expect, test } from '@playwright/test';
+import { label, PAGES, readPage } from './site.ts';
 
 const GOLDEN = path.join(path.dirname(fileURLToPath(import.meta.url)), '__golden__');
-const UPDATE = process.env.UPDATE_GOLDEN === '1';
+const UPDATE = process.env['UPDATE_GOLDEN'] === '1';
 
-export const normalise = (html: string) => html
-  .replace(/\r\n/g, '\n')
-  .replace(/>\s*</g, '>\n<')
-  .split('\n')
-  .map((line) => line.replace(/\s+/g, ' ').trim())
-  .filter(Boolean)
-  .join('\n') + '\n';
+export const normalise = (html: string) =>
+  `${html
+    .replace(/\r\n/g, '\n')
+    .replace(/>\s*</g, '>\n<')
+    .split('\n')
+    .map((line) => line.replace(/\s+/g, ' ').trim())
+    .filter(Boolean)
+    .join('\n')}\n`;
 
 for (const page of PAGES) {
   test(`${label(page)} renders as recorded`, () => {

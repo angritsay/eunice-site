@@ -23,10 +23,11 @@ export function builtPages(): string[] {
   const walk = (dir: string) => {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) { if (entry.name !== 'assets') walk(full); }
-      else if (entry.name === 'index.html') {
+      if (entry.isDirectory()) {
+        if (entry.name !== 'assets') walk(full);
+      } else if (entry.name === 'index.html') {
         const rel = path.relative(DIST, path.dirname(full));
-        out.push(rel === '' ? '' : rel.split(path.sep).join('/') + '/');
+        out.push(rel === '' ? '' : `${rel.split(path.sep).join('/')}/`);
       }
     }
   };
