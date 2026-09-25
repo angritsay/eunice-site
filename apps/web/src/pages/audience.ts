@@ -29,9 +29,9 @@ const DESK: Record<ProductDesk, DeskShared> = {
     ],
     quote: quotes.fof,
     insights: {
-      label: 'Insights for private markets',
-      aside: 'Written by the people who run the desk.',
-      deskFilter: ['private-markets'],
+      label: 'Insights and news',
+      aside: 'Private markets notes will appear here as the desk publishes them.',
+      deskFilter: ['private-markets', 'company'],
     },
   },
   'digital-assets': {

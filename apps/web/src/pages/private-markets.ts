@@ -107,17 +107,11 @@ ${feature({
 })}
 
 ${insightsBlock(ctx, {
-  label: 'Insights for private markets',
-  aside: 'Written by the people who run the desk.',
-  deskFilter: [DESK],
+  label: 'Insights and news',
+  aside: 'Private markets notes will appear here as the desk publishes them.',
+  deskFilter: [DESK, 'company'],
   featured: 1,
   rows: 2,
-  // Wording pending from Petronela (22 Sep 2026).
-  override: {
-    title: '[Note title — wording to follow]',
-    standfirst: '[Two or three lines — wording to follow]',
-    placeholder: true,
-  },
 })}
 
 <section class="wrap section" id="team">

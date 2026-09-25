@@ -349,6 +349,18 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 .prose figcaption { font-size: var(--caption); color: var(--muted); margin-top: 8px; }
 .post__title { max-width: 20em; }
 .post .lead { margin-top: 20px; max-width: 40em; }
+/* The blog index: a cover card per post, three across on desktop. */
+.bcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 28px; }
+.bcard { display: flex; flex-direction: column; gap: 12px; color: var(--ink); }
+.bcard__cover { display: block; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--band); }
+.bcard__cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.bcard:hover .bcard__cover img { transform: scale(1.02); }
+.bcard__meta { font-size: 8.8px; letter-spacing: .1em; text-transform: uppercase; }
+.bcard__meta span { color: var(--faint); }
+.bcard__title { font-family: var(--font-head); font-size: 16px; line-height: 1.35; letter-spacing: -.01em; }
+.bcard:hover .bcard__title { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 960px) { .bcards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .bcards { grid-template-columns: minmax(0, 1fr); } }
 .post__cover { display: block; position: relative; max-width: 44em; margin: 0 0 40px; border-radius: var(--radius); overflow: hidden; background: var(--band); }
 .post__cover img { width: 100%; height: auto; }
 .post__video { color: #fff; }
@@ -367,7 +379,7 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 
 /* ---------- Footer ---------- */
 .footer { margin-top: var(--section); padding-bottom: 32px; }
-.footer__grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(5, minmax(0, 1fr)); gap: 32px; border-top: 1px solid var(--line); padding-top: 40px; }
+.footer__grid { display: grid; grid-template-columns: minmax(0, 2fr) repeat(6, minmax(0, 1fr)); gap: 32px; border-top: 1px solid var(--line); padding-top: 40px; }
 .footer__brand p { margin-top: 16px; font-size: 11.2px; color: var(--muted); max-width: 22em; }
 .footer__col { display: flex; flex-direction: column; gap: 10px; font-size: 11.2px; align-items: flex-start; }
 .footer__col .label { font-size: 8.8px; margin-bottom: 4px; }
@@ -434,7 +446,7 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
   .grid--6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .grid--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .nav__links { gap: 20px; font-size: 11.2px; }
-  /* Five link columns beside the brand leaves each about 110px here, which is
+  /* Six link columns beside the brand leaves each about 110px here, which is
      narrower than the longest label. Give the brand its own row instead. */
   .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .footer__brand { grid-column: 1 / -1; }

@@ -119,7 +119,6 @@ const config: SiteConfig = {
     {
       title: 'Insights',
       links: [
-        { label: 'Private markets', to: 'insights', query: 'private-markets' },
         { label: 'Digital assets', to: 'insights', query: 'digital-assets' },
         { label: 'Token disclosure', to: 'insights', query: 'token-disclosure' },
         { label: 'Company news', to: 'insights', query: 'company' },
@@ -130,8 +129,19 @@ const config: SiteConfig = {
       links: [
         { label: 'About us', to: 'company' },
         { label: 'Careers', to: 'careers' },
+        { label: 'Blog', to: 'blog' },
         { label: 'Security', to: 'security' },
         { label: 'Contact', form: 'general' },
+      ],
+    },
+    // The links in the live eunice.ai footer, at the same addresses.
+    {
+      title: 'Connect',
+      links: [
+        { label: 'Trust Center', href: 'https://app.eu.vanta.com/eunice.ai/trust/siy0j28scq653o6k5baea' },
+        { label: 'Support', href: 'mailto:support@eunice.ai' },
+        { label: 'LinkedIn', href: 'https://www.linkedin.com/company/euniceai/' },
+        { label: 'X (Twitter)', href: 'https://x.com/eunice_ai1' },
       ],
     },
   ],
