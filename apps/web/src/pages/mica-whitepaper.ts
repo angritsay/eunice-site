@@ -1,8 +1,9 @@
 // The MiCA Whitepaper page, ported from the live site (eunice.ai/mica-whitepaper).
-// Its copy is kept word for word as it reads there on desktop, CTA labels included: this
-// page is a deliberate exception to the "Talk to us" rule. Change the copy on the live
-// page first, then here. Layout and breakpoints follow the live page; styles are the
-// .mica-* block in site.css.
+// Its copy is kept word for word as it reads there, CTA labels included: this page is
+// a deliberate exception to the "Talk to us" rule. The live page words three lines
+// differently on tablet and phone, and so does this one (see byWidth). Change the copy
+// on the live page first, then here. Layout and breakpoints follow the live page;
+// styles are the .mica-* block in site.css.
 import { button } from '../components.ts';
 import { type Html, html } from '../lib/html.ts';
 import type { Ctx, Page } from '../lib/types.ts';
@@ -10,16 +11,44 @@ import type { Ctx, Page } from '../lib/types.ts';
 const SLUG = 'mica-whitepaper';
 const CALENDLY = 'https://calendly.com/mica-fpnq/mica-whitepaper';
 
+/** Copy that reads differently by screen width, as it does on the live page. */
+interface ByWidth {
+  desktop: string;
+  tablet: string;
+  phone: string;
+}
+type Copy = string | ByWidth;
+
+const WIDTHS = ['desktop', 'tablet', 'phone'] as const;
+
+// One span per distinct wording, shown only at the widths that use it (.mica-v in
+// site.css: desktop 1200 and up, tablet 810–1199, phone below 810).
+const byWidth = (c: Copy): Html => {
+  if (typeof c === 'string') return html`${c}`;
+  const texts = [...new Set(WIDTHS.map((w) => c[w]))];
+  return html`${texts.map((t) => {
+    const cls = WIDTHS.filter((w) => c[w] === t)
+      .map((w) => ` mica-v--${w[0]}`)
+      .join('');
+    return html`<span class="mica-v${cls}">${t}</span>`;
+  })}`;
+};
+
 interface Img {
   file: string;
   width: number;
   height: number;
 }
 
-const WHY: { title: string; body: string; img: Img }[] = [
+const WHY: { title: Copy; body: Copy; img: Img }[] = [
   {
     title: 'Speed & Precision',
-    body: 'AI-optimised drafting cuts weeks of legal work into hours. Upload your data (we’re SOC 2 compliant) and export your whitepaper.',
+    body: {
+      desktop:
+        'AI-optimised drafting cuts weeks of legal work into hours. Upload your data (we’re SOC 2 compliant) and export your whitepaper.',
+      tablet: 'AI optimized preparation process from draft to submission',
+      phone: 'AI optimized preparation process from draft to submission',
+    },
     img: { file: 'why-speed.png', width: 1044, height: 1180 },
   },
   {
@@ -33,7 +62,7 @@ const WHY: { title: string; body: string; img: Img }[] = [
     img: { file: 'why-ongoing.png', width: 1064, height: 832 },
   },
   {
-    title: 'Legal Sign-Off Included',
+    title: { desktop: 'Legal Sign-Off Included', tablet: 'Security & Privacy', phone: 'Legal Sign-Off Included' },
     body: "Every whitepaper is reviewed by CMS - Europe's leading law firm.",
     img: { file: 'why-signoff.png', width: 1064, height: 344 },
   },
@@ -112,7 +141,7 @@ export default {
     "Draft, format, and export regulator-ready MiCA whitepapers, including native iXBRL. Powered by AI and legal expertise from CMS, Europe's leading regulatory law firm.",
   render: (ctx) => html`
 <section class="wrap mica-hero">
-  <h1 class="mica-hero__title"><mark class="mica-mark">MiCA</mark> Whitepaper Solution</h1>
+  <h1 class="mica-hero__title"><mark class="mica-mark">MiCA</mark> Whitepaper ${byWidth({ desktop: 'Solution', tablet: 'Solution', phone: 'Tool' })}</h1>
   <p class="mica-hero__sub">Draft, format, and export regulator-ready whitepapers, including native iXBRL. Powered by AI and legal expertise from CMS, Europe’s leading regulatory law firm.</p>
   <a class="btn btn--dark mica-btn" href="${CALENDLY}" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
 </section>
@@ -124,8 +153,8 @@ export default {
       (w) => html`
     <article class="mica-tile">
       <div class="mica-tile__art">${img(ctx, w.img, 'mica-tile__img')}</div>
-      <h3 class="mica-tile__title">${w.title}</h3>
-      <p class="mica-tile__body">${w.body}</p>
+      <h3 class="mica-tile__title">${byWidth(w.title)}</h3>
+      <p class="mica-tile__body">${byWidth(w.body)}</p>
     </article>`,
     )}
   </div>
