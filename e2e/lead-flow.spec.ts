@@ -107,14 +107,15 @@ test('a field the server rejects is marked, and nothing is stored', async ({ pag
   await visit(page, '/');
   await page.locator('footer [data-form="general"]').click();
 
-  // A valid address to the browser, but intake wants a real domain.
-  const email = `e2e-${Date.now()}-${process.pid}@localhost`;
+  // The browser sets no length limit on the note; intake stops at 4,000 characters.
+  const email = address();
   await form(page).locator('[name="name"]').fill('Alex Doe');
   await form(page).locator('[name="email"]').fill(email);
+  await form(page).locator('[name="message"]').fill('x'.repeat(4001));
   await send(page);
 
   await expect(page.locator('#talk [data-error]')).toBeVisible();
-  await expect(form(page).locator('[name="email"]')).toHaveAttribute('aria-invalid', 'true');
+  await expect(form(page).locator('[name="message"]')).toHaveAttribute('aria-invalid', 'true');
   expect(submissionsFor(email)).toEqual([]);
 });
 
