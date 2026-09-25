@@ -158,7 +158,7 @@ export function footer(ctx: Ctx): Html {
   </div>
   <div class="footer__legal">
     <span>${config.legalLine}</span>
-    <span class="footer__legal-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="${ctx.link('company', 'how-we-work')}">Security</a><a href="#">Status</a></span>
+    <span class="footer__legal-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="${ctx.link('security')}">Security</a><a href="#">Status</a></span>
   </div>
 </footer>`;
 }
