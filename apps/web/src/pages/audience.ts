@@ -1,14 +1,24 @@
 // One template behind every personalised client-type page.
-// The pages themselves are data: see `audiencePages` in ../content/index.js.
+// The pages themselves are data: see `audiencePages` in ../content/index.ts.
 // Nothing here holds copy for a single audience — only what a whole desk shares.
-import { audiencePages, desks, quotes } from '../content/index.js';
-import {
-  esc, button, sectionHead, bullets, facts, plate, quoteBlock, insightsBlock, cta,
-} from '../components.js';
+
+import type { InsightsBlockOptions } from '../components.ts';
+import { bullets, button, cta, facts, insightsBlock, plate, quoteBlock, sectionHead } from '../components.ts';
+import { audiencePages, desks, quotes } from '../content/index.ts';
+import type { AudiencePage, Quote } from '../content/schema.ts';
+import { html } from '../lib/html.ts';
+import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
+
+interface DeskShared {
+  hero: { img: string; alt: string };
+  facts: { title: string; text: string }[];
+  quote: Quote | null;
+  insights: Pick<InsightsBlockOptions, 'label' | 'aside' | 'deskFilter'>;
+}
 
 // What every audience page on a desk has in common: its imagery, the trust
 // markers it closes on, its quote and which insights it lists.
-const DESK = {
+const DESK: Record<ProductDesk, DeskShared> = {
   'private-markets': {
     hero: { img: 'home-hero.png', alt: 'Pipeline: five funds, one in tracking' },
     facts: [
@@ -18,7 +28,11 @@ const DESK = {
       { title: 'Every finding', text: 'Cited to the page it came from' },
     ],
     quote: quotes.fof,
-    insights: { label: 'Insights for private markets', aside: 'Written by the people who run the desk.', deskFilter: ['private-markets'] },
+    insights: {
+      label: 'Insights for private markets',
+      aside: 'Written by the people who run the desk.',
+      deskFilter: ['private-markets'],
+    },
   },
   'digital-assets': {
     hero: { img: 'da-hero.png', alt: 'Due diligence reports, searching for a token' },
@@ -29,7 +43,11 @@ const DESK = {
       { title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
     ],
     quote: quotes.falconx,
-    insights: { label: 'Insights on digital assets', aside: 'Exploits, risk and regulation, as they happen.', deskFilter: ['digital-assets', 'token-disclosure'] },
+    insights: {
+      label: 'Insights on digital assets',
+      aside: 'Exploits, risk and regulation, as they happen.',
+      deskFilter: ['digital-assets', 'token-disclosure'],
+    },
   },
   'token-disclosure': {
     hero: { img: 'da-token-disclosure.png', alt: 'A hosted MiCAR white paper' },
@@ -41,12 +59,16 @@ const DESK = {
     ],
     // No client quote on this desk yet; the section is left out until there is one.
     quote: null,
-    insights: { label: 'Insights on token disclosure', aside: 'Regulation and disclosure, as they change.', deskFilter: ['token-disclosure'] },
+    insights: {
+      label: 'Insights on token disclosure',
+      aside: 'Regulation and disclosure, as they change.',
+      deskFilter: ['token-disclosure'],
+    },
   },
 };
 
 // Turn one entry from the content file into a page the build can write.
-function page(a) {
+function page(a: AudiencePage): Page {
   const d = DESK[a.desk];
   const label = desks[a.desk].label;
   return {
@@ -56,12 +78,12 @@ function page(a) {
     audience: a.id,
     title: a.title,
     description: a.description,
-    render: (ctx) => `
+    render: (ctx: Ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
     <p class="kicker desk-text--${a.desk}">${label}</p>
-    <h1 class="h1">${esc(a.h1)}</h1>
-    <p class="lead">${esc(a.lead)}</p>
+    <h1 class="h1">${a.h1}</h1>
+    <p class="lead">${a.lead}</p>
     <div class="buttons">
       ${button(ctx, { label: 'Talk to us', form: a.desk, placement: 'hero' })}
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
@@ -78,13 +100,13 @@ function page(a) {
 <section class="wrap section">
   ${sectionHead('What Eunice does', 'Three things, in the order they happen.')}
   <ol class="steps steps--${a.desk}">
-    ${a.work.map((w) => `<li><span class="h4">${esc(w.title)}</span><span class="small muted">${esc(w.text)}</span></li>`).join('')}
+    ${a.work.map((w) => html`<li><span class="h4">${w.title}</span><span class="small muted">${w.text}</span></li>`)}
   </ol>
 </section>
 
 <section class="wrap section">
   ${facts(d.facts, 2)}
-  ${d.quote ? `<div class="grid grid--1 quotes">${quoteBlock(d.quote)}</div>` : ''}
+  ${d.quote ? html`<div class="grid grid--1 quotes">${quoteBlock(d.quote)}</div>` : ''}
 </section>
 
 ${insightsBlock(ctx, { ...d.insights, featured: 1, rows: 2 })}

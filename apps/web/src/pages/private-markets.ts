@@ -1,8 +1,22 @@
-import { quotes } from '../content/index.js';
 import {
-  button, sectionHead, audiences, audienceCards, facts, mark, photo, plate, feature, bullets,
-  insightsBlock, eventsBlock, peopleGrid, cta,
-} from '../components.js';
+  audienceCards,
+  audiences,
+  bullets,
+  button,
+  cta,
+  eventsBlock,
+  facts,
+  feature,
+  insightsBlock,
+  mark,
+  peopleGrid,
+  photo,
+  plate,
+  sectionHead,
+} from '../components.ts';
+import { quotes } from '../content/index.ts';
+import { html } from '../lib/html.ts';
+import type { Page } from '../lib/types.ts';
 
 const DESK = 'private-markets';
 
@@ -10,8 +24,9 @@ export default {
   slug: DESK,
   nav: DESK,
   title: 'Eunice Private Markets — Operational due diligence, delivered end to end',
-  description: 'Eunice reads the dataroom against your ODD checklist, cites every finding to its page and asks the same questions again each quarter.',
-  render: (ctx) => `
+  description:
+    'Eunice reads the dataroom against your ODD checklist, cites every finding to its page and asks the same questions again each quarter.',
+  render: (ctx) => html`
 <section class="wrap hero hero--pm">
   <div class="hero__text">
     <p class="kicker desk-text--${DESK}">For LPs, asset owners, fund managers and family offices</p>
@@ -42,23 +57,33 @@ export default {
 
 <section class="wrap section split">
   ${photo(ctx, { img: 'mayfair.jpg', variant: 'mayfair', alt: 'A Mayfair street corner after rain' })}
-  ${facts([
-    { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
-    { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
-    { title: 'No training on your data', text: 'Your documents are never used to train models. They stay yours.' },
-    { title: 'Every finding', text: 'Cited to the page it came from' },
-  ], 2)}
+  ${facts(
+    [
+      { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
+      { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
+      { title: 'No training on your data', text: 'Your documents are never used to train models. They stay yours.' },
+      { title: 'Every finding', text: 'Cited to the page it came from' },
+    ],
+    2,
+  )}
 </section>
 
 ${feature({
-  id: 'odd', num: '01', title: 'Operational due diligence', desk: DESK,
-  body: '<p class="body muted">Every PPM, DDQ, LPA, valuation policy and audited statement read against the ODD checklist you already use. What is missing is the finding, not what is present, and every finding cites its page.</p>',
+  id: 'odd',
+  num: '01',
+  title: 'Operational due diligence',
+  desk: DESK,
+  body: html`<p class="body muted">Every PPM, DDQ, LPA, valuation policy and audited statement read against the ODD checklist you already use. What is missing is the finding, not what is present, and every finding cites its page.</p>`,
   visual: plate(ctx, { tint: DESK, html: documentsMock() }),
 })}
 
 ${feature({
-  id: 'monitoring', num: '02', title: 'Portfolio monitoring', desk: DESK, flip: true,
-  body: `<p class="body muted">The same questions asked again each quarter, or as often as it suits your workflow, across every fund you hold.</p>
+  id: 'monitoring',
+  num: '02',
+  title: 'Portfolio monitoring',
+  desk: DESK,
+  flip: true,
+  body: html`<p class="body muted">The same questions asked again each quarter, or as often as it suits your workflow, across every fund you hold.</p>
   ${bullets([
     'Combination of qualitative and quantitative data in one place.',
     'Ask across the portfolio: one question, every fund, every document, answered with the page it came from.',
@@ -68,9 +93,12 @@ ${feature({
 })}
 
 ${feature({
-  id: 'end-to-end', num: '03', title: 'Delivered end to end', desk: DESK,
-  body: '<p class="body muted">From pipeline, investment and operational due diligence, through to live deals, portfolio monitoring and bespoke reporting as well as integrations, we are experienced in implementing seamless onboardings. We will partner with you end to end, keeping the framework current and clearing every data gap along the way.</p>',
-  visual: `<ol class="steps steps--${DESK}">
+  id: 'end-to-end',
+  num: '03',
+  title: 'Delivered end to end',
+  desk: DESK,
+  body: html`<p class="body muted">From pipeline, investment and operational due diligence, through to live deals, portfolio monitoring and bespoke reporting as well as integrations, we are experienced in implementing seamless onboardings. We will partner with you end to end, keeping the framework current and clearing every data gap along the way.</p>`,
+  visual: html`<ol class="steps steps--${DESK}">
     <li><span class="h4">Scope</span><span class="small muted">Your checklist, your funds, your committee calendar.</span></li>
     <li><span class="h4">Read</span><span class="small muted">The dataroom read in full, every finding cited to its page.</span></li>
     <li><span class="h4">Review</span><span class="small muted">Findings walked through with your committee; the memo signed off by you.</span></li>
@@ -79,10 +107,17 @@ ${feature({
 })}
 
 ${insightsBlock(ctx, {
-  label: 'Insights for private markets', aside: 'Written by the people who run the desk.',
-  deskFilter: [DESK], featured: 1, rows: 2,
+  label: 'Insights for private markets',
+  aside: 'Written by the people who run the desk.',
+  deskFilter: [DESK],
+  featured: 1,
+  rows: 2,
   // Wording pending from Petronela (22 Sep 2026).
-  override: { title: '[Note title — wording to follow]', standfirst: '[Two or three lines — wording to follow]', placeholder: true },
+  override: {
+    title: '[Note title — wording to follow]',
+    standfirst: '[Two or three lines — wording to follow]',
+    placeholder: true,
+  },
 })}
 
 <section class="wrap section" id="team">
@@ -97,14 +132,15 @@ ${cta(ctx, {
   text: 'A thirty-minute call with the desk. Bring the fund; we show you what Eunice reads, what it returns and how the quarterly cycle runs.',
   buttons: [{ label: 'Talk to us', kind: 'light', form: DESK }],
 })}`,
-};
+} satisfies Page;
 
 // Stand-ins until the real Documents and Portfolio screenshots are exported.
 function documentsMock() {
-  const row = (name, cat, stage, date, cls = '') =>
-    `<div class="mock__row ${cls}"><span>${name}</span><span>${cat}</span><span class="${stage === 'Monitoring' ? 'ok' : 'blue'}">${stage}</span><span class="faint">${date}</span></div>`;
-  const group = (name, date) => `<div class="mock__row mock__row--group"><span>${name}</span><span></span><span></span><span class="faint">${date}</span></div>`;
-  return `<div class="mock" role="img" aria-label="Documents view for Gridiron Capital Fund V">
+  const row = (name: string, cat: string, stage: string, date: string, cls = '') =>
+    html`<div class="mock__row ${cls}"><span>${name}</span><span>${cat}</span><span class="${stage === 'Monitoring' ? 'ok' : 'blue'}">${stage}</span><span class="faint">${date}</span></div>`;
+  const group = (name: string, date: string) =>
+    html`<div class="mock__row mock__row--group"><span>${name}</span><span></span><span></span><span class="faint">${date}</span></div>`;
+  return html`<div class="mock" role="img" aria-label="Documents view for Gridiron Capital Fund V">
   <div class="mock__bar">${markSmall()}<b>Gridiron Capital Fund V</b><i>Fund</i><i class="warm">Onboarding</i></div>
   <div class="mock__tabs"><span>Overview</span><span class="on">Documents 78</span><span>Reports</span></div>
   <div class="mock__row mock__row--head"><span>Name</span><span>Category</span><span>Stage</span><span>Uploaded</span></div>
@@ -120,7 +156,7 @@ function documentsMock() {
 }
 
 function portfolioMock() {
-  return `<div class="mock" role="img" aria-label="Portfolio overview">
+  return html`<div class="mock" role="img" aria-label="Portfolio overview">
   <div class="mock__bar">${markSmall()}<b>Portfolio</b></div>
   <div class="mock__tabs"><span class="on">Overview</span><span>Dashboards</span><span>Investments</span><span>Data</span></div>
   <div class="mock__ask"><b>Ask anything about your portfolio</b><span class="mock__input">Type a question, or pick one below</span>

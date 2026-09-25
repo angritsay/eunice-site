@@ -1,14 +1,16 @@
-import { insights, people } from '../content/index.js';
-import {
-  button, sectionHead, facts, partnersRow, plate, peopleGrid, insightRow, cta,
-} from '../components.js';
+import type { PersonId } from '../components.ts';
+import { button, cta, facts, insightRow, partnersRow, peopleGrid, plate, sectionHead } from '../components.ts';
+import { insights, people } from '../content/index.ts';
+import { html } from '../lib/html.ts';
+import type { Ctx, Page } from '../lib/types.ts';
 
 export default {
   slug: 'company',
   nav: 'company',
   title: 'About Eunice — We read the documents nobody has time to read',
-  description: 'A diligence firm for regulated finance. Founded in London in 2023; backed by Moonfire, Speedinvest, Openspace Capital and Locus Ventures.',
-  render: (ctx) => `
+  description:
+    'A diligence firm for regulated finance. Founded in London in 2023; backed by Moonfire, Speedinvest, Openspace Capital and Locus Ventures.',
+  render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
     <p class="kicker">About us</p>
@@ -36,7 +38,7 @@ export default {
   ${sectionHead('Leadership', 'Five people who run the company, in London.')}
   ${peopleGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'], 'portrait')}
   <div class="grid grid--4 people people--row people--team">
-    ${['winnie', 'riley'].map((id) => teamLine(ctx, id)).join('')}
+    ${(['winnie', 'riley'] as const).map((id) => teamLine(ctx, id))}
     <a class="join" href="${ctx.link('careers', 'roles')}"><span class="h4">Join the team</span><span class="caption muted">Three open roles</span><span class="small">GTM for digital assets, client implementation for private markets, senior engineering.</span></a>
   </div>
 </section>
@@ -45,8 +47,9 @@ export default {
   ${sectionHead('News and press', 'What has been announced.')}
   <ul class="irows">${insights
     .filter((i) => i.desk === 'company' || /FCA/.test(i.title))
-    .sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 5)
-    .map((i) => insightRow(ctx, i)).join('')}</ul>
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .slice(0, 5)
+    .map((i) => insightRow(ctx, i))}</ul>
 </div></section>
 
 <section class="wrap section feature feature--flat" id="how-we-work">
@@ -69,9 +72,9 @@ ${cta(ctx, {
     { label: 'See open roles', kind: 'light', to: 'careers', hash: 'roles' },
   ],
 })}`,
-};
+} satisfies Page;
 
-const teamLine = (ctx, id) => {
+const teamLine = (_ctx: Ctx, id: PersonId) => {
   const p = people[id];
-  return `<div class="teamline"><span class="h4">${p.name}</span><span class="caption muted">${p.role}</span><span class="small">${p.owns}</span></div>`;
+  return html`<div class="teamline"><span class="h4">${p.name}</span><span class="caption muted">${p.role}</span><span class="small">${p.owns}</span></div>`;
 };

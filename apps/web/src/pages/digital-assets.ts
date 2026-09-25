@@ -1,8 +1,21 @@
-import { quotes } from '../content/index.js';
 import {
-  button, sectionHead, audiences, audienceCards, facts, quoteBlock, partnersRow, plate, feature,
-  insightsBlock, eventsBlock, cta, mark,
-} from '../components.js';
+  audienceCards,
+  audiences,
+  button,
+  cta,
+  eventsBlock,
+  facts,
+  feature,
+  insightsBlock,
+  mark,
+  partnersRow,
+  plate,
+  quoteBlock,
+  sectionHead,
+} from '../components.ts';
+import { quotes } from '../content/index.ts';
+import { html } from '../lib/html.ts';
+import type { Page } from '../lib/types.ts';
 
 const DESK = 'digital-assets';
 
@@ -10,8 +23,9 @@ export default {
   slug: DESK,
   nav: DESK,
   title: 'Eunice Digital Assets — End to end listing',
-  description: 'Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.',
-  render: (ctx) => `
+  description:
+    'Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.',
+  render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
     <p class="kicker desk-text--${DESK}">For exchanges, custodians and market makers</p>
@@ -29,7 +43,12 @@ export default {
   ${sectionHead('Who we build for', 'Pick the one that sounds like your week.')}
   ${audiences(ctx, [
     ...audienceCards(DESK),
-    { desk: 'token-disclosure', title: 'Issuers and counsel', text: 'A white paper that has to be accepted once, and stay true after that.', to: 'token-disclosure' },
+    {
+      desk: 'token-disclosure',
+      title: 'Issuers and counsel',
+      text: 'A white paper that has to be accepted once, and stay true after that.',
+      to: 'token-disclosure',
+    },
   ])}
 </div></section>
 
@@ -45,20 +64,30 @@ export default {
 </section>
 
 ${feature({
-  id: 'listing', num: '01', title: 'Listing diligence', desk: DESK,
-  body: '<p class="body muted">One report per asset covering the team, the code, the reserve and the jurisdiction, in the shape a listing committee signs off.</p>',
+  id: 'listing',
+  num: '01',
+  title: 'Listing diligence',
+  desk: DESK,
+  body: html`<p class="body muted">One report per asset covering the team, the code, the reserve and the jurisdiction, in the shape a listing committee signs off.</p>`,
   visual: plate(ctx, { img: 'da-listing.png', alt: 'Due diligence reports for a queue of tokens' }),
 })}
 
 ${feature({
-  id: 'monitoring', num: '02', title: 'Monitoring that does not sleep', desk: DESK, flip: true,
-  body: '<p class="body muted">Exploits, protocol changes, enforcement actions and reserve movements — surfaced the hour they land, with the source attached.</p>',
+  id: 'monitoring',
+  num: '02',
+  title: 'Monitoring that does not sleep',
+  desk: DESK,
+  flip: true,
+  body: html`<p class="body muted">Exploits, protocol changes, enforcement actions and reserve movements — surfaced the hour they land, with the source attached.</p>`,
   visual: plate(ctx, { img: 'da-monitoring.png', alt: 'High impact events across monitored tokens' }),
 })}
 
 ${feature({
-  id: 'jurisdictions', num: '03', title: 'Jurisdiction by jurisdiction', desk: DESK,
-  body: '<p class="body muted">MiCA, the UK regime, MAS and VARA in one view, so an asset cleared in one place is not re-cleared from scratch in another.</p>',
+  id: 'jurisdictions',
+  num: '03',
+  title: 'Jurisdiction by jurisdiction',
+  desk: DESK,
+  body: html`<p class="body muted">MiCA, the UK regime, MAS and VARA in one view, so an asset cleared in one place is not re-cleared from scratch in another.</p>`,
   visual: plate(ctx, { img: 'da-jurisdiction.png', alt: 'Audit history on a detailed due diligence report' }),
 })}
 
@@ -75,8 +104,12 @@ ${feature({
 </div></section>
 
 ${insightsBlock(ctx, {
-  label: 'Insights on digital assets', aside: 'Exploits, risk and regulation, as they happen.',
-  deskFilter: [DESK, 'token-disclosure'], featured: 3, rows: 4, band: false,
+  label: 'Insights on digital assets',
+  aside: 'Exploits, risk and regulation, as they happen.',
+  deskFilter: [DESK, 'token-disclosure'],
+  featured: 3,
+  rows: 4,
+  band: false,
 })}
 
 ${eventsBlock(ctx, { label: 'Where we have been', aside: 'Talks, panels and delegations.', desk: DESK, today: ctx.today })}
@@ -89,4 +122,4 @@ ${cta(ctx, {
     { label: 'Talk to us', kind: 'light', form: DESK },
   ],
 })}`,
-};
+} satisfies Page;

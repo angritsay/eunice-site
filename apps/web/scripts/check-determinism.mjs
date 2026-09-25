@@ -10,7 +10,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const env = { ...process.env, SITE_DATE: process.env.SITE_DATE || '2026-01-01' };
 
 function snapshot() {
-  execFileSync(process.execPath, ['build.mjs', '--preview'], { cwd: ROOT, env, stdio: 'ignore' });
+  execFileSync(process.execPath, ['build.ts', '--preview'], { cwd: ROOT, env, stdio: 'ignore' });
   const hashes = new Map();
   const walk = (dir) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {

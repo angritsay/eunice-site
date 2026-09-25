@@ -1,4 +1,6 @@
-import { button, sectionHead, facts, bullets, cta } from '../components.js';
+import { bullets, button, cta, facts, sectionHead } from '../components.ts';
+import { html } from '../lib/html.ts';
+import type { Page } from '../lib/types.ts';
 
 const DESK = 'token-disclosure';
 
@@ -6,8 +8,9 @@ export default {
   slug: `${DESK}/register`,
   nav: DESK,
   title: 'The register — Eunice Token Disclosure',
-  description: 'Every white paper Eunice has notified, hosted on a public page, so an exchange or a counterparty can read what an issuer published without asking for it.',
-  render: (ctx) => `
+  description:
+    'Every white paper Eunice has notified, hosted on a public page, so an exchange or a counterparty can read what an issuer published without asking for it.',
+  render: (ctx) => html`
 <section class="wrap hero hero--short">
   <div class="hero__text">
     <p class="kicker desk-text--${DESK}">Token Disclosure</p>
@@ -22,12 +25,15 @@ export default {
 
 <section class="wrap section" id="entry">
   ${sectionHead('What an entry carries', 'The same fields for every paper, so two can be compared.')}
-  ${facts([
-    { title: 'The paper', text: 'The notified white paper as it stands, at a fixed public address' },
-    { title: 'The issuer', text: 'Who filed it, and the token it covers' },
-    { title: 'The jurisdiction', text: 'Which regime it was notified under, and to which authority' },
-    { title: 'The date', text: 'When it was notified' },
-  ], 2)}
+  ${facts(
+    [
+      { title: 'The paper', text: 'The notified white paper as it stands, at a fixed public address' },
+      { title: 'The issuer', text: 'Who filed it, and the token it covers' },
+      { title: 'The jurisdiction', text: 'Which regime it was notified under, and to which authority' },
+      { title: 'The date', text: 'When it was notified' },
+    ],
+    2,
+  )}
 </section>
 
 <section class="band section" id="listing"><div class="wrap">
@@ -37,11 +43,14 @@ export default {
 
 <section class="wrap section" id="how">
   ${sectionHead('Why it is public', 'A disclosure nobody can find is not a disclosure.')}
-  ${bullets([
-    'A listing team reads the paper at its address rather than as an attachment forwarded through a thread.',
-    'The page carries the paper as it stands, so what is read is what is true today.',
-    'The issuer files once and points everyone at the same place, instead of answering the same request in eleven formats.',
-  ], DESK)}
+  ${bullets(
+    [
+      'A listing team reads the paper at its address rather than as an attachment forwarded through a thread.',
+      'The page carries the paper as it stands, so what is read is what is true today.',
+      'The issuer files once and points everyone at the same place, instead of answering the same request in eleven formats.',
+    ],
+    DESK,
+  )}
 </section>
 
 ${cta(ctx, {
@@ -49,4 +58,4 @@ ${cta(ctx, {
   text: 'Tell us about the token and the jurisdiction. We will show you the draft the library produces, what would still need an opinion, and where it would be hosted.',
   buttons: [{ label: 'Start a white paper', kind: 'light', form: DESK }],
 })}`,
-};
+} satisfies Page;
