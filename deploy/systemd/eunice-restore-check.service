@@ -1,0 +1,9 @@
+[Unit]
+Description=eunice-site: prove the latest backup restores
+Requires=docker.service
+After=docker.service eunice-backup.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/opt/eunice-site/.env
+ExecStart=/opt/eunice-site/current/deploy/restore-check.sh ${BACKUP_TARGET}

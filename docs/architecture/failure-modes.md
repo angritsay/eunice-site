@@ -9,9 +9,10 @@ reading the code.
 | NATS down | Nothing different (202) | No: outbox holds them | Email arrives late | intake logs `outbox relay failed; retrying` | `e2e/resilience.spec.ts`, `relay.test.ts` |
 | notifier down | Nothing different | No: stream holds them, up to 7 days | Email arrives late | notifier `/readyz` fails; stream backlog | `e2e/resilience.spec.ts` |
 | Email provider 5xx / timeout | Nothing different | No: retried for ~2 hours | Email arrives late | `notification failed; will retry` (warn) | `notify.test.ts` |
-| Email provider rejects (4xx) or retries run out | Nothing different | **Not emailed**, still stored in intake | No email | `notification abandoned` (error) with submission id: **alert on this** | `notify.test.ts` |
+| Mail server refuses the message, or retries run out | Nothing different | **Not emailed**, still stored in intake | No email | `notification abandoned` (error) with submission id → CloudWatch alarm → email | `notify.test.ts`, `smtp.test.ts` |
 | Malformed event | — | Not emailed, still stored | No email | `event does not match the contract` (error) | `notify.test.ts` |
 | Postgres down | Error message with the mail link | No: the visitor is told and given `mailto:` | — | intake `/readyz` 503; 500s | `app.test.ts` (500 never leaks internals) |
+| Database lost (disk, operator error) | — | Up to a day of leads, which were also emailed | — | — | daily dump restored and counted in CI on every PR and weekly on the server |
 | intake down | Error message with the mail link | No, same as above | — | edge 502; platform health check | — (P9: synthetic check) |
 | Double click / network retry | One confirmation | No duplicates | One email | — | `postgres.test.ts` (8 concurrent → 1 row) |
 | Same key, different content | Error message | — | — | 409 | `app.test.ts`, `postgres.test.ts` |
@@ -28,5 +29,6 @@ reading the code.
   more ([ADR-0007](../adr/0007-personal-data-in-intake.md)).
 - **One work-queue consumer per subject.** A second consumer of submissions needs its own
   subject ([ADR-0009](../adr/0009-broker-notifier-email.md)).
-- **Alerting is a log line today.** `notification abandoned` at error level is the
-  signal. Wiring it to a pager is part of go-live.
+- **Alerting is by email.** A CloudWatch metric filter on `notification abandoned` raises
+  an alarm to the stack's `AlertEmail` (SNS), as does a failed EC2 status check, which
+  also recovers the instance onto new hardware. A pager can subscribe to the same topic.

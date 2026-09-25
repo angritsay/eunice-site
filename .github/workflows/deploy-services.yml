@@ -1,0 +1,118 @@
+# Deploys the forms backend (intake, notifier and friends) to the AWS instance created by
+# deploy/aws/stack.yaml (ADR-0012), after CI has passed on main. GitHub Pages deploys the
+# site itself, in ci.yml.
+#
+# Does nothing until the stack exists: then set these repository variables from the
+# stack's outputs (docs/runbooks/first-deploy.md): AWS_DEPLOY_ROLE_ARN, AWS_INSTANCE_ID,
+# AWS_BUCKET, AWS_REGISTRY, and API_DOMAIN. No AWS keys are stored anywhere: GitHub's
+# OIDC token is exchanged for a one-hour role that can only push images, upload a
+# release and run the deploy command on that one instance.
+#
+# Roll back: run this workflow by hand with the commit SHA of an earlier release. Its
+# images are already in ECR, so nothing is rebuilt.
+name: Deploy services
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Commit SHA to deploy (empty = the latest main). An earlier SHA rolls back.
+        required: false
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-services
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: eu-west-2
+
+jobs:
+  deploy:
+    name: Deploy to AWS
+    if: >-
+      vars.AWS_DEPLOY_ROLE_ARN != '' && (
+        github.event_name == 'workflow_dispatch' ||
+        (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+      )
+    # The instance is Graviton (arm64): build natively, no emulation.
+    runs-on: ubuntu-24.04-arm
+    environment: production
+    timeout-minutes: 30
+    env:
+      SHA: ${{ inputs.release || github.event.workflow_run.head_sha || github.sha }}
+      REGISTRY: ${{ vars.AWS_REGISTRY }}
+      BUCKET: ${{ vars.AWS_BUCKET }}
+      INSTANCE: ${{ vars.AWS_INSTANCE_ID }}
+      API_DOMAIN: ${{ vars.API_DOMAIN }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.SHA }}
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push images (a release already in ECR is reused, not rebuilt)
+        id: images
+        run: |
+          for svc in intake notifier; do
+            repo="$REGISTRY/eunice-site/$svc"
+            if ! aws ecr describe-images --repository-name "eunice-site/$svc" --image-ids "imageTag=$SHA" >/dev/null 2>&1; then
+              docker build --file services/Dockerfile --build-arg "SERVICE=$svc" --tag "$repo:$SHA" .
+              docker push --quiet "$repo:$SHA"
+            fi
+            digest=$(aws ecr describe-images --repository-name "eunice-site/$svc" --image-ids "imageTag=$SHA" \
+              --query 'imageDetails[0].imageDigest' --output text)
+            echo "$svc=$repo@$digest" >> "$GITHUB_OUTPUT"
+          done
+
+      - name: Upload the release bundle (compose file, edge config, scripts, database roles)
+        run: |
+          tar -czf release.tgz deploy infra
+          aws s3 cp --only-show-errors release.tgz "s3://$BUCKET/releases/$SHA.tgz"
+
+      - name: Deploy on the instance (SSM Run Command)
+        env:
+          INTAKE_IMAGE: ${{ steps.images.outputs.intake }}
+          NOTIFIER_IMAGE: ${{ steps.images.outputs.notifier }}
+        run: |
+          script="aws s3 cp --only-show-errors s3://$BUCKET/releases/$SHA.tgz - | tar -xzO deploy/deploy.sh > /tmp/deploy-$SHA.sh && bash /tmp/deploy-$SHA.sh $SHA $BUCKET $INTAKE_IMAGE $NOTIFIER_IMAGE"
+          id=$(aws ssm send-command --instance-ids "$INSTANCE" --document-name AWS-RunShellScript \
+            --comment "eunice-site ${SHA:0:12}" --timeout-seconds 900 \
+            --parameters "$(jq -cn --arg c "$script" '{commands: [$c], executionTimeout: ["900"]}')" \
+            --query Command.CommandId --output text)
+          for _ in $(seq 1 180); do
+            status=$(aws ssm get-command-invocation --command-id "$id" --instance-id "$INSTANCE" \
+              --query Status --output text 2>/dev/null || echo Pending)
+            case "$status" in Pending|InProgress|Delayed) sleep 5 ;; *) break ;; esac
+          done
+          aws ssm get-command-invocation --command-id "$id" --instance-id "$INSTANCE" \
+            --query '[StandardOutputContent, StandardErrorContent]' --output text
+          test "$status" = Success
+
+      - name: Smoke test the live API
+        run: |
+          base="https://$API_DOMAIN"
+          curl -fsS --retry 10 --retry-delay 3 --retry-all-errors "$base/intake/healthz"
+          curl -fsS "$base/intake/readyz"
+          # The site's origin may submit from a browser; any other may not.
+          allowed=$(curl -fsS -o /dev/null -D - -X OPTIONS "$base/intake/v1/submissions" \
+            -H 'Origin: https://eunice.ai' -H 'Access-Control-Request-Method: POST' \
+            -H 'Access-Control-Request-Headers: content-type,idempotency-key' | tr -d '\r' \
+            | grep -i '^access-control-allow-origin:' || true)
+          echo "$allowed" | grep -q 'https://eunice.ai'
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$base/intake/v1/admin/erasures" -X POST)" = 404
+          curl -fsS -o /dev/null "$base/analytics/script.js"
+          echo "deployed ${SHA:0:12} to $API_DOMAIN"

@@ -1,0 +1,429 @@
+# The whole production footprint of the forms backend, in the company's existing AWS
+# account (ADR-0012). Deployed once by an AWS admin; see docs/runbooks/first-deploy.md.
+#
+#   aws cloudformation deploy --region eu-west-2 --stack-name eunice-site \
+#     --template-file deploy/aws/stack.yaml --capabilities CAPABILITY_NAMED_IAM \
+#     --parameter-overrides VpcId=vpc-… SubnetId=subnet-… AlertEmail=… …
+#
+# What it creates: one EC2 instance (no SSH; Session Manager only) behind a fixed IP,
+# a security group open on 80/443, two ECR repositories, one encrypted S3 bucket for
+# releases and backups, daily EBS snapshots, CloudWatch logs, an alert for leads that
+# could not be emailed, and a GitHub OIDC role that can deploy and nothing else.
+# Secrets are not here: the instance generates them on first deploy, into SSM
+# Parameter Store, and they never leave AWS.
+AWSTemplateFormatVersion: '2010-09-09'
+Description: eunice.ai forms backend - intake, notifier, NATS, Umami, Postgres on one instance
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC for the instance.
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: A public subnet in that VPC (the instance needs outbound internet for TLS certificates, ECR and email).
+  InstanceType:
+    Type: String
+    Default: t4g.small
+    AllowedValues: [t4g.small, t4g.medium]
+  AmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64
+  ApiDomain:
+    Type: String
+    Default: api.eunice.ai
+    Description: Hostname the API is served on. Point an A record at the ElasticIp output.
+  SiteOrigins:
+    Type: String
+    Default: https://eunice.ai,https://angritsay.github.io
+    Description: Browser origins allowed to submit forms, comma-separated.
+  OpsInbox:
+    Type: String
+    Default: ops@eunice.ai
+  CareersInbox:
+    Type: String
+    Default: careers@eunice.ai
+  MailFrom:
+    Type: String
+    Default: Eunice site <notify@eunice.ai>
+    Description: Sender, as allowed by the Google Workspace SMTP relay rule.
+  SiteUrl:
+    Type: String
+    Default: https://eunice.ai
+    Description: The site's own address, for links in the ops email.
+  UmamiWebsiteId:
+    Type: String
+    Default: 3f7c9e2a-5b1d-4e8f-9a6c-0d2e4b8f1c37
+    AllowedPattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+    Description: The site's id in Umami. The Pages build uses the same value (repository variable UMAMI_WEBSITE_ID).
+  AlertEmail:
+    Type: String
+    Description: Who is told when a lead could not be emailed, or the instance is unhealthy.
+  GitHubRepository:
+    Type: String
+    Default: angritsay/eunice-site
+  CreateGitHubOidcProvider:
+    Type: String
+    Default: 'true'
+    AllowedValues: ['true', 'false']
+    Description: "false if the account already has token.actions.githubusercontent.com as an identity provider."
+
+Conditions:
+  CreateOidc: !Equals [!Ref CreateGitHubOidcProvider, 'true']
+
+Resources:
+  # ---------- Network ----------
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: eunice-site API - HTTP (redirect to HTTPS) and HTTPS only
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 443, ToPort: 443, CidrIp: 0.0.0.0/0, Description: HTTPS }
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: 0.0.0.0/0, Description: HTTP-01 challenge and redirect }
+      Tags: [{ Key: Name, Value: eunice-site }]
+
+  ElasticIp:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags: [{ Key: Name, Value: eunice-site }]
+
+  ElasticIpAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !GetAtt ElasticIp.AllocationId
+      InstanceId: !Ref Instance
+
+  # ---------- Storage ----------
+  Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: { SSEAlgorithm: aws:kms }
+            BucketKeyEnabled: true
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules: [{ ObjectOwnership: BucketOwnerEnforced }]
+      VersioningConfiguration: { Status: Enabled }
+      LifecycleConfiguration:
+        Rules:
+          - Id: backups-35-days
+            Prefix: backups/
+            Status: Enabled
+            ExpirationInDays: 35
+            NoncurrentVersionExpiration: { NoncurrentDays: 7 }
+          - Id: releases-180-days
+            Prefix: releases/
+            Status: Enabled
+            ExpirationInDays: 180
+
+  BucketTlsOnly:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: s3:*
+            Resource: [!GetAtt Bucket.Arn, !Sub '${Bucket.Arn}/*']
+            Condition: { Bool: { aws:SecureTransport: 'false' } }
+
+  IntakeRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: eunice-site/intake
+      ImageTagMutability: IMMUTABLE
+      ImageScanningConfiguration: { ScanOnPush: true }
+      EncryptionConfiguration: { EncryptionType: AES256 }
+      LifecyclePolicy:
+        LifecyclePolicyText: '{"rules":[{"rulePriority":1,"description":"keep the last 30 images","selection":{"tagStatus":"any","countType":"imageCountMoreThan","countNumber":30},"action":{"type":"expire"}}]}'
+
+  NotifierRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: eunice-site/notifier
+      ImageTagMutability: IMMUTABLE
+      ImageScanningConfiguration: { ScanOnPush: true }
+      EncryptionConfiguration: { EncryptionType: AES256 }
+      LifecyclePolicy:
+        LifecyclePolicyText: '{"rules":[{"rulePriority":1,"description":"keep the last 30 images","selection":{"tagStatus":"any","countType":"imageCountMoreThan","countNumber":30},"action":{"type":"expire"}}]}'
+
+  # ---------- Configuration (not secret) ----------
+  # Secrets live next to these, under /eunice-site/prod/secret/, generated by the
+  # instance on first deploy (deploy/render-env.sh).
+  ParamApiDomain:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/API_DOMAIN, Type: String, Value: !Ref ApiDomain }
+  ParamSiteOrigins:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/ALLOWED_ORIGINS, Type: String, Value: !Ref SiteOrigins }
+  ParamOpsInbox:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/OPS_INBOX, Type: String, Value: !Ref OpsInbox }
+  ParamCareersInbox:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/CAREERS_INBOX, Type: String, Value: !Ref CareersInbox }
+  ParamMailFrom:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/MAIL_FROM, Type: String, Value: !Ref MailFrom }
+  ParamSiteUrl:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/SITE_URL, Type: String, Value: !Ref SiteUrl }
+  ParamUmamiWebsiteId:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/UMAMI_WEBSITE_ID, Type: String, Value: !Ref UmamiWebsiteId }
+  ParamAcmeEmail:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/ACME_EMAIL, Type: String, Value: !Ref AlertEmail }
+  ParamBucket:
+    Type: AWS::SSM::Parameter
+    Properties: { Name: /eunice-site/prod/config/BUCKET, Type: String, Value: !Ref Bucket }
+
+  # ---------- Instance ----------
+  InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - { Effect: Allow, Principal: { Service: ec2.amazonaws.com }, Action: sts:AssumeRole }
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Policies:
+        - PolicyName: eunice-site-instance
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: PullImages
+                Effect: Allow
+                Action: [ecr:BatchGetImage, ecr:GetDownloadUrlForLayer]
+                Resource: [!GetAtt IntakeRepository.Arn, !GetAtt NotifierRepository.Arn]
+              - Sid: EcrLogin
+                Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: '*'
+              - Sid: ReadReleases
+                Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub '${Bucket.Arn}/releases/*'
+              - Sid: WriteAndReadBackups
+                Effect: Allow
+                Action: [s3:PutObject, s3:GetObject]
+                Resource: !Sub '${Bucket.Arn}/backups/*'
+              - Sid: ListBackups
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt Bucket.Arn
+                Condition: { StringLike: { s3:prefix: ['backups/*'] } }
+              - Sid: ConfigAndSecrets
+                Effect: Allow
+                Action: [ssm:GetParameter, ssm:GetParametersByPath, ssm:PutParameter]
+                Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/eunice-site/prod/*'
+              - Sid: Logs
+                Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents, logs:DescribeLogStreams]
+                Resource: !Sub '${LogGroup.Arn}:*'
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: [!Ref InstanceRole]
+
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiId
+      InstanceType: !Ref InstanceType
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds: [!Ref SecurityGroup]
+      IamInstanceProfile: !Ref InstanceProfile
+      Monitoring: false
+      MetadataOptions:
+        HttpTokens: required
+        HttpPutResponseHopLimit: 2
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs: { VolumeSize: 30, VolumeType: gp3, Encrypted: true, DeleteOnTermination: false }
+      Tags:
+        - { Key: Name, Value: eunice-site }
+        - { Key: eunice-site:snapshot, Value: daily }
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          # First boot: Docker with the compose plugin, automatic security updates, and a
+          # home for releases. Everything else arrives with each deploy.
+          set -euxo pipefail
+          dnf install -y docker dnf-automatic
+          mkdir -p /usr/local/lib/docker/cli-plugins
+          curl -fsSL "https://github.com/docker/compose/releases/download/v5.1.1/docker-compose-linux-aarch64" \
+            -o /usr/local/lib/docker/cli-plugins/docker-compose
+          chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+          systemctl enable --now docker
+          sed -i 's/^upgrade_type = .*/upgrade_type = security/; s/^apply_updates = .*/apply_updates = yes/' /etc/dnf/automatic.conf
+          systemctl enable --now dnf-automatic.timer
+          install -d -m 0750 /opt/eunice-site
+
+  # Recover onto new hardware if AWS's own checks fail.
+  RecoveryAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: eunice-site instance failed a system status check; recovering
+      Namespace: AWS/EC2
+      MetricName: StatusCheckFailed_System
+      Dimensions: [{ Name: InstanceId, Value: !Ref Instance }]
+      Statistic: Maximum
+      Period: 60
+      EvaluationPeriods: 2
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      AlarmActions:
+        - !Sub 'arn:${AWS::Partition}:automate:${AWS::Region}:ec2:recover'
+        - !Ref AlertTopic
+
+  # ---------- Snapshots ----------
+  SnapshotRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - { Effect: Allow, Principal: { Service: dlm.amazonaws.com }, Action: sts:AssumeRole }
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSDataLifecycleManagerServiceRole
+
+  SnapshotPolicy:
+    Type: AWS::DLM::LifecyclePolicy
+    Properties:
+      Description: eunice-site daily EBS snapshots - 7 kept
+      State: ENABLED
+      ExecutionRoleArn: !GetAtt SnapshotRole.Arn
+      PolicyDetails:
+        ResourceTypes: [INSTANCE]
+        TargetTags: [{ Key: eunice-site:snapshot, Value: daily }]
+        Schedules:
+          - Name: daily
+            CreateRule: { Interval: 24, IntervalUnit: HOURS, Times: ['03:30'] }
+            RetainRule: { Count: 7 }
+            CopyTags: true
+
+  # ---------- Logs and alerts ----------
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /eunice-site/prod
+      RetentionInDays: 90
+
+  AlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription: [{ Protocol: email, Endpoint: !Ref AlertEmail }]
+
+  # The notifier logs this line, with the submission id, when a lead could not be
+  # emailed after every retry. The lead itself is safe in intake; a person must act.
+  AbandonedFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref LogGroup
+      FilterPattern: '"notification abandoned"'
+      MetricTransformations:
+        - { MetricNamespace: eunice-site, MetricName: NotificationsAbandoned, MetricValue: '1', DefaultValue: 0 }
+
+  AbandonedAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: A lead could not be emailed to the ops inbox. See docs/runbooks/operations.md.
+      Namespace: eunice-site
+      MetricName: NotificationsAbandoned
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertTopic]
+
+  # ---------- Deploys from GitHub Actions, without stored keys ----------
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateOidc
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList: [sts.amazonaws.com]
+
+  DeployRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Assumed by GitHub Actions on main of the site repository to deploy the forms backend
+      MaxSessionDuration: 3600
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com'
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub: !Sub 'repo:${GitHubRepository}:environment:production'
+      Policies:
+        - PolicyName: eunice-site-deploy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: PushImages
+                Effect: Allow
+                Action:
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                  - ecr:PutImage
+                  - ecr:BatchGetImage
+                  - ecr:DescribeImages
+                Resource: [!GetAtt IntakeRepository.Arn, !GetAtt NotifierRepository.Arn]
+              - Sid: EcrLogin
+                Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: '*'
+              - Sid: UploadReleases
+                Effect: Allow
+                Action: [s3:PutObject, s3:GetObject]
+                Resource: !Sub '${Bucket.Arn}/releases/*'
+              - Sid: RunDeployOnInstance
+                Effect: Allow
+                Action: ssm:SendCommand
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:instance/${Instance}'
+                  - !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}::document/AWS-RunShellScript'
+              - Sid: ReadDeployResult
+                Effect: Allow
+                Action: [ssm:GetCommandInvocation, ssm:ListCommandInvocations]
+                Resource: '*'
+
+Outputs:
+  ElasticIp:
+    Description: Point the ApiDomain A record here; allow this address in the Google Workspace SMTP relay.
+    Value: !Ref ElasticIp
+  DeployRoleArn:
+    Description: GitHub repository variable AWS_DEPLOY_ROLE_ARN
+    Value: !GetAtt DeployRole.Arn
+  InstanceId:
+    Description: GitHub repository variable AWS_INSTANCE_ID
+    Value: !Ref Instance
+  BucketName:
+    Description: GitHub repository variable AWS_BUCKET
+    Value: !Ref Bucket
+  RegistryUri:
+    Description: GitHub repository variable AWS_REGISTRY
+    Value: !Sub '${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com'

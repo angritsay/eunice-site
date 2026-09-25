@@ -10,4 +10,4 @@
 | [analysis/data-model.md](analysis/data-model.md) | Entities, the event, and a personal-data inventory (what, why, how long, deleted by) |
 | [analysis/glossary.md](analysis/glossary.md) | Desk, variant, placement, entry point, outbox… |
 | [adr/](adr/) | Every significant decision, with the options that lost |
-| [runbooks/](runbooks/) | Operating tasks: [reading the form funnel](runbooks/analytics-funnel.md) |
+| [runbooks/](runbooks/) | [First deploy to AWS](runbooks/first-deploy.md), [operations](runbooks/operations.md) (deploy, roll back, alerts, erasure, backups, secrets), [reading the form funnel](runbooks/analytics-funnel.md) |

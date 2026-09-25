@@ -1,0 +1,37 @@
+# The production edge: api.eunice.ai. TLS certificates are obtained and renewed by Caddy
+# (Let's Encrypt). The site itself is on GitHub Pages; only the API and the analytics
+# tracker are served here.
+{
+	admin off
+	email {$ACME_EMAIL}
+}
+
+{$API_DOMAIN} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	# Admin endpoints are for operators on the instance (Session Manager), never public.
+	handle /intake/v1/admin/* {
+		respond 404
+	}
+	handle_path /intake/* {
+		reverse_proxy intake:3000
+	}
+
+	# Analytics: the tracker and the endpoint it sends to. The dashboard is not routed.
+	@tracker path /analytics/script.js /analytics/api/send
+	handle @tracker {
+		uri strip_prefix /analytics
+		reverse_proxy umami:3000
+	}
+
+	handle {
+		respond 404
+	}
+}
