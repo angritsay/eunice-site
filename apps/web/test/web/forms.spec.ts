@@ -33,6 +33,28 @@ test.describe('production guard', () => {
     expect(build).toThrow(/no privacy page/);
   });
 
+  test('a production build with analytics but no privacy page refuses to build', () => {
+    const build = () =>
+      execFileSync(process.execPath, ['build.mjs'], {
+        cwd: WEB,
+        env: {
+          ...process.env,
+          SITE_ENV: 'production',
+          PUBLIC_ANALYTICS_SRC: 'https://analytics.example/script.js',
+          PUBLIC_ANALYTICS_HOST: 'https://analytics.example',
+          PUBLIC_ANALYTICS_WEBSITE_ID: '6b0e6c1d-6c3a-4a3e-9d7b-0e1c2f3a4b5c',
+        },
+        stdio: 'pipe',
+      });
+    expect(build).toThrow(/Analytics is configured .* no privacy page/);
+  });
+
+  test('the built site loads no analytics until it is configured', () => {
+    for (const page of ['', 'private-markets/lps/', 'careers/']) {
+      expect(readPage(page)).not.toContain('data-website-id');
+    }
+  });
+
   test('each page tells the form where it is, and client-type pages say which client', () => {
     expect(configOf('private-markets/lps/')).toMatchObject({ page: 'private-markets/lps/', audience: 'lps' });
     expect(configOf('token-disclosure/issuers/')).toMatchObject({

@@ -33,6 +33,17 @@
 		reverse_proxy intake:3000
 	}
 
+	# Analytics: only the tracker script and the endpoint it sends events to. Umami's
+	# dashboard and admin API are not reachable through the edge.
+	@tracker path /analytics/script.js /analytics/api/send
+	handle @tracker {
+		uri strip_prefix /analytics
+		reverse_proxy umami:3000
+	}
+	handle /analytics/* {
+		respond 404
+	}
+
 	handle {
 		import site_headers
 		root * /srv

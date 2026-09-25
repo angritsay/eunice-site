@@ -34,6 +34,8 @@ export async function startDatabase(): Promise<TestDatabase> {
     'notifier_owner_password=n-owner-pw',
     '-v',
     'notifier_app_password=n-app-pw',
+    '-v',
+    'umami_password=umami-pw',
     '-f',
     '/eunice/roles.sql',
   ]);

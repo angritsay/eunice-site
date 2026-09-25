@@ -76,14 +76,33 @@ function previewCtx(page) {
 // build says otherwise; the local compose stack builds with SITE_ENV=local.
 const SITE_ENV = process.env.SITE_ENV || 'production';
 const FORM_ENDPOINT = process.env.PUBLIC_FORM_ENDPOINT ?? config.formEndpoint;
+// Self-hosted Umami (ADR-0010): the tracker's URL, where it sends events, and the site's
+// id in Umami. All three, or no analytics at all.
+const ANALYTICS = {
+  src: process.env.PUBLIC_ANALYTICS_SRC,
+  hostUrl: process.env.PUBLIC_ANALYTICS_HOST,
+  websiteId: process.env.PUBLIC_ANALYTICS_WEBSITE_ID,
+};
+const ANALYTICS_ON = Boolean(ANALYTICS.src && ANALYTICS.hostUrl && ANALYTICS.websiteId);
 
 // A live form collects personal data, and GDPR (Art. 13) requires the privacy notice
 // to be available at the point of collection. So a production build that points the
 // form at a real endpoint fails unless the site has a privacy page. Until then the
 // form falls back to the visitor's mail app, which collects nothing on our side.
-if (SITE_ENV === 'production' && FORM_ENDPOINT && !PAGES.some((p) => p.slug === 'privacy')) {
+// Analytics falls under the same rule: cookieless, but the notice must say what is measured.
+const HAS_PRIVACY_PAGE = PAGES.some((p) => p.slug === 'privacy');
+if (SITE_ENV === 'production' && FORM_ENDPOINT && !HAS_PRIVACY_PAGE) {
   throw new Error('PUBLIC_FORM_ENDPOINT is set for a production build, but there is no privacy page. See the go-live gate in docs.');
 }
+if (SITE_ENV === 'production' && ANALYTICS_ON && !HAS_PRIVACY_PAGE) {
+  throw new Error('Analytics is configured for a production build, but there is no privacy page. See the go-live gate in docs.');
+}
+
+// Umami's tracker: no cookies, and it honours Do Not Track. Loaded from our own instance.
+const analyticsTag = () =>
+  ANALYTICS_ON
+    ? `\n<script src="${esc(ANALYTICS.src)}" data-website-id="${esc(ANALYTICS.websiteId)}" data-host-url="${esc(ANALYTICS.hostUrl)}" data-do-not-track="true" defer></script>`
+    : '';
 
 const pagePath = (page) => (page.slug ? `${page.slug}/` : '');
 
@@ -126,7 +145,7 @@ ${fonts(ctx.asset)}
 ${pageBody(ctx, page)}
 ${dialog(config)}
 ${runtimeConfig(false, page)}
-<script src="${ctx.asset('site.js')}" defer></script>
+<script src="${ctx.asset('site.js')}" defer></script>${analyticsTag()}
 </body>
 </html>`;
     const dir = path.join(DIST, page.slug);
