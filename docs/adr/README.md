@@ -18,6 +18,7 @@ accepted: a changed mind is a new record that supersedes the old one, so the his
 | [0009](0009-broker-notifier-email.md) | NATS JetStream between intake and notifier; email through one port, two providers | Accepted |
 | [0010](0010-analytics-self-hosted-umami.md) | Analytics: self-hosted Umami, cookieless, funnel per entry point | Accepted |
 | [0011](0011-typed-static-generator.md) | The site stays a static generator, in TypeScript, with escaping by default | Accepted |
+| [0012](0012-production-on-existing-vendors.md) | Production runs on vendors the company already has: AWS and Google Workspace | Accepted |
 
 To add one: copy the most recent record, take the next number, and link it here in the
 same pull request.

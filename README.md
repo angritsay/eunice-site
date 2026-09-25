@@ -15,7 +15,7 @@ Each of the three desks also has a personalised page per client type — `/priva
    the C4 context and containers, and the boundaries with the ADRs behind them.
 3. **How a lead moves.** [docs/architecture/flows.md](docs/architecture/flows.md) has
    sequence diagrams, each naming the code and the test that proves it.
-4. **Why.** [docs/adr/](docs/adr/) records eleven decisions, including what was deliberately
+4. **Why.** [docs/adr/](docs/adr/) records twelve decisions, including what was deliberately
    *not* built.
 5. **What it must do, and how we know.** [docs/analysis/requirements.md](docs/analysis/requirements.md)
    lists the measurable requirements and where each is verified.

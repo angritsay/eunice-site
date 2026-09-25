@@ -47,6 +47,7 @@ const MAILPIT = process.env['E2E_MAILPIT_URL'] ?? 'http://localhost:8025';
 
 export interface Mail {
   ID: string;
+  MessageID: string;
   Subject: string;
   To: { Address: string }[];
   ReplyTo: { Address: string; Name: string }[];

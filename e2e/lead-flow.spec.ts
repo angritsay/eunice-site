@@ -64,6 +64,8 @@ test('Private Markets, from the hero on the LPs page', async ({ page }) => {
   expect(mail?.Subject).toBe('[Private Markets · lps · hero] Jane Doe — Acme Capital');
   expect(mail?.To.map((t) => t.Address)).toEqual(['ops@eunice.local']);
   expect(mail?.ReplyTo).toEqual([{ Address: email, Name: 'Jane Doe' }]);
+  // One Message-ID per event, so a rare resend is de-duplicated by the mailbox.
+  expect(mail?.MessageID).toMatch(/^[0-9a-f-]{36}@eunice\.local$/);
   expect(mail?.Text).toMatch(/Fund:\s+Gridiron Fund V/);
   expect(mail?.Text).toContain('utm_source=newsletter, utm_campaign=q4');
 

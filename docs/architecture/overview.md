@@ -18,7 +18,7 @@ flowchart LR
     site["Site and form system"]
   end
 
-  mail[("Email provider<br/>Resend — Planned for production")]
+  mail[("Google Workspace<br/>SMTP relay (existing mail provider)")]
 
   visitor -- "reads pages, submits a form" --> site
   site -- "one email per lead,<br/>Reply-To: the lead" --> mail
@@ -54,7 +54,7 @@ flowchart TB
   end
 
   umami["Umami<br/>analytics, self-hosted<br/><i>Implemented</i>"]
-  mailer[("Mailpit (local) /<br/>Resend (production, Planned)")]
+  mailer[("SMTP: Mailpit (local) /<br/>Google Workspace relay (production)")]
   jaeger["Jaeger<br/>traces (local)"]
 
   browser -- "HTML, CSS, JS, fonts" --> caddy
@@ -66,7 +66,7 @@ flowchart TB
   intake -- "publish, Nats-Msg-Id = event id" --> nats
   nats -- "durable consumer 'notifier'" --> notifier
   notifier -- "delivery log (ids only)" --> pg
-  notifier -- "HTTP send" --> mailer
+  notifier -- "SMTP, TLS in production" --> mailer
   umami --> pg
   intake -. "OTLP" .-> jaeger
   notifier -. "OTLP" .-> jaeger
@@ -128,19 +128,24 @@ flowchart LR
 containers above, plus one-shot migration jobs and the Umami bootstrap. CI runs the same
 stack and drives it from a browser.
 
-**Production (planned, gated on the owner; see the plan's go-live gate)**:
+**Production (planned, on existing vendors only; [ADR-0012](../adr/0012-production-on-existing-vendors.md))**:
 
 ```mermaid
 flowchart LR
-  pages["GitHub Pages<br/>static site"] -- "form POST, CORS allow-list" --> fly
-  subgraph fly["Fly.io · London (lhr)"]
-    fi["intake"] --- fn["nats (1 GB volume)"] --- fno["notifier"]
-    fu["umami"]
+  pages["GitHub Pages<br/>static site"] -- "form POST, CORS allow-list" --> ec2
+  subgraph aws["AWS · eu-west-2 London (existing account)"]
+    subgraph ec2["EC2 · api.eunice.ai · same compose stack"]
+      caddy["Caddy (TLS)"] --> fi["intake"]
+      fi --- fn["nats"] --- fno["notifier"]
+      fu["umami"]
+      pg[("Postgres<br/>schemas and roles as locally")]
+    end
+    s3[("S3: encrypted daily backups")]
   end
-  fly --> neon[("Neon Postgres · London<br/>same schemas and roles")]
-  fno --> resend[("Resend · notify.eunice.ai<br/>SPF / DKIM")]
+  pg --> s3
+  fno -- "SMTP, TLS, allowed IP only" --> gw[("Google Workspace<br/>SMTP relay")]
 ```
 
-All three providers hold SOC 2 Type II reports and keep data in the UK/EU. Deploys run
-only from GitHub Actions. Migrations run as a release command before new instances take
-traffic, never at boot.
+No new sub-processor: AWS and Google Workspace are already the company's. Deploys run only
+from GitHub Actions, through a short-lived OIDC role; migrations run as one-shot jobs
+before the services restart, never at boot.

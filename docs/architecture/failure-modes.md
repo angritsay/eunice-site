@@ -18,7 +18,7 @@ reading the code.
 | Bot (honeypot / too fast) | "Thank you" | Nothing stored | Nothing | info log with reason | `e2e/lead-flow.spec.ts`, `spam` unit tests |
 | Flood from one address | 429 with Retry-After | — | — | access log status 429 | `app.test.ts` |
 | Relay crashes after publish, before commit | — | No | One email: broker de-dups by event id; notifier by delivery log | — | `relay.test.ts` (de-dup) |
-| notifier crashes after send, before recording | — | No | One email with Resend (idempotency key); possibly two with Mailpit | — | reasoned, not tested |
+| notifier crashes after send, before recording | — | No | The email is sent again with the same Message-ID; Gmail keeps one copy | — | reasoned, not tested |
 | Umami down | Nothing different | — | Gap in charts | edge 502 on `/analytics/*` | — |
 
 ## Known limits, stated

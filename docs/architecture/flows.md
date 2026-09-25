@@ -53,7 +53,7 @@ sequenceDiagram
   participant N as NATS (INTAKE, work queue)
   participant C as notifier
   participant L as notifier.deliveries
-  participant M as Resend / Mailpit
+  participant M as SMTP: Workspace relay / Mailpit
   actor O as Ops inbox
 
   loop every 250 ms, or at once while there is backlog
@@ -68,7 +68,7 @@ sequenceDiagram
   alt already delivered
     C-->>N: ack
   else new
-    C->>M: send (Idempotency-Key = event id)<br/>To: OPS_INBOX or CAREERS_INBOX, Reply-To: lead
+    C->>M: send (Message-ID = event id)<br/>To: OPS_INBOX or CAREERS_INBOX, Reply-To: lead
     M->>O: [Private Markets · lps · hero] Jane Doe — Acme Capital
     C->>L: record event id
     C-->>N: ack (message deleted)
@@ -103,7 +103,7 @@ sequenceDiagram
   N->>C: deliver
   C--xM: provider 503
   C-->>N: nak, retry in 5 s, 30 s, 2 min, 10 min, 30 min, 1 h
-  C->>M: send (same idempotency key)
+  C->>M: send (same Message-ID)
   Note over C: on the last attempt, or a 4xx that retrying cannot fix:<br/>log "notification abandoned" with the submission id — the alert.<br/>The lead is still in intake.
 ```
 
