@@ -110,8 +110,8 @@ ${insightsBlock(ctx, { label: 'Insights', aside: 'Notes, analysis and company ne
 ${eventsBlock(ctx, { label: 'Where we have been', aside: 'Talks, panels and delegations.', pastOnly: true, today: ctx.today })}
 
 <section class="wrap section" id="team">
-  ${sectionHead('Leadership', 'The people who run the desk, and the company.')}
-  ${peopleGrid(ctx, ['petronela', 'yi', 'philip', 'chrislyn'])}
+  ${sectionHead('Team', 'The people who run Eunice, in London.')}
+  ${peopleGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'], 'portrait')}
 </section>
 
 ${cta(ctx, {

@@ -1,6 +1,8 @@
 // The generator's two safety nets, tested directly: markup is escaped unless it is
 // markup, and content that does not match its schema stops the build.
+import fs from 'node:fs';
 import { expect, test } from '@playwright/test';
+import { people } from '../../src/content/index.ts';
 import { AudiencePages, content, Insight } from '../../src/content/schema.ts';
 import { html, join, raw } from '../../src/lib/html.ts';
 import { richText } from '../../src/lib/rich-text.ts';
@@ -61,6 +63,16 @@ test.describe('content schema', () => {
         page('digital-assets', 'exchanges'),
       ]),
     ).toThrow(/duplicate page digital-assets\/exchanges/);
+  });
+});
+
+test.describe('team', () => {
+  test('everyone has a portrait that exists, and a bio', () => {
+    for (const [id, p] of Object.entries(people)) {
+      expect(p.photo, id).not.toBe('');
+      expect(fs.existsSync(new URL(`../../src/assets/img/people/${p.photo}`, import.meta.url)), p.photo).toBe(true);
+      expect(p.bio, id).not.toBe('');
+    }
   });
 });
 

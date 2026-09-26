@@ -366,46 +366,51 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   },
 ]);
 
-// Portrait: drop a square JPG into /src/assets/img/people/ and set `photo` to its file name.
+// Portrait: drop a square image into /src/assets/img/people/ and set `photo` to its file name.
 // Bio: shown when a visitor hovers or taps the name. Leave empty to show nothing.
+// Everyone on the eunice.ai team, with their portrait from the live site. The bios are
+// the live careers page's lines plus public facts from LinkedIn and the press; each
+// person should confirm theirs.
 export const people = contentRecord('people', Person, {
   yi: {
     name: 'Yi Luo',
     role: 'CEO and co-founder',
     owns: 'The company, its clients and its capital.',
-    bio: '',
-    photo: '',
+    bio: 'Co-founded FreeUp, a fintech acquired by Earnd, and scaled its team across the US and UK. A former VC with 40+ early-stage investments. MSc, London School of Economics.',
+    photo: 'yi.png',
+    linkedin: 'https://www.linkedin.com/in/loriluoyi/',
   },
   philip: {
     name: 'Philip Lam',
     role: 'CTO and co-founder',
     owns: 'The platform, and how it reads a dataroom.',
-    bio: '',
-    photo: '',
+    bio: 'Co-founded NEX, a US-based AI startup that raised $40M. VP Engineering at Goodnotes (30M monthly users), building and leading a team of 200 engineers. Previously at Apple and Microsoft.',
+    photo: 'philip.png',
+    linkedin: 'https://www.linkedin.com/in/philip-lam-92172a24/',
   },
   petronela: {
     name: 'Petronela Pell',
     role: 'Head of Private Markets',
     owns: 'The private markets desk and its implementations.',
     bio: '16+ years’ financial services experience at Schroders Capital, Accenture, T. Rowe Price, Aberdeen and Investec. INSEAD MBA, Durham University BA (Hons) in Philosophy, Politics & Economics, both degrees under academic scholarships.',
-    photo: '',
+    photo: 'petronela.png',
+    linkedin: 'https://www.linkedin.com/in/petronela-pell-mba-490aa33/',
   },
   vinay: {
     name: 'Vinay Manektalla',
     role: 'Head of Engineering',
     owns: 'The engineering team, day to day.',
-    bio: '',
-    photo: '',
+    bio: '9+ years in software engineering and technical leadership. Previously built equities algorithmic trading systems at Deutsche Bank, and led the audiovisual engineering department at BMAT.',
+    photo: 'vinay.png',
   },
   chrislyn: {
     name: 'Chrislyn Pereira',
     role: 'Chief of Staff',
     owns: 'Operations, security and how a client’s data is handled.',
-    bio: '',
-    photo: '',
+    bio: 'Young Achiever of the Year at the UK FinTech Awards 2026. A legal background; previously Head of Operations at Legit. Part of the founding team at Eunice.',
+    photo: 'chrislyn.png',
+    linkedin: 'https://www.linkedin.com/in/chrislyn-pereira/',
   },
-  winnie: { name: 'Winnie Chan', role: 'Frontend engineer', owns: 'The product interface.', bio: '', photo: '' },
-  riley: { name: 'Riley Ward', role: 'Engineer', owns: 'The validation and monitoring pipelines.', bio: '', photo: '' },
 });
 
 // type: 'Article' | 'Note' | 'Video' | 'Press'. Newest first is not required; pages sort by date.

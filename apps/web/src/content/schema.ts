@@ -52,6 +52,11 @@ export const Person = z.strictObject({
   bio: z.string(),
   /** A file under assets/img/people/. Empty: no portrait yet. */
   photo: z.string(),
+  /** Their public LinkedIn profile, shown with the bio. */
+  linkedin: z
+    .string()
+    .regex(/^https:\/\/www\.linkedin\.com\/in\/[A-Za-z0-9-]+\/$/)
+    .optional(),
 });
 export type Person = z.infer<typeof Person>;
 

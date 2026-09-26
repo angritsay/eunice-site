@@ -115,8 +115,8 @@ ${insightsBlock(ctx, {
 })}
 
 <section class="wrap section" id="team">
-  ${sectionHead('Leadership', 'The people who run the desk, and the company.')}
-  ${peopleGrid(ctx, ['petronela', 'yi', 'philip', 'chrislyn'])}
+  ${sectionHead('The desk', 'Who runs private markets, and who builds what it runs on.')}
+  ${peopleGrid(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
 </section>
 
 ${eventsBlock(ctx, { label: 'Events', aside: 'Where the desk will be, and where it has been.', desk: DESK, today: ctx.today })}
