@@ -412,7 +412,15 @@ export function person(ctx: Ctx, id: PersonId, variant: 'row' | 'portrait' = 'ro
     ${nameEl}
     <p class="caption muted">${p.role}</p>
     ${variant === 'portrait' ? html`<p class="small">${p.owns}</p>` : ''}
-    ${p.bio ? html`<div class="person__bio" id="${bioId}"><div><p class="small muted">${p.bio}</p></div></div>` : ''}
+    ${
+      p.bio
+        ? html`<div class="person__bio" id="${bioId}"><div><p class="small muted">${p.bio}</p>${
+            p.linkedin
+              ? html`<a class="person__in" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>`
+              : ''
+          }</div></div>`
+        : ''
+    }
   </div>
 </div>`;
 }
@@ -423,7 +431,7 @@ export const peopleGrid = (
   variant: 'row' | 'portrait' = 'row',
   extra: MaybeHtml = '',
 ) =>
-  html`<div class="grid grid--${variant === 'row' ? 4 : 5} people people--${variant}">${ids.map((id) => person(ctx, id, variant))}${extra}</div>`;
+  html`<div class="grid grid--${Math.min(ids.length, variant === 'row' ? 4 : 5)} people people--${variant}">${ids.map((id) => person(ctx, id, variant))}${extra}</div>`;
 
 // ---------- Closing call to action ----------
 export const cta = (

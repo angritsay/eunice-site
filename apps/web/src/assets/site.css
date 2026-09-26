@@ -302,11 +302,13 @@ button.person__name svg { color: var(--faint); transition: transform .2s ease; }
 .person__bio { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .25s ease, opacity .2s ease; }
 .person__bio > div { overflow: hidden; }
 .person__bio p { padding-top: 10px; }
+.person__in { display: inline-block; margin-top: 6px; padding-block: 4px; font-size: var(--small); color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.person__in:hover { color: var(--ink); }
 .person--has-bio:hover .person__bio, .person--has-bio:focus-within .person__bio, .person.is-open .person__bio { grid-template-rows: 1fr; opacity: 1; }
 .person--has-bio:hover button.person__name svg, .person.is-open button.person__name svg { transform: rotate(180deg); }
 .people--team { margin-top: 40px; }
-.teamline, .join { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--line); padding-top: 16px; }
-.teamline .small, .join .small { margin-top: 6px; }
+.join { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--line); padding-top: 16px; }
+.join .small { margin-top: 6px; }
 .join { border-top-color: var(--pm-ink); }
 .join .h4 { color: var(--pm-ink); }
 

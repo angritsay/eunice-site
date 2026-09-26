@@ -1,8 +1,7 @@
-import type { PersonId } from '../components.ts';
 import { button, cta, facts, insightRow, partnersRow, peopleGrid, plate, sectionHead } from '../components.ts';
-import { insights, people } from '../content/index.ts';
+import { insights } from '../content/index.ts';
 import { html } from '../lib/html.ts';
-import type { Ctx, Page } from '../lib/types.ts';
+import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
 
 export default {
@@ -39,7 +38,6 @@ export default {
   ${sectionHead('Leadership', 'Five people who run the company, in London.')}
   ${peopleGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'], 'portrait')}
   <div class="grid grid--4 people people--row people--team">
-    ${(['winnie', 'riley'] as const).map((id) => teamLine(ctx, id))}
     <a class="join" href="${ctx.link('careers', 'roles')}"><span class="h4">Join the team</span><span class="caption muted">Three open roles</span><span class="small">GTM for digital assets, client implementation for private markets, senior engineering.</span></a>
   </div>
 </section>
@@ -74,8 +72,3 @@ ${cta(ctx, {
   ],
 })}`,
 } satisfies Page;
-
-const teamLine = (_ctx: Ctx, id: PersonId) => {
-  const p = people[id];
-  return html`<div class="teamline"><span class="h4">${p.name}</span><span class="caption muted">${p.role}</span><span class="small">${p.owns}</span></div>`;
-};
