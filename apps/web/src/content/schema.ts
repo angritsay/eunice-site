@@ -52,6 +52,11 @@ export const Person = z.strictObject({
   bio: z.string(),
   /** A file under assets/img/people/. Empty: no portrait yet. */
   photo: z.string(),
+  /** A short film under assets/video/, self-hosted: the CSP allows no third-party frames. */
+  video: z
+    .string()
+    .regex(/^[a-z0-9-]+\.mp4$/)
+    .optional(),
   /** Their public LinkedIn profile, shown with the bio. */
   linkedin: z
     .string()
@@ -114,3 +119,6 @@ export function contentRecord<K extends string, S extends z.ZodType>(
 ): Record<K, z.output<S>> {
   return content(name, z.record(z.string(), item), value) as Record<K, z.output<S>>;
 }
+
+/** A technology the platform integrates with, for the logo strip. `logo` is under assets/img/logos/. */
+export const Integration = z.strictObject({ name: text, logo: z.string().regex(/^[a-z0-9-]+\.(svg|png)$/) });

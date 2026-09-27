@@ -7,7 +7,7 @@ import { expect, test } from '@playwright/test';
 import { DIST, fileFor, label, PAGES, readPage } from './site.ts';
 
 /** Links that knowingly go nowhere yet. The list may only shrink. */
-const PLACEHOLDER_LINKS = new Set(['Privacy', 'Terms', 'Status']);
+const PLACEHOLDER_LINKS = new Set<string>([]);
 
 const EXTERNAL = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i; // http:, mailto:, data:, //cdn…
 
@@ -57,3 +57,22 @@ for (const page of PAGES) {
     expect(problems).toEqual([]);
   });
 }
+
+// The header: the same three menus on every page, and the product sign-in only
+// where its users are (digital assets clients).
+test('every page has the three menus; User login shows only on the crypto pages', () => {
+  for (const page of PAGES) {
+    const header = readPage(page).match(/<header class="wrap nav">[\s\S]*?<\/header>/)?.[0] ?? '';
+    const menus = [...header.matchAll(/class="menu__top"[^>]*>([^<]+)</g)].map(([, t]) => t);
+    expect(menus, page).toEqual(['Welcome to Eunice', 'Private market tools', 'Crypto &amp; RWA']);
+    const crypto = /^(digital-assets|token-disclosure|mica-whitepaper)\//.test(page);
+    expect(header.includes('User login'), page).toBe(crypto);
+  }
+});
+
+test('the vacancy on the welcome page leads to its job description', () => {
+  const html = readPage('');
+  expect(html).toMatch(
+    /class="person person--portrait vacancy"[\s\S]*?href="careers\/client-implementation-consultant-private-markets\/"/,
+  );
+});

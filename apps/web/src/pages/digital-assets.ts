@@ -33,7 +33,7 @@ export default {
     <h1 class="h1">End to end listing</h1>
     <p class="lead">Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Talk to us', form: DESK, placement: 'hero' })}
+      ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'See a sample report', kind: 'outline', form: 'sample-report', placement: 'hero' })}
     </div>
   </div>
@@ -125,7 +125,7 @@ ${cta(ctx, {
   text: 'Pick a token you are reviewing now. We will run it and show you the report and the monitoring feed side by side.',
   buttons: [
     { label: 'See a sample report', kind: 'outline-light', form: 'sample-report' },
-    { label: 'Talk to us', kind: 'light', form: DESK },
+    { label: 'Book demo', kind: 'light', form: DESK },
   ],
 })}`,
 } satisfies Page;

@@ -13,18 +13,6 @@
 <link rel="stylesheet" href="../../assets/site.css">
 </head>
 <body>
-<div class="topbar">
-<div class="wrap topbar__in">
-<div class="topbar__left">
-<a href="../../">Eunice</a>
-</div>
-<nav class="topbar__right" aria-label="Secondary">
-<a href="../../private-markets/">Private Markets</a>
-<a href="../../company/">Company</a>
-<a href="https://app.eunice.ai">Log in</a>
-</nav>
-</div>
-</div>
 <header class="wrap nav">
 <a class="lockup" href="../../digital-assets/">
 <svg class="logo" width="55.05" height="17" viewBox="0 0 68 21" fill="currentColor" role="img">
@@ -42,20 +30,88 @@
 <span class="lockup__desk">Digital Assets</span>
 </a>
 <nav class="nav__links" id="nav-links" aria-label="Main">
-<a href="../../digital-assets/exchanges/">For exchanges</a>
-<a href="../../digital-assets/custodians/">For custodians</a>
-<a href="./" aria-current="page">For market makers</a>
+<ul class="menus">
+<li class="menu">
+<a class="menu__top" href="../../">Welcome to Eunice</a>
+<button type="button" class="menu__toggle" aria-expanded="false" aria-controls="menu-digital-assets-market-makers-welcome" aria-label="Welcome to Eunice: sections">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m6 9 6 6 6-6"/>
+</svg>
+</button>
+<ul class="menu__panel" id="menu-digital-assets-market-makers-welcome">
+<li>
+<a href="../../#history">Firm history</a>
+</li>
+<li>
+<a href="../../#values">What we stand for</a>
+</li>
+<li>
+<a href="../../#team">Team</a>
+</li>
+<li>
+<a href="../../#trust">Eunice AI Trust Centre</a>
+</li>
+<li>
+<a href="../../#careers">Careers</a>
+</li>
+</ul>
+</li>
+<li class="menu">
+<a class="menu__top" href="../../private-markets/">Private market tools</a>
+<button type="button" class="menu__toggle" aria-expanded="false" aria-controls="menu-digital-assets-market-makers-private-markets" aria-label="Private market tools: sections">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m6 9 6 6 6-6"/>
+</svg>
+</button>
+<ul class="menu__panel" id="menu-digital-assets-market-makers-private-markets">
+<li>
+<a href="../../private-markets/#odd">Operational Due Diligence</a>
+</li>
+<li>
+<a href="../../private-markets/#monitoring">Portfolio Monitoring</a>
+</li>
+<li>
+<a href="../../private-markets/#data-gaps">Data Gap Analysis</a>
+</li>
+<li>
+<a href="../../private-markets/#reporting">Bespoke Reporting</a>
+</li>
+</ul>
+</li>
+<li class="menu is-current">
+<a class="menu__top" href="../../digital-assets/">Crypto &amp; RWA</a>
+<button type="button" class="menu__toggle" aria-expanded="false" aria-controls="menu-digital-assets-market-makers-crypto" aria-label="Crypto &amp; RWA: sections">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m6 9 6 6 6-6"/>
+</svg>
+</button>
+<ul class="menu__panel" id="menu-digital-assets-market-makers-crypto">
+<li>
+<a href="../../digital-assets/#listing">Listing diligence</a>
+</li>
+<li>
+<a href="../../digital-assets/#monitoring">Monitoring</a>
+</li>
+<li>
 <a href="../../token-disclosure/">Token Disclosure</a>
-<a href="../../digital-assets/#insights">Insights</a>
-<a href="../../digital-assets/#events">Events</a>
+</li>
+<li>
+<a href="../../mica-whitepaper/">MiCA Whitepaper</a>
+</li>
+<li>
+<a href="../../token-disclosure/register/">The register</a>
+</li>
+</ul>
+</li>
+</ul>
 <span class="nav__mobile-extra">
-<a href="../../private-markets/">Private Markets</a>
-<a href="../../company/">Company</a>
-<a href="https://app.eunice.ai">Log in</a>
+<a href="https://app.eunice.ai">User login</a>
+<button type="button" class="btn btn--dark" data-form="digital-assets" data-placement="nav">Book demo</button>
 </span>
 </nav>
 <div class="nav__actions">
-<button type="button" class="btn btn--dark" data-form="digital-assets" data-placement="nav">Talk to us</button>
+<a class="btn btn--outline nav__login" href="https://app.eunice.ai">User login</a>
+<button type="button" class="btn btn--dark" data-form="digital-assets" data-placement="nav">Book demo</button>
 <button type="button" class="nav__menu" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
 <path d="M4 8h16M4 16h16"/>
@@ -70,7 +126,7 @@
 <h1 class="h1">Know what changed before the position does</h1>
 <p class="lead">Inventory in an asset whose disclosure changed this morning is a risk you can price — as long as you hear about it in time, and with the source attached.</p>
 <div class="buttons">
-<button type="button" class="btn btn--dark" data-form="digital-assets" data-placement="hero">Talk to us</button>
+<button type="button" class="btn btn--dark" data-form="digital-assets" data-placement="hero">Book demo</button>
 <a class="btn btn--outline" href="../../digital-assets/">All of Digital Assets</a>
 </div>
 </div>
@@ -185,7 +241,7 @@
 <p class="cta__text">Send us the assets you make markets in. We will show you what changed on them in the last quarter, and when we would have told you.</p>
 </div>
 <div class="cta__buttons">
-<button type="button" class="btn btn--light" data-form="digital-assets" data-placement="closing">Talk to us</button>
+<button type="button" class="btn btn--light" data-form="digital-assets" data-placement="closing">Book demo</button>
 </div>
 </div>
 </section>
@@ -238,7 +294,7 @@
 </div>
 <div class="footer__col">
 <p class="label">Company</p>
-<a href="../../company/">About us</a>
+<a href="../../#history">About us</a>
 <a href="../../careers/">Careers</a>
 <a href="../../blog/">Blog</a>
 <a href="../../security/">Security</a>

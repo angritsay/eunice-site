@@ -11,7 +11,10 @@ export interface SiteConfig {
   formEndpoint: string;
   basePath: string;
   loginUrl: string;
-  nav: Record<NavKey, { lockup?: string; top: NavItem[]; main: NavItem[] }>;
+  trustCenterUrl: string;
+  menus: { id: string; label: string; to: string; keys: NavKey[]; items: NavItem[] }[];
+  lockups: Partial<Record<NavKey, string>>;
+  loginOn: NavKey[];
   footer: { title: string; links: NavItem[] }[];
 }
 
@@ -19,6 +22,9 @@ export interface SiteConfig {
 // content file lists them. Add an audience there and its tab appears here.
 const tabs = (desk: ProductDesk): NavItem[] =>
   audiencePages.filter((a) => a.desk === desk).map((a) => ({ label: a.nav, to: `${desk}/${a.id}` }));
+
+// The Vanta trust center, as linked from the live eunice.ai footer.
+const TRUST_CENTER = 'https://app.eu.vanta.com/eunice.ai/trust/siy0j28scq653o6k5baea';
 
 const config: SiteConfig = {
   name: 'Eunice',
@@ -40,63 +46,58 @@ const config: SiteConfig = {
   basePath: process.env['BASE_PATH'] || '/',
 
   loginUrl: 'https://app.eunice.ai', // TODO: confirm
+  trustCenterUrl: TRUST_CENTER,
 
-  // Navigation changes per destination: the company pages show the products,
-  // each product page shows its own audiences.
-  nav: {
-    company: {
-      top: [{ label: 'Log in', href: 'login' }],
-      main: [
-        { label: 'Private Markets', to: 'private-markets' },
-        { label: 'Digital Assets', to: 'digital-assets' },
+  // One header on every page: three menus, each a landing page with a dropdown of
+  // the sections and pages under it. `keys` are the page groups the menu is
+  // highlighted on; `lockups` names the desk beside the logo on its own pages.
+  menus: [
+    {
+      id: 'welcome',
+      label: 'Welcome to Eunice',
+      to: '',
+      keys: ['company'],
+      items: [
+        { label: 'Firm history', to: '', hash: 'history' },
+        { label: 'What we stand for', to: '', hash: 'values' },
+        { label: 'Team', to: '', hash: 'team' },
+        { label: 'Eunice AI Trust Centre', to: '', hash: 'trust' },
+        { label: 'Careers', to: '', hash: 'careers' },
+      ],
+    },
+    {
+      id: 'private-markets',
+      label: 'Private market tools',
+      to: 'private-markets',
+      keys: ['private-markets'],
+      items: [
+        { label: 'Operational Due Diligence', to: 'private-markets', hash: 'odd' },
+        { label: 'Portfolio Monitoring', to: 'private-markets', hash: 'monitoring' },
+        { label: 'Data Gap Analysis', to: 'private-markets', hash: 'data-gaps' },
+        { label: 'Bespoke Reporting', to: 'private-markets', hash: 'reporting' },
+      ],
+    },
+    {
+      id: 'crypto',
+      label: 'Crypto & RWA',
+      to: 'digital-assets',
+      keys: ['digital-assets', 'token-disclosure'],
+      items: [
+        { label: 'Listing diligence', to: 'digital-assets', hash: 'listing' },
+        { label: 'Monitoring', to: 'digital-assets', hash: 'monitoring' },
         { label: 'Token Disclosure', to: 'token-disclosure' },
-        { label: 'Insights', to: 'insights' },
-        { label: 'Company', to: 'company' },
-      ],
-    },
-    'private-markets': {
-      lockup: 'Private Markets',
-      top: [
-        { label: 'Digital Assets', to: 'digital-assets' },
-        { label: 'Company', to: 'company' },
-        { label: 'Log in', href: 'login' },
-      ],
-      main: [
-        ...tabs('private-markets'),
-        { label: 'Insights', to: 'private-markets', hash: 'insights' },
-        { label: 'Events', to: 'private-markets', hash: 'events' },
-      ],
-    },
-    'digital-assets': {
-      lockup: 'Digital Assets',
-      top: [
-        { label: 'Private Markets', to: 'private-markets' },
-        { label: 'Company', to: 'company' },
-        { label: 'Log in', href: 'login' },
-      ],
-      main: [
-        ...tabs('digital-assets'),
-        { label: 'Token Disclosure', to: 'token-disclosure' },
-        { label: 'Insights', to: 'digital-assets', hash: 'insights' },
-        { label: 'Events', to: 'digital-assets', hash: 'events' },
-      ],
-    },
-    'token-disclosure': {
-      lockup: 'Token Disclosure',
-      top: [
-        { label: 'Private Markets', to: 'private-markets' },
-        { label: 'Digital Assets', to: 'digital-assets' },
-        { label: 'Company', to: 'company' },
-        { label: 'Log in', href: 'login' },
-      ],
-      main: [
-        ...tabs('token-disclosure'),
         { label: 'MiCA Whitepaper', to: 'mica-whitepaper' },
         { label: 'The register', to: 'token-disclosure/register' },
-        { label: 'Insights', to: 'token-disclosure', hash: 'insights' },
       ],
     },
+  ],
+  lockups: {
+    'private-markets': 'Private Markets',
+    'digital-assets': 'Digital Assets',
+    'token-disclosure': 'Token Disclosure',
   },
+  // The product sign-in is for digital assets clients only, so it shows on those pages.
+  loginOn: ['digital-assets', 'token-disclosure'],
 
   footer: [
     { title: 'Private markets', links: tabs('private-markets') },
@@ -127,7 +128,7 @@ const config: SiteConfig = {
     {
       title: 'Company',
       links: [
-        { label: 'About us', to: 'company' },
+        { label: 'About us', to: '', hash: 'history' },
         { label: 'Careers', to: 'careers' },
         { label: 'Blog', to: 'blog' },
         { label: 'Security', to: 'security' },
@@ -138,7 +139,7 @@ const config: SiteConfig = {
     {
       title: 'Connect',
       links: [
-        { label: 'Trust Center', href: 'https://app.eu.vanta.com/eunice.ai/trust/siy0j28scq653o6k5baea' },
+        { label: 'Trust Center', href: TRUST_CENTER },
         { label: 'Support', href: 'mailto:support@eunice.ai' },
         { label: 'LinkedIn', href: 'https://www.linkedin.com/company/euniceai/' },
         { label: 'X (Twitter)', href: 'https://x.com/eunice_ai1' },

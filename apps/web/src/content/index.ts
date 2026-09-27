@@ -1,7 +1,18 @@
 // All shared content. Edit here and every page that shows the item updates on the next build.
 // Every value is checked against src/content/schema.ts when the site is built.
 import { z } from 'zod';
-import { AudiencePages, content, contentRecord, Desks, Event, Insight, Person, Quote, Role } from './schema.ts';
+import {
+  AudiencePages,
+  content,
+  contentRecord,
+  Desks,
+  Event,
+  Insight,
+  Integration,
+  Person,
+  Quote,
+  Role,
+} from './schema.ts';
 
 export const desks = content('desks', Desks, {
   'private-markets': { label: 'Private Markets' },
@@ -411,7 +422,14 @@ export const people = contentRecord('people', Person, {
     photo: 'chrislyn.png',
     linkedin: 'https://www.linkedin.com/in/chrislyn-pereira/',
   },
+  // Photos, surnames, roles and bios to follow from the owner (Sep 2026).
+  ana: { name: 'Ana', role: 'Eunice team', owns: 'Details to follow.', bio: '', photo: '' },
+  riley: { name: 'Riley', role: 'Eunice team', owns: 'Details to follow.', bio: '', photo: '' },
 });
+
+// The strip that runs along the top of every page. Empty: no strip. Add a name and a
+// logo file under assets/img/logos/, from the company's own brand assets.
+export const integrations = content('integrations', z.array(Integration), []);
 
 // type: 'Article' | 'Note' | 'Video' | 'Press'. Newest first is not required; pages sort by date.
 // url: where the piece lives today. Empty = not linked yet.
