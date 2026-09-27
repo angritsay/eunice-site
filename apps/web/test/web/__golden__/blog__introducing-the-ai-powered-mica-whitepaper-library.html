@@ -13,16 +13,6 @@
 <link rel="stylesheet" href="../../assets/site.css">
 </head>
 <body>
-<div class="topbar">
-<div class="wrap topbar__in">
-<div class="topbar__left">
-<span>Eunice</span>
-</div>
-<nav class="topbar__right" aria-label="Secondary">
-<a href="https://app.eunice.ai">Log in</a>
-</nav>
-</div>
-</div>
 <header class="wrap nav">
 <a class="lockup" href="../../">
 <svg class="logo" width="55.05" height="17" viewBox="0 0 68 21" fill="currentColor" role="img">
@@ -37,17 +27,86 @@
 </svg>
 </a>
 <nav class="nav__links" id="nav-links" aria-label="Main">
-<a href="../../private-markets/">Private Markets</a>
-<a href="../../digital-assets/">Digital Assets</a>
+<ul class="menus">
+<li class="menu is-current">
+<a class="menu__top" href="../../">Welcome to Eunice</a>
+<button type="button" class="menu__toggle" aria-expanded="false" aria-controls="menu-blog-introducing-the-ai-powered-mica-whitepaper-library-welcome" aria-label="Welcome to Eunice: sections">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m6 9 6 6 6-6"/>
+</svg>
+</button>
+<ul class="menu__panel" id="menu-blog-introducing-the-ai-powered-mica-whitepaper-library-welcome">
+<li>
+<a href="../../#history">Firm history</a>
+</li>
+<li>
+<a href="../../#values">What we stand for</a>
+</li>
+<li>
+<a href="../../#team">Team</a>
+</li>
+<li>
+<a href="../../#trust">Eunice AI Trust Centre</a>
+</li>
+<li>
+<a href="../../#careers">Careers</a>
+</li>
+</ul>
+</li>
+<li class="menu">
+<a class="menu__top" href="../../private-markets/">Private market tools</a>
+<button type="button" class="menu__toggle" aria-expanded="false" aria-controls="menu-blog-introducing-the-ai-powered-mica-whitepaper-library-private-markets" aria-label="Private market tools: sections">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m6 9 6 6 6-6"/>
+</svg>
+</button>
+<ul class="menu__panel" id="menu-blog-introducing-the-ai-powered-mica-whitepaper-library-private-markets">
+<li>
+<a href="../../private-markets/#odd">Operational Due Diligence</a>
+</li>
+<li>
+<a href="../../private-markets/#monitoring">Portfolio Monitoring</a>
+</li>
+<li>
+<a href="../../private-markets/#data-gaps">Data Gap Analysis</a>
+</li>
+<li>
+<a href="../../private-markets/#reporting">Bespoke Reporting</a>
+</li>
+</ul>
+</li>
+<li class="menu">
+<a class="menu__top" href="../../digital-assets/">Crypto &amp; RWA</a>
+<button type="button" class="menu__toggle" aria-expanded="false" aria-controls="menu-blog-introducing-the-ai-powered-mica-whitepaper-library-crypto" aria-label="Crypto &amp; RWA: sections">
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="m6 9 6 6 6-6"/>
+</svg>
+</button>
+<ul class="menu__panel" id="menu-blog-introducing-the-ai-powered-mica-whitepaper-library-crypto">
+<li>
+<a href="../../digital-assets/#listing">Listing diligence</a>
+</li>
+<li>
+<a href="../../digital-assets/#monitoring">Monitoring</a>
+</li>
+<li>
 <a href="../../token-disclosure/">Token Disclosure</a>
-<a href="../../insights/">Insights</a>
-<a href="../../company/">Company</a>
+</li>
+<li>
+<a href="../../mica-whitepaper/">MiCA Whitepaper</a>
+</li>
+<li>
+<a href="../../token-disclosure/register/">The register</a>
+</li>
+</ul>
+</li>
+</ul>
 <span class="nav__mobile-extra">
-<a href="https://app.eunice.ai">Log in</a>
+<button type="button" class="btn btn--dark" data-form="general" data-placement="nav">Book demo</button>
 </span>
 </nav>
 <div class="nav__actions">
-<button type="button" class="btn btn--dark" data-form="general" data-placement="nav">Talk to us</button>
+<button type="button" class="btn btn--dark" data-form="general" data-placement="nav">Book demo</button>
 <button type="button" class="nav__menu" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
 <path d="M4 8h16M4 16h16"/>
@@ -151,7 +210,7 @@
 </div>
 <div class="footer__col">
 <p class="label">Company</p>
-<a href="../../company/">About us</a>
+<a href="../../#history">About us</a>
 <a href="../../careers/">Careers</a>
 <a href="../../blog/">Blog</a>
 <a href="../../security/">Security</a>

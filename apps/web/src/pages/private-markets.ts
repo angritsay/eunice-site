@@ -1,6 +1,4 @@
 import {
-  audienceCards,
-  audiences,
   bullets,
   button,
   cta,
@@ -23,19 +21,20 @@ const DESK = 'private-markets';
 export default {
   slug: DESK,
   nav: DESK,
-  title: 'Eunice Private Markets — Operational due diligence, delivered end to end',
+  title: 'Private market tools — Eunice',
   description:
-    'Eunice reads the dataroom against your ODD checklist, cites every finding to its page and asks the same questions again each quarter.',
+    'Operational due diligence, portfolio monitoring, data gap analysis and bespoke reporting for LPs, GPs, family offices and consultants.',
   render: (ctx) => html`
 <section class="wrap hero hero--pm">
   <div class="hero__text">
-    <p class="kicker desk-text--${DESK}">For LPs, asset owners, fund managers and family offices</p>
-    <h1 class="h1">Operational due diligence, delivered end to end</h1>
-    <p class="lead">Eunice reads the dataroom against your ODD checklist, cites every finding to its page and asks the same questions again each quarter. Our team runs the process with you.</p>
-    <p class="lead">Eunice was built in London, the city that invented the modern investment fund, pioneered institutional venture capital, and wrote the rules of underwriting syndication the industry still runs on. We hold ourselves to the same standard the world now measures private markets by.</p>
+    <p class="kicker desk-text--${DESK}">For LPs, GPs, family offices and consultants</p>
+    <h1 class="h1">Private market tools</h1>
+    <p class="lead">The investment profession has a very specific need for technology infrastructure and it is not spared trends when it comes to ways of thinking and best practices. See our blogs below drawing on research on these contrasting views. From in house built to outsourced technology, every firm’s needs are different and we support clients with a variety of needs.</p>
+    <p class="body muted">We are ready to onboard you now and we carry out all training, implementation and handholding required. Chances are your competitors are already using Eunice. We are designed to build your competitive advantage further and to illustrate it more transparently to your Board, your Investment Committee or your clients or ultimate beneficiaries.</p>
+    <p class="body muted">In an ecosystem where the investment opportunities best suited to your investment style or to your clients leads to a healthier and more prosperous market overall and we are proud to contribute to improving investing best practices. As such, we remain engaged with the main industry trade bodies to ensure our tools are continuously updated to meet the highest standards solving pain points experienced by investors in private assets today as well as those on the verge of crystallising tomorrow.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Talk to us', form: DESK, placement: 'hero' })}
-      ${button(ctx, { label: 'How it works', kind: 'outline', to: DESK, hash: 'odd' })}
+      ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
+      ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
     </div>
   </div>
   <div class="hero__visual hero__visual--stacked">
@@ -46,9 +45,14 @@ export default {
 
 <p class="trustline">Trusted by asset allocators managing over $1 trillion in AUM</p>
 
-<section class="wrap section" id="who">
-  ${sectionHead('Who we build for', 'Pick the one that sounds like your week.')}
-  ${audiences(ctx, audienceCards(DESK))}
+<section class="wrap section" id="clients">
+  ${sectionHead('Who we work with', 'Every firm’s needs are different.')}
+  <ul class="clients">${CLIENTS.map(
+    (c) => html`<li class="client">
+      <p class="h4">${c.to ? html`<a href="${ctx.link(c.to)}">${c.who}</a>` : c.who}</p>
+      <p class="small muted">${c.need}</p>
+    </li>`,
+  )}</ul>
   <figure class="quoteline">
     <blockquote>“${quotes.fof.text}”</blockquote>
     <figcaption class="muted">${quotes.fof.who}</figcaption>
@@ -93,8 +97,27 @@ ${feature({
 })}
 
 ${feature({
-  id: 'end-to-end',
+  id: 'data-gaps',
   num: '03',
+  title: 'Data gap analysis',
+  desk: DESK,
+  body: html`<p class="body muted">Every missing document, unanswered question and figure that does not reconcile, surfaced before it becomes a problem. Eunice checks what each manager has given you against what your framework requires, runs a cleaning pass on the data that does not line up, and tracks each gap until it is closed.</p>`,
+  visual: plate(ctx, { tint: DESK, html: gapsMock() }),
+})}
+
+${feature({
+  id: 'reporting',
+  num: '04',
+  title: 'Bespoke reporting',
+  desk: DESK,
+  flip: true,
+  body: html`<p class="body muted">Reports for your Board, your Investment Committee, your clients or ultimate beneficiaries, built to your template. Every figure and every claim traces back to the document and page it came from, so each report can be defended line by line.</p>`,
+  visual: plate(ctx, { tint: DESK, html: reportMock() }),
+})}
+
+${feature({
+  id: 'end-to-end',
+  num: '05',
   title: 'Delivered end to end',
   desk: DESK,
   body: html`<p class="body muted">From pipeline, investment and operational due diligence, through to live deals, portfolio monitoring and bespoke reporting as well as integrations, we are experienced in implementing seamless onboardings. We will partner with you end to end, keeping the framework current and clearing every data gap along the way.</p>`,
@@ -107,8 +130,8 @@ ${feature({
 })}
 
 ${insightsBlock(ctx, {
-  label: 'Insights and news',
-  aside: 'Private markets notes will appear here as the desk publishes them.',
+  label: 'From our blog',
+  aside: 'Research and news from Eunice.',
   deskFilter: [DESK, 'company'],
   featured: 1,
   rows: 2,
@@ -124,7 +147,7 @@ ${eventsBlock(ctx, { label: 'Events', aside: 'Where the desk will be, and where 
 ${cta(ctx, {
   title: 'Talk to us about the fund you are reviewing now',
   text: 'A thirty-minute call with the desk. Bring the fund; we show you what Eunice reads, what it returns and how the quarterly cycle runs.',
-  buttons: [{ label: 'Talk to us', kind: 'light', form: DESK }],
+  buttons: [{ label: 'Book demo', kind: 'light', form: DESK }],
 })}`,
 } satisfies Page;
 
@@ -166,4 +189,66 @@ function portfolioMock() {
 </div>`;
 }
 
+function gapsMock() {
+  const row = (item: string, fund: string, status: string, cls: string) =>
+    html`<div class="mock__row in"><span>${item}</span><span>${fund}</span><span class="${cls}">${status}</span><span class="faint">Q2 2026</span></div>`;
+  return html`<div class="mock" role="img" aria-label="Data gaps across three funds">
+  <div class="mock__bar">${markSmall()}<b>Data gaps</b><i>3 open</i></div>
+  <div class="mock__row mock__row--head"><span>Item</span><span>Fund</span><span>Status</span><span>Period</span></div>
+  ${row('Valuation policy', 'Pampas Frontier II', 'Missing', 'warm')}
+  ${row('NAV bridge vs. AGM deck', 'Gridiron Capital Fund V', 'Does not reconcile', 'warm')}
+  ${row('DDQ §4.2 key person', 'Northgate Growth III', 'Unanswered', 'blue')}
+  ${row('Audited statements 2025', 'Gridiron Capital Fund V', 'Received', 'ok')}
+</div>`;
+}
+
+function reportMock() {
+  return html`<div class="mock" role="img" aria-label="A quarterly report for an investment committee, every line cited">
+  <div class="mock__bar">${markSmall()}<b>Investment Committee · Q2 2026</b><i>Your template</i></div>
+  <div class="mock__notes"><b>Portfolio summary</b>
+    <p><span>Net IRR 21.9%</span> · Gridiron Q2 report, p. 3</p>
+    <p><span>One covenant waiver</span> · Pampas Frontier II Q2 letter, p. 14</p>
+    <p><span>Key person change</span> · Northgate Growth III notice, p. 1</p>
+  </div>
+</div>`;
+}
+
 const markSmall = () => mark(11, '#f08a4b');
+
+// Who the private market tools are for, in the owner's words. Where one of the
+// client-type pages matches, the row links to it.
+const CLIENTS: readonly { who: string; need: string; to?: string }[] = [
+  {
+    who: 'High-activity asset allocators',
+    need: 'Asset allocators with high levels of dealmaking activity who require fast-paced due diligence reviews and portfolio monitoring of large numbers of funds and managers.',
+    to: `${DESK}/lps`,
+  },
+  {
+    who: 'Focused asset allocators',
+    need: 'Asset allocators of smaller size and lower deal activity, but higher levels of scrutiny requiring on the ground operational due diligence analysis and operators as well as highly sophisticated portfolio management.',
+    to: `${DESK}/lps`,
+  },
+  {
+    who: 'Family offices',
+    need: 'Family offices run by lean teams with ambitious goals and generalist expertise, who may be branching out into new asset classes with a need for assessments which factor in the fundamentals of each private asset class.',
+    to: `${DESK}/family-offices`,
+  },
+  {
+    who: 'General Partners',
+    need: 'Investment managers acting as General Partners for private assets funds or separately managed accounts with a need to implement and monitor complex liquidity management tools for evergreen funds, scenario analysis and forecasting, bespoke reporting for their LPs and built in investment opportunity scoring and hard-coded investment style filters specific to the firm’s strategies and differentiating from other peer firms.',
+    to: `${DESK}/managers`,
+  },
+  {
+    who: 'Investment consultants',
+    need: 'Investment consultants requiring fast turnaround analysis which is fully auditable, every claim source-traceable, sliced & diced on demand live on the platform.',
+    to: `${DESK}/consultants`,
+  },
+  {
+    who: 'Technology consultants',
+    need: 'Technology consultants whose latest engagement project is relying on identifying technology enabling faster investment decisions in a unified way, wrapping around existing operating models and processes.',
+  },
+  {
+    who: 'Specialist investors',
+    need: 'Specialist investors with a niche either in sustainability or other domains of expertise which require highly customised workflows and reporting.',
+  },
+];

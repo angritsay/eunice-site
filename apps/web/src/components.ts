@@ -1,6 +1,6 @@
 // Shared building blocks. Pages compose these; nothing here holds page copy.
 import type { Placement } from '@eunice/contracts/forms';
-import { audiencePages, desks, events, insights, partners, people } from './content/index.ts';
+import { audiencePages, desks, events, insights, integrations, partners, people } from './content/index.ts';
 import type { Insight, Quote } from './content/schema.ts';
 import type { Ctx, Desk, NavItem, NavKey, ProductDesk } from './lib/types.ts';
 import config from './site.config.ts';
@@ -119,26 +119,37 @@ export function button(
 }
 
 // ---------- Header ----------
+const CHEVRON = html`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>`;
+
 export function header(ctx: Ctx, navKey: NavKey = 'company'): Html {
-  const nav = config.nav[navKey];
   const deskForm = navKey === 'company' ? 'general' : navKey;
-  const topLeft = navKey === 'company' ? '' : html`<a href="${ctx.link('')}">Eunice</a>`;
-  const current = (item: NavItem) => (!item.hash && item.to === ctx.slug ? html` aria-current="page"` : '');
+  const lockup = config.lockups[navKey];
+  const login = config.loginOn.includes(navKey);
+  // Keyed by page: preview.html holds every page in one document.
+  const idFor = (menu: string) => `menu-${(ctx.slug || 'home').replaceAll('/', '-')}-${menu}`;
   return html`
-<div class="topbar"><div class="wrap topbar__in">
-  <div class="topbar__left">${topLeft || html`<span>Eunice</span>`}</div>
-  <nav class="topbar__right" aria-label="Secondary">${nav.top.map((i) => html`<a href="${href(ctx, i)}">${i.label}</a>`)}</nav>
-</div></div>
 <header class="wrap nav">
-  <a class="lockup" href="${ctx.link(navKey === 'company' ? '' : navKey)}">
-    ${logo(17)}${nav.lockup ? html`<span class="lockup__rule"></span><span class="lockup__desk">${nav.lockup}</span>` : ''}
+  <a class="lockup" href="${ctx.link(lockup ? navKey : '')}">
+    ${logo(17)}${lockup ? html`<span class="lockup__rule"></span><span class="lockup__desk">${lockup}</span>` : ''}
   </a>
   <nav class="nav__links" id="nav-links" aria-label="Main">
-    ${nav.main.map((i) => html`<a href="${href(ctx, i)}"${current(i)}>${i.label}</a>`)}
-    <span class="nav__mobile-extra">${nav.top.map((i) => html`<a href="${href(ctx, i)}">${i.label}</a>`)}</span>
+    <ul class="menus">${config.menus.map(
+      (m) => html`
+      <li class="menu${m.keys.includes(navKey) ? ' is-current' : ''}">
+        <a class="menu__top" href="${ctx.link(m.to)}"${m.to === ctx.slug ? html` aria-current="page"` : ''}>${m.label}</a>
+        <button type="button" class="menu__toggle" aria-expanded="false" aria-controls="${idFor(m.id)}" aria-label="${m.label}: sections">${CHEVRON}</button>
+        <ul class="menu__panel" id="${idFor(m.id)}">${m.items.map((i) => html`<li><a href="${href(ctx, i)}">${i.label}</a></li>`)}</ul>
+      </li>`,
+    )}
+    </ul>
+    <span class="nav__mobile-extra">
+      ${login ? html`<a href="${config.loginUrl}">User login</a>` : ''}
+      <button type="button" class="btn btn--dark" data-form="${deskForm}" data-placement="nav">Book demo</button>
+    </span>
   </nav>
   <div class="nav__actions">
-    <button type="button" class="btn btn--dark" data-form="${deskForm}" data-placement="nav">Talk to us</button>
+    ${login ? html`<a class="btn btn--outline nav__login" href="${config.loginUrl}">User login</a>` : ''}
+    <button type="button" class="btn btn--dark" data-form="${deskForm}" data-placement="nav">Book demo</button>
     <button type="button" class="nav__menu" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
     </button>
@@ -398,7 +409,10 @@ export function eventsBlock(
 // variant 'row': small portrait beside the name (product pages). 'portrait': tall photo (company, careers).
 export function person(ctx: Ctx, id: PersonId, variant: 'row' | 'portrait' = 'row'): Html {
   const p = people[id];
-  const photo = p.photo ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="${p.name}" loading="lazy">` : '';
+  // No portrait yet: their initials on the same tile, until one is added.
+  const photo = p.photo
+    ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="${p.name}" loading="lazy">`
+    : html`<span class="person__initials" aria-hidden="true">${initials(p.name)}</span>`;
   // Keyed by page as well as person: preview.html holds every page in one document,
   // so the same bio appears several times there. Deterministic, unlike a random suffix.
   const bioId = `bio-${(ctx.slug || 'home').replaceAll('/', '-')}-${id}`;
@@ -425,13 +439,70 @@ export function person(ctx: Ctx, id: PersonId, variant: 'row' | 'portrait' = 'ro
 </div>`;
 }
 
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2);
+
+// A founder, larger: portrait (or their film, once there is one), name, role, bio.
+export function founder(ctx: Ctx, id: PersonId): Html {
+  const p = people[id];
+  const portrait = html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="${p.name}" loading="lazy">`;
+  return html`
+<article class="founder">
+  <div class="founder__media">${
+    p.video
+      ? html`<video controls preload="none" poster="${ctx.asset(`img/people/${p.photo}`)}"><source src="${ctx.asset(`video/${p.video}`)}" type="video/mp4"><p>${p.name}: <a href="${ctx.asset(`video/${p.video}`)}">watch the film</a>.</p></video>`
+      : portrait
+  }</div>
+  <div class="founder__text">
+    <h3 class="h3">${p.name}</h3>
+    <p class="caption muted">${p.role}</p>
+    <p class="body">${p.bio}</p>
+    ${p.linkedin ? html`<a class="more" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>` : ''}
+  </div>
+</article>`;
+}
+
+// An open seat, shown among the team: an empty portrait and a way to apply.
+export function vacancy(ctx: Ctx, { title, slug, line }: { title: string; slug: string; line: string }): Html {
+  return html`
+<div class="person person--portrait vacancy">
+  <div class="person__photo vacancy__photo"><span>Your photo here</span></div>
+  <div class="person__text">
+    <p class="person__name h4">${title}</p>
+    <p class="caption muted">Open role</p>
+    <p class="small">${line}</p>
+    <p><a class="more" href="${ctx.link(`careers/${slug}`)}">Read the role and apply</a></p>
+  </div>
+</div>`;
+}
+
+// The integrations strip along the top of every page: a slow loop of logos. The
+// list is written twice so the loop has no seam; the copy is hidden from readers.
+export function logoStrip(ctx: Ctx): Html {
+  if (!integrations.length) return html``;
+  const row = (hidden: boolean) =>
+    html`<ul class="strip__row"${hidden ? html` aria-hidden="true"` : ''}>${integrations.map(
+      (i) => html`<li><img src="${ctx.asset(`img/logos/${i.logo}`)}" alt="${hidden ? '' : i.name}" height="20"></li>`,
+    )}</ul>`;
+  return html`<div class="strip" role="region" aria-label="Integrations"><div class="strip__track">${row(false)}${row(true)}</div></div>`;
+}
+
+// Rows fit the grid to the people in it. Portraits keep at least four columns, so a
+// short list does not blow a portrait up to half the page.
 export const peopleGrid = (
   ctx: Ctx,
   ids: readonly PersonId[],
   variant: 'row' | 'portrait' = 'row',
   extra: MaybeHtml = '',
-) =>
-  html`<div class="grid grid--${Math.min(ids.length, variant === 'row' ? 4 : 5)} people people--${variant}">${ids.map((id) => person(ctx, id, variant))}${extra}</div>`;
+) => {
+  const n = ids.length + (extra ? 1 : 0);
+  const cols = variant === 'row' ? Math.min(n, 4) : Math.min(Math.max(n, 4), 5);
+  return html`<div class="grid grid--${cols} people people--${variant}">${ids.map((id) => person(ctx, id, variant))}${extra}</div>`;
+};
 
 // ---------- Closing call to action ----------
 export const cta = (

@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { esc, footer, header } from './src/components.ts';
+import { esc, footer, header, logoStrip } from './src/components.ts';
 import { dialog } from './src/forms.ts';
 import type { Ctx, Page } from './src/lib/types.ts';
 import audiencePagesBuilt from './src/pages/audience.ts';
@@ -151,7 +151,7 @@ const runtimeConfig = (preview: boolean, page: Pick<Page, 'slug' | 'audience'>) 
   }).replace(/</g, '\\u003c')}</script>`;
 
 const pageBody = (ctx: Ctx, page: Page): string =>
-  `${header(ctx, page.nav)}\n<main>${page.render(ctx)}</main>\n${footer(ctx)}`;
+  `${logoStrip(ctx)}${header(ctx, page.nav)}\n<main>${page.render(ctx)}</main>\n${footer(ctx)}`;
 
 // ---------- Site build ----------
 function buildSite() {

@@ -85,7 +85,7 @@ function page(a: AudiencePage): Page {
     <h1 class="h1">${a.h1}</h1>
     <p class="lead">${a.lead}</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Talk to us', form: a.desk, placement: 'hero' })}
+      ${button(ctx, { label: 'Book demo', form: a.desk, placement: 'hero' })}
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
     </div>
   </div>
@@ -114,7 +114,7 @@ ${insightsBlock(ctx, { ...d.insights, featured: 1, rows: 2 })}
 ${cta(ctx, {
   title: a.cta.title,
   text: a.cta.text,
-  buttons: [{ label: 'Talk to us', kind: 'light', form: a.desk }],
+  buttons: [{ label: 'Book demo', kind: 'light', form: a.desk }],
 })}`,
   };
 }

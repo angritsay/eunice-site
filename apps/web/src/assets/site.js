@@ -17,6 +17,37 @@
     btn.setAttribute('aria-expanded', String(open));
   });
 
+  // ---------- Header menus ----------
+  // CSS opens a panel on hover or focus. The chevron toggles it for touch and keeps
+  // aria-expanded true to what is shown; Escape and a click elsewhere close it.
+  // `is-closed` holds a panel shut while the pointer or focus is still on its menu,
+  // and is cleared once they leave.
+  /** @param {Element} menu @param {boolean} open @param {boolean} [hold] */
+  const setMenu = (menu, open, hold = false) => {
+    menu.classList.toggle('is-open', open);
+    menu.classList.toggle('is-closed', !open && hold);
+    menu.querySelector('.menu__toggle')?.setAttribute('aria-expanded', String(open));
+  };
+  document.addEventListener('click', (e) => {
+    const menu = /** @type {HTMLElement} */ (e.target).closest('.menu__toggle')?.parentElement;
+    for (const m of document.querySelectorAll('.menu.is-open')) if (m !== menu) setMenu(m, false);
+    if (menu) setMenu(menu, !menu.classList.contains('is-open'), true);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const menu = /** @type {HTMLElement} */ (e.target).closest?.('.menu') || document.querySelector('.menu.is-open');
+    if (!menu) return;
+    setMenu(menu, false, true);
+    /** @type {HTMLElement | null} */ (menu.querySelector('.menu__toggle'))?.focus();
+  });
+  for (const m of document.querySelectorAll('.menu')) {
+    m.addEventListener('mouseleave', () => m.classList.remove('is-closed'));
+    m.addEventListener('focusout', (e) => {
+      if (!m.contains(/** @type {Node | null} */ (/** @type {FocusEvent} */ (e).relatedTarget)))
+        m.classList.remove('is-closed');
+    });
+  }
+
   // ---------- Leadership bios: hover on desktop, tap anywhere ----------
   document.addEventListener('click', (e) => {
     const name = /** @type {HTMLElement} */ (e.target).closest('button.person__name');
