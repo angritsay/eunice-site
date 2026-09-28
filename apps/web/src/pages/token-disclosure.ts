@@ -1,6 +1,5 @@
 import {
-  audienceCards,
-  audiences,
+  audienceLine,
   button,
   cta,
   facts,
@@ -8,7 +7,7 @@ import {
   insightsBlock,
   mark,
   plate,
-  sectionHead,
+  whoCards,
 } from '../components.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
@@ -27,7 +26,6 @@ export default {
     <p class="kicker desk-text--${DESK}">For issuers, their counsel, and the exchanges that list them</p>
     <h1 class="h1">A white paper accepted once, and true after that</h1>
     <p class="lead">A MiCA white paper drafted from a library of 1,000+ pre-filled papers, reviewed by CMS where a legal opinion is needed, notified to the authority, and hosted on a public page any exchange can check.</p>
-    <p class="lead">UK token classification with gunnercooke since July 2026.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Start a white paper', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
@@ -36,10 +34,32 @@ export default {
   <div class="hero__visual">${plate(ctx, { img: 'da-token-disclosure.png', alt: 'A hosted MiCAR white paper', tint: DESK, bleed: true })}</div>
 </section>
 
-<section class="band section" id="who"><div class="wrap">
-  ${sectionHead('Who we build for', 'Pick the one that sounds like your week.')}
-  ${audiences(ctx, audienceCards(DESK))}
-</div></section>
+${whoCards(ctx, {
+  desk: DESK,
+  kicker: 'Who we work with',
+  title: 'One paper, three readers',
+  lead: 'The issuer who publishes it, the counsel who reviews it and the exchange that checks it.',
+  clients: [
+    {
+      who: 'Issuers',
+      line: audienceLine(DESK, 'issuers'),
+      needs: ['Drafted from 1,000+ papers', 'Notified and hosted'],
+      to: `${DESK}/issuers`,
+    },
+    {
+      who: 'Counsel',
+      line: audienceLine(DESK, 'counsel'),
+      needs: ['Reviewed where an opinion is needed', 'UK token classification'],
+      to: `${DESK}/counsel`,
+    },
+    {
+      who: 'Exchanges',
+      line: audienceLine(DESK, 'exchanges'),
+      needs: ['Public disclosure pages', 'The register'],
+      to: `${DESK}/exchanges`,
+    },
+  ],
+})}
 
 <section class="wrap section">
   ${facts([
