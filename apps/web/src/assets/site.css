@@ -40,7 +40,7 @@
 
   --wrap: 1312px;
   --gutter: clamp(20px, 4.4vw, 64px);
-  --section: clamp(64px, 8vw, 112px);
+  --section: clamp(80px, 10vw, 144px);
   --radius: 14px;
 
   color-scheme: light;
@@ -153,6 +153,7 @@ button { font: inherit; color: inherit; }
 .hero__text .h1 { margin-bottom: 24px; }
 .hero__text .lead + .lead, .hero__text .lead + .body, .hero__text .body + .body { margin-top: 14px; }
 .hero--short { grid-template-columns: 1fr; padding-bottom: 0; }
+.hero--pm { padding-bottom: clamp(56px, 6.5vw, 88px); }
 .hero__visual { position: relative; margin-right: calc(-1 * var(--gutter)); }
 .hero__visual .plate--bleed { border-radius: var(--radius) 0 0 0; }
 .hero__visual--stacked { min-height: 460px; margin-right: calc(-1 * var(--gutter)); }
@@ -168,11 +169,11 @@ button { font: inherit; color: inherit; }
 
 /* ---------- Sections ---------- */
 .section { padding-block: var(--section) 0; }
-.section--tight { padding-top: 40px; }
+.section--tight { padding-top: clamp(56px, 6.5vw, 88px); }
 .band { background: var(--band); padding-block: var(--section); margin-top: var(--section); }
 .band + .band { margin-top: 0; }
 .band + .section:not(.band) { padding-top: var(--section); }
-.shead { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 36px; }
+.shead { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 48px; }
 .shead__aside { font-size: 11.2px; color: var(--muted); }
 
 .grid { display: grid; gap: 32px 28px; }
@@ -194,7 +195,7 @@ button { font: inherit; color: inherit; }
 /* Audience cards and facts: a rule on top, never a box. */
 /* A card that leads to a personalised page is the link, not the words inside it. */
 .fact { border-top: 1px solid var(--line); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
-.facts { margin-top: 56px; }
+.facts { margin-top: 64px; }
 .fact .h4 { font-family: var(--font-head); font-weight: 400; font-size: 16px; letter-spacing: -.01em; }
 
 /* Quotes */
@@ -226,6 +227,8 @@ button { font: inherit; color: inherit; }
 .plate--token-disclosure { background: var(--td-tint); padding: clamp(20px, 3vw, 36px); }
 
 /* ---------- Feature rows ---------- */
+/* A feature row is a block of its own: it gets the same space above it as a section. */
+section.feature { padding-top: var(--section); }
 .feature { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
 .feature--flip .feature__text { order: 2; }
 .feature--flat { align-items: start; }
@@ -521,7 +524,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 .lcard__actions { display: flex; align-items: center; gap: 16px; margin-top: auto; padding-top: 4px; }
 
 /* ---------- Welcome: intro band ---------- */
-.band--ink { background: #16171b; color: #fff; }
+.band--ink { background: #16171b; color: #fff; margin-top: var(--section); }
 .intro .kicker { color: rgba(255,255,255,.6); }
 .intro__lead { margin-top: 18px; font-family: var(--font-head); font-size: clamp(22px, 2.6vw, 34px); line-height: 1.25; letter-spacing: -.015em; max-width: 26em; }
 .intro__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 40px; font-size: var(--body); line-height: 1.6; color: rgba(255,255,255,.78); }
