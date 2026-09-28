@@ -466,20 +466,6 @@ export function founder(ctx: Ctx, id: PersonId): Html {
 </article>`;
 }
 
-// An open seat, shown among the team: an empty portrait and a way to apply.
-export function vacancy(ctx: Ctx, { title, slug, line }: { title: string; slug: string; line: string }): Html {
-  return html`
-<div class="person person--portrait vacancy">
-  <div class="person__photo vacancy__photo"><span>Your photo here</span></div>
-  <div class="person__text">
-    <p class="person__name h4">${title}</p>
-    <p class="caption muted">Open role</p>
-    <p class="small">${line}</p>
-    <p><a class="more" href="${ctx.link(`careers/${slug}`)}">Read the role and apply</a></p>
-  </div>
-</div>`;
-}
-
 // The integrations strip along the top of every page: a slow loop of logos. The
 // list is written twice so the loop has no seam; the copy is hidden from readers.
 export function logoStrip(ctx: Ctx): Html {
@@ -503,6 +489,118 @@ export const peopleGrid = (
   const cols = variant === 'row' ? Math.min(n, 4) : Math.min(Math.max(n, 4), 5);
   return html`<div class="grid grid--${cols} people people--${variant}">${ids.map((id) => person(ctx, id, variant))}${extra}</div>`;
 };
+
+// ---------- Article template ----------
+// Every long-form page (a blog post, a job description, a legal notice) is the same
+// template, after the live eunice.ai pages: a rounded card with the breadcrumb, a
+// tag, the title and date on the left and the cover (or a panel) on the right; then
+// the text in one reading column. On tablet and phone the right side drops below.
+export type TagTone = 'video' | 'article' | 'press' | 'plain';
+
+export interface ArticleOptions {
+  crumbs: readonly { label: string; to: string }[];
+  tag: { label: string; tone: TagTone };
+  title: string;
+  /** Under the title: a date, or where a role is based. */
+  date?: Html | string;
+  /** The right side of the card: a cover image, a video link or a panel. */
+  media?: MaybeHtml;
+  standfirst?: string;
+  body: Html;
+  /** Under the text: a link back, a call to action. */
+  after?: MaybeHtml;
+  /** Legal notices read as one plain left-aligned column. */
+  plain?: boolean;
+}
+
+export const article = (ctx: Ctx, o: ArticleOptions): Html => html`
+<div class="wrap article${o.plain ? ' article--plain' : ''}">
+  <header class="acard${o.media ? '' : ' acard--solo'}">
+    <div class="acard__text">
+      <nav class="acrumbs" aria-label="Breadcrumb">${o.crumbs.map((c) => html`<a href="${ctx.link(c.to)}">${c.label}</a><span aria-hidden="true">/</span>`)}<span aria-current="page">${o.title}</span></nav>
+      <p class="tag-pill tag-pill--${o.tag.tone}">${o.tag.label}</p>
+      <h1 class="h1 acard__title">${o.title}</h1>
+      ${o.date ? html`<p class="acard__date">${o.date}</p>` : ''}
+    </div>
+    ${o.media ? html`<div class="acard__media">${o.media}</div>` : ''}
+  </header>
+  <div class="aread">
+    ${o.standfirst ? html`<p class="aread__lead">${o.standfirst}</p>` : ''}
+    <div class="prose body">${o.body}</div>
+    ${o.after || ''}
+  </div>
+</div>`;
+
+// ---------- List cards ----------
+// The one list layout: /blog/ and /careers/ (and the careers section on the welcome
+// page). A card is a whole link when it has one destination; a role card has two
+// (read the role, apply), so its title is the link and its actions sit below.
+export interface ListCard {
+  href: string;
+  meta: Html | string;
+  title: string;
+  text?: string;
+  cover?: MaybeHtml;
+  /** Shown instead of a cover: a short word on a tinted tile. */
+  tile?: string;
+  actions?: Html;
+}
+
+export const listCards = (cards: readonly ListCard[]): Html => html`
+<ul class="lcards">${cards.map((c) => {
+  const media = html`<span class="lcard__media">${c.cover || html`<span class="lcard__tile">${c.tile ?? ''}</span>`}</span>`;
+  const text = html`<span class="lcard__meta">${c.meta}</span><span class="lcard__title">${c.title}</span>${c.text ? html`<span class="lcard__text">${c.text}</span>` : ''}`;
+  return c.actions
+    ? html`<li class="lcard lcard--split">${media}<a class="lcard__link" href="${c.href}">${text}</a><span class="lcard__actions">${c.actions}</span></li>`
+    : html`<li><a class="lcard" href="${c.href}">${media}${text}</a></li>`;
+})}</ul>`;
+
+// ---------- People strip ----------
+// The team in one row. One person is always open: their portrait and, to its right,
+// who they are. Pointing at, focusing or tapping another opens them instead; the row
+// never snaps back to empty. On tablet and phone it is an accordion.
+export function peopleStrip(
+  ctx: Ctx,
+  ids: readonly PersonId[],
+  opening?: { title: string; slug: string; line: string },
+): Html {
+  const key = (ctx.slug || 'home').replaceAll('/', '-');
+  const item = (id: string, open: boolean, face: Html, label: Html, info: Html) => html`
+  <li class="pstrip__item${open ? ' is-open' : ''}">
+    <button type="button" class="pstrip__face" aria-expanded="${String(open)}" aria-controls="ps-${key}-${id}">${face}<span class="pstrip__label">${label}</span></button>
+    <div class="pstrip__info" id="ps-${key}-${id}">${info}</div>
+  </li>`;
+  return html`<ul class="pstrip" data-strip>${ids.map((id, n) => {
+    const p = people[id];
+    const face = p.photo
+      ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="" loading="lazy">`
+      : html`<span class="person__initials" aria-hidden="true">${initials(p.name)}</span>`;
+    return item(
+      id,
+      n === 0,
+      face,
+      html`<span class="pstrip__name">${p.name}</span><span class="pstrip__role">${p.role}</span>`,
+      html`<p class="h3">${p.name}</p>
+      <p class="caption muted">${p.role}</p>
+      <p class="small">${p.owns}</p>
+      ${p.bio ? html`<p class="small muted">${p.bio}</p>` : ''}
+      ${p.linkedin ? html`<a class="more" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>` : ''}`,
+    );
+  })}${
+    opening
+      ? item(
+          'opening',
+          false,
+          html`<span class="pstrip__empty">Your photo here</span>`,
+          html`<span class="pstrip__name">We are hiring</span><span class="pstrip__role">${opening.title}</span>`,
+          html`<p class="h3">${opening.title}</p>
+      <p class="caption muted">Open role</p>
+      <p class="small">${opening.line}</p>
+      <a class="more" href="${ctx.link(`careers/${opening.slug}`)}">Read the role and apply</a>`,
+        )
+      : ''
+  }</ul>`;
+}
 
 // ---------- Closing call to action ----------
 export const cta = (

@@ -1,8 +1,9 @@
 import { button, cta, peopleGrid, plate, quoteBlock, sectionHead } from '../components.ts';
-import { quotes, roles } from '../content/index.ts';
+import { quotes } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
+import { roleCards } from './jobs.ts';
 
 export default {
   slug: 'careers',
@@ -26,16 +27,7 @@ export default {
 
 <section class="wrap section" id="roles">
   ${sectionHead('Open roles', 'Three seats, all in London with remote days.')}
-  <ul class="roles">${roles.map(
-    (r) => html`
-    <li class="role">
-      <h3 class="h4"><a href="${ctx.link(`careers/${r.slug}`)}">${r.title}</a></h3>
-      <span class="caption muted">${r.where}</span>
-      <p class="small">${r.what}</p>
-      ${button(ctx, { label: 'Apply', small: true, href: r.applyUrl, newTab: true })}
-    </li>`,
-  )}
-  </ul>
+  ${roleCards(ctx)}
 </section>
 
 <section class="band section"><div class="wrap">

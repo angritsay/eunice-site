@@ -10,16 +10,16 @@ import {
   insightsBlock,
   mark,
   partnersRow,
-  peopleGrid,
+  peopleStrip,
   plate,
   quoteBlock,
   sectionHead,
-  vacancy,
 } from '../components.ts';
-import { quotes, roles } from '../content/index.ts';
+import { quotes } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
+import { roleCards } from './jobs.ts';
 
 const VALUES: readonly [string, string][] = [
   ['Show us the evidence', 'Opinions are fine, but we care about what the data says and where it came from.'],
@@ -39,8 +39,7 @@ export default {
 <section class="wrap hero hero--welcome">
   <div class="hero__text">
     <h1 class="h1">Welcome to Eunice</h1>
-    <p class="lead">Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong. We began with our first product in digital assets where our platform became trusted infrastructure for leading exchanges and institutions to assess tokens, screen for regulatory risk and monitor live risk events at scale.</p>
-    <p class="body muted">Building on that foundation, we then launched our second product, a toolset for private markets investing, which brings the same source-traced rigour to LPs, GPs, family offices, fund-of-funds and secondaries investors. Today, our two products share a single conviction: every conclusion should trace back to its source, every gap should be surfaced before it becomes a problem, and diligence should continue well beyond the close. From first screen to ongoing portfolio monitoring, Eunice helps investors move faster, decide with confidence and raise the standard of diligence across the markets they serve.</p>
+    <p class="lead">Source-traced due diligence and monitoring for digital assets and private markets.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Book demo', form: 'general', placement: 'hero' })}
       ${button(ctx, { label: 'Private market tools', kind: 'outline', to: 'private-markets' })}
@@ -49,6 +48,21 @@ export default {
   </div>
   <div class="hero__visual">${plate(ctx, { img: 'home-hero.png', alt: 'The Eunice pipeline view', bleed: true })}</div>
 </section>
+
+<section class="band--ink section" id="about"><div class="wrap intro">
+  <p class="kicker">About Eunice</p>
+  <p class="intro__lead">Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong.</p>
+  <div class="intro__cols">
+    <p>We began with our first product in digital assets where our platform became trusted infrastructure for leading exchanges and institutions to assess tokens, screen for regulatory risk and monitor live risk events at scale.</p>
+    <p>Building on that foundation, we then launched our second product, a toolset for private markets investing, which brings the same source-traced rigour to LPs, GPs, family offices, fund-of-funds and secondaries investors.</p>
+    <p>Today, our two products share a single conviction: every conclusion should trace back to its source, every gap should be surfaced before it becomes a problem, and diligence should continue well beyond the close. From first screen to ongoing portfolio monitoring, Eunice helps investors move faster, decide with confidence and raise the standard of diligence across the markets they serve.</p>
+  </div>
+  <ol class="intro__steps">
+    <li><span>01</span>Digital assets, first</li>
+    <li><span>02</span>Private markets, next</li>
+    <li><span>03</span>Diligence beyond the close</li>
+  </ol>
+</div></section>
 
 <section class="wrap section tiles" id="products">
   ${tile(ctx, {
@@ -97,22 +111,12 @@ export default {
   <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
 
   <div class="team-block">
-    ${sectionHead('The team')}
-    ${peopleGrid(ctx, ['chrislyn', 'ana', 'vinay', 'riley'], 'portrait')}
-  </div>
-
-  <div class="team-block">
-    ${sectionHead('Private markets', 'The desk, and the seat we are hiring for.')}
-    ${peopleGrid(
-      ctx,
-      ['petronela'],
-      'portrait',
-      vacancy(ctx, {
-        title: 'Client Implementation Consultant, Private Markets',
-        slug: 'client-implementation-consultant-private-markets',
-        line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
-      }),
-    )}
+    ${sectionHead('The team', 'Point at a person, or tap, to read about them.')}
+    ${peopleStrip(ctx, ['petronela', 'chrislyn', 'vinay', 'ana', 'riley'], {
+      title: 'Client Implementation Consultant, Private Markets',
+      slug: 'client-implementation-consultant-private-markets',
+      line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
+    })}
   </div>
 </section>
 
@@ -140,16 +144,7 @@ export default {
 
 <section class="wrap section" id="careers">
   ${sectionHead('Careers', 'London-based, remote-friendly.')}
-  <ul class="roles">${roles.map(
-    (r) => html`
-    <li class="role">
-      <h3 class="h4"><a href="${ctx.link(`careers/${r.slug}`)}">${r.title}</a></h3>
-      <span class="caption muted">${r.where}</span>
-      <p class="small">${r.what}</p>
-      ${button(ctx, { label: 'Apply', small: true, href: r.applyUrl, newTab: true })}
-    </li>`,
-  )}
-  </ul>
+  ${roleCards(ctx)}
   <p class="all"><a class="more" href="${ctx.link('careers')}">Life at Eunice and all roles</a></p>
 </section>
 

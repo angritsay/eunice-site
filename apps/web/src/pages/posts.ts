@@ -5,8 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
-import { fmtDay } from '../components.ts';
-import { desks, insights } from '../content/index.ts';
+import { article, fmtDay, listCards } from '../components.ts';
+import { insights } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import { richText } from '../lib/rich-text.ts';
 import type { Ctx, Page } from '../lib/types.ts';
@@ -62,27 +62,24 @@ export const postPages = posts.map(({ it, slug, live }) => {
     nav: 'company',
     title: `${live.title} — Eunice`,
     description: live.standfirst || it.standfirst || it.title,
-    render: (ctx) => html`
-<section class="wrap hero hero--short post">
-  <div class="hero__text">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="${ctx.link('blog')}">Blog</a><span aria-hidden="true">/</span><span aria-current="page">${live.title}</span></nav>
-    <p class="kicker tag--${it.desk}">${desks[it.desk].label} · ${live.type} · <time datetime="${live.date.slice(0, 10)}">${fmtDay(live.date.slice(0, 10))}</time></p>
-    <h1 class="h1 post__title">${live.title}</h1>
-    ${live.standfirst ? html`<p class="lead">${live.standfirst}</p>` : ''}
-  </div>
-</section>
-
-<section class="wrap section section--tight post__body">
-  ${
-    watch
-      ? html`<a class="post__cover post__video" href="${watch}" target="_blank" rel="noopener noreferrer">${live.hero ? cover(ctx, live.hero) : ''}<span class="post__play">Watch on YouTube</span></a>`
-      : live.hero
-        ? html`<figure class="post__cover">${cover(ctx, live.hero)}</figure>`
-        : ''
-  }
-  <div class="prose body">${richText(ctx, body, `content/posts/${slug}.html`)}</div>
-  <p class="all"><a class="more" href="${ctx.link('blog')}">All posts</a></p>
-</section>`,
+    render: (ctx) =>
+      html`${article(ctx, {
+        crumbs: [
+          { label: 'Home', to: '' },
+          { label: 'Blog', to: 'blog' },
+        ],
+        tag: { label: live.type, tone: live.video ? 'video' : live.type === 'Press Release' ? 'press' : 'article' },
+        title: live.title,
+        date: html`<time datetime="${live.date.slice(0, 10)}">${fmtDay(live.date.slice(0, 10))}</time>`,
+        media: watch
+          ? html`<a class="acard__cover acard__video" href="${watch}" target="_blank" rel="noopener noreferrer">${live.hero ? cover(ctx, live.hero) : ''}<span class="acard__play">Watch on YouTube</span></a>`
+          : live.hero
+            ? html`<figure class="acard__cover">${cover(ctx, live.hero)}</figure>`
+            : '',
+        standfirst: live.standfirst,
+        body: richText(ctx, body, `content/posts/${slug}.html`),
+        after: html`<p class="aread__after"><a class="more" href="${ctx.link('blog')}">All posts</a></p>`,
+      })}`,
   } satisfies Page;
 });
 
@@ -102,13 +99,13 @@ export const blogIndex = {
   </div>
 </section>
 <section class="wrap section section--tight">
-  <ul class="bcards">${posts.map(
-    ({ it, slug, live }) => html`
-    <li><a class="bcard" href="${ctx.link(`blog/${slug}`)}">
-      <span class="bcard__cover">${live.hero ? cover(ctx, live.hero) : ''}</span>
-      <span class="bcard__meta tag--${it.desk}">${live.type} <span>· <time datetime="${live.date.slice(0, 10)}">${fmtDay(live.date.slice(0, 10))}</time></span></span>
-      <span class="bcard__title">${live.title}</span>
-    </a></li>`,
-  )}</ul>
+  ${listCards(
+    posts.map(({ it, slug, live }) => ({
+      href: ctx.link(`blog/${slug}`),
+      cover: live.hero ? cover(ctx, live.hero) : '',
+      meta: html`<span class="tag--${it.desk}">${live.type}</span> · <time datetime="${live.date.slice(0, 10)}">${fmtDay(live.date.slice(0, 10))}</time>`,
+      title: live.title,
+    })),
+  )}
 </section>`,
 } satisfies Page;
