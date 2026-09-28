@@ -38,15 +38,46 @@ const smallTargets = (page: Page, min: number) =>
     min,
   );
 
+/** Space between one block of a page and the next: 48px on phones and tablets, 64px wider. */
+const minGap = (width: number) => (width < 1024 ? 48 : 64);
+
+// The gap between each pair of neighbouring blocks in <main>: from the last thing you
+// can see in one to the first in the next, or to the edge of a block with a background.
+// A block that forgets its spacing (as the feature rows once did) fails here.
+const tightGaps = (page: Page, min: number) =>
+  page.evaluate((m) => {
+    const visible = (el: Element) => {
+      const r = el.getBoundingClientRect();
+      return r.height > 0 && getComputedStyle(el).visibility !== 'hidden';
+    };
+    const filled = (el: Element) => getComputedStyle(el).backgroundColor !== 'rgba(0, 0, 0, 0)';
+    const edge = (el: Element, end: 'top' | 'bottom') => {
+      if (filled(el)) return el.getBoundingClientRect()[end];
+      const rects = [...el.querySelectorAll('*')].filter(visible).map((x) => x.getBoundingClientRect()[end]);
+      if (!rects.length) return el.getBoundingClientRect()[end];
+      return end === 'top' ? Math.min(...rects) : Math.max(...rects);
+    };
+    const name = (el: Element) => (el.id ? `#${el.id}` : `.${[...el.classList].join('.')}`);
+    const blocks = [...(document.querySelector('main')?.children ?? [])].filter(visible);
+    return blocks.slice(1).flatMap((next, i) => {
+      const prev = blocks[i] as Element;
+      const gap = Math.round(edge(next, 'top') - edge(prev, 'bottom'));
+      return gap < m ? [`${name(prev)} → ${name(next)}: ${gap}px`] : [];
+    });
+  }, min);
+
 for (const w of WIDTHS) {
   test.describe(`${w.name} ${w.width}px`, () => {
     test.use({ viewport: { width: w.width, height: 900 }, hasTouch: w.touch, isMobile: w.touch && w.width < 800 });
 
     for (const page of PAGES) {
-      test(`${label(page)}: no horizontal scroll${w.touch ? ', tappable targets' : ''}`, async ({ page: p }) => {
+      test(`${label(page)}: no horizontal scroll${w.touch ? ', tappable targets' : ''}, room between blocks`, async ({
+        page: p,
+      }) => {
         await p.goto(BASE + page);
         expect(await overflow(p), 'page is wider than the viewport').toBeLessThanOrEqual(0);
         if (w.touch) expect(await smallTargets(p, MIN_TARGET)).toEqual([]);
+        expect(await tightGaps(p, minGap(w.width)), 'blocks too close together').toEqual([]);
       });
     }
   });
