@@ -48,6 +48,36 @@
     });
   }
 
+  // ---------- People strip ----------
+  // One person is always open. On a wide screen, pointing at someone opens them after
+  // a short pause (so sweeping across the row does not flicker); focus and tap open at
+  // once. Leaving the row keeps the last person open rather than snapping back.
+  const wide = window.matchMedia('(min-width: 961px)');
+  for (const strip of document.querySelectorAll('[data-strip]')) {
+    const items = [...strip.querySelectorAll('.pstrip__item')];
+    /** @type {ReturnType<typeof setTimeout> | undefined} */
+    let pending;
+    /** @param {Element} item */
+    const show = (item) => {
+      for (const i of items) {
+        const on = i === item;
+        i.classList.toggle('is-open', on);
+        i.querySelector('.pstrip__face')?.setAttribute('aria-expanded', String(on));
+      }
+    };
+    for (const item of items) {
+      const face = item.querySelector('.pstrip__face');
+      item.addEventListener('mouseenter', () => {
+        if (!wide.matches) return;
+        clearTimeout(pending);
+        pending = setTimeout(() => show(item), 70);
+      });
+      item.addEventListener('mouseleave', () => clearTimeout(pending));
+      face?.addEventListener('click', () => show(item));
+      face?.addEventListener('focus', () => wide.matches && show(item));
+    }
+  }
+
   // ---------- Leadership bios: hover on desktop, tap anywhere ----------
   document.addEventListener('click', (e) => {
     const name = /** @type {HTMLElement} */ (e.target).closest('button.person__name');

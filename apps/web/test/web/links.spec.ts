@@ -70,9 +70,7 @@ test('every page has the three menus; User login shows only on the crypto pages'
   }
 });
 
-test('the vacancy on the welcome page leads to its job description', () => {
+test('the open role in the team strip leads to its job description', () => {
   const html = readPage('');
-  expect(html).toMatch(
-    /class="person person--portrait vacancy"[\s\S]*?href="careers\/client-implementation-consultant-private-markets\/"/,
-  );
+  expect(html).toMatch(/class="pstrip"[\s\S]*?href="careers\/client-implementation-consultant-private-markets\/"/);
 });

@@ -70,3 +70,38 @@ test.describe('base path', () => {
     }
   }
 });
+
+// The team strip on the welcome page: exactly one person open at a time, and the one
+// you point at (wide screens) or tap (phones) is the one that opens.
+test.describe('team strip', () => {
+  const open = (p: Page) => p.locator('.pstrip__item.is-open');
+
+  test('pointing at a person opens them and collapses the rest', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(BASE);
+    await expect(open(page)).toHaveCount(1);
+    const third = page.locator('.pstrip__item').nth(2);
+    await third.hover();
+    await expect(third).toHaveClass(/is-open/);
+    await expect(open(page)).toHaveCount(1);
+    await expect(third.locator('.pstrip__face')).toHaveAttribute('aria-expanded', 'true');
+    await page.waitForTimeout(400); // the width transition
+    const wide = (await third.boundingBox())?.width ?? 0;
+    const narrow = (await page.locator('.pstrip__item').first().boundingBox())?.width ?? 0;
+    expect(wide).toBeGreaterThan(narrow * 2);
+    await page.mouse.move(5, 5); // leaving the row keeps the last person open
+    await expect(third).toHaveClass(/is-open/);
+  });
+
+  test('on a phone, tapping a person opens their row', async ({ browser }) => {
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+    const page = await ctx.newPage();
+    await page.goto(BASE);
+    const second = page.locator('.pstrip__item').nth(1);
+    await second.locator('.pstrip__face').tap();
+    await expect(second).toHaveClass(/is-open/);
+    await expect(second.locator('.pstrip__info')).toBeVisible();
+    await expect(open(page)).toHaveCount(1);
+    await ctx.close();
+  });
+});

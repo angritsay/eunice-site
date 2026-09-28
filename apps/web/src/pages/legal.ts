@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
-import { html } from '../lib/html.ts';
+import { article } from '../components.ts';
 import { richText } from '../lib/rich-text.ts';
 import type { Page } from '../lib/types.ts';
 
@@ -20,16 +20,15 @@ const legalPage = (slug: string, description: string): Page => {
     nav: 'company',
     title: `${live.title} — Eunice`,
     description,
-    render: (ctx) => html`
-<section class="wrap hero hero--short">
-  <div class="hero__text">
-    <p class="kicker">Reasoon Limited, trading as Eunice</p>
-    <h1 class="h1">${live.title}</h1>
-  </div>
-</section>
-<section class="wrap section section--tight">
-  <div class="prose body">${richText(ctx, body, `content/legal/${slug}.html`)}</div>
-</section>`,
+    render: (ctx) =>
+      article(ctx, {
+        crumbs: [{ label: 'Home', to: '' }],
+        tag: { label: 'Legal', tone: 'plain' },
+        title: live.title,
+        date: 'Reasoon Limited, trading as Eunice',
+        body: richText(ctx, body, `content/legal/${slug}.html`),
+        plain: true,
+      }),
   };
 };
 
