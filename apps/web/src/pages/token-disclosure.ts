@@ -1,14 +1,4 @@
-import {
-  audienceLine,
-  button,
-  cta,
-  facts,
-  feature,
-  insightsBlock,
-  mark,
-  plate,
-  whoCards,
-} from '../components.ts';
+import { audienceLine, button, cta, facts, feature, insightsBlock, mark, plate, whoCards } from '../components.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 
