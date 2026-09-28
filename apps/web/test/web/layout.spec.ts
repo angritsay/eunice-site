@@ -57,13 +57,31 @@ const tightGaps = (page: Page, min: number) =>
       if (!rects.length) return el.getBoundingClientRect()[end];
       return end === 'top' ? Math.min(...rects) : Math.max(...rects);
     };
+    const content = (el: Element, end: 'top' | 'bottom') => {
+      const rects = [...el.querySelectorAll('*')].filter(visible).map((x) => x.getBoundingClientRect()[end]);
+      return end === 'top' ? Math.min(...rects) : Math.max(...rects);
+    };
     const name = (el: Element) => (el.id ? `#${el.id}` : `.${[...el.classList].join('.')}`);
     const blocks = [...(document.querySelector('main')?.children ?? [])].filter(visible);
-    return blocks.slice(1).flatMap((next, i) => {
+    const between = blocks.slice(1).flatMap((next, i) => {
       const prev = blocks[i] as Element;
       const gap = Math.round(edge(next, 'top') - edge(prev, 'bottom'));
       return gap < m ? [`${name(prev)} → ${name(next)}: ${gap}px`] : [];
     });
+    // Inside a section with a background, its content keeps the same distance from
+    // both edges (as the dark band on the welcome page once did not, at the bottom).
+    const inside = blocks
+      .filter((el) => el.tagName === 'SECTION' && filled(el) && el.querySelector('*'))
+      .flatMap((el) => {
+        const box = el.getBoundingClientRect();
+        const top = Math.round(content(el, 'top') - box.top);
+        const bottom = Math.round(box.bottom - content(el, 'bottom'));
+        return [
+          ...(top < m ? [`inside ${name(el)}, top: ${top}px`] : []),
+          ...(bottom < m ? [`inside ${name(el)}, bottom: ${bottom}px`] : []),
+        ];
+      });
+    return [...between, ...inside];
   }, min);
 
 for (const w of WIDTHS) {
