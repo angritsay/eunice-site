@@ -1,6 +1,5 @@
 import {
-  audienceCards,
-  audiences,
+  audienceLine,
   button,
   cta,
   eventsBlock,
@@ -13,6 +12,7 @@ import {
   plate,
   quoteBlock,
   sectionHead,
+  whoCards,
 } from '../components.ts';
 import { quotes } from '../content/index.ts';
 import { html } from '../lib/html.ts';
@@ -23,39 +23,62 @@ const DESK = 'digital-assets';
 export default {
   slug: DESK,
   nav: DESK,
-  title: 'Eunice Digital Assets — End to end listing',
+  title: 'Crypto & RWA — Eunice',
   description:
     'Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.',
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <p class="kicker desk-text--${DESK}">For exchanges, custodians and market makers</p>
-    <h1 class="h1">End to end listing</h1>
+    <p class="kicker desk-text--${DESK}">For exchanges, custodians, market makers and issuers</p>
+    <h1 class="h1">Crypto &amp; RWA</h1>
     <p class="lead">Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
-      ${button(ctx, { label: 'See a sample report', kind: 'outline', form: 'sample-report', placement: 'hero' })}
+      ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
     </div>
   </div>
   <div class="hero__visual">${plate(ctx, { img: 'da-hero.png', alt: 'Due diligence reports, searching for a token', bleed: true })}</div>
 </section>
 
-<section class="band section" id="who"><div class="wrap">
-  ${sectionHead('Who we build for', 'Pick the one that sounds like your week.')}
-  ${audiences(ctx, [
-    ...audienceCards(DESK),
+${whoCards(ctx, {
+  desk: DESK,
+  kicker: 'Who we work with',
+  title: 'One desk for listing, holding and trading',
+  lead: 'And for the issuers whose disclosures they read.',
+  clients: [
     {
-      desk: 'token-disclosure',
-      title: 'Issuers and counsel',
-      text: 'A white paper that has to be accepted once, and stay true after that.',
+      who: 'Exchanges',
+      line: audienceLine(DESK, 'exchanges'),
+      needs: ['Listing diligence', 'Committee-ready reports'],
+      to: `${DESK}/exchanges`,
+    },
+    {
+      who: 'Custodians',
+      line: audienceLine(DESK, 'custodians'),
+      needs: ['Live risk events', 'Reserve movements'],
+      to: `${DESK}/custodians`,
+    },
+    {
+      who: 'Market makers',
+      line: audienceLine(DESK, 'market-makers'),
+      needs: ['Disclosure changes', 'Monitoring'],
+      to: `${DESK}/market-makers`,
+    },
+    {
+      who: 'Issuers and counsel',
+      line: audienceLine('token-disclosure', 'issuers'),
+      needs: ['MiCA white paper', 'UK token classification'],
       to: 'token-disclosure',
     },
-  ])}
-</div></section>
+  ],
+})}
 
 <section class="wrap section">
   ${partnersRow()}
   <div class="grid grid--2 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}</div>
+</section>
+
+<section class="wrap section section--tight">
   ${facts([
     { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
     { title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },

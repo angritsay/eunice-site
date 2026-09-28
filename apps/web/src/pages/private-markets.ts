@@ -11,6 +11,8 @@ import {
   photo,
   plate,
   sectionHead,
+  type WhoClient,
+  whoCards,
 } from '../components.ts';
 import { quotes } from '../content/index.ts';
 import { html } from '../lib/html.ts';
@@ -63,28 +65,20 @@ export default {
   </div>
 </section>
 
-<section class="band section" id="clients"><div class="wrap">
-  <ul class="who">
-    <li class="who__intro">
-      <p class="kicker desk-text--${DESK}">Who we work with</p>
-      <h2 class="h2">Every firm’s needs are different</h2>
-      <p class="body muted">Seven kinds of investor, one standard of diligence.</p>
-    </li>
-    ${CLIENTS.map((c, n) => {
-      const inner = html`<span class="who__num">${String(n + 1).padStart(2, '0')}</span>
-        <span class="who__title">${c.who}</span>
-        <span class="who__line">${c.line}</span>
-        <span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>`;
-      return c.to
-        ? html`<li><a class="who__card who__card--link" href="${ctx.link(c.to)}">${inner}</a></li>`
-        : html`<li><div class="who__card">${inner}</div></li>`;
-    })}
-  </ul>
-  <figure class="quoteline who__quote">
+${whoCards(ctx, {
+  desk: DESK,
+  kicker: 'Who we work with',
+  title: 'Every firm’s needs are different',
+  lead: 'Seven kinds of investor, one standard of diligence.',
+  clients: CLIENTS,
+})}
+
+<section class="wrap section section--tight">
+  <figure class="quoteline">
     <blockquote>“${quotes.fof.text}”</blockquote>
     <figcaption class="muted">${quotes.fof.who}</figcaption>
   </figure>
-</div></section>
+</section>
 
 <section class="wrap section split">
   ${photo(ctx, { img: 'mayfair.jpg', variant: 'mayfair', alt: 'A Mayfair street corner after rain' })}
@@ -244,7 +238,7 @@ const markSmall = () => mark(11, '#f08a4b');
 
 // Who the private market tools are for: the owner's seven client types, each cut to
 // a line and the needs it names. Where a client-type page matches, the card links to it.
-const CLIENTS: readonly { who: string; line: string; needs: readonly string[]; to?: string }[] = [
+const CLIENTS: readonly WhoClient[] = [
   {
     who: 'High-activity asset allocators',
     line: 'High levels of dealmaking, large numbers of funds and managers.',

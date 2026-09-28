@@ -191,43 +191,6 @@ export function footer(ctx: Ctx): Html {
 export const sectionHead = (label: string, aside = '') =>
   html`<div class="shead"><h2 class="label">${label}</h2>${aside ? html`<p class="shead__aside">${aside}</p>` : ''}</div>`;
 
-// The cards for a desk's personalised pages, in the order the content file lists
-// them. A desk page shows these; the home page writes its own, since it speaks to
-// someone who has not picked a desk yet.
-export const audienceCards = (desk: ProductDesk): AudienceItem[] =>
-  audiencePages
-    .filter((a) => a.desk === desk)
-    .map((a) => ({ id: a.id, desk, title: a.card.title, text: a.card.text, to: `${desk}/${a.id}` }));
-
-export interface AudienceItem {
-  id?: string;
-  desk: Desk;
-  title: string;
-  text: string;
-  to?: string;
-  hash?: string;
-}
-
-// An item with a `to` is the whole card: the card itself is the link, so the
-// click target is the tile rather than four words at the bottom of it.
-export function audiences(ctx: Ctx, items: readonly AudienceItem[]): Html {
-  return html`<div class="grid grid--${items.length > 4 ? 6 : 4} audiences">
-  ${items.map((a) => {
-    const body = html`
-      ${deskLabel(a.desk)}
-      <h3 class="h4">${a.title}</h3>
-      <p class="small muted">${a.text}</p>`;
-    const id = a.id ? html` id="${a.id}"` : '';
-    return a.to
-      ? html`<a class="audience audience--link"${id} href="${ctx.link(a.to, a.hash)}">${body}
-      <span class="more">See how</span>
-    </a>`
-      : html`<div class="audience"${id}>${body}
-    </div>`;
-  })}
-  </div>`;
-}
-
 export const facts = (
   items: readonly { title: string; text: string }[],
   cols = items.length,
@@ -445,6 +408,56 @@ export function logoStrip(ctx: Ctx): Html {
     )}</ul>`;
   return html`<div class="strip" role="region" aria-label="Integrations"><div class="strip__track">${row(false)}${row(true)}</div></div>`;
 }
+
+// ---------- Who we work with ----------
+// One card per client type: a number, the type, one line and the needs it names.
+// A card links to its client page where there is one. The accent follows the desk.
+export interface WhoClient {
+  who: string;
+  line: string;
+  needs: readonly string[];
+  to?: string;
+}
+
+export function whoCards(
+  ctx: Ctx,
+  {
+    desk,
+    kicker,
+    title,
+    lead,
+    clients,
+  }: { desk: ProductDesk; kicker: string; title: string; lead: string; clients: readonly WhoClient[] },
+): Html {
+  // With a multiple of four cards, the intro takes a row of its own so none is left alone.
+  const wide = clients.length % 4 === 0;
+  return html`
+<section class="band section" id="clients"><div class="wrap">
+  <ul class="who who--${desk}${wide ? ' who--wide-intro' : ''}">
+    <li class="who__intro">
+      <p class="kicker desk-text--${desk}">${kicker}</p>
+      <h2 class="h2">${title}</h2>
+      <p class="body muted">${lead}</p>
+    </li>
+    ${clients.map((c, n) => {
+      const inner = html`<span class="who__num">${String(n + 1).padStart(2, '0')}</span>
+        <span class="who__title">${c.who}</span>
+        <span class="who__line">${c.line}</span>
+        <span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>`;
+      return c.to
+        ? html`<li><a class="who__card who__card--link" href="${ctx.link(c.to)}">${inner}</a></li>`
+        : html`<li><div class="who__card">${inner}</div></li>`;
+    })}
+  </ul>
+</div></section>`;
+}
+
+/** The one-line pitch of a client-type page, as its card on the desk page reads. */
+export const audienceLine = (desk: ProductDesk, id: string) => {
+  const a = audiencePages.find((x) => x.desk === desk && x.id === id);
+  if (!a) throw new Error(`No client page ${desk}/${id}`);
+  return a.card.text;
+};
 
 // ---------- Article template ----------
 // Every long-form page (a blog post, a job description, a legal notice) is the same
