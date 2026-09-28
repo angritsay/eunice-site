@@ -11,6 +11,7 @@ import {
   mark,
   partnersRow,
   peopleStrip,
+  photo,
   plate,
   quoteBlock,
   sectionHead,
@@ -36,17 +37,18 @@ export default {
   description:
     'Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong.',
   render: (ctx) => html`
-<section class="wrap hero hero--welcome">
-  <div class="hero__text">
-    <h1 class="h1">Welcome to Eunice</h1>
-    <p class="lead">Source-traced due diligence and monitoring for digital assets and private markets.</p>
-    <div class="buttons">
-      ${button(ctx, { label: 'Book demo', form: 'general', placement: 'hero' })}
-      ${button(ctx, { label: 'Private market tools', kind: 'outline', to: 'private-markets' })}
-      ${button(ctx, { label: 'Crypto & RWA', kind: 'outline', to: 'digital-assets' })}
-    </div>
+<section class="wrap hero-center">
+  <h1 class="h1 hero-center__title">Welcome to Eunice</h1>
+  <p class="lead hero-center__lead">Source-traced due diligence and monitoring for digital assets and private markets.</p>
+  <div class="buttons hero-center__buttons">
+    ${button(ctx, { label: 'Book demo', form: 'general', placement: 'hero' })}
+    ${button(ctx, { label: 'Private market tools', kind: 'outline', to: 'private-markets' })}
+    ${button(ctx, { label: 'Crypto & RWA', kind: 'outline', to: 'digital-assets' })}
   </div>
-  <div class="hero__visual">${plate(ctx, { img: 'home-hero.png', alt: 'The Eunice pipeline view', bleed: true })}</div>
+  <div class="hero-center__visual">
+    ${photo(ctx, { img: 'city-of-london.jpg', variant: 'stage', alt: 'The City of London at dusk, looking along the Thames to St Paul’s' })}
+    <div class="hero-center__plate">${plate(ctx, { img: 'home-hero.png', alt: 'The Eunice pipeline view' })}</div>
+  </div>
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">

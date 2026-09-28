@@ -78,17 +78,6 @@
     }
   }
 
-  // ---------- Leadership bios: hover on desktop, tap anywhere ----------
-  document.addEventListener('click', (e) => {
-    const name = /** @type {HTMLElement} */ (e.target).closest('button.person__name');
-    if (!name) return;
-    const card = name.closest('.person');
-    if (!card) return;
-    const open = !card.classList.contains('is-open');
-    card.classList.toggle('is-open', open);
-    name.setAttribute('aria-expanded', String(open));
-  });
-
   // ---------- Contact dialog ----------
   // Every button that opens it names a form variant (data-form) and where it sits
   // (data-placement). With this page's path and audience, that is the entry point:

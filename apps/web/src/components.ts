@@ -70,7 +70,7 @@ export const mark = (size = 22, color = 'currentColor') =>
 // The full lockup, glyph and wordmark, exactly as the master file draws it.
 // It carries the name, so nothing should print "Eunice" beside it. `size` is its height.
 export const logo = (size = 21, color = 'currentColor') =>
-  html`<svg class="logo" width="${((size * 68) / 21).toFixed(2)}" height="${size}" viewBox="0 0 68 21" fill="${color}" role="img"><title>Eunice</title><path d="${GLYPH}"/>${WORDMARK}</svg>`;
+  html`<svg class="logo" width="${((size * 68) / 21).toFixed(2)}" height="${size}" viewBox="0 0 68 21" fill="${color}" role="img"><title>Eunice</title><path class="logo__glyph" d="${GLYPH}"/>${WORDMARK}</svg>`;
 
 export const deskLabel = (desk: Desk, extra = '') =>
   html`<span class="desk desk--${desk}"><span class="dot"></span>${desks[desk].label}${extra ? html` <span class="desk__meta">· ${extra}</span>` : ''}</span>`;
@@ -129,7 +129,7 @@ export function header(ctx: Ctx, navKey: NavKey = 'company'): Html {
   const idFor = (menu: string) => `menu-${(ctx.slug || 'home').replaceAll('/', '-')}-${menu}`;
   return html`
 <header class="wrap nav">
-  <a class="lockup" href="${ctx.link(lockup ? navKey : '')}">
+  <a class="lockup lockup--${navKey}" href="${ctx.link(lockup ? navKey : '')}">
     ${logo(17)}${lockup ? html`<span class="lockup__rule"></span><span class="lockup__desk">${lockup}</span>` : ''}
   </a>
   <nav class="nav__links" id="nav-links" aria-label="Main">
@@ -407,37 +407,6 @@ export function eventsBlock(
 
 // ---------- People ----------
 // variant 'row': small portrait beside the name (product pages). 'portrait': tall photo (company, careers).
-export function person(ctx: Ctx, id: PersonId, variant: 'row' | 'portrait' = 'row'): Html {
-  const p = people[id];
-  // No portrait yet: their initials on the same tile, until one is added.
-  const photo = p.photo
-    ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="${p.name}" loading="lazy">`
-    : html`<span class="person__initials" aria-hidden="true">${initials(p.name)}</span>`;
-  // Keyed by page as well as person: preview.html holds every page in one document,
-  // so the same bio appears several times there. Deterministic, unlike a random suffix.
-  const bioId = `bio-${(ctx.slug || 'home').replaceAll('/', '-')}-${id}`;
-  const nameEl = p.bio
-    ? html`<button type="button" class="person__name h4" aria-expanded="false" aria-controls="${bioId}">${p.name}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>`
-    : html`<p class="person__name h4">${p.name}</p>`;
-  return html`
-<div class="person person--${variant}${p.bio ? ' person--has-bio' : ''}">
-  <div class="person__photo">${photo}</div>
-  <div class="person__text">
-    ${nameEl}
-    <p class="caption muted">${p.role}</p>
-    ${variant === 'portrait' ? html`<p class="small">${p.owns}</p>` : ''}
-    ${
-      p.bio
-        ? html`<div class="person__bio" id="${bioId}"><div><p class="small muted">${p.bio}</p>${
-            p.linkedin
-              ? html`<a class="person__in" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>`
-              : ''
-          }</div></div>`
-        : ''
-    }
-  </div>
-</div>`;
-}
 
 const initials = (name: string) =>
   name
@@ -476,19 +445,6 @@ export function logoStrip(ctx: Ctx): Html {
     )}</ul>`;
   return html`<div class="strip" role="region" aria-label="Integrations"><div class="strip__track">${row(false)}${row(true)}</div></div>`;
 }
-
-// Rows fit the grid to the people in it. Portraits keep at least four columns, so a
-// short list does not blow a portrait up to half the page.
-export const peopleGrid = (
-  ctx: Ctx,
-  ids: readonly PersonId[],
-  variant: 'row' | 'portrait' = 'row',
-  extra: MaybeHtml = '',
-) => {
-  const n = ids.length + (extra ? 1 : 0);
-  const cols = variant === 'row' ? Math.min(n, 4) : Math.min(Math.max(n, 4), 5);
-  return html`<div class="grid grid--${cols} people people--${variant}">${ids.map((id) => person(ctx, id, variant))}${extra}</div>`;
-};
 
 // ---------- Article template ----------
 // Every long-form page (a blog post, a job description, a legal notice) is the same
@@ -574,7 +530,7 @@ export function peopleStrip(
     const p = people[id];
     const face = p.photo
       ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="" loading="lazy">`
-      : html`<span class="person__initials" aria-hidden="true">${initials(p.name)}</span>`;
+      : html`<span class="pstrip__initials" aria-hidden="true">${initials(p.name)}</span>`;
     return item(
       id,
       n === 0,
