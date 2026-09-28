@@ -74,3 +74,14 @@ test('the open role in the team strip leads to its job description', () => {
   const html = readPage('');
   expect(html).toMatch(/class="pstrip"[\s\S]*?href="careers\/client-implementation-consultant-private-markets\/"/);
 });
+
+// One people component everywhere: every team section is the strip, with its own people.
+test('every team section uses the one people strip', () => {
+  const withTeam = PAGES.filter((p) => readPage(p).includes('id="team"'));
+  expect(withTeam.length).toBeGreaterThanOrEqual(5);
+  for (const page of withTeam) {
+    const html = readPage(page);
+    expect(html, page).toContain('class="pstrip"');
+    expect(html, page).not.toContain('class="person ');
+  }
+});

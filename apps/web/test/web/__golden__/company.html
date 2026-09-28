@@ -14,10 +14,10 @@
 </head>
 <body>
 <header class="wrap nav">
-<a class="lockup" href="../">
+<a class="lockup lockup--company" href="../">
 <svg class="logo" width="55.05" height="17" viewBox="0 0 68 21" fill="currentColor" role="img">
 <title>Eunice</title>
-<path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
+<path class="logo__glyph" d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
 <path d="M23.9966 15.3572H30.8252V13.8549H25.5479V10.4612H29.9342V8.95888H25.5479V5.8779H30.8252V4.37555H23.9966V15.3572Z"/>
 <path d="M35.1825 15.5784C36.3474 15.5784 37.2454 15.1284 37.8319 14.3735V15.3572H39.2123V7.12097H37.6464V11.4069C37.6464 13.3592 36.7262 14.0684 35.6127 14.0684C33.9057 14.0684 33.5867 12.4517 33.5867 11.1705V7.12097H32.0132V11.6967C32.0132 12.9702 32.4212 15.5784 35.1825 15.5784Z"/>
 <path d="M46.4745 11.3077V15.3572H48.048V10.7815C48.048 9.50796 47.64 6.89981 44.8787 6.89981C43.7138 6.89981 42.8158 7.34975 42.2293 8.10475V7.12097H40.8413V15.3572H42.4148V11.0713C42.4148 9.11903 43.3351 8.40979 44.4485 8.40979C46.1555 8.40979 46.4745 10.0265 46.4745 11.3077Z"/>
@@ -168,102 +168,87 @@
 <h2 class="label">Leadership</h2>
 <p class="shead__aside">Five people who run the company, in London.</p>
 </div>
-<div class="grid grid--5 people people--portrait">
-<div class="person person--portrait person--has-bio">
-<div class="person__photo">
-<img src="../assets/img/people/yi.png" alt="Yi Luo" loading="lazy">
-</div>
-<div class="person__text">
-<button type="button" class="person__name h4" aria-expanded="false" aria-controls="bio-company-yi">Yi Luo<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-<path d="m6 9 6 6 6-6"/>
-</svg>
+<ul class="pstrip" data-strip>
+<li class="pstrip__item is-open">
+<button type="button" class="pstrip__face" aria-expanded="true" aria-controls="ps-company-yi">
+<img src="../assets/img/people/yi.png" alt="" loading="lazy">
+<span class="pstrip__label">
+<span class="pstrip__name">Yi Luo</span>
+<span class="pstrip__role">CEO and co-founder</span>
+</span>
 </button>
+<div class="pstrip__info" id="ps-company-yi">
+<p class="h3">Yi Luo</p>
 <p class="caption muted">CEO and co-founder</p>
 <p class="small">The company, its clients and its capital.</p>
-<div class="person__bio" id="bio-company-yi">
-<div>
 <p class="small muted">Co-founded FreeUp, a fintech acquired by Earnd, and scaled its team across the US and UK. A former VC with 40+ early-stage investments. MSc, London School of Economics.</p>
-<a class="person__in" href="https://www.linkedin.com/in/loriluoyi/" target="_blank" rel="noopener noreferrer" aria-label="Yi Luo on LinkedIn">LinkedIn</a>
+<a class="more" href="https://www.linkedin.com/in/loriluoyi/" target="_blank" rel="noopener noreferrer" aria-label="Yi Luo on LinkedIn">LinkedIn</a>
 </div>
-</div>
-</div>
-</div>
-<div class="person person--portrait person--has-bio">
-<div class="person__photo">
-<img src="../assets/img/people/philip.png" alt="Philip Lam" loading="lazy">
-</div>
-<div class="person__text">
-<button type="button" class="person__name h4" aria-expanded="false" aria-controls="bio-company-philip">Philip Lam<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-<path d="m6 9 6 6 6-6"/>
-</svg>
+</li>
+<li class="pstrip__item">
+<button type="button" class="pstrip__face" aria-expanded="false" aria-controls="ps-company-philip">
+<img src="../assets/img/people/philip.png" alt="" loading="lazy">
+<span class="pstrip__label">
+<span class="pstrip__name">Philip Lam</span>
+<span class="pstrip__role">CTO and co-founder</span>
+</span>
 </button>
+<div class="pstrip__info" id="ps-company-philip">
+<p class="h3">Philip Lam</p>
 <p class="caption muted">CTO and co-founder</p>
 <p class="small">The platform, and how it reads a dataroom.</p>
-<div class="person__bio" id="bio-company-philip">
-<div>
 <p class="small muted">Co-founded NEX, a US-based AI startup that raised $40M. VP Engineering at Goodnotes (30M monthly users), building and leading a team of 200 engineers. Previously at Apple and Microsoft.</p>
-<a class="person__in" href="https://www.linkedin.com/in/philip-lam-92172a24/" target="_blank" rel="noopener noreferrer" aria-label="Philip Lam on LinkedIn">LinkedIn</a>
+<a class="more" href="https://www.linkedin.com/in/philip-lam-92172a24/" target="_blank" rel="noopener noreferrer" aria-label="Philip Lam on LinkedIn">LinkedIn</a>
 </div>
-</div>
-</div>
-</div>
-<div class="person person--portrait person--has-bio">
-<div class="person__photo">
-<img src="../assets/img/people/petronela.png" alt="Petronela Pell" loading="lazy">
-</div>
-<div class="person__text">
-<button type="button" class="person__name h4" aria-expanded="false" aria-controls="bio-company-petronela">Petronela Pell<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-<path d="m6 9 6 6 6-6"/>
-</svg>
+</li>
+<li class="pstrip__item">
+<button type="button" class="pstrip__face" aria-expanded="false" aria-controls="ps-company-petronela">
+<img src="../assets/img/people/petronela.png" alt="" loading="lazy">
+<span class="pstrip__label">
+<span class="pstrip__name">Petronela Pell</span>
+<span class="pstrip__role">Head of Private Markets</span>
+</span>
 </button>
+<div class="pstrip__info" id="ps-company-petronela">
+<p class="h3">Petronela Pell</p>
 <p class="caption muted">Head of Private Markets</p>
 <p class="small">The private markets desk and its implementations.</p>
-<div class="person__bio" id="bio-company-petronela">
-<div>
 <p class="small muted">16+ years’ financial services experience at Schroders Capital, Accenture, T. Rowe Price, Aberdeen and Investec. INSEAD MBA, Durham University BA (Hons) in Philosophy, Politics &amp; Economics, both degrees under academic scholarships.</p>
-<a class="person__in" href="https://www.linkedin.com/in/petronela-pell-mba-490aa33/" target="_blank" rel="noopener noreferrer" aria-label="Petronela Pell on LinkedIn">LinkedIn</a>
+<a class="more" href="https://www.linkedin.com/in/petronela-pell-mba-490aa33/" target="_blank" rel="noopener noreferrer" aria-label="Petronela Pell on LinkedIn">LinkedIn</a>
 </div>
-</div>
-</div>
-</div>
-<div class="person person--portrait person--has-bio">
-<div class="person__photo">
-<img src="../assets/img/people/vinay.png" alt="Vinay Manektalla" loading="lazy">
-</div>
-<div class="person__text">
-<button type="button" class="person__name h4" aria-expanded="false" aria-controls="bio-company-vinay">Vinay Manektalla<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-<path d="m6 9 6 6 6-6"/>
-</svg>
+</li>
+<li class="pstrip__item">
+<button type="button" class="pstrip__face" aria-expanded="false" aria-controls="ps-company-vinay">
+<img src="../assets/img/people/vinay.png" alt="" loading="lazy">
+<span class="pstrip__label">
+<span class="pstrip__name">Vinay Manektalla</span>
+<span class="pstrip__role">Head of Engineering</span>
+</span>
 </button>
+<div class="pstrip__info" id="ps-company-vinay">
+<p class="h3">Vinay Manektalla</p>
 <p class="caption muted">Head of Engineering</p>
 <p class="small">The engineering team, day to day.</p>
-<div class="person__bio" id="bio-company-vinay">
-<div>
 <p class="small muted">9+ years in software engineering and technical leadership. Previously built equities algorithmic trading systems at Deutsche Bank, and led the audiovisual engineering department at BMAT.</p>
 </div>
-</div>
-</div>
-</div>
-<div class="person person--portrait person--has-bio">
-<div class="person__photo">
-<img src="../assets/img/people/chrislyn.png" alt="Chrislyn Pereira" loading="lazy">
-</div>
-<div class="person__text">
-<button type="button" class="person__name h4" aria-expanded="false" aria-controls="bio-company-chrislyn">Chrislyn Pereira<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-<path d="m6 9 6 6 6-6"/>
-</svg>
+</li>
+<li class="pstrip__item">
+<button type="button" class="pstrip__face" aria-expanded="false" aria-controls="ps-company-chrislyn">
+<img src="../assets/img/people/chrislyn.png" alt="" loading="lazy">
+<span class="pstrip__label">
+<span class="pstrip__name">Chrislyn Pereira</span>
+<span class="pstrip__role">Chief of Staff</span>
+</span>
 </button>
+<div class="pstrip__info" id="ps-company-chrislyn">
+<p class="h3">Chrislyn Pereira</p>
 <p class="caption muted">Chief of Staff</p>
 <p class="small">Operations, security and how a client’s data is handled.</p>
-<div class="person__bio" id="bio-company-chrislyn">
-<div>
 <p class="small muted">Young Achiever of the Year at the UK FinTech Awards 2026. A legal background; previously Head of Operations at Legit. Part of the founding team at Eunice.</p>
-<a class="person__in" href="https://www.linkedin.com/in/chrislyn-pereira/" target="_blank" rel="noopener noreferrer" aria-label="Chrislyn Pereira on LinkedIn">LinkedIn</a>
+<a class="more" href="https://www.linkedin.com/in/chrislyn-pereira/" target="_blank" rel="noopener noreferrer" aria-label="Chrislyn Pereira on LinkedIn">LinkedIn</a>
 </div>
-</div>
-</div>
-</div>
-</div>
+</li>
+</ul>
 <div class="grid grid--4 people people--row people--team">
 <a class="join" href="../careers/#roles">
 <span class="h4">Join the team</span>
@@ -356,7 +341,7 @@
 <a class="lockup" href="../">
 <svg class="logo" width="48.57" height="15" viewBox="0 0 68 21" fill="currentColor" role="img">
 <title>Eunice</title>
-<path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
+<path class="logo__glyph" d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
 <path d="M23.9966 15.3572H30.8252V13.8549H25.5479V10.4612H29.9342V8.95888H25.5479V5.8779H30.8252V4.37555H23.9966V15.3572Z"/>
 <path d="M35.1825 15.5784C36.3474 15.5784 37.2454 15.1284 37.8319 14.3735V15.3572H39.2123V7.12097H37.6464V11.4069C37.6464 13.3592 36.7262 14.0684 35.6127 14.0684C33.9057 14.0684 33.5867 12.4517 33.5867 11.1705V7.12097H32.0132V11.6967C32.0132 12.9702 32.4212 15.5784 35.1825 15.5784Z"/>
 <path d="M46.4745 11.3077V15.3572H48.048V10.7815C48.048 9.50796 47.64 6.89981 44.8787 6.89981C43.7138 6.89981 42.8158 7.34975 42.2293 8.10475V7.12097H40.8413V15.3572H42.4148V11.0713C42.4148 9.11903 43.3351 8.40979 44.4485 8.40979C46.1555 8.40979 46.4745 10.0265 46.4745 11.3077Z"/>

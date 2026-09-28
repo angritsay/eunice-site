@@ -1,4 +1,4 @@
-import { button, cta, peopleGrid, plate, quoteBlock, sectionHead } from '../components.ts';
+import { button, cta, peopleStrip, plate, quoteBlock, sectionHead } from '../components.ts';
 import { quotes } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
@@ -52,7 +52,7 @@ export default {
 
 <section class="wrap section" id="team">
   ${sectionHead('Who you will work with', 'People who run the company.')}
-  ${peopleGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'], 'portrait')}
+  ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'])}
 </section>
 
 <section class="band section"><div class="wrap">

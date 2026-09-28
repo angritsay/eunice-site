@@ -7,7 +7,7 @@ import {
   feature,
   insightsBlock,
   mark,
-  peopleGrid,
+  peopleStrip,
   photo,
   plate,
   sectionHead,
@@ -29,9 +29,7 @@ export default {
   <div class="hero__text">
     <p class="kicker desk-text--${DESK}">For LPs, GPs, family offices and consultants</p>
     <h1 class="h1">Private market tools</h1>
-    <p class="lead">The investment profession has a very specific need for technology infrastructure and it is not spared trends when it comes to ways of thinking and best practices. See our blogs below drawing on research on these contrasting views. From in house built to outsourced technology, every firm’s needs are different and we support clients with a variety of needs.</p>
-    <p class="body muted">We are ready to onboard you now and we carry out all training, implementation and handholding required. Chances are your competitors are already using Eunice. We are designed to build your competitive advantage further and to illustrate it more transparently to your Board, your Investment Committee or your clients or ultimate beneficiaries.</p>
-    <p class="body muted">In an ecosystem where the investment opportunities best suited to your investment style or to your clients leads to a healthier and more prosperous market overall and we are proud to contribute to improving investing best practices. As such, we remain engaged with the main industry trade bodies to ensure our tools are continuously updated to meet the highest standards solving pain points experienced by investors in private assets today as well as those on the verge of crystallising tomorrow.</p>
+    <p class="lead">Technology for private markets investors, with the training, implementation and support to go with it.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
@@ -45,19 +43,48 @@ export default {
 
 <p class="trustline">Trusted by asset allocators managing over $1 trillion in AUM</p>
 
-<section class="wrap section" id="clients">
-  ${sectionHead('Who we work with', 'Every firm’s needs are different.')}
-  <ul class="clients">${CLIENTS.map(
-    (c) => html`<li class="client">
-      <p class="h4">${c.to ? html`<a href="${ctx.link(c.to)}">${c.who}</a>` : c.who}</p>
-      <p class="small muted">${c.need}</p>
-    </li>`,
-  )}</ul>
-  <figure class="quoteline">
+<section class="wrap section" id="approach">
+  <div class="approach">
+    <div class="approach__item">
+      <p class="approach__num">01</p>
+      <h2 class="h3">Every firm’s needs are different</h2>
+      <p class="body muted">The investment profession has a very specific need for technology infrastructure and it is not spared trends when it comes to ways of thinking and best practices. See our blogs below drawing on research on these contrasting views. From in house built to outsourced technology, every firm’s needs are different and we support clients with a variety of needs.</p>
+    </div>
+    <div class="approach__item">
+      <p class="approach__num">02</p>
+      <h2 class="h3">Ready to onboard you now</h2>
+      <p class="body muted">We are ready to onboard you now and we carry out all training, implementation and handholding required. Chances are your competitors are already using Eunice. We are designed to build your competitive advantage further and to illustrate it more transparently to your Board, your Investment Committee or your clients or ultimate beneficiaries.</p>
+    </div>
+    <div class="approach__item">
+      <p class="approach__num">03</p>
+      <h2 class="h3">Raising the standard</h2>
+      <p class="body muted">In an ecosystem where the investment opportunities best suited to your investment style or to your clients leads to a healthier and more prosperous market overall and we are proud to contribute to improving investing best practices. As such, we remain engaged with the main industry trade bodies to ensure our tools are continuously updated to meet the highest standards solving pain points experienced by investors in private assets today as well as those on the verge of crystallising tomorrow.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band section" id="clients"><div class="wrap">
+  <ul class="who">
+    <li class="who__intro">
+      <p class="kicker desk-text--${DESK}">Who we work with</p>
+      <h2 class="h2">Every firm’s needs are different</h2>
+      <p class="body muted">Seven kinds of investor, one standard of diligence.</p>
+    </li>
+    ${CLIENTS.map((c, n) => {
+      const inner = html`<span class="who__num">${String(n + 1).padStart(2, '0')}</span>
+        <span class="who__title">${c.who}</span>
+        <span class="who__line">${c.line}</span>
+        <span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>`;
+      return c.to
+        ? html`<li><a class="who__card who__card--link" href="${ctx.link(c.to)}">${inner}</a></li>`
+        : html`<li><div class="who__card">${inner}</div></li>`;
+    })}
+  </ul>
+  <figure class="quoteline who__quote">
     <blockquote>“${quotes.fof.text}”</blockquote>
     <figcaption class="muted">${quotes.fof.who}</figcaption>
   </figure>
-</section>
+</div></section>
 
 <section class="wrap section split">
   ${photo(ctx, { img: 'mayfair.jpg', variant: 'mayfair', alt: 'A Mayfair street corner after rain' })}
@@ -139,7 +166,7 @@ ${insightsBlock(ctx, {
 
 <section class="wrap section" id="team">
   ${sectionHead('The desk', 'Who runs private markets, and who builds what it runs on.')}
-  ${peopleGrid(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
+  ${peopleStrip(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
 </section>
 
 ${eventsBlock(ctx, { label: 'Events', aside: 'Where the desk will be, and where it has been.', desk: DESK, today: ctx.today })}
@@ -215,40 +242,52 @@ function reportMock() {
 
 const markSmall = () => mark(11, '#f08a4b');
 
-// Who the private market tools are for, in the owner's words. Where one of the
-// client-type pages matches, the row links to it.
-const CLIENTS: readonly { who: string; need: string; to?: string }[] = [
+// Who the private market tools are for: the owner's seven client types, each cut to
+// a line and the needs it names. Where a client-type page matches, the card links to it.
+const CLIENTS: readonly { who: string; line: string; needs: readonly string[]; to?: string }[] = [
   {
     who: 'High-activity asset allocators',
-    need: 'Asset allocators with high levels of dealmaking activity who require fast-paced due diligence reviews and portfolio monitoring of large numbers of funds and managers.',
+    line: 'High levels of dealmaking, large numbers of funds and managers.',
+    needs: ['Fast-paced due diligence', 'Portfolio monitoring at scale'],
     to: `${DESK}/lps`,
   },
   {
     who: 'Focused asset allocators',
-    need: 'Asset allocators of smaller size and lower deal activity, but higher levels of scrutiny requiring on the ground operational due diligence analysis and operators as well as highly sophisticated portfolio management.',
+    line: 'Smaller size and lower deal activity, but higher levels of scrutiny.',
+    needs: ['On-the-ground operational due diligence', 'Sophisticated portfolio management'],
     to: `${DESK}/lps`,
   },
   {
     who: 'Family offices',
-    need: 'Family offices run by lean teams with ambitious goals and generalist expertise, who may be branching out into new asset classes with a need for assessments which factor in the fundamentals of each private asset class.',
+    line: 'Lean teams with ambitious goals, branching out into new asset classes.',
+    needs: ['Generalist expertise', 'The fundamentals of each private asset class'],
     to: `${DESK}/family-offices`,
   },
   {
     who: 'General Partners',
-    need: 'Investment managers acting as General Partners for private assets funds or separately managed accounts with a need to implement and monitor complex liquidity management tools for evergreen funds, scenario analysis and forecasting, bespoke reporting for their LPs and built in investment opportunity scoring and hard-coded investment style filters specific to the firm’s strategies and differentiating from other peer firms.',
+    line: 'Private assets funds and separately managed accounts.',
+    needs: [
+      'Liquidity tools for evergreen funds',
+      'Scenario analysis and forecasting',
+      'Bespoke LP reporting',
+      'Opportunity scoring and style filters',
+    ],
     to: `${DESK}/managers`,
   },
   {
     who: 'Investment consultants',
-    need: 'Investment consultants requiring fast turnaround analysis which is fully auditable, every claim source-traceable, sliced & diced on demand live on the platform.',
+    line: 'Fast turnaround analysis that is fully auditable.',
+    needs: ['Every claim source-traceable', 'Sliced and diced live'],
     to: `${DESK}/consultants`,
   },
   {
     who: 'Technology consultants',
-    need: 'Technology consultants whose latest engagement project is relying on identifying technology enabling faster investment decisions in a unified way, wrapping around existing operating models and processes.',
+    line: 'Technology for faster investment decisions, in a unified way.',
+    needs: ['Wraps around existing operating models and processes'],
   },
   {
     who: 'Specialist investors',
-    need: 'Specialist investors with a niche either in sustainability or other domains of expertise which require highly customised workflows and reporting.',
+    line: 'A niche in sustainability or another domain of expertise.',
+    needs: ['Highly customised workflows and reporting'],
   },
 ];

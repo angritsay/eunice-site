@@ -1,4 +1,4 @@
-import { button, cta, facts, insightRow, partnersRow, peopleGrid, plate, sectionHead } from '../components.ts';
+import { button, cta, facts, insightRow, partnersRow, peopleStrip, plate, sectionHead } from '../components.ts';
 import { insights } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
@@ -36,7 +36,7 @@ export default {
 
 <section class="wrap section" id="team">
   ${sectionHead('Leadership', 'Five people who run the company, in London.')}
-  ${peopleGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'], 'portrait')}
+  ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'])}
   <div class="grid grid--4 people people--row people--team">
     <a class="join" href="${ctx.link('careers', 'roles')}"><span class="h4">Join the team</span><span class="caption muted">Three open roles</span><span class="small">GTM for digital assets, client implementation for private markets, senior engineering.</span></a>
   </div>
