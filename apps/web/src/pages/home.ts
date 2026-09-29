@@ -16,7 +16,7 @@ import {
   quoteBlock,
   sectionHead,
 } from '../components.ts';
-import { quotes } from '../content/index.ts';
+import { quotes, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
@@ -82,13 +82,11 @@ export default {
 </section>
 
 <section class="band section" id="history"><div class="wrap">
-  ${sectionHead('Firm history', 'Founded in 2023 · headquartered in London')}
+  ${sectionHead('Firm history', team.founded)}
   <div class="story">
     <div>
-      <h2 class="h2">Our story</h2>
-      <p class="body">Generative AI swept into financial workflows — and institutions struggled to use it for anything that mattered. The problem wasn’t capability. It was accountability.</p>
-      <p class="body">In our world, an answer isn’t “good” because it sounds plausible — it’s good when it can be defended in front of a regulator, a board, or a client. So we built Eunice: AI for monitoring in regulated finance, engineered for decisions that cannot afford to be wrong.</p>
-      <p class="body">Today serving institutions, funds, issuers, and regulators across the US, EU, UK and Singapore.</p>
+      <h2 class="h2">${team.storyTitle}</h2>
+      ${team.story.map((p) => html`<p class="body">${p}</p>`)}
     </div>
     <div class="story__name">
       <h2 class="h2">Why Eunice</h2>
@@ -109,7 +107,7 @@ export default {
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Our founders')}
+  ${sectionHead('Our founders', team.intro)}
   <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
 
   <div class="team-block">

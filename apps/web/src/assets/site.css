@@ -350,7 +350,10 @@ section.feature { padding-top: var(--section); }
 .founder__media { aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: #eef0f3; }
 .founder__media img, .founder__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .founder__text { display: flex; flex-direction: column; gap: 8px; }
-.founder__text .body { margin-top: 8px; }
+.founder__text .pfacts { margin-top: 8px; }
+.pfacts { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.pfacts li { position: relative; padding-left: 16px; color: var(--muted); }
+.pfacts li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; background: var(--da-field); }
 /* The integrations strip: logos drift left to right, slowly; still for reduced motion. */
 .strip { overflow: hidden; border-bottom: 1px solid var(--line); background: #fff; }
 .strip__track { display: flex; width: max-content; animation: strip 60s linear infinite; }

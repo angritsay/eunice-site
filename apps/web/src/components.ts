@@ -1,7 +1,7 @@
 // Shared building blocks. Pages compose these; nothing here holds page copy.
 import type { Placement } from '@eunice/contracts/forms';
 import { audiencePages, desks, events, insights, integrations, partners, people } from './content/index.ts';
-import type { Insight, Quote } from './content/schema.ts';
+import type { Insight, Person, Quote } from './content/schema.ts';
 import type { Ctx, Desk, NavItem, NavKey, ProductDesk } from './lib/types.ts';
 import config from './site.config.ts';
 
@@ -378,6 +378,10 @@ const initials = (name: string) =>
     .join('')
     .slice(0, 2);
 
+// The lines under a person's name, from the fact base. Nothing when there are none yet.
+const factList = (p: Person, size: 'body' | 'small') =>
+  p.facts.length ? html`<ul class="pfacts ${size}">${p.facts.map((f) => html`<li>${f}</li>`)}</ul>` : '';
+
 // A founder, larger: portrait (or their film, once there is one), name, role, bio.
 export function founder(ctx: Ctx, id: PersonId): Html {
   const p = people[id];
@@ -392,7 +396,7 @@ export function founder(ctx: Ctx, id: PersonId): Html {
   <div class="founder__text">
     <h3 class="h3">${p.name}</h3>
     <p class="caption muted">${p.role}</p>
-    <p class="body">${p.bio}</p>
+    ${factList(p, 'body')}
     ${p.linkedin ? html`<a class="more" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>` : ''}
   </div>
 </article>`;
@@ -551,8 +555,7 @@ export function peopleStrip(
       html`<span class="pstrip__name">${p.name}</span><span class="pstrip__role">${p.role}</span>`,
       html`<p class="h3">${p.name}</p>
       <p class="caption muted">${p.role}</p>
-      <p class="small">${p.owns}</p>
-      ${p.bio ? html`<p class="small muted">${p.bio}</p>` : ''}
+      ${factList(p, 'small')}
       ${p.linkedin ? html`<a class="more" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>` : ''}`,
     );
   })}${
