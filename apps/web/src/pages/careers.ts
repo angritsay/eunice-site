@@ -3,7 +3,7 @@ import { quotes, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
-import { roleCards } from './jobs.ts';
+import { roleList } from './jobs.ts';
 
 export default {
   slug: 'careers',
@@ -26,7 +26,7 @@ export default {
 
 <section class="wrap section" id="roles">
   ${sectionHead('Open roles', team.hiring)}
-  ${roleCards(ctx)}
+  ${roleList(ctx)}
 </section>
 
 <section class="wrap section" id="story"><div class="story">

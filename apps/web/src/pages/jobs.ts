@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
-import { article, button, cta, listCards } from '../components.ts';
+import { article, button, cta } from '../components.ts';
 import { roles } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import { richText } from '../lib/rich-text.ts';
@@ -17,21 +17,13 @@ const Imported = z.strictObject({ title: z.string().min(1), team: z.string().min
 
 const read = (file: string) => fs.readFileSync(path.join(DIR, file), 'utf8');
 
-/** The team a role sits in, as the live job page names it. */
-export const jobTeam = (slug: string) => Imported.parse(JSON.parse(read(`${slug}.json`))).team;
-
-/** The open roles as list cards: read the role, or apply straight away. */
-export const roleCards = (ctx: Ctx) =>
-  listCards(
-    roles.map((r) => ({
-      href: ctx.link(`careers/${r.slug}`),
-      tile: jobTeam(r.slug),
-      meta: r.where,
-      title: r.title,
-      text: r.what,
-      actions: html`${button(ctx, { label: 'Apply', small: true, href: r.applyUrl, newTab: true })}<a class="more" href="${ctx.link(`careers/${r.slug}`)}">Read the role</a>`,
-    })),
-  );
+// The open roles as a plain list with room around each: the title, and where it is.
+// Each opens the role's page, which has the full description and the Apply button.
+export const roleList = (ctx: Ctx) =>
+  html`<ul class="jobs">${roles.map(
+    (r) =>
+      html`<li><a class="jobs__role" href="${ctx.link(`careers/${r.slug}`)}"><span class="jobs__title">${r.title}</span><span class="jobs__where">${r.where}</span></a></li>`,
+  )}</ul>`;
 
 export default roles.map((role) => {
   const live = Imported.parse(JSON.parse(read(`${role.slug}.json`)));

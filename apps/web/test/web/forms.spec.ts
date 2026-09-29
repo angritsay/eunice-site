@@ -150,16 +150,18 @@ test.describe('entry points open the right form', () => {
 });
 
 test.describe('careers', () => {
-  test('each Apply opens that role’s application form in a new tab', async ({ page }) => {
+  test('each open role leads to its page, whose Apply opens that role’s form in a new tab', async ({ page }) => {
     await page.goto(`${BASE}careers/`);
-    const apply = page.locator('#roles a', { hasText: 'Apply' });
-    await expect(apply).toHaveCount(3);
-    const hrefs = await apply.evaluateAll((as) => as.map((a) => [a.getAttribute('href'), a.getAttribute('target')]));
-    expect(hrefs).toEqual([
-      ['https://tally.so/r/VLdQOv', '_blank'],
-      ['https://tally.so/r/1Axdpb', '_blank'],
-      ['https://tally.so/r/PdBqJQ', '_blank'],
-    ]);
+    const roles = page.locator('#roles .jobs__role');
+    await expect(roles).toHaveCount(3);
+    const pages = await roles.evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).href));
+    const forms = ['https://tally.so/r/VLdQOv', 'https://tally.so/r/1Axdpb', 'https://tally.so/r/PdBqJQ'];
+    for (const [i, href] of pages.entries()) {
+      await page.goto(href);
+      const apply = page.locator('main a', { hasText: 'Apply' }).first();
+      await expect(apply).toHaveAttribute('href', forms[i] ?? '');
+      await expect(apply).toHaveAttribute('target', '_blank');
+    }
   });
 
   test('a role that is not listed is an email, not a form', async ({ page }) => {

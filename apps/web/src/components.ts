@@ -10,6 +10,7 @@ export { esc, html, join, raw } from './lib/html.ts';
 
 import { esc, type Html, html } from './lib/html.ts';
 import { imageSize } from './lib/image-size.ts';
+import { postHero } from './lib/post-hero.ts';
 
 type MaybeHtml = Html | '';
 export type PersonId = keyof typeof people;
@@ -238,11 +239,13 @@ export interface PlateOptions {
   bleed?: boolean;
 }
 
-/** width and height attributes for an image under assets/img, when its size can be read. */
-export const sized = (img: string) => {
-  const s = imageSize(`img/${img}`);
+/** width and height attributes for an image under assets/, when its size can be read. */
+const sizedAsset = (file: string) => {
+  const s = imageSize(file);
   return s ? html` width="${s.width}" height="${s.height}"` : '';
 };
+/** The same, for an image under assets/img/. */
+export const sized = (img: string) => sizedAsset(`img/${img}`);
 
 // The product hero, as in the Figma file (Eunice · Site v5): a photo field (London for
 // private markets, copper for everything under Crypto & RWA) and on it the screenshot in
@@ -324,15 +327,19 @@ export function insightRow(ctx: Ctx, it: Insight, { showDesk = true } = {}): Htm
   </li>`;
 }
 
+// A featured insight: the post's cover image, and over it the desk, type, date and title.
+// Without a cover (a piece that lives elsewhere), the card is the desk's own colour.
 export function insightCard(ctx: Ctx, it: Insight, override: Partial<Insight> | null = null): Html {
   const o = { ...it, ...(override || {}) };
   const href = insightHref(ctx, o);
-  return html`<article class="icard">
-    <p class="icard__meta tag--${o.desk}">${desks[o.desk].label} <span>· ${o.type} · ${fmtDay(o.date)}</span></p>
-    <h3 class="h3 ${o.placeholder ? 'placeholder' : ''}">${o.title}</h3>
-    ${o.standfirst ? html`<p class="small muted ${o.placeholder ? 'placeholder' : ''}">${o.standfirst}</p>` : ''}
-    ${href || o.placeholder ? html`<a class="more" href="${href || '#'}">${o.type === 'Video' ? 'Watch' : 'Read'} the ${o.type.toLowerCase()}</a>` : ''}
-  </article>`;
+  const hero = o.post ? postHero(o.post) : undefined;
+  const inner = html`${hero ? html`<img class="icard__img" src="${ctx.asset(hero)}" alt=""${sizedAsset(hero)} loading="lazy">` : ''}
+    <span class="icard__body">
+      <span class="icard__meta">${desks[o.desk].label} · ${o.type} · ${fmtDay(o.date)}</span>
+      <span class="icard__title${o.placeholder ? ' placeholder' : ''}">${o.title}</span>
+    </span>`;
+  const cls = `icard icard--${o.desk}${hero ? '' : ' icard--plain'}`;
+  return href ? html`<a class="${cls}" href="${href}">${inner}</a>` : html`<article class="${cls}">${inner}</article>`;
 }
 
 // desks: which desks to include. featured: how many cards on top. override: replace the first card's copy.
@@ -360,7 +367,7 @@ export function insightsBlock(
     featured = 3,
     rows = 5,
     override = null,
-    band = true,
+    band = false,
   }: InsightsBlockOptions,
 ): Html {
   const list = insights.filter((i) => !deskFilter || deskFilter.includes(i.desk)).sort(byDateDesc);
