@@ -396,7 +396,7 @@ export const people = contentRecord('people', Person, {
       'Scaled team on US & UK',
       'Former VC with 40+ investments',
     ],
-    photo: 'yi.png',
+    photo: 'yi.webp',
     linkedin: 'https://www.linkedin.com/in/loriluoyi/',
   },
   philip: {
@@ -407,7 +407,7 @@ export const people = contentRecord('people', Person, {
       'VP Eng at Goodnotes (30M MAU), built & lead a team of 200 engineers',
       'Ex-Apple & Microsoft',
     ],
-    photo: 'philip.png',
+    photo: 'philip.webp',
     linkedin: 'https://www.linkedin.com/in/philip-lam-92172a24/',
   },
   petronela: {
@@ -417,7 +417,7 @@ export const people = contentRecord('people', Person, {
       'Previously Schroders Capital, T. Rowe Price, Aberdeen and Investec',
       '15+ years financial services experience',
     ],
-    photo: 'petronela.png',
+    photo: 'petronela.webp',
     linkedin: 'https://www.linkedin.com/in/petronela-pell-mba-490aa33/',
   },
   vinay: {
@@ -428,17 +428,18 @@ export const people = contentRecord('people', Person, {
       'Ex-Deutsche Bank — Equities Algorithmic Trading',
       'Ex-BMAT — led Audiovisual Engineering dept',
     ],
-    photo: 'vinay.png',
+    photo: 'vinay.webp',
   },
   chrislyn: {
     name: 'Chrislyn Pereira',
     role: 'Chief of Staff',
     facts: ['UK FinTech Awards Young Achiever of the Year 2026', 'Legal background and ex Head of Ops at Legit'],
-    photo: 'chrislyn.png',
+    photo: 'chrislyn.webp',
     linkedin: 'https://www.linkedin.com/in/chrislyn-pereira/',
   },
-  // Not on the live careers page yet: surnames, titles, lines and photos to follow from the owner.
-  ana: { name: 'Ana', role: 'Eunice team', facts: [], photo: '' },
+  // Not on the live careers page yet: surnames, titles and lines to follow from the owner
+  // (and Riley's photo).
+  ana: { name: 'Ana', role: 'Eunice team', facts: [], photo: 'ana.webp' },
   riley: { name: 'Riley', role: 'Eunice team', facts: [], photo: '' },
 });
 

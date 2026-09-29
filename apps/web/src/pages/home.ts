@@ -15,6 +15,7 @@ import {
   plate,
   quoteBlock,
   sectionHead,
+  sized,
 } from '../components.ts';
 import { quotes, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
@@ -160,7 +161,7 @@ ${cta(ctx, {
 function tile(ctx: Ctx, { desk, title, text, img }: { desk: ProductDesk; title: string; text: string; img: string }) {
   return html`
 <a class="tile tile--${desk}" href="${ctx.link(desk)}">
-  <span class="tile__shot"><img src="${ctx.asset(`img/${img}`)}" alt="" loading="lazy"></span>
+  <span class="tile__shot"><img src="${ctx.asset(`img/${img}`)}" alt=""${sized(img)} loading="lazy"></span>
   <span class="tile__foot">
     <span>
       <span class="tile__title">${mark(18, '#fff')}${title}</span>
