@@ -67,6 +67,42 @@
     show();
   }
 
+  // ---------- Reveal on scroll ----------
+  // Each block of a page eases up into place as it scrolls into view; the items of a
+  // row of cards follow one another. Only what starts below the fold is hidden, so
+  // nothing on screen flickers, and nothing moves for a visitor who asks for less motion.
+  if (!still.matches && 'IntersectionObserver' in window) {
+    const ROWS = '.grid, .values, .tiles, .who, .jobs, .irows, .events, .founders';
+    const seen = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add('is-in');
+          seen.unobserve(e.target);
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+    );
+    for (const block of document.querySelectorAll('main .wrap > *')) {
+      if (block.getBoundingClientRect().top < window.innerHeight) continue;
+      const items = block.matches(ROWS) ? [...block.children] : [block];
+      items.forEach((el, i) => {
+        const item = /** @type {HTMLElement} */ (el);
+        item.classList.add('reveal');
+        item.style.setProperty('--i', String(Math.min(i, 6)));
+        // Once in place, hand the element back its own transitions (the team strip has some).
+        const done = (/** @type {TransitionEvent} */ ev) => {
+          if (ev.target !== item || ev.propertyName !== 'opacity' || !item.classList.contains('is-in')) return;
+          item.classList.remove('reveal', 'is-in');
+          item.style.removeProperty('--i');
+          item.removeEventListener('transitionend', done);
+        };
+        item.addEventListener('transitionend', done);
+        seen.observe(item);
+      });
+    }
+  }
+
   // ---------- People strip ----------
   // One person is always open. On a wide screen, pointing at someone opens them after
   // a short pause (so sweeping across the row does not flicker); focus and tap open at

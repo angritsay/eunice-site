@@ -21,7 +21,7 @@ import { quotes, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
-import { roleCards } from './jobs.ts';
+import { roleList } from './jobs.ts';
 
 const VALUES: readonly [string, string][] = [
   ['Show us the evidence', 'Opinions are fine, but we care about what the data says and where it came from.'],
@@ -113,7 +113,7 @@ export default {
 
   <div class="team-block">
     ${sectionHead('The team', 'Point at a person, or tap, to read about them.')}
-    ${peopleStrip(ctx, ['petronela', 'chrislyn', 'vinay', 'ana', 'riley'], {
+    ${peopleStrip(ctx, ['riley', 'vinay', 'petronela', 'chrislyn', 'ana'], {
       title: 'Client Implementation Consultant, Private Markets',
       slug: 'client-implementation-consultant-private-markets',
       line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
@@ -145,7 +145,7 @@ export default {
 
 <section class="wrap section" id="careers">
   ${sectionHead('Careers', 'London-based, remote-friendly.')}
-  ${roleCards(ctx)}
+  ${roleList(ctx)}
   <p class="all"><a class="more" href="${ctx.link('careers')}">Life at Eunice and all roles</a></p>
 </section>
 

@@ -38,8 +38,8 @@ const smallTargets = (page: Page, min: number) =>
     min,
   );
 
-/** Space between one block of a page and the next: 48px on phones and tablets, 64px wider. */
-const minGap = (width: number) => (width < 1024 ? 48 : 64);
+/** Space between one block of a page and the next: 80px on phones and tablets, 96px wider. */
+const minGap = (width: number) => (width < 1024 ? 80 : 96);
 
 // The gap between each pair of neighbouring blocks in <main>: from the last thing you
 // can see in one to the first in the next, or to the edge of a block with a background.
@@ -170,6 +170,7 @@ test.describe('team strip', () => {
 // The film in the welcome page's hero: it plays by itself, silent and looping, the
 // button stops and restarts it, and a visitor who asks for reduced motion gets it still.
 test.describe('home film', () => {
+  test.use({ reducedMotion: 'no-preference' });
   const film = (p: Page) => p.locator('.hero-center video');
   const time = (p: Page) => film(p).evaluate((v: HTMLVideoElement) => v.currentTime);
 
@@ -212,5 +213,27 @@ test.describe('home film', () => {
     await page.waitForTimeout(800);
     await expect(film(page)).toHaveJSProperty('paused', true);
     await expect(page.locator('.hero-center [data-video-toggle]')).toHaveAttribute('aria-label', 'Play the film');
+  });
+});
+
+// Blocks below the fold ease into place as they scroll into view; with reduced motion
+// nothing is hidden or moved.
+test.describe('reveal on scroll', () => {
+  test('a block below the fold starts hidden and settles in view', async ({ browser }) => {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
+    const page = await ctx.newPage();
+    await page.goto(BASE);
+    const card = page.locator('#insights .icards > *').first();
+    await expect(card).toHaveClass(/reveal/);
+    await expect(card).toHaveCSS('opacity', '0');
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toHaveCSS('opacity', '1', { timeout: 5000 });
+    await expect(card).not.toHaveClass(/reveal/, { timeout: 5000 });
+    await ctx.close();
+  });
+
+  test('with reduced motion nothing is hidden', async ({ page }) => {
+    await page.goto(BASE);
+    await expect(page.locator('.reveal')).toHaveCount(0);
   });
 });
