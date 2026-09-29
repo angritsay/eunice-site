@@ -67,7 +67,7 @@ const config: SiteConfig = {
     },
     {
       id: 'private-markets',
-      label: 'Private market tools',
+      label: 'Private Markets',
       to: 'private-markets',
       keys: ['private-markets'],
       items: [

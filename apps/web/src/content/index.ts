@@ -137,43 +137,6 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     },
   },
   {
-    id: 'consultants',
-    desk: 'private-markets',
-    nav: 'For consultants',
-    card: {
-      title: 'Investment consultants',
-      text: 'Twenty managers to compare on terms that were never written the same way.',
-    },
-    title: 'Eunice for investment consultants — compare managers like for like',
-    description:
-      'Twenty managers, twenty document sets, and terms that were never written the same way. Eunice reads them into one shape so the comparison holds.',
-    h1: 'Compare twenty managers on the same terms',
-    lead: 'Twenty document sets, and no two of them written the same way. Eunice reads them into one shape, so the comparison your client sees is like for like.',
-    now: [
-      'The same term is called three things across three managers, and the comparison quietly stops being one.',
-      'The differences that matter are on page 40, not in the summary.',
-      'Every refresh of the screen means reading all of it again.',
-    ],
-    work: [
-      {
-        title: 'One shape for every manager',
-        text: 'Each set read against the same framework, so the fee, the term and the governance line up in a column rather than a paragraph.',
-      },
-      {
-        title: 'The difference, with its page',
-        text: 'Where two managers differ, the finding says where in each document it differs, so your recommendation can be checked.',
-      },
-      {
-        title: 'Refresh without re-reading',
-        text: 'When a document is replaced, only what changed comes back to you.',
-      },
-    ],
-    cta: {
-      title: 'Bring us a screen you are running now',
-      text: 'Send the managers you are comparing. We will read them into one shape and show you where they actually differ.',
-    },
-  },
-  {
     id: 'exchanges',
     desk: 'digital-assets',
     nav: 'For exchanges',
