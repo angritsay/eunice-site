@@ -9,6 +9,7 @@ import {
   Event,
   Insight,
   Integration,
+  Partner,
   Person,
   Quote,
   Role,
@@ -652,14 +653,18 @@ export const quotes = contentRecord('quotes', Quote, {
   },
 });
 
-export const partners = content('partners', z.array(z.string().min(1)), [
-  'Coinbase',
-  'Copper',
-  'Crypto.com',
-  'Zodia Custody',
-  'FalconX',
-  'CMS',
-  'gunnercooke',
+// The firms in the "Working with" row, by logo. Each file is the firm's own mark: from
+// its website header or logo file (Copper, Crypto.com, Zodia Custody, FalconX, CMS,
+// gunnercooke), or for Coinbase, whose site blocks automated visits, the public-domain
+// wordmark on Wikimedia Commons. Shown in one grey, so none outshouts the others.
+export const partners = content('partners', z.array(Partner), [
+  { name: 'Coinbase', logo: 'coinbase.svg', height: 20 },
+  { name: 'Copper', logo: 'copper.svg', height: 24 },
+  { name: 'Crypto.com', logo: 'crypto-com.svg', height: 22 },
+  { name: 'Zodia Custody', logo: 'zodia-custody.svg', height: 30 },
+  { name: 'FalconX', logo: 'falconx.svg', height: 16 },
+  { name: 'CMS', logo: 'cms.svg', height: 30 },
+  { name: 'gunnercooke', logo: 'gunnercooke.svg', height: 22 },
 ]);
 
 export const roles = content('roles', z.array(Role), [
