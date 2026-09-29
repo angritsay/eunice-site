@@ -43,7 +43,7 @@ export default {
   <p class="lead hero-center__lead">Source-traced due diligence and monitoring for digital assets and private markets.</p>
   <div class="buttons hero-center__buttons">
     ${button(ctx, { label: 'Book demo', form: 'general', placement: 'hero' })}
-    ${button(ctx, { label: 'Private market tools', kind: 'outline', to: 'private-markets' })}
+    ${button(ctx, { label: 'Private Markets', kind: 'outline', to: 'private-markets' })}
     ${button(ctx, { label: 'Crypto & RWA', kind: 'outline', to: 'digital-assets' })}
   </div>
   <div class="hero-center__visual">
@@ -70,9 +70,9 @@ export default {
 <section class="wrap section tiles" id="products">
   ${tile(ctx, {
     desk: 'private-markets',
-    title: 'Private market tools',
+    title: 'Private Markets',
     img: 'home-tile-pm.png',
-    text: 'Operational due diligence, portfolio monitoring, data gap analysis and bespoke reporting for LPs, GPs, family offices and consultants.',
+    text: 'Operational due diligence, portfolio monitoring, data gap analysis and bespoke reporting for LPs, GPs and family offices.',
   })}
   ${tile(ctx, {
     desk: 'digital-assets',

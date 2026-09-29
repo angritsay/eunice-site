@@ -64,7 +64,7 @@ test('every page has the three menus; User login shows only on the crypto pages'
   for (const page of PAGES) {
     const header = readPage(page).match(/<header class="wrap nav">[\s\S]*?<\/header>/)?.[0] ?? '';
     const menus = [...header.matchAll(/class="menu__top"[^>]*>([^<]+)</g)].map(([, t]) => t);
-    expect(menus, page).toEqual(['Welcome to Eunice', 'Private market tools', 'Crypto &amp; RWA']);
+    expect(menus, page).toEqual(['Welcome to Eunice', 'Private Markets', 'Crypto &amp; RWA']);
     const crypto = /^(digital-assets|token-disclosure|mica-whitepaper)\//.test(page);
     expect(header.includes('User login'), page).toBe(crypto);
   }

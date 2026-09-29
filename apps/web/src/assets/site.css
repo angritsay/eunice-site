@@ -369,7 +369,7 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .hero-center__plate { position: relative; width: min(84%, 1040px); margin: calc(-1 * clamp(120px, 20vw, 320px)) auto 0; }
 .hero-center__plate .plate { box-shadow: 0 30px 80px rgba(17,18,20,.22); border-radius: 14px; }
 
-/* Private market tools: the approach in three parts, and who we work with. */
+/* Private Markets: the approach in three parts, and who we work with. */
 .approach { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px); }
 .approach__item { display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-strong); }
 .approach__num { font-size: var(--caption); color: var(--pm-ink); letter-spacing: .08em; }

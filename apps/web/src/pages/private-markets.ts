@@ -24,14 +24,14 @@ const DESK = 'private-markets';
 export default {
   slug: DESK,
   nav: DESK,
-  title: 'Private market tools — Eunice',
+  title: 'Private Markets — Eunice',
   description:
-    'Operational due diligence, portfolio monitoring, data gap analysis and bespoke reporting for LPs, GPs, family offices and consultants.',
+    'Operational due diligence, portfolio monitoring, data gap analysis and bespoke reporting for LPs, GPs and family offices.',
   render: (ctx) => html`
 <section class="wrap hero hero--pm">
   <div class="hero__text">
-    <p class="kicker desk-text--${DESK}">For LPs, GPs, family offices and consultants</p>
-    <h1 class="h1">Private market tools</h1>
+    <p class="kicker desk-text--${DESK}">For LPs, GPs and family offices</p>
+    <h1 class="h1">Private Markets</h1>
     <p class="lead">Technology for private markets investors, with the training, implementation and support to go with it.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
@@ -67,7 +67,7 @@ ${whoCards(ctx, {
   desk: DESK,
   kicker: 'Who we work with',
   title: 'Every firm’s needs are different',
-  lead: 'Seven kinds of investor, one standard of diligence.',
+  lead: 'Three kinds of investor, one standard of diligence.',
   clients: CLIENTS,
 })}
 
@@ -198,7 +198,7 @@ function reportMock() {
 
 const markSmall = () => mark(11, '#f08a4b');
 
-// Who the private market tools are for: the owner's seven client types, each cut to
+// Who Private Markets is for: the three client types we serve now, each cut to
 // a line and the needs it names. Where a client-type page matches, the card links to it.
 const CLIENTS: readonly WhoClient[] = [
   {
@@ -229,21 +229,5 @@ const CLIENTS: readonly WhoClient[] = [
       'Opportunity scoring and style filters',
     ],
     to: `${DESK}/managers`,
-  },
-  {
-    who: 'Investment consultants',
-    line: 'Fast turnaround analysis that is fully auditable.',
-    needs: ['Every claim source-traceable', 'Sliced and diced live'],
-    to: `${DESK}/consultants`,
-  },
-  {
-    who: 'Technology consultants',
-    line: 'Technology for faster investment decisions, in a unified way.',
-    needs: ['Wraps around existing operating models and processes'],
-  },
-  {
-    who: 'Specialist investors',
-    line: 'A niche in sustainability or another domain of expertise.',
-    needs: ['Highly customised workflows and reporting'],
   },
 ];
