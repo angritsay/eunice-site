@@ -226,6 +226,11 @@ export function photo(ctx: Ctx, { img, alt, variant }: { img: string; alt: strin
 // A product image on a tinted field. `img` is a file under /assets/img; `html` is inline markup.
 export interface PlateOptions {
   img?: string;
+  /** A silent product film: its name under assets/video/, which holds a VP9 .webm (Chrome,
+   *  Firefox, Edge) and an H.264 .mp4 (Safari, iOS). It plays on its own, loops, and has a
+   *  pause button (WCAG 2.2.2); with reduced motion it starts paused. `img` is its poster,
+   *  shown until it plays and giving the box its size. */
+  video?: string;
   /** Inline markup, for a visual drawn in HTML rather than a screenshot. */
   html?: Html;
   alt?: string;
@@ -239,9 +244,20 @@ export const sized = (img: string) => {
   return s ? html` width="${s.width}" height="${s.height}"` : '';
 };
 
-export function plate(ctx: Ctx, { img, html: markup, alt = '', tint = 'none', bleed = false }: PlateOptions): Html {
-  const inner = img ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)} loading="lazy">` : markup;
-  return html`<figure class="plate plate--${tint}${bleed ? ' plate--bleed' : ''}">${inner}</figure>`;
+export function plate(
+  ctx: Ctx,
+  { img, video, html: markup, alt = '', tint = 'none', bleed = false }: PlateOptions,
+): Html {
+  const inner = video
+    ? html`<video${img ? html` poster="${ctx.asset(`img/${img}`)}"${sized(img)}` : ''} aria-label="${alt}" autoplay muted loop playsinline preload="auto" data-autoplay>
+    <source src="${ctx.asset(`video/${video}.webm`)}" type="video/webm">
+    <source src="${ctx.asset(`video/${video}.mp4`)}" type="video/mp4">
+  </video>
+  <button type="button" class="plate__toggle" data-video-toggle aria-pressed="false" aria-label="Pause the film"></button>`
+    : img
+      ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)} loading="lazy">`
+      : markup;
+  return html`<figure class="plate plate--${tint}${bleed ? ' plate--bleed' : ''}${video ? ' plate--video' : ''}">${inner}</figure>`;
 }
 
 // Numbered product row: text on one side, visual on the other.

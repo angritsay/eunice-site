@@ -154,3 +154,37 @@ test.describe('team strip', () => {
     await ctx.close();
   });
 });
+
+// The film in the welcome page's hero: it plays by itself, silent and looping, the
+// button stops and restarts it, and a visitor who asks for reduced motion gets it still.
+test.describe('home film', () => {
+  const film = (p: Page) => p.locator('.hero-center video');
+  const time = (p: Page) => film(p).evaluate((v: HTMLVideoElement) => v.currentTime);
+
+  test('plays on its own, silent and looping; the button pauses and plays it', async ({ page }) => {
+    await page.goto(BASE);
+    await expect(film(page)).toHaveJSProperty('muted', true);
+    await expect(film(page)).toHaveJSProperty('loop', true);
+    await expect.poll(() => time(page), { timeout: 10_000 }).toBeGreaterThan(0.3);
+    const toggle = page.locator('.hero-center [data-video-toggle]');
+    await expect(toggle).toHaveAttribute('aria-label', 'Pause the film');
+    await toggle.click();
+    await expect(film(page)).toHaveJSProperty('paused', true);
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    await expect(toggle).toHaveAttribute('aria-label', 'Play the film');
+    const stopped = await time(page);
+    await page.waitForTimeout(400);
+    expect(await time(page)).toBe(stopped);
+    await toggle.click();
+    await expect(film(page)).toHaveJSProperty('paused', false);
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  test('with reduced motion it stays still, and can still be played', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto(BASE);
+    await page.waitForTimeout(800);
+    await expect(film(page)).toHaveJSProperty('paused', true);
+    await expect(page.locator('.hero-center [data-video-toggle]')).toHaveAttribute('aria-label', 'Play the film');
+  });
+});

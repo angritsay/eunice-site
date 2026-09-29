@@ -48,6 +48,25 @@
     });
   }
 
+  // ---------- Product films ----------
+  // They play on their own, silent and looping. Each has a pause button (anything that
+  // moves for more than five seconds must be stoppable, WCAG 2.2.2), and a visitor who
+  // asks for reduced motion gets the film paused on its first frame.
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  for (const video of /** @type {NodeListOf<HTMLVideoElement>} */ (document.querySelectorAll('video[data-autoplay]'))) {
+    const toggle = video.parentElement?.querySelector('[data-video-toggle]');
+    const show = () => {
+      toggle?.setAttribute('aria-pressed', String(video.paused));
+      toggle?.setAttribute('aria-label', video.paused ? 'Play the film' : 'Pause the film');
+    };
+    video.addEventListener('play', show);
+    video.addEventListener('pause', show);
+    if (still.matches) video.pause();
+    else video.play().catch(() => show());
+    toggle?.addEventListener('click', () => (video.paused ? video.play().catch(() => show()) : video.pause()));
+    show();
+  }
+
   // ---------- People strip ----------
   // One person is always open. On a wide screen, pointing at someone opens them after
   // a short pause (so sweeping across the row does not flicker); focus and tap open at
