@@ -48,17 +48,17 @@ export default {
     <div class="approach__item">
       <p class="approach__num">01</p>
       <h2 class="h3">Every firm’s needs are different</h2>
-      <p class="body muted">The investment profession has a very specific need for technology infrastructure and it is not spared trends when it comes to ways of thinking and best practices. See our blogs below drawing on research on these contrasting views. From in house built to outsourced technology, every firm’s needs are different and we support clients with a variety of needs.</p>
+      <p class="body muted">In-house or outsourced, every firm runs diligence its own way. Eunice fits around yours.</p>
     </div>
     <div class="approach__item">
       <p class="approach__num">02</p>
       <h2 class="h3">Ready to onboard you now</h2>
-      <p class="body muted">We are ready to onboard you now and we carry out all training, implementation and handholding required. Chances are your competitors are already using Eunice. We are designed to build your competitive advantage further and to illustrate it more transparently to your Board, your Investment Committee or your clients or ultimate beneficiaries.</p>
+      <p class="body muted">We run the training, implementation and hand-holding. Your Board, Investment Committee and clients see the edge it gives you.</p>
     </div>
     <div class="approach__item">
       <p class="approach__num">03</p>
       <h2 class="h3">Raising the standard</h2>
-      <p class="body muted">In an ecosystem where the investment opportunities best suited to your investment style or to your clients leads to a healthier and more prosperous market overall and we are proud to contribute to improving investing best practices. As such, we remain engaged with the main industry trade bodies to ensure our tools are continuously updated to meet the highest standards solving pain points experienced by investors in private assets today as well as those on the verge of crystallising tomorrow.</p>
+      <p class="body muted">We work with the industry’s trade bodies, so the tools keep pace with today’s standards and tomorrow’s.</p>
     </div>
   </div>
 </section>
@@ -92,7 +92,7 @@ ${feature({
   num: '01',
   title: 'Operational due diligence',
   desk: DESK,
-  body: html`<p class="body muted">Every PPM, DDQ, LPA, valuation policy and audited statement read against the ODD checklist you already use. What is missing is the finding, not what is present, and every finding cites its page.</p>`,
+  body: html`<p class="body muted">Every PPM, DDQ, LPA and audited statement, read against the ODD checklist you already use. Every finding cites its page.</p>`,
   visual: plate(ctx, {
     tint: DESK,
     img: 'pm-documents.png',
@@ -124,7 +124,7 @@ ${feature({
   num: '03',
   title: 'Data gap analysis',
   desk: DESK,
-  body: html`<p class="body muted">Every missing document, unanswered question and figure that does not reconcile, surfaced before it becomes a problem. Eunice checks what each manager has given you against what your framework requires, runs a cleaning pass on the data that does not line up, and tracks each gap until it is closed.</p>`,
+  body: html`<p class="body muted">Missing documents, unanswered questions and figures that don’t reconcile, surfaced before they become problems and tracked until closed.</p>`,
   visual: plate(ctx, {
     tint: DESK,
     img: 'pm-gaps.png',
@@ -138,7 +138,7 @@ ${feature({
   title: 'Bespoke reporting',
   desk: DESK,
   flip: true,
-  body: html`<p class="body muted">Reports for your Board, your Investment Committee, your clients or ultimate beneficiaries, built to your template. Every figure and every claim traces back to the document and page it came from, so each report can be defended line by line.</p>`,
+  body: html`<p class="body muted">Reports for your Board, committee or clients, built to your template. Every figure traces back to its page.</p>`,
   visual: plate(ctx, { tint: DESK, html: reportMock() }),
 })}
 
@@ -147,7 +147,7 @@ ${feature({
   num: '05',
   title: 'Delivered end to end',
   desk: DESK,
-  body: html`<p class="body muted">From pipeline, investment and operational due diligence, through to live deals, portfolio monitoring and bespoke reporting as well as integrations, we are experienced in implementing seamless onboardings. We will partner with you end to end, keeping the framework current and clearing every data gap along the way.</p>`,
+  body: html`<p class="body muted">From pipeline to portfolio, we onboard you and stay alongside: the framework kept current, every data gap cleared.</p>`,
   visual: html`<ol class="steps steps--${DESK}">
     <li><span class="h4">Scope</span><span class="small muted">Your checklist, your funds, your committee calendar.</span></li>
     <li><span class="h4">Read</span><span class="small muted">The dataroom read in full, every finding cited to its page.</span></li>
