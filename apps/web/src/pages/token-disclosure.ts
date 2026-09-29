@@ -21,7 +21,7 @@ export default {
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
     </div>
   </div>
-  <div class="hero__visual">${plate(ctx, { img: 'da-token-disclosure.png', alt: 'A hosted MiCAR white paper', tint: DESK, bleed: true })}</div>
+  <div class="hero__visual">${plate(ctx, { img: 'td-hero.png', alt: 'MiCA white papers for a token, managed in Eunice', tint: DESK, bleed: true })}</div>
 </section>
 
 ${whoCards(ctx, {
@@ -68,7 +68,7 @@ ${feature({
   body: html`<p class="body muted">A MiCA white paper drafted from 1,000+ pre-filled papers, so the starting point is a document that has already been through the regime rather than a blank page.</p>`,
   visual: plate(ctx, {
     img: 'da-token-disclosure.png',
-    alt: 'A MiCAR white paper drafted from the library',
+    alt: 'A MiCAR white paper, as published',
     tint: DESK,
   }),
 })}
@@ -80,7 +80,11 @@ ${feature({
   desk: DESK,
   flip: true,
   body: html`<p class="body muted">CMS reviews the points that need a legal opinion, rather than a legal bill for the whole document. UK token classification runs with gunnercooke.</p>`,
-  visual: plate(ctx, { img: 'da-jurisdiction.png', alt: 'Audit history on a disclosure document', tint: DESK }),
+  visual: plate(ctx, {
+    img: 'da-jurisdiction.png',
+    alt: 'Audit history on a report: every change, who made it and when',
+    tint: DESK,
+  }),
 })}
 
 ${feature({
@@ -103,7 +107,7 @@ ${feature({
     <p class="body">Every paper we notify is hosted on a public page. An exchange, a counterparty or an authority can read what an issuer published without asking the issuer for it.</p>
     <div class="buttons">${button(ctx, { label: 'See the register', to: `${DESK}/register` })}</div>
   </div>
-  <div class="feature__visual">${plate(ctx, { img: 'da-listing.png', alt: 'Hosted disclosure documents', tint: DESK })}</div>
+  <div class="feature__visual">${plate(ctx, { img: 'da-token-disclosure.png', alt: 'The public page for a MiCAR white paper', tint: DESK })}</div>
 </div></section>
 
 ${insightsBlock(ctx, {

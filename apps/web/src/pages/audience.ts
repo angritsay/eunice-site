@@ -20,7 +20,7 @@ interface DeskShared {
 // markers it closes on, its quote and which insights it lists.
 const DESK: Record<ProductDesk, DeskShared> = {
   'private-markets': {
-    hero: { img: 'home-hero.png', alt: 'Pipeline: five funds, one in tracking' },
+    hero: { img: 'home-hero.png', alt: 'The Eunice pipeline: funds and managers under review' },
     facts: [
       { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
       { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
