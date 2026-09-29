@@ -21,7 +21,7 @@ export default {
       ${button(ctx, { label: 'See open roles', kind: 'outline', to: 'careers', hash: 'roles' })}
     </div>
   </div>
-  <div class="hero__visual">${plate(ctx, { img: 'home-hero.png', alt: 'The Eunice pipeline: funds and managers under review', bleed: true })}</div>
+  <div class="hero__visual">${plate(ctx, { img: 'home-hero.png', alt: 'The Eunice pipeline: funds and managers under review' })}</div>
 </section>
 
 <section class="wrap section">

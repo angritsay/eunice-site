@@ -11,6 +11,7 @@ import {
   peopleStrip,
   plate,
   sectionHead,
+  stage,
   type WhoClient,
   whoCards,
 } from '../components.ts';
@@ -146,15 +147,15 @@ ${feature({
   num: '05',
   title: 'Delivered end to end',
   desk: DESK,
-  body: html`<p class="body muted">From pipeline, investment and operational due diligence, through to live deals, portfolio monitoring and bespoke reporting as well as integrations, we are experienced in implementing seamless onboardings. We will partner with you end to end, keeping the framework current and clearing every data gap along the way.</p>
-  <ol class="steps steps--${DESK} steps--text">
+  body: html`<p class="body muted">From pipeline, investment and operational due diligence, through to live deals, portfolio monitoring and bespoke reporting as well as integrations, we are experienced in implementing seamless onboardings. We will partner with you end to end, keeping the framework current and clearing every data gap along the way.</p>`,
+  visual: html`<ol class="steps steps--${DESK}">
     <li><span class="h4">Scope</span><span class="small muted">Your checklist, your funds, your committee calendar.</span></li>
     <li><span class="h4">Read</span><span class="small muted">The dataroom read in full, every finding cited to its page.</span></li>
     <li><span class="h4">Review</span><span class="small muted">Findings walked through with your committee; the memo signed off by you.</span></li>
     <li><span class="h4">Monitor</span><span class="small muted">The same questions asked again each quarter. Changes come back as a diff.</span></li>
   </ol>`,
-  visual: plate(ctx, {
-    tint: DESK,
+  stage: stage(ctx, {
+    photo: 'stage-towers.jpg',
     video: 'home-hero',
     img: 'home-hero-poster.jpg',
     alt: 'A walk through Eunice: files, the pipeline, live deals and a fund’s due diligence report',

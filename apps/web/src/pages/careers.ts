@@ -21,7 +21,7 @@ export default {
       ${button(ctx, { label: 'Meet the team', kind: 'outline', to: 'careers', hash: 'team' })}
     </div>
   </div>
-  <div class="hero__visual">${plate(ctx, { img: 'careers-hero.png', alt: 'Asking Eunice about a fund', bleed: true })}</div>
+  <div class="hero__visual">${plate(ctx, { img: 'careers-hero.png', alt: 'Asking Eunice about a fund' })}</div>
 </section>
 
 <section class="wrap section" id="roles">
