@@ -381,9 +381,10 @@ export const audiencePages = content('audiencePages', AudiencePages, [
 
 // ---------- The fact base: the team and the company, in the owner's words ----------
 // Every line below is quoted from the live careers page (eunice.ai/careers), recorded
-// in src/content/sources/eunice-careers.txt. Pages take their team copy from here and
-// nowhere else, so the site says the same thing everywhere; test/web/facts.spec.ts
-// fails if a line here is not on the recorded page. Typography may differ (curly
+// in src/content/sources/eunice-careers.txt, or, for people not on that page yet, from
+// what the owner gave us, recorded in src/content/sources/owner-notes.md. Pages take
+// their team copy from here and nowhere else, so the site says the same thing
+// everywhere; test/web/facts.spec.ts fails if a line here is in neither source. Typography may differ (curly
 // quotes, dashes, "·" for "-" between two parts); the words may not.
 // To change a fact: change the live page, record it again, then change it here.
 
@@ -438,10 +439,15 @@ export const people = contentRecord('people', Person, {
     photo: 'chrislyn.webp',
     linkedin: 'https://www.linkedin.com/in/chrislyn-pereira/',
   },
-  // Not on the live careers page yet: surnames, titles and lines to follow from the owner
-  // (and Riley's photo).
-  ana: { name: 'Ana', role: 'Eunice team', facts: [], photo: 'ana.webp' },
-  riley: { name: 'Riley', role: 'Eunice team', facts: [], photo: '' },
+  // Not on the live careers page yet: from the owner (sources/owner-notes.md).
+  ana: {
+    name: 'Ana Beslija',
+    role: 'Operations Lead',
+    facts: ['Ontario-Qualified Lawyer', 'CIPP/E'],
+    photo: 'ana.webp',
+    linkedin: 'https://www.linkedin.com/in/ana-beslija/',
+  },
+  riley: { name: 'Riley Lee', role: 'Developer · Digital Assets', facts: [], photo: 'riley.webp' },
 });
 
 export const team = content('team', TeamFacts, {
@@ -613,12 +619,31 @@ export const insights = content('insights', z.array(Insight), [
 ]);
 
 // month: 'YYYY-MM'. desks: which product pages list it (the home page lists every past event).
+// The 2026 entries from July on are from Eunice's own LinkedIn posts (read 29 Sep 2026).
 export const events = content('events', z.array(Event), [
   {
     month: '2026-10',
     desks: ['private-markets'],
     name: 'Grow London Germany Trade Mission',
     note: 'Petronela Pell attending a week of meetings with local institutional clients & prospects.',
+  },
+  {
+    month: '2026-09',
+    desks: ['private-markets', 'digital-assets'],
+    name: 'Grow London Global, with the Mayor of London',
+    note: 'Yi Luo met Sadiq Khan as a founder in the Grow London Global cohort.',
+  },
+  {
+    month: '2026-08',
+    desks: ['digital-assets'],
+    name: 'FCA Regulatory Sandbox, testing completed',
+    note: 'Standardised digital asset disclosure templates, tested with Kraken, Coinbase and Crypto.com, with support from CMS and Aon.',
+  },
+  {
+    month: '2026-07',
+    desks: ['digital-assets'],
+    name: 'Webinar: the new UK crypto regime',
+    note: 'Admissions & Disclosures and market abuse, from consultation to final rules, with Zodia Custody and CryptoUK; Chrislyn Pereira speaking.',
   },
   {
     month: '2026-06',

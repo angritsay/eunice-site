@@ -1,11 +1,14 @@
 // The fact base (people and team in src/content/index.ts) quotes the live careers page,
-// recorded in src/content/sources/eunice-careers.txt. Every line must be on that page,
-// so the new site says exactly what the old one does about the team, everywhere.
+// recorded in src/content/sources/eunice-careers.txt, and for people not on it yet, the
+// owner's own words, recorded in src/content/sources/owner-notes.md. Every line must be
+// in one of them, so the site says exactly what the company says about its team.
 import fs from 'node:fs';
 import { expect, test } from '@playwright/test';
 import { people, team } from '../../src/content/index.ts';
 
-const recorded = fs.readFileSync(new URL('../../src/content/sources/eunice-careers.txt', import.meta.url), 'utf8');
+const source = (file: string) => fs.readFileSync(new URL(`../../src/content/sources/${file}`, import.meta.url), 'utf8');
+const recorded = source('eunice-careers.txt');
+const owner = source('owner-notes.md');
 
 // Typography may differ from the page; the words may not. Curly quotes are straight
 // quotes, any dash is a hyphen, and "·" between two parts is the page's "-".
@@ -19,11 +22,12 @@ const page = norm(
 );
 
 const onThePage = (line: string) => page.includes(norm(line));
+const fromOwner = norm(owner);
 
-test('every line about a person is on the recorded careers page', () => {
+test('every line about a person is on the recorded careers page, or in the owner’s notes', () => {
   for (const [id, p] of Object.entries(people)) {
-    if (!p.facts.length) continue; // details to follow: not on the page yet
-    for (const line of [p.name, p.role, ...p.facts]) expect(onThePage(line), `${id}: ${line}`).toBe(true);
+    for (const line of [p.name, p.role, ...p.facts])
+      expect(onThePage(line) || fromOwner.includes(norm(line)), `${id}: ${line}`).toBe(true);
   }
 });
 

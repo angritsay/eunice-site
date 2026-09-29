@@ -47,7 +47,7 @@ export default {
 
 <section class="wrap section" id="team">
   ${sectionHead('Who you will work with', team.intro)}
-  ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'])}
+  ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'])}
 </section>
 
 <section class="band section"><div class="wrap">
