@@ -241,6 +241,8 @@ button { font: inherit; color: inherit; }
 /* Each firm's own logo, all in one grey so none outshouts the others. */
 .partners img { display: block; filter: brightness(0); opacity: .78; }
 .partners + .quotes { margin-top: var(--section); }
+/* The proof strip opens with the logos: the section's own padding is the gap above. */
+.proof .partners { margin-top: 0; }
 
 /* ---------- Plates (product imagery) ---------- */
 .plate { border-radius: var(--radius); overflow: hidden; }

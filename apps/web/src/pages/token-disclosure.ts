@@ -26,7 +26,7 @@ export default {
   <div class="hero__text">
     <p class="kicker desk-text--${DESK}">For issuers, their counsel, and the exchanges that list them</p>
     <h1 class="h1">A white paper accepted once, and true after that</h1>
-    <p class="lead">A MiCA white paper drafted from a library of 1,000+ pre-filled papers, reviewed by CMS where a legal opinion is needed, notified to the authority, and hosted on a public page any exchange can check.</p>
+    <p class="lead">A MiCA white paper drafted from 1,000+ pre-filled papers, reviewed by CMS, notified and published where any exchange can check it.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Start a white paper', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}

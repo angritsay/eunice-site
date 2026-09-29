@@ -52,13 +52,24 @@ export default {
   </div>
 </section>
 
+<!-- Proof first: who we work with and what backs us, before any description. -->
+<section class="wrap section section--tight proof" id="proof">
+  ${partnersRow(ctx)}
+  ${facts([
+    { title: '$8m seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
+    { title: 'Fintech 50', text: 'Named in May 2026; among the 100 fastest-growing startups in the UK and Ireland' },
+    { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
+    { title: 'US · EU · UK · Singapore', text: 'Institutions, funds, issuers and regulators served today' },
+  ])}
+</section>
+
 <section class="band--ink section" id="about"><div class="wrap intro">
   <p class="kicker">About Eunice</p>
   <p class="intro__lead">Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong.</p>
   <div class="intro__cols">
-    <p>We began with our first product in digital assets where our platform became trusted infrastructure for leading exchanges and institutions to assess tokens, screen for regulatory risk and monitor live risk events at scale.</p>
-    <p>Building on that foundation, we then launched our second product, a toolset for private markets investing, which brings the same source-traced rigour to LPs, GPs, family offices, fund-of-funds and secondaries investors.</p>
-    <p>Today, our two products share a single conviction: every conclusion should trace back to its source, every gap should be surfaced before it becomes a problem, and diligence should continue well beyond the close. From first screen to ongoing portfolio monitoring, Eunice helps investors move faster, decide with confidence and raise the standard of diligence across the markets they serve.</p>
+    <p>We started in digital assets, where Eunice became trusted infrastructure for leading exchanges to assess tokens and monitor risk.</p>
+    <p>Then we brought the same source-traced rigour to private markets: LPs, GPs and family offices.</p>
+    <p>One conviction runs through both: every conclusion traces back to its source, and diligence continues well beyond the close.</p>
   </div>
   <ol class="intro__steps">
     <li><span>01</span>Digital assets, first</li>
@@ -91,15 +102,9 @@ export default {
     </div>
     <div class="story__name">
       <h2 class="h2">Why Eunice</h2>
-      <p class="body">We named Eunice after Eunice Newton Foote, an American scientist who worked out back in 1856 that carbon dioxide traps heat, which means she discovered the greenhouse effect. She wasn’t allowed to present her own paper and for more than a hundred years someone else got the credit. We loved her story because it’s about doing the careful work, spotting what everyone else missed and making sure the truth gets its due. That’s the kind of company we want to be, and the name keeps us honest.</p>
+      <p class="body">Eunice Newton Foote discovered the greenhouse effect in 1856, and someone else got the credit for a century. Careful work, spotting what others missed, giving the truth its due: that is the company we want to be.</p>
     </div>
   </div>
-  ${facts([
-    { title: '$8m seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
-    { title: 'Fintech 50', text: 'Named in May 2026; among the 100 fastest-growing startups in the UK and Ireland' },
-    { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
-    { title: 'US · EU · UK · Singapore', text: 'Institutions, funds, issuers and regulators served today' },
-  ])}
 </div></section>
 
 <section class="wrap section" id="values">
@@ -145,7 +150,6 @@ export default {
   <div class="grid grid--3 quotes">
     ${quoteBlock(quotes.fof)}${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}
   </div>
-  ${partnersRow(ctx)}
 </section>
 
 <section class="wrap section" id="careers">

@@ -67,7 +67,7 @@ ${cta(ctx, {
 <section class="wrap section feature feature--flat foote">
   <div class="feature__text"><h2 class="h2">Named after Eunice Foote</h2></div>
   <div class="foote__text body">
-    <p>Eunice Newton Foote, 1819–1888. Scientist, inventor, campaigner for women’s rights, mother of two daughters. In 1856 she filled glass cylinders with different gases, set them in the sun and read the thermometers. The cylinder of carbon dioxide ran hottest, and she wrote that an atmosphere with more of it would give the Earth a higher temperature — the first person to make that connection. Her paper was read at the meeting by a colleague; a man who published three years later took the credit; her result was overlooked until 2011.</p>
+    <p>Eunice Newton Foote, 1819–1888, scientist and campaigner for women’s rights. In 1856 she showed that carbon dioxide traps heat, the first person to connect it to the Earth’s temperature. Someone else took the credit; her result was overlooked until 2011.</p>
     <p>We took her name because the finding sat in plain sight for a hundred and fifty years and nobody read it carefully. That is the failure this company exists to prevent.</p>
   </div>
 </section>`,
