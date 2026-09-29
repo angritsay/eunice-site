@@ -113,11 +113,16 @@ export default {
 
   <div class="team-block">
     ${sectionHead('The team', 'Point at a person, or tap, to read about them.')}
-    ${peopleStrip(ctx, ['riley', 'vinay', 'petronela', 'chrislyn', 'ana'], {
-      title: 'Client Implementation Consultant, Private Markets',
-      slug: 'client-implementation-consultant-private-markets',
-      line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
-    })}
+    ${peopleStrip(
+      ctx,
+      ['riley', 'vinay', 'petronela', 'chrislyn', 'ana'],
+      {
+        title: 'Client Implementation Consultant, Private Markets',
+        slug: 'client-implementation-consultant-private-markets',
+        line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
+      },
+      'petronela',
+    )}
   </div>
 </section>
 
@@ -144,9 +149,8 @@ export default {
 </section>
 
 <section class="wrap section" id="careers">
-  ${sectionHead('Careers', 'London-based, remote-friendly.')}
+  ${sectionHead('Careers', '', button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', small: true, to: 'careers' }))}
   ${roleList(ctx)}
-  <p class="all"><a class="more" href="${ctx.link('careers')}">Life at Eunice and all roles</a></p>
 </section>
 
 ${insightsBlock(ctx, { label: 'Insights', aside: 'Notes, analysis and company news, by desk.', featured: 3, rows: 5 })}

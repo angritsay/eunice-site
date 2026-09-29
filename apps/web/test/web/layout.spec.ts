@@ -137,6 +137,12 @@ test.describe('base path', () => {
 test.describe('team strip', () => {
   const open = (p: Page) => p.locator('.pstrip__item.is-open');
 
+  test('on the welcome page, Petronela is the one open when it loads', async ({ page }) => {
+    await page.goto(BASE);
+    await expect(open(page)).toHaveCount(1);
+    await expect(open(page).locator('.pstrip__name')).toHaveText('Petronela Pell');
+  });
+
   test('pointing at a person opens them and collapses the rest', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE);
