@@ -3,24 +3,26 @@
 // The intro, the name and the values are the owner's words (Sep 2026); the story is
 // the live careers page's, word for word.
 import {
+  badges,
   button,
   cta,
   facts,
   founder,
   insightsBlock,
   mark,
+  numbers,
   partnersRow,
   peopleStrip,
   photo,
   plate,
   quoteBlock,
   sectionHead,
-  sized,
 } from '../components.ts';
 import { quotes, team } from '../content/index.ts';
-import { html } from '../lib/html.ts';
+import { type Html, html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
+import { uiMonitor, uiRead } from '../ui.ts';
 import { roleList } from './jobs.ts';
 
 const VALUES: readonly [string, string][] = [
@@ -55,12 +57,13 @@ export default {
 <!-- Proof first: who we work with and what backs us, before any description. -->
 <section class="wrap section section--tight proof" id="proof">
   ${partnersRow(ctx)}
-  ${facts([
-    { title: '$8m seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
-    { title: 'Fintech 50', text: 'Named in May 2026; among the 100 fastest-growing startups in the UK and Ireland' },
-    { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
-    { title: 'US · EU · UK · Singapore', text: 'Institutions, funds, issuers and regulators served today' },
+  ${numbers([
+    { n: '$1T+', label: 'AUM managed by the allocators who trust Eunice' },
+    { n: '1,000+', label: 'Pre-filled MiCA white papers' },
+    { n: '4', label: 'Jurisdictions: MiCA, the UK, MAS and VARA' },
+    { n: '$8m', label: 'Seed, March 2026 · Moonfire, Speedinvest, Openspace, Locus' },
   ])}
+  ${badges(['SOC 2 Type II', 'GDPR', 'FCA regulatory sandbox', 'Fintech 50, 2026', 'US · EU · UK · Singapore'])}
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">
@@ -82,13 +85,13 @@ export default {
   ${tile(ctx, {
     desk: 'private-markets',
     title: 'Private Markets',
-    img: 'home-tile-pm.png',
+    visual: uiRead('private-markets'),
     text: 'Operational due diligence, portfolio monitoring, data gap analysis and bespoke reporting for LPs, GPs and family offices.',
   })}
   ${tile(ctx, {
     desk: 'digital-assets',
     title: 'Crypto & RWA',
-    img: 'home-tile-da.png',
+    visual: uiMonitor('digital-assets'),
     text: 'Token due diligence, monitoring and MiCA disclosure for exchanges, custodians, market makers and issuers.',
   })}
 </section>
@@ -166,10 +169,13 @@ ${cta(ctx, {
 })}`,
 } satisfies Page;
 
-function tile(ctx: Ctx, { desk, title, text, img }: { desk: ProductDesk; title: string; text: string; img: string }) {
+function tile(
+  ctx: Ctx,
+  { desk, title, text, visual }: { desk: ProductDesk; title: string; text: string; visual: Html },
+) {
   return html`
 <a class="tile tile--${desk}" href="${ctx.link(desk)}">
-  <span class="tile__shot"><img src="${ctx.asset(`img/${img}`)}" alt=""${sized(img)} loading="lazy"></span>
+  <span class="tile__shot" aria-hidden="true">${visual}</span>
   <span class="tile__foot">
     <span>
       <span class="tile__title">${mark(18, '#fff')}${title}</span>

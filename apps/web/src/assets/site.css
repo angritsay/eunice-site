@@ -241,6 +241,12 @@ button { font: inherit; color: inherit; }
 .partners + .quotes { margin-top: var(--section); }
 /* The proof strip opens with the logos: the section's own padding is the gap above. */
 .proof .partners { margin-top: 0; }
+.numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 64px; }
+.numbers li { display: flex; flex-direction: column; gap: 10px; padding-top: 18px; border-top: 1px solid var(--line); }
+.numbers__n { font-family: var(--font-head); font-weight: 400; font-size: clamp(36px, 4.2vw, 56px); line-height: 1; letter-spacing: -.035em; color: var(--ink); }
+.numbers__label { font-size: 12px; line-height: 1.5; color: var(--muted); max-width: 22em; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
+.badges li { padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 10.4px; letter-spacing: .04em; color: var(--ink); }
 
 /* ---------- Plates (product imagery) ---------- */
 .plate { border-radius: var(--radius); overflow: hidden; }
@@ -475,14 +481,6 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .footer__legal-links { display: flex; gap: 16px; }
 
 /* ---------- Product mock-up (the reporting stand-in, until there is a screenshot) ---------- */
-.mock { background: #fff; border-radius: 10px; box-shadow: 0 16px 40px rgba(17,18,20,.10); font-size: 9.6px; overflow: hidden; color: var(--text); }
-.mock__bar { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; }
-.mock__bar b { font-family: var(--font-head); font-weight: 500; font-size: 11.2px; color: var(--ink); }
-.mock__bar i { font-style: normal; font-size: 8.8px; padding: 2px 8px; border-radius: 999px; background: #f1f3f7; color: var(--muted); }
-.mock__notes { padding: 18px 16px 16px; display: flex; flex-direction: column; gap: 6px; }
-.mock__notes b { font-family: var(--font-head); font-weight: 500; font-size: 10.4px; color: var(--ink); }
-.mock__notes p { background: var(--band); border-radius: 8px; padding: 10px 12px; color: var(--muted); }
-.mock__notes p span { color: var(--ink); }
 
 /* ---------- Talk-to-us dialog ---------- */
 .dialog { border: 0; padding: 0; border-radius: 16px; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); box-shadow: 0 40px 100px rgba(17,18,20,.3); color: var(--text); }
@@ -657,6 +655,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .hero__visual--field { height: clamp(240px, 56vw, 380px); }
   .field__glass { left: 16px; top: 18px; width: 150%; padding: 6px; }
   .grid--3, .grid--4, .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
   .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__brand { grid-column: 1 / -1; }
@@ -874,3 +873,69 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1); transition-delay: calc(var(--i, 0) * 90ms); }
 .reveal.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* ---------- Conceptual product UI (ui.ts) ----------
+   Drawn wireframes instead of screenshots: white sheets, hairlines, grey bars for
+   text. One element carries the desk's colour hint (--hint). Slow CSS loops only. */
+.wf { --hint: var(--ink); position: relative; display: block; aspect-ratio: 4 / 3; background: var(--band); border-radius: 14px; overflow: hidden; }
+.wf--private-markets { --hint: var(--pm-field); }
+.wf--digital-assets { --hint: var(--da-field); }
+.wf--token-disclosure { --hint: var(--td-field); }
+.wf__sheet, .wf__panel { position: absolute; display: flex; flex-direction: column; gap: 12px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 18px 48px rgba(17,18,20,.08); }
+.wf__line { position: relative; display: block; height: 8px; border-radius: 4px; background: #e9ecf1; }
+.wf__line--short { width: 58%; }
+.wf__head { display: block; width: 42%; height: 12px; border-radius: 6px; background: var(--ink); opacity: .85; margin-bottom: 6px; }
+.wf__chip { position: absolute; top: 50%; right: -4px; transform: translate(0, -50%); padding: 3px 8px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 8.8px; line-height: 1.2; letter-spacing: .02em; white-space: nowrap; }
+
+/* Read: three sheets fanned; one line found and cited. */
+.wf--read .wf__sheet { inset: 18% 20% 18% 14%; padding: 26px 28px; justify-content: center; gap: 14px; }
+.wf--read .wf__sheet--b1 { inset: 15% 16% 21% 18%; transform: rotate(3deg); opacity: .7; }
+.wf--read .wf__sheet--b2 { inset: 12% 12% 24% 22%; transform: rotate(6deg); opacity: .45; }
+.wf__line--hit { background: color-mix(in srgb, var(--hint) 22%, #fff); }
+.wf__line--hit::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--hint); transform-origin: left; animation: wf-sweep 6s ease-in-out infinite; }
+.wf__line--gap { background: none; outline: 1.5px dashed var(--hint); outline-offset: 2px; }
+@keyframes wf-sweep { 0%, 15% { transform: scaleX(0); } 45%, 85% { transform: scaleX(1); } 100% { transform: scaleX(0); opacity: 0; } }
+
+/* Monitor: a quiet track of events; one rises as a card. */
+.wf--monitor .wf__panel, .wf--ask .wf__panel { inset: 16% 10%; padding: 28px; justify-content: center; gap: 16px; }
+.wf__track { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 8px 0; }
+.wf__track::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--line); }
+.wf__dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #cfd5de; }
+.wf__dot--flag { width: 12px; height: 12px; background: var(--hint); box-shadow: 0 0 0 0 color-mix(in srgb, var(--hint) 45%, transparent); animation: wf-pulse 3s ease-out infinite; }
+@keyframes wf-pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--hint) 45%, transparent); } 70%, 100% { box-shadow: 0 0 0 12px transparent; } }
+.wf__card { position: relative; align-self: flex-end; width: 46%; display: flex; flex-direction: column; gap: 8px; padding: 26px 14px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 10px 24px rgba(17,18,20,.08); margin-right: 18%; animation: wf-rise 6s ease-in-out infinite; }
+.wf__card .wf__chip { top: 8px; left: 12px; right: auto; transform: none; background: var(--hint); color: var(--ink); }
+.wf__rows { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+@keyframes wf-rise { 0%, 20% { transform: translateY(8px); opacity: 0; } 35%, 85% { transform: none; opacity: 1; } 100% { transform: translateY(-4px); opacity: 0; } }
+
+/* Report: every line with its source pill. */
+.wf--report .wf__sheet { inset: 16% 16%; padding: 28px; gap: 0; justify-content: space-evenly; }
+.wf__row { display: flex; align-items: center; gap: 10px; }
+.wf__row .wf__line { flex: 1; }
+.wf__src { flex: 0 0 34px; height: 12px; border-radius: 999px; border: 1px solid var(--ink); opacity: .7; }
+.wf--report .wf__row:nth-of-type(3) .wf__src { background: var(--hint); border-color: var(--hint); opacity: 1; }
+
+/* Ask: a question; the answer's lines each end in a citation. */
+.wf__q { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 999px; margin-bottom: auto; }
+.wf__q .wf__line { flex: 1; }
+.wf__send { flex: 0 0 18px; height: 18px; border-radius: 50%; background: var(--ink); }
+.wf__a { display: flex; flex-direction: column; gap: 12px; }
+.wf__cite { flex: 0 0 10px; height: 10px; border-radius: 50%; background: var(--hint); animation: wf-cite 6s ease-in-out infinite; }
+.wf__a .wf__row:nth-child(2) .wf__cite { animation-delay: .4s; }
+.wf__a .wf__row:nth-child(3) .wf__cite { animation-delay: .8s; }
+.wf__a .wf__row:nth-child(4) .wf__cite { animation-delay: 1.2s; }
+@keyframes wf-cite { 0%, 15% { transform: scale(0); } 30%, 85% { transform: scale(1); } 100% { transform: scale(0); } }
+
+/* In a hero's glass frame the question and answer sit straight on the frame's white. */
+.field__glass .wf { aspect-ratio: auto; background: #fff; border-radius: 6px; }
+.field__glass .wf__panel { position: static; border: 0; box-shadow: none; padding: 32px 36px 44px; gap: 22px; }
+.field__glass .wf__q { margin-bottom: 8px; width: 62%; }
+.field__glass .wf__a { width: 62%; }
+/* On a home tile the drawing is a wide crop. */
+.tile__shot .wf { aspect-ratio: 16 / 7; border-radius: 4px 4px 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wf *, .wf *::before { animation: none !important; }
+  .wf__card { opacity: 1; transform: none; }
+  .wf__line--hit::before { transform: none; }
+}

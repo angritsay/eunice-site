@@ -11,6 +11,7 @@ export { esc, html, join, raw } from './lib/html.ts';
 import { esc, type Html, html } from './lib/html.ts';
 import { imageSize } from './lib/image-size.ts';
 import { postHero } from './lib/post-hero.ts';
+import { uiAsk } from './ui.ts';
 
 type MaybeHtml = Html | '';
 export type PersonId = keyof typeof people;
@@ -201,6 +202,16 @@ export const facts = (
   ${items.map((f) => html`<div class="fact"><p class="h4">${f.title}</p><p class="small muted">${f.text}</p></div>`)}
 </div>`;
 
+// Proof as numbers: one big figure and a one-line label each, the way the references
+// show scale. Only figures that already appear elsewhere on the site.
+export const numbers = (items: readonly { n: string; label: string }[]) => html`<ul class="numbers">
+  ${items.map((i) => html`<li><span class="numbers__n">${i.n}</span><span class="numbers__label">${i.label}</span></li>`)}
+</ul>`;
+
+// Credentials as small outlined badges: named, not explained.
+export const badges = (items: readonly string[]) =>
+  html`<ul class="badges">${items.map((b) => html`<li>${b}</li>`)}</ul>`;
+
 // One card for every quote: the same ground, the words in mono, and the product it
 // is about named by the Eunice mark in that product's colour.
 export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
@@ -248,17 +259,17 @@ const sizedAsset = (file: string) => {
 export const sized = (img: string) => sizedAsset(`img/${img}`);
 
 // The product hero, as in the Figma file (Eunice · Site v5): a photo field (a Mayfair street
-// for private markets, copper for everything under Crypto & RWA) and on it the screenshot in
+// for private markets, copper for everything under Crypto & RWA) and on it the drawn UI in
 // a frosted glass frame that runs off the right and bottom edges.
 const FIELD: Record<ProductDesk, string> = {
   'private-markets': 'mayfair.jpg',
   'digital-assets': 'hero-crypto.jpg',
   'token-disclosure': 'hero-crypto.jpg',
 };
-export const heroField = (ctx: Ctx, { desk, img, alt }: { desk: ProductDesk; img: string; alt: string }): Html => html`
+export const heroField = (ctx: Ctx, { desk }: { desk: ProductDesk }): Html => html`
 <div class="hero__visual hero__visual--field hero__visual--${desk}">
   <img class="field__photo" src="${ctx.asset(`img/${FIELD[desk]}`)}" alt=""${sized(FIELD[desk])}>
-  <div class="field__glass"><img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)}></div>
+  <div class="field__glass">${uiAsk(desk)}</div>
 </div>`;
 
 /** A silent product film with its pause button: see PlateOptions.video. */

@@ -3,6 +3,7 @@ import { quotes, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
+import { uiAsk } from '../ui.ts';
 import { roleList } from './jobs.ts';
 
 export default {
@@ -21,7 +22,7 @@ export default {
       ${button(ctx, { label: 'Meet the team', kind: 'outline', to: 'careers', hash: 'team' })}
     </div>
   </div>
-  <div class="hero__visual">${plate(ctx, { img: 'careers-hero.png', alt: 'Asking Eunice about a fund' })}</div>
+  <div class="hero__visual">${plate(ctx, { html: uiAsk('company') })}</div>
 </section>
 
 <section class="wrap section" id="roles">
