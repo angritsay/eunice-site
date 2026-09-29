@@ -44,6 +44,8 @@ Each of the three desks also has a personalised page per client type — `/priva
 
 Anyone using Claude: read `CLAUDE.md` first — it holds the design rules.
 
+New to the repo? [CONTRIBUTING.md](CONTRIBUTING.md) explains how a change goes from a branch to the live site.
+
 ## Build and publish
 
 ```
