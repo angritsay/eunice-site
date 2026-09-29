@@ -39,7 +39,7 @@ export default {
   </div>
   <div class="hero__visual hero__visual--stacked">
     ${photo(ctx, { img: 'city-of-london.jpg', variant: 'city', alt: 'The City of London at dusk, looking along the Thames to St Paul’s' })}
-    ${plate(ctx, { img: 'home-hero.png', alt: 'Pipeline: five funds, one in tracking' })}
+    ${plate(ctx, { img: 'home-hero.png', alt: 'The Eunice pipeline: funds and managers under review' })}
   </div>
 </section>
 
@@ -99,7 +99,11 @@ ${feature({
   title: 'Operational due diligence',
   desk: DESK,
   body: html`<p class="body muted">Every PPM, DDQ, LPA, valuation policy and audited statement read against the ODD checklist you already use. What is missing is the finding, not what is present, and every finding cites its page.</p>`,
-  visual: plate(ctx, { tint: DESK, html: documentsMock() }),
+  visual: plate(ctx, {
+    tint: DESK,
+    img: 'pm-documents.png',
+    alt: 'Documents for a fund, grouped by folder, with category, stage and dates',
+  }),
 })}
 
 ${feature({
@@ -114,7 +118,11 @@ ${feature({
     'Ask across the portfolio: one question, every fund, every document, answered with the page it came from.',
     'Eunice catches the data that doesn’t line up and runs a cleaning pass before you ever touch it.',
   ])}`,
-  visual: plate(ctx, { tint: DESK, html: portfolioMock() }),
+  visual: plate(ctx, {
+    tint: DESK,
+    img: 'pm-portfolio.png',
+    alt: 'Portfolio overview: ask anything, key metrics and quarterly updates',
+  }),
 })}
 
 ${feature({
@@ -123,7 +131,11 @@ ${feature({
   title: 'Data gap analysis',
   desk: DESK,
   body: html`<p class="body muted">Every missing document, unanswered question and figure that does not reconcile, surfaced before it becomes a problem. Eunice checks what each manager has given you against what your framework requires, runs a cleaning pass on the data that does not line up, and tracks each gap until it is closed.</p>`,
-  visual: plate(ctx, { tint: DESK, html: gapsMock() }),
+  visual: plate(ctx, {
+    tint: DESK,
+    img: 'pm-gaps.png',
+    alt: 'A data gap analysis for a fund, every gap cited to its page',
+  }),
 })}
 
 ${feature({
@@ -172,57 +184,7 @@ ${cta(ctx, {
 })}`,
 } satisfies Page;
 
-// Stand-ins until the real Documents and Portfolio screenshots are exported.
-function documentsMock() {
-  const row = (name: string, cat: string, stage: string, date: string, cls = '') =>
-    html`<div class="mock__row ${cls}"><span>${name}</span><span>${cat}</span><span class="${stage === 'Monitoring' ? 'ok' : 'blue'}">${stage}</span><span class="faint">${date}</span></div>`;
-  const group = (name: string, date: string) =>
-    html`<div class="mock__row mock__row--group"><span>${name}</span><span></span><span></span><span class="faint">${date}</span></div>`;
-  return html`<div class="mock" role="img" aria-label="Documents view for Gridiron Capital Fund V">
-  <div class="mock__bar">${markSmall()}<b>Gridiron Capital Fund V</b><i>Fund</i><i class="warm">Onboarding</i></div>
-  <div class="mock__tabs"><span>Overview</span><span class="on">Documents 78</span><span>Reports</span></div>
-  <div class="mock__row mock__row--head"><span>Name</span><span>Category</span><span>Stage</span><span>Uploaded</span></div>
-  ${group('1. Presentation', 'Sep 26, 2025')}
-  ${row('Gridiron Presentation – December 2025.pdf', 'Deck', 'Pre-investment', 'Sep 26, 2025', 'in')}
-  ${group('2. Due diligence questionnaire', 'Nov 1, 2025')}
-  ${row('Gridiron ILPA Due Diligence Questionnaire.pdf', 'DDQ', 'Pre-investment', 'Nov 1, 2025', 'in')}
-  ${group('3. Fund documents', 'Oct 12, 2025')}
-  ${row('Gridiron Capital Fund V – LPA.pdf', 'LPA', 'Pre-investment', 'Oct 12, 2025', 'in sel')}
-  ${row('Gridiron AGM 2025.pdf', 'AGM', 'Monitoring', 'Mar 4, 2026', 'in')}
-  ${group('4. Financial statements', 'Mar 4, 2026')}
-</div>`;
-}
-
-function portfolioMock() {
-  return html`<div class="mock" role="img" aria-label="Portfolio overview">
-  <div class="mock__bar">${markSmall()}<b>Portfolio</b></div>
-  <div class="mock__tabs"><span class="on">Overview</span><span>Dashboards</span><span>Investments</span><span>Data</span></div>
-  <div class="mock__ask"><b>Ask anything about your portfolio</b><span class="mock__input">Type a question, or pick one below</span>
-    <span class="mock__chips"><i>Compare TVPI and DPI across active funds</i><i>What changed in the latest quarter?</i></span></div>
-  <div class="mock__kpis">
-    <span><em>Total NAV</em><b>$91.4M</b></span><span><em>Committed</em><b>$84.8M</b></span>
-    <span><em>Net IRR</em><b>21.9%</b></span><span><em>TVPI · DPI</em><b>1.30x · 2.56x</b></span>
-  </div>
-  <div class="mock__notes"><b>Quarterly updates</b>
-    <p><span>Pampas Frontier II</span> · Q2 letter read: two companies re-valued, one covenant waiver disclosed on page 14.</p>
-    <p><span>Gridiron Capital Fund V</span> · One figure does not line up with the AGM deck; flagged for the cleaning pass.</p>
-  </div>
-</div>`;
-}
-
-function gapsMock() {
-  const row = (item: string, fund: string, status: string, cls: string) =>
-    html`<div class="mock__row in"><span>${item}</span><span>${fund}</span><span class="${cls}">${status}</span><span class="faint">Q2 2026</span></div>`;
-  return html`<div class="mock" role="img" aria-label="Data gaps across three funds">
-  <div class="mock__bar">${markSmall()}<b>Data gaps</b><i>3 open</i></div>
-  <div class="mock__row mock__row--head"><span>Item</span><span>Fund</span><span>Status</span><span>Period</span></div>
-  ${row('Valuation policy', 'Pampas Frontier II', 'Missing', 'warm')}
-  ${row('NAV bridge vs. AGM deck', 'Gridiron Capital Fund V', 'Does not reconcile', 'warm')}
-  ${row('DDQ §4.2 key person', 'Northgate Growth III', 'Unanswered', 'blue')}
-  ${row('Audited statements 2025', 'Gridiron Capital Fund V', 'Received', 'ok')}
-</div>`;
-}
-
+// Figma has no reporting screen yet, so this one stays a drawn stand-in.
 function reportMock() {
   return html`<div class="mock" role="img" aria-label="A quarterly report for an investment committee, every line cited">
   <div class="mock__bar">${markSmall()}<b>Investment Committee · Q2 2026</b><i>Your template</i></div>
