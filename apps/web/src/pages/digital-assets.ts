@@ -94,7 +94,7 @@ ${feature({
   title: 'Listing diligence',
   desk: DESK,
   body: html`<p class="body muted">One report per asset covering the team, the code, the reserve and the jurisdiction, in the shape a listing committee signs off.</p>`,
-  visual: plate(ctx, { img: 'da-listing.png', alt: 'Due diligence reports for a queue of tokens' }),
+  visual: plate(ctx, { tint: DESK, img: 'da-listing.png', alt: 'Due diligence reports for a queue of tokens' }),
 })}
 
 ${feature({
@@ -104,7 +104,7 @@ ${feature({
   desk: DESK,
   flip: true,
   body: html`<p class="body muted">Exploits, protocol changes, enforcement actions and reserve movements — surfaced the hour they land, with the source attached.</p>`,
-  visual: plate(ctx, { img: 'da-monitoring.png', alt: 'High impact events across monitored tokens' }),
+  visual: plate(ctx, { tint: DESK, img: 'da-monitoring.png', alt: 'High impact events across monitored tokens' }),
 })}
 
 ${feature({
@@ -113,7 +113,11 @@ ${feature({
   title: 'Jurisdiction by jurisdiction',
   desk: DESK,
   body: html`<p class="body muted">MiCA, the UK regime, MAS and VARA in one view, so an asset cleared in one place is not re-cleared from scratch in another.</p>`,
-  visual: plate(ctx, { img: 'da-jurisdiction.png', alt: 'Audit history on a detailed due diligence report' }),
+  visual: plate(ctx, {
+    tint: DESK,
+    img: 'da-jurisdiction.png',
+    alt: 'Audit history on a detailed due diligence report',
+  }),
 })}
 
 <section class="band band--td section" id="token-disclosure"><div class="wrap feature feature--flat">

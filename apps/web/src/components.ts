@@ -190,8 +190,9 @@ export function footer(ctx: Ctx): Html {
 }
 
 // ---------- Section scaffolding ----------
-export const sectionHead = (label: string, aside = '') =>
-  html`<div class="shead"><h2 class="label">${label}</h2>${aside ? html`<p class="shead__aside">${aside}</p>` : ''}</div>`;
+// A section's label, with an aside or an action (a button) on the right.
+export const sectionHead = (label: string, aside = '', action: Html | '' = '') =>
+  html`<div class="shead"><h2 class="label">${label}</h2>${aside ? html`<p class="shead__aside">${aside}</p>` : ''}${action ? html`<div class="shead__action">${action}</div>` : ''}</div>`;
 
 export const facts = (
   items: readonly { title: string; text: string }[],
@@ -335,7 +336,7 @@ export function insightCard(ctx: Ctx, it: Insight, override: Partial<Insight> | 
   const hero = o.post ? postHero(o.post) : undefined;
   const inner = html`${hero ? html`<img class="icard__img" src="${ctx.asset(hero)}" alt=""${sizedAsset(hero)} loading="lazy">` : ''}
     <span class="icard__body">
-      <span class="icard__meta">${desks[o.desk].label} · ${o.type} · ${fmtDay(o.date)}</span>
+      <span class="icard__meta"><span class="icard__desk">${o.desk === 'company' ? '' : mark(10)}${desks[o.desk].label}</span> · ${o.type} · ${fmtDay(o.date)}</span>
       <span class="icard__title${o.placeholder ? ' placeholder' : ''}">${o.title}</span>
     </span>`;
   const cls = `icard icard--${o.desk}${hero ? '' : ' icard--plain'}`;
@@ -582,10 +583,12 @@ export const listCards = (cards: readonly ListCard[]): Html => html`
 // The team in one row. One person is always open: their portrait and, to its right,
 // who they are. Pointing at, focusing or tapping another opens them instead; the row
 // never snaps back to empty. On tablet and phone it is an accordion.
+// `open`: who is open when the page loads (the first person unless given).
 export function peopleStrip(
   ctx: Ctx,
   ids: readonly PersonId[],
   opening?: { title: string; slug: string; line: string },
+  open: PersonId | undefined = ids[0],
 ): Html {
   const key = (ctx.slug || 'home').replaceAll('/', '-');
   const item = (id: string, open: boolean, face: Html, label: Html, info: Html) => html`
@@ -593,14 +596,14 @@ export function peopleStrip(
     <button type="button" class="pstrip__face" aria-expanded="${String(open)}" aria-controls="ps-${key}-${id}">${face}<span class="pstrip__label">${label}</span></button>
     <div class="pstrip__info" id="ps-${key}-${id}">${info}</div>
   </li>`;
-  return html`<ul class="pstrip" data-strip>${ids.map((id, n) => {
+  return html`<ul class="pstrip" data-strip>${ids.map((id) => {
     const p = people[id];
     const face = p.photo
       ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="" loading="lazy">`
       : html`<span class="pstrip__initials" aria-hidden="true">${initials(p.name)}</span>`;
     return item(
       id,
-      n === 0,
+      id === open,
       face,
       html`<span class="pstrip__name">${p.name}</span><span class="pstrip__role">${p.role}</span>`,
       html`<p class="h3">${p.name}</p>
