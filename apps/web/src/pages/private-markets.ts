@@ -9,7 +9,6 @@ import {
   insightsBlock,
   mark,
   peopleStrip,
-  photo,
   plate,
   sectionHead,
   type WhoClient,
@@ -78,17 +77,13 @@ ${whoCards(ctx, {
   </figure>
 </section>
 
-<section class="wrap section split">
-  ${photo(ctx, { img: 'mayfair.jpg', variant: 'mayfair', alt: 'A Mayfair street corner after rain' })}
-  ${facts(
-    [
-      { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
-      { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
-      { title: 'No training on your data', text: 'Your documents are never used to train models. They stay yours.' },
-      { title: 'Every finding', text: 'Cited to the page it came from' },
-    ],
-    2,
-  )}
+<section class="wrap section">
+  ${facts([
+    { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
+    { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
+    { title: 'No training on your data', text: 'Your documents are never used to train models. They stay yours.' },
+    { title: 'Every finding', text: 'Cited to the page it came from' },
+  ])}
 </section>
 
 ${feature({
