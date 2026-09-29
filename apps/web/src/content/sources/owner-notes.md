@@ -19,3 +19,10 @@ without signing in to LinkedIn.)
 Developer - Digital Assets
 
 (The owner: a developer on the Digital Assets product.)
+
+## Corrections the owner asked for (2026-09-29)
+
+Two typos on the live careers page, fixed here at the owner's request:
+
+Head of Private Markets
+VP Eng at Goodnotes (30M MAU), built & led a team of 200 engineers

@@ -3,7 +3,7 @@
 // Nothing here holds copy for a single audience — only what a whole desk shares.
 
 import type { InsightsBlockOptions } from '../components.ts';
-import { bullets, button, cta, facts, insightsBlock, plate, quoteBlock, sectionHead } from '../components.ts';
+import { bullets, button, cta, facts, heroField, insightsBlock, quoteBlock, sectionHead } from '../components.ts';
 import { audiencePages, desks, quotes } from '../content/index.ts';
 import type { AudiencePage, Quote } from '../content/schema.ts';
 import { html } from '../lib/html.ts';
@@ -89,7 +89,7 @@ function page(a: AudiencePage): Page {
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
     </div>
   </div>
-  <div class="hero__visual">${plate(ctx, { img: d.hero.img, alt: d.hero.alt, bleed: true })}</div>
+  ${heroField(ctx, { desk: a.desk, img: d.hero.img, alt: d.hero.alt })}
 </section>
 
 <section class="band section"><div class="wrap">

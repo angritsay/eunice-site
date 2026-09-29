@@ -5,6 +5,7 @@ import {
   eventsBlock,
   facts,
   feature,
+  heroField,
   insightsBlock,
   mark,
   partnersRow,
@@ -37,7 +38,7 @@ export default {
       ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
     </div>
   </div>
-  <div class="hero__visual">${plate(ctx, { img: 'da-hero.png', alt: 'Due diligence reports, searching for a token', bleed: true })}</div>
+  ${heroField(ctx, { desk: DESK, img: 'da-hero.png', alt: 'Due diligence reports, searching for a token' })}
 </section>
 
 ${whoCards(ctx, {
@@ -75,7 +76,7 @@ ${whoCards(ctx, {
 
 <section class="wrap section">
   ${partnersRow(ctx)}
-  <div class="grid grid--2 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}</div>
+  <div class="grid grid--3 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}${quoteBlock(quotes.libeara)}</div>
 </section>
 
 <section class="wrap section section--tight">

@@ -51,14 +51,26 @@ const tightGaps = (page: Page, min: number) =>
       return r.height > 0 && getComputedStyle(el).visibility !== 'hidden';
     };
     const filled = (el: Element) => getComputedStyle(el).backgroundColor !== 'rgba(0, 0, 0, 0)';
+    // What you can see of an element: its box, cut to any ancestor that clips its
+    // overflow (the hero screenshot runs past the bottom of its frame on purpose).
+    const seen = (el: Element, end: 'top' | 'bottom') => {
+      let v = el.getBoundingClientRect()[end];
+      for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+        const o = getComputedStyle(a);
+        if (o.overflowX === 'visible' && o.overflowY === 'visible') continue;
+        const box = a.getBoundingClientRect();
+        v = end === 'top' ? Math.max(v, box.top) : Math.min(v, box.bottom);
+      }
+      return v;
+    };
     const edge = (el: Element, end: 'top' | 'bottom') => {
       if (filled(el)) return el.getBoundingClientRect()[end];
-      const rects = [...el.querySelectorAll('*')].filter(visible).map((x) => x.getBoundingClientRect()[end]);
+      const rects = [...el.querySelectorAll('*')].filter(visible).map((x) => seen(x, end));
       if (!rects.length) return el.getBoundingClientRect()[end];
       return end === 'top' ? Math.min(...rects) : Math.max(...rects);
     };
     const content = (el: Element, end: 'top' | 'bottom') => {
-      const rects = [...el.querySelectorAll('*')].filter(visible).map((x) => x.getBoundingClientRect()[end]);
+      const rects = [...el.querySelectorAll('*')].filter(visible).map((x) => seen(x, end));
       return end === 'top' ? Math.min(...rects) : Math.max(...rects);
     };
     const name = (el: Element) => (el.id ? `#${el.id}` : `.${[...el.classList].join('.')}`);
@@ -178,6 +190,20 @@ test.describe('home film', () => {
     await toggle.click();
     await expect(film(page)).toHaveJSProperty('paused', false);
     await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  test('on Private Markets it plays in "Delivered end to end", with its own button', async ({ page }) => {
+    await page.goto(`${BASE}private-markets/`);
+    const pmFilm = page.locator('#end-to-end video');
+    await pmFilm.scrollIntoViewIfNeeded();
+    await expect(pmFilm).toHaveJSProperty('muted', true);
+    await expect(pmFilm).toHaveJSProperty('loop', true);
+    await expect
+      .poll(() => pmFilm.evaluate((v: HTMLVideoElement) => v.currentTime), { timeout: 10_000 })
+      .toBeGreaterThan(0.3);
+    await page.locator('#end-to-end [data-video-toggle]').click();
+    await expect(pmFilm).toHaveJSProperty('paused', true);
+    await expect(page.locator('.hero video')).toHaveCount(0); // the film is not the hero here
   });
 
   test('with reduced motion it stays still, and can still be played', async ({ page }) => {
