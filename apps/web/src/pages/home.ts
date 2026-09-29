@@ -130,7 +130,7 @@ export default {
     { title: 'Every finding', text: 'Cited to the page it came from' },
   ])}
   <div class="buttons">
-    ${button(ctx, { label: 'Visit the Trust Center', href: config.trustCenterUrl, newTab: true })}
+    ${button(ctx, { label: 'Our Trust Center on Vanta', href: config.trustCenterUrl, newTab: true })}
     ${button(ctx, { label: 'How we handle security', kind: 'outline', to: 'security' })}
   </div>
 </div></section>
