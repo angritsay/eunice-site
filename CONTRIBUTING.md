@@ -11,17 +11,24 @@ couple of minutes, so every change goes through a branch and a pull request firs
    while you are still working.
 3. **Checks.** GitHub runs the build and the tests on every push. Each check must be
    green. Red means something broke: ask Claude to fix it, or ask the repo owner (@angritsay).
-4. **Review.** The repo owner (@angritsay) reviews the pull request and approves it. `main` is protected:
-   a pull request cannot merge without that approval and green checks.
-5. **Merge.** Once approved, the pull request is merged and the site deploys itself.
-   Check the live page afterwards (press Cmd+Shift+R to skip the browser cache).
+4. **Preview.** A few minutes after each push, your pull request gets its own copy of
+   the site at `https://angritsay.github.io/eunice-site/preview/pr-<number>/`; a bot posts
+   the link on the pull request. Check your change there, on desktop and phone. The
+   preview is hidden from search engines, but it is public: don't send it to clients.
+5. **Review.** When the preview looks right, mark the pull request ready for review. The
+   repo owner (@angritsay) reviews it and approves it. `main` is protected: a pull
+   request cannot merge without that approval and green checks.
+6. **Merge.** Once approved, the pull request is merged and the real site updates
+   itself; the preview disappears. Check the live page afterwards (press Cmd+Shift+R to
+   skip the browser cache).
 
 ## Making a change with Claude Code (recommended)
 
 Open the repo in Claude Code and describe the change in plain words, e.g. "add the
 October event in Singapore" or "update Yi's bio to …". Claude reads [`CLAUDE.md`](CLAUDE.md),
 which holds the design rules, makes the change on a new branch, runs the tests and opens
-a draft pull request. Look at the pull request, then mark it ready for review.
+a draft pull request. Open the preview link once the bot posts it, then mark the pull
+request ready for review.
 
 Ask Claude to show you a screenshot of the page before you mark it ready.
 
@@ -47,4 +54,5 @@ the copy of one page is in `apps/web/src/pages/<page>.ts`.
   component in `apps/web/src/components.ts` so every page gets it.
 - Add a package or dependency without saying why in the pull request.
 
-If you are unsure, open the pull request as a draft and ask. A draft never goes live.
+If you are unsure, open the pull request as a draft and ask. A pull request only ever
+reaches its preview link; the real site changes only when the owner merges it.

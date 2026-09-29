@@ -55,7 +55,7 @@ pnpm preview            # also → preview.html (every page in one file, for sha
 pnpm test:web           # the site in a real browser: see below
 ```
 
-Every pull request runs the build and the web tests; `main` deploys only what passed, then checks the live URLs (`.github/workflows/ci.yml`). A daily run rebuilds so dated content stays current. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
+Every pull request runs the build and the web tests (`.github/workflows/ci.yml`). Publishing is `.github/workflows/pages.yml`, which runs after CI: it publishes the head of `main` (a failed CI run on `main` never deploys, and the ruleset only lets checked pull requests in), then checks the live URLs, and every open pull request from this repository gets a preview at `/eunice-site/preview/pr-<N>/` (noindex; forks are never built; a pull request's code is built with a read-only token and never runs in the job that deploys). A closed pull request's preview goes on the next run. A daily run rebuilds so dated content stays current. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
 
 ## The whole system, locally
 

@@ -1,6 +1,7 @@
-# One pipeline: check and test on every pull request; on main, deploy only what
-# passed, then check the live site. A daily run rebuilds so dated content (events
-# moving from upcoming to past) stays current without a commit.
+# One pipeline: check and test on every pull request and on main. Publishing is
+# pages.yml, which runs when this finishes: main goes live only if this passed, and
+# each open pull request gets a preview. A daily run rebuilds so dated content
+# (events moving from upcoming to past) stays current without a commit.
 name: CI
 
 on:
@@ -160,53 +161,3 @@ jobs:
           name: playwright-report
           path: apps/web/playwright-report/
           retention-days: 7
-
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: [quality, web, services, system, deploy-config]
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    runs-on: ubuntu-24.04
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-    outputs:
-      page_url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-        env:
-          # Project pages live under /<repo-name>/. Only the 404 page uses it; every
-          # other link is relative. Set to / once eunice.ai points here.
-          BASE_PATH: /${{ github.event.repository.name }}/
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          path: apps/web/dist
-      - id: deployment
-        uses: actions/deploy-pages@v5
-
-  smoke:
-    name: Smoke-test the live site
-    needs: deploy
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          # setup-node reads packageManager from package.json and turns on pnpm
-          # caching by default, which fails in a job that never installs pnpm.
-          # This job needs no dependencies, only Node.
-          package-manager-cache: false
-      - run: node apps/web/scripts/smoke.mjs "${{ needs.deploy.outputs.page_url }}"
