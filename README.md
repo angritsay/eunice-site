@@ -1,4 +1,4 @@
-# eunice.ai
+# eunice.ai (preview test)
 
 The Eunice website as code: eighteen pages, one stylesheet, no framework, no dependencies. It replaces the Framer project.
 
