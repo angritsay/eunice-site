@@ -9,6 +9,7 @@ import config from './site.config.ts';
 export { esc, html, join, raw } from './lib/html.ts';
 
 import { esc, type Html, html } from './lib/html.ts';
+import { imageSize } from './lib/image-size.ts';
 
 type MaybeHtml = Html | '';
 export type PersonId = keyof typeof people;
@@ -226,8 +227,14 @@ export interface PlateOptions {
   bleed?: boolean;
 }
 
+/** width and height attributes for an image under assets/img, when its size can be read. */
+export const sized = (img: string) => {
+  const s = imageSize(`img/${img}`);
+  return s ? html` width="${s.width}" height="${s.height}"` : '';
+};
+
 export function plate(ctx: Ctx, { img, html: markup, alt = '', tint = 'none', bleed = false }: PlateOptions): Html {
-  const inner = img ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}" loading="lazy">` : markup;
+  const inner = img ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)} loading="lazy">` : markup;
   return html`<figure class="plate plate--${tint}${bleed ? ' plate--bleed' : ''}">${inner}</figure>`;
 }
 

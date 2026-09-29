@@ -8,12 +8,12 @@ import { z } from 'zod';
 import { article, fmtDay, listCards } from '../components.ts';
 import { insights } from '../content/index.ts';
 import { html } from '../lib/html.ts';
+import { imageSize } from '../lib/image-size.ts';
 import { richText } from '../lib/rich-text.ts';
 import type { Ctx, Page } from '../lib/types.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DIR = path.join(HERE, '..', 'content', 'posts');
-const ASSETS = path.join(HERE, '..', 'assets');
 
 const Imported = z.strictObject({
   title: z.string().min(1),
@@ -23,21 +23,6 @@ const Imported = z.strictObject({
   hero: z.string().regex(/^(img\/blog\/[a-z0-9.-]+)?$/),
   video: z.string().regex(/^([A-Za-z0-9_-]{11})?$/),
 });
-
-/** Width and height of a PNG or JPEG, so the page keeps its layout while images load. */
-function imageSize(file: string): { width: number; height: number } | null {
-  const b = fs.readFileSync(path.join(ASSETS, file));
-  if (b.readUInt32BE(0) === 0x89504e47) return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
-  for (let i = 2; i + 9 < b.length; ) {
-    if (b[i] !== 0xff) break;
-    const marker = b[i + 1] ?? 0;
-    const len = b.readUInt16BE(i + 2);
-    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker))
-      return { height: b.readUInt16BE(i + 5), width: b.readUInt16BE(i + 7) };
-    i += 2 + len;
-  }
-  return null;
-}
 
 const cover = (ctx: Ctx, file: string) => {
   const size = imageSize(file);
