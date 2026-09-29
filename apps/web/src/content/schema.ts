@@ -46,10 +46,10 @@ export const AudiencePages = z.array(AudiencePage).superRefine((pages, ctx) => {
 
 export const Person = z.strictObject({
   name: text,
+  /** Their title, as the live careers page gives it. */
   role: text,
-  owns: text,
-  /** Shown on hover or tap. Empty: nothing is shown. */
-  bio: z.string(),
+  /** The lines under their name on the live careers page, word for word. Empty: none yet. */
+  facts: z.array(text),
   /** A file under assets/img/people/. Empty: no portrait yet. */
   photo: z.string(),
   /** A short film under assets/video/, self-hosted: the CSP allows no third-party frames. */
@@ -64,6 +64,19 @@ export const Person = z.strictObject({
     .optional(),
 });
 export type Person = z.infer<typeof Person>;
+
+/** What the company says about itself and its team, quoted from the live careers page. */
+export const TeamFacts = z.strictObject({
+  headline: text,
+  standfirst: text,
+  intro: text,
+  storyTitle: text,
+  founded: text,
+  story: z.array(text).min(1),
+  hiring: text,
+  perksTitle: text,
+  perks: z.array(z.strictObject({ title: text, text })).min(1),
+});
 
 export const Insight = z.strictObject({
   date: isoDay,

@@ -1,0 +1,122 @@
+# Recorded from https://eunice.ai/careers (the Framer site) on 2026-09-29.
+# The team texts on this site are quoted from here, word for word; test/web/facts.spec.ts checks it.
+# To change a fact: change it on the live page first, record the page again, then update src/content/index.ts.
+
+We build the accountability layer
+between AI and high-stakes decisions
+
+A team of AI pioneers, domain experts, and founders building due diligence infrastructure for regulated financial markets
+
+Open Roles
+
+GTM Lead, Digital Assets
+Client Implementation Consultant, Private Markets
+Senior Software / AI Engineer
+
+We're always ready to hear from smart, curious, and ambitious people who share our mission and vision.
+If that's you, get in touch by emailing career@eunice.ai
+
+Our story
+
+A company built on accountability
+
+Founded in 2023 - headquartered in London
+
+Generative AI swept into financial workflows - and institutions struggled to use it for anything that mattered. The problem wasn't capability. It was accountability.
+
+In our world, an answer isn't "good" because it sounds plausible - it's good when it can be defended in front of a regulator, a board, or a client.
+
+So we built Eunice: AI for monitoring in regulated finance, engineered for decisions that cannot afford to be wrong. Today serving institutions, funds, issuers, and regulators across the US, EU, UK and Singapore.
+
+A team of AI pioneers, domain experts and founders shaping the future of private markets.
+
+Yi Luo
+
+CEO - Finance/Crypto
+
+Co-Founder at FreeUp - Fintech
+acquired by Earnd
+
+Scaled team on US & UK
+
+Former VC with 40+ investments
+
+Philip Lam
+
+CTO - Product/Engineering
+
+Co-Founder at NEX - US based AI startup, raised $40M
+
+VP Eng at Goodnotes (30M MAU), built & lead a team of 200 engineers
+
+Ex-Apple & Microsoft
+
+Petronela Pell
+
+Head of Private Market
+
+Previously Schroders Capital, T. Rowe Price, Aberdeen and Investec
+
+15+ years financial services experience
+
+Vinay Manektalla
+
+Head of Engineering
+
+9+ years in software engineering & tech leadership
+
+Ex-Deutsche Bank — Equities Algorithmic Trading
+
+Ex-BMAT — led Audiovisual Engineering dept
+
+Chrislyn Pereira
+
+Chief of Staff
+
+UK FinTech Awards Young Achiever of the Year 2026
+
+Legal background and ex Head of Ops at Legit
+
+What clients, investors,
+and regulators are saying
+
+Speed without accountability isn't an option in compliance. Eunice enables us to run faster, more rigorous token listing reviews - with the consistency to scale confidently across jurisdictions
+
+FalconX, Chief Compliance Officer  Vanessa Zhang
+
+What stands out to me about Eunice isn’t just that they’re building in fast-moving markets like digital assets, it’s that they’re focused on the part most people still underestimate: accountability.
+
+Moonfire Ventures, Founder
+
+Mattias Ljungman
+
+The FCA has accepted RegTech platform, Eunice, into its Regulatory Sandbox to explore an industry-led solution to improve transparency of the UK's crypto markets.
+
+FCA · Press release
+
+A real problem. A real team.
+Real impact for getting it right
+
+Work on AI that matters
+
+Your code ships into regulated financial workflows - where every output has to be defensible. No demo theatre.
+
+London-based, remote-friendly
+
+Work where you do your best work. Regular team gatherings in London to keep the in-person muscle strong.
+
+Generous time off + flexibility
+
+We trust you to manage your time. Take the breaks you need to do the best work of your career.
+
+Competitive comp + meaningful equity
+
+Top-of-market salary and material equity for the stage. We share the upside of building the category.
+
+Learn from people who've shipped this before
+
+Founders with backgrounds in compliance, capital markets law, and ML research. You'll be in rooms that matter.
+
+Health plan, learning budget & equipment
+
+SimplyHealth plan, a dedicated learning budget, the equipment to do your best work from anywhere - and bubble tea on the house.

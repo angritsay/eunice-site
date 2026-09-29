@@ -68,12 +68,12 @@ test.describe('content schema', () => {
 
 test.describe('team', () => {
   // Someone whose details are still to come shows their initials; once they have a
-  // portrait, they need a bio too.
-  test('every portrait exists, and everyone with one has a bio', () => {
+  // portrait, they need their lines from the fact base too.
+  test('every portrait exists, and everyone with one has their facts', () => {
     for (const [id, p] of Object.entries(people)) {
       if (!p.photo) continue;
       expect(fs.existsSync(new URL(`../../src/assets/img/people/${p.photo}`, import.meta.url)), p.photo).toBe(true);
-      expect(p.bio, id).not.toBe('');
+      expect(p.facts.length, id).toBeGreaterThan(0);
     }
   });
 });

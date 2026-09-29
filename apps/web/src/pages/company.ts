@@ -1,5 +1,5 @@
 import { button, cta, facts, insightRow, partnersRow, peopleStrip, plate, sectionHead } from '../components.ts';
-import { insights } from '../content/index.ts';
+import { insights, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
@@ -35,7 +35,7 @@ export default {
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Leadership', 'Five people who run the company, in London.')}
+  ${sectionHead('Leadership', team.intro)}
   ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'])}
   <div class="grid grid--4 people people--row people--team">
     <a class="join" href="${ctx.link('careers', 'roles')}"><span class="h4">Join the team</span><span class="caption muted">Three open roles</span><span class="small">GTM for digital assets, client implementation for private markets, senior engineering.</span></a>

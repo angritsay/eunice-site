@@ -12,6 +12,7 @@ import {
   Person,
   Quote,
   Role,
+  TeamFacts,
 } from './schema.ts';
 
 export const desks = content('desks', Desks, {
@@ -377,54 +378,110 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   },
 ]);
 
+// ---------- The fact base: the team and the company, in the owner's words ----------
+// Every line below is quoted from the live careers page (eunice.ai/careers), recorded
+// in src/content/sources/eunice-careers.txt. Pages take their team copy from here and
+// nowhere else, so the site says the same thing everywhere; test/web/facts.spec.ts
+// fails if a line here is not on the recorded page. Typography may differ (curly
+// quotes, dashes, "·" for "-" between two parts); the words may not.
+// To change a fact: change the live page, record it again, then change it here.
+
 // Portrait: drop a square image into /src/assets/img/people/ and set `photo` to its file name.
-// Bio: shown when a visitor hovers or taps the name. Leave empty to show nothing.
-// Everyone on the eunice.ai team, with their portrait from the live site. The bios are
-// the live careers page's lines plus public facts from LinkedIn and the press; each
-// person should confirm theirs.
 export const people = contentRecord('people', Person, {
   yi: {
     name: 'Yi Luo',
-    role: 'CEO and co-founder',
-    owns: 'The company, its clients and its capital.',
-    bio: 'Co-founded FreeUp, a fintech acquired by Earnd, and scaled its team across the US and UK. A former VC with 40+ early-stage investments. MSc, London School of Economics.',
+    role: 'CEO · Finance/Crypto',
+    facts: [
+      'Co-Founder at FreeUp · Fintech acquired by Earnd',
+      'Scaled team on US & UK',
+      'Former VC with 40+ investments',
+    ],
     photo: 'yi.png',
     linkedin: 'https://www.linkedin.com/in/loriluoyi/',
   },
   philip: {
     name: 'Philip Lam',
-    role: 'CTO and co-founder',
-    owns: 'The platform, and how it reads a dataroom.',
-    bio: 'Co-founded NEX, a US-based AI startup that raised $40M. VP Engineering at Goodnotes (30M monthly users), building and leading a team of 200 engineers. Previously at Apple and Microsoft.',
+    role: 'CTO · Product/Engineering',
+    facts: [
+      'Co-Founder at NEX · US based AI startup, raised $40M',
+      'VP Eng at Goodnotes (30M MAU), built & lead a team of 200 engineers',
+      'Ex-Apple & Microsoft',
+    ],
     photo: 'philip.png',
     linkedin: 'https://www.linkedin.com/in/philip-lam-92172a24/',
   },
   petronela: {
     name: 'Petronela Pell',
-    role: 'Head of Private Markets',
-    owns: 'The private markets desk and its implementations.',
-    bio: '16+ years’ financial services experience at Schroders Capital, Accenture, T. Rowe Price, Aberdeen and Investec. INSEAD MBA, Durham University BA (Hons) in Philosophy, Politics & Economics, both degrees under academic scholarships.',
+    role: 'Head of Private Market',
+    facts: [
+      'Previously Schroders Capital, T. Rowe Price, Aberdeen and Investec',
+      '15+ years financial services experience',
+    ],
     photo: 'petronela.png',
     linkedin: 'https://www.linkedin.com/in/petronela-pell-mba-490aa33/',
   },
   vinay: {
     name: 'Vinay Manektalla',
     role: 'Head of Engineering',
-    owns: 'The engineering team, day to day.',
-    bio: '9+ years in software engineering and technical leadership. Previously built equities algorithmic trading systems at Deutsche Bank, and led the audiovisual engineering department at BMAT.',
+    facts: [
+      '9+ years in software engineering & tech leadership',
+      'Ex-Deutsche Bank — Equities Algorithmic Trading',
+      'Ex-BMAT — led Audiovisual Engineering dept',
+    ],
     photo: 'vinay.png',
   },
   chrislyn: {
     name: 'Chrislyn Pereira',
     role: 'Chief of Staff',
-    owns: 'Operations, security and how a client’s data is handled.',
-    bio: 'Young Achiever of the Year at the UK FinTech Awards 2026. A legal background; previously Head of Operations at Legit. Part of the founding team at Eunice.',
+    facts: ['UK FinTech Awards Young Achiever of the Year 2026', 'Legal background and ex Head of Ops at Legit'],
     photo: 'chrislyn.png',
     linkedin: 'https://www.linkedin.com/in/chrislyn-pereira/',
   },
-  // Photos, surnames, roles and bios to follow from the owner (Sep 2026).
-  ana: { name: 'Ana', role: 'Eunice team', owns: 'Details to follow.', bio: '', photo: '' },
-  riley: { name: 'Riley', role: 'Eunice team', owns: 'Details to follow.', bio: '', photo: '' },
+  // Not on the live careers page yet: surnames, titles, lines and photos to follow from the owner.
+  ana: { name: 'Ana', role: 'Eunice team', facts: [], photo: '' },
+  riley: { name: 'Riley', role: 'Eunice team', facts: [], photo: '' },
+});
+
+export const team = content('team', TeamFacts, {
+  headline: 'We build the accountability layer between AI and high-stakes decisions',
+  standfirst:
+    'A team of AI pioneers, domain experts, and founders building due diligence infrastructure for regulated financial markets',
+  intro: 'A team of AI pioneers, domain experts and founders shaping the future of private markets.',
+  storyTitle: 'A company built on accountability',
+  founded: 'Founded in 2023 · headquartered in London',
+  story: [
+    'Generative AI swept into financial workflows — and institutions struggled to use it for anything that mattered. The problem wasn’t capability. It was accountability.',
+    'In our world, an answer isn’t “good” because it sounds plausible — it’s good when it can be defended in front of a regulator, a board, or a client.',
+    'So we built Eunice: AI for monitoring in regulated finance, engineered for decisions that cannot afford to be wrong. Today serving institutions, funds, issuers, and regulators across the US, EU, UK and Singapore.',
+  ],
+  hiring: 'We’re always ready to hear from smart, curious, and ambitious people who share our mission and vision.',
+  perksTitle: 'A real problem. A real team. Real impact for getting it right',
+  perks: [
+    {
+      title: 'Work on AI that matters',
+      text: 'Your code ships into regulated financial workflows — where every output has to be defensible. No demo theatre.',
+    },
+    {
+      title: 'London-based, remote-friendly',
+      text: 'Work where you do your best work. Regular team gatherings in London to keep the in-person muscle strong.',
+    },
+    {
+      title: 'Generous time off + flexibility',
+      text: 'We trust you to manage your time. Take the breaks you need to do the best work of your career.',
+    },
+    {
+      title: 'Competitive comp + meaningful equity',
+      text: 'Top-of-market salary and material equity for the stage. We share the upside of building the category.',
+    },
+    {
+      title: 'Learn from people who’ve shipped this before',
+      text: 'Founders with backgrounds in compliance, capital markets law, and ML research. You’ll be in rooms that matter.',
+    },
+    {
+      title: 'Health plan, learning budget & equipment',
+      text: 'SimplyHealth plan, a dedicated learning budget, the equipment to do your best work from anywhere — and bubble tea on the house.',
+    },
+  ],
 });
 
 // The strip that runs along the top of every page. Empty: no strip. Add a name and a
