@@ -237,7 +237,6 @@ export interface PlateOptions {
   html?: Html;
   alt?: string;
   tint?: string;
-  bleed?: boolean;
 }
 
 /** width and height attributes for an image under assets/, when its size can be read. */
@@ -262,21 +261,32 @@ export const heroField = (ctx: Ctx, { desk, img, alt }: { desk: ProductDesk; img
   <div class="field__glass"><img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)}></div>
 </div>`;
 
-export function plate(
-  ctx: Ctx,
-  { img, video, html: markup, alt = '', tint = 'none', bleed = false }: PlateOptions,
-): Html {
-  const inner = video
-    ? html`<span class="plate__media"><video${img ? html` poster="${ctx.asset(`img/${img}`)}"${sized(img)}` : ''} aria-label="${alt}" autoplay muted loop playsinline preload="auto" data-autoplay>
+/** A silent product film with its pause button: see PlateOptions.video. */
+const film = (ctx: Ctx, { video, img, alt }: { video: string; img?: string | undefined; alt: string }): Html =>
+  html`<span class="plate__media"><video${img ? html` poster="${ctx.asset(`img/${img}`)}"${sized(img)}` : ''} aria-label="${alt}" autoplay muted loop playsinline preload="auto" data-autoplay>
     <source src="${ctx.asset(`video/${video}.webm`)}" type="video/webm">
     <source src="${ctx.asset(`video/${video}.mp4`)}" type="video/mp4">
   </video>
-  <button type="button" class="plate__toggle" data-video-toggle aria-pressed="false" aria-label="Pause the film"></button></span>`
+  <button type="button" class="plate__toggle" data-video-toggle aria-pressed="false" aria-label="Pause the film"></button></span>`;
+
+export function plate(ctx: Ctx, { img, video, html: markup, alt = '', tint = 'none' }: PlateOptions): Html {
+  const inner = video
+    ? film(ctx, { video, img, alt })
     : img
       ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)} loading="lazy">`
       : markup;
-  return html`<figure class="plate plate--${tint}${bleed ? ' plate--bleed' : ''}${video ? ' plate--video' : ''}">${inner}</figure>`;
+  return html`<figure class="plate plate--${tint}${video ? ' plate--video' : ''}">${inner}</figure>`;
 }
+
+// A product film on a photograph, full width under a feature: the photo is the stage and
+// the film sits on it in the same frosted glass frame as the product heroes.
+export const stage = (
+  ctx: Ctx,
+  { photo, video, img, alt }: { photo: string; video: string; img?: string | undefined; alt: string },
+): Html => html`<figure class="stage">
+  <img class="stage__photo" src="${ctx.asset(`img/${photo}`)}" alt=""${sized(photo)} loading="lazy">
+  <div class="stage__glass">${film(ctx, { video, img, alt })}</div>
+</figure>`;
 
 // Numbered product row: text on one side, visual on the other.
 export interface FeatureOptions {
@@ -287,6 +297,8 @@ export interface FeatureOptions {
   visual: Html;
   flip?: boolean;
   desk?: ProductDesk;
+  /** Full width under the text and visual, e.g. a film on a photo stage. */
+  stage?: Html;
 }
 
 export function feature({
@@ -297,6 +309,7 @@ export function feature({
   visual,
   flip = false,
   desk = 'private-markets',
+  stage: below,
 }: FeatureOptions): Html {
   return html`
 <section class="wrap feature${flip ? ' feature--flip' : ''}" ${id ? html`id="${id}"` : ''}>
@@ -306,6 +319,7 @@ export function feature({
     ${body}
   </div>
   <div class="feature__visual">${visual}</div>
+  ${below ? html`<div class="feature__stage">${below}</div>` : ''}
 </section>`;
 }
 
@@ -375,12 +389,18 @@ export function insightsBlock(
   const cards = list.filter((i) => i.featured).slice(0, featured);
   const rest = list.filter((i) => !cards.includes(i)).slice(0, rows);
   if (!list.length) return html``;
+  const [only] = cards;
+  const rowList = html`<ul class="irows">${rest.map((r) => insightRow(ctx, r))}</ul>`;
+  const all = html`<p class="all"><a class="more" href="${ctx.link('insights', null, deskFilter && deskFilter.length === 1 ? deskFilter[0] : null)}">All insights</a></p>`;
   return html`
 <section class="${band ? 'band ' : ''}section" id="${id}"><div class="wrap">
   ${sectionHead(label, aside)}
-  <div class="grid grid--${Math.max(cards.length, 1)} icards">${cards.map((c, n) => insightCard(ctx, c, n === 0 ? override : null))}</div>
-  <ul class="irows">${rest.map((r) => insightRow(ctx, r))}</ul>
-  <p class="all"><a class="more" href="${ctx.link('insights', null, deskFilter && deskFilter.length === 1 ? deskFilter[0] : null)}">All insights</a></p>
+  ${
+    only && cards.length === 1
+      ? html`<div class="ifeature">${insightCard(ctx, only, override)}<div class="ifeature__list">${rowList}${all}</div></div>`
+      : html`<div class="grid grid--${Math.max(cards.length, 1)} icards">${cards.map((c, n) => insightCard(ctx, c, n === 0 ? override : null))}</div>
+  ${rowList}${all}`
+  }
 </div></section>`;
 }
 
