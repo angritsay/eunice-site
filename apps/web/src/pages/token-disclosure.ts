@@ -1,4 +1,15 @@
-import { audienceLine, button, cta, facts, feature, insightsBlock, mark, plate, whoCards } from '../components.ts';
+import {
+  audienceLine,
+  button,
+  cta,
+  facts,
+  feature,
+  heroField,
+  insightsBlock,
+  mark,
+  plate,
+  whoCards,
+} from '../components.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 
@@ -21,7 +32,7 @@ export default {
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
     </div>
   </div>
-  <div class="hero__visual">${plate(ctx, { img: 'td-hero.png', alt: 'MiCA white papers for a token, managed in Eunice', tint: DESK, bleed: true })}</div>
+  ${heroField(ctx, { desk: DESK, img: 'td-hero.png', alt: 'MiCA white papers for a token, managed in Eunice' })}
 </section>
 
 ${whoCards(ctx, {

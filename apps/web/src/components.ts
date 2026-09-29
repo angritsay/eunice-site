@@ -244,16 +244,30 @@ export const sized = (img: string) => {
   return s ? html` width="${s.width}" height="${s.height}"` : '';
 };
 
+// The product hero, as in the Figma file (Eunice · Site v5): a photo field (London for
+// private markets, copper for everything under Crypto & RWA) and on it the screenshot in
+// a frosted glass frame that runs off the right and bottom edges.
+const FIELD: Record<ProductDesk, string> = {
+  'private-markets': 'city-of-london.jpg',
+  'digital-assets': 'hero-crypto.jpg',
+  'token-disclosure': 'hero-crypto.jpg',
+};
+export const heroField = (ctx: Ctx, { desk, img, alt }: { desk: ProductDesk; img: string; alt: string }): Html => html`
+<div class="hero__visual hero__visual--field hero__visual--${desk}">
+  <img class="field__photo" src="${ctx.asset(`img/${FIELD[desk]}`)}" alt=""${sized(FIELD[desk])}>
+  <div class="field__glass"><img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)}></div>
+</div>`;
+
 export function plate(
   ctx: Ctx,
   { img, video, html: markup, alt = '', tint = 'none', bleed = false }: PlateOptions,
 ): Html {
   const inner = video
-    ? html`<video${img ? html` poster="${ctx.asset(`img/${img}`)}"${sized(img)}` : ''} aria-label="${alt}" autoplay muted loop playsinline preload="auto" data-autoplay>
+    ? html`<span class="plate__media"><video${img ? html` poster="${ctx.asset(`img/${img}`)}"${sized(img)}` : ''} aria-label="${alt}" autoplay muted loop playsinline preload="auto" data-autoplay>
     <source src="${ctx.asset(`video/${video}.webm`)}" type="video/webm">
     <source src="${ctx.asset(`video/${video}.mp4`)}" type="video/mp4">
   </video>
-  <button type="button" class="plate__toggle" data-video-toggle aria-pressed="false" aria-label="Pause the film"></button>`
+  <button type="button" class="plate__toggle" data-video-toggle aria-pressed="false" aria-label="Pause the film"></button></span>`
     : img
       ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)} loading="lazy">`
       : markup;

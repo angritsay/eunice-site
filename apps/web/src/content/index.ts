@@ -406,7 +406,7 @@ export const people = contentRecord('people', Person, {
     role: 'CTO · Product/Engineering',
     facts: [
       'Co-Founder at NEX · US based AI startup, raised $40M',
-      'VP Eng at Goodnotes (30M MAU), built & lead a team of 200 engineers',
+      'VP Eng at Goodnotes (30M MAU), built & led a team of 200 engineers',
       'Ex-Apple & Microsoft',
     ],
     photo: 'philip.webp',
@@ -414,7 +414,7 @@ export const people = contentRecord('people', Person, {
   },
   petronela: {
     name: 'Petronela Pell',
-    role: 'Head of Private Market',
+    role: 'Head of Private Markets',
     facts: [
       'Previously Schroders Capital, T. Rowe Price, Aberdeen and Investec',
       '15+ years financial services experience',
@@ -499,6 +499,43 @@ export const integrations = content('integrations', z.array(Integration), []);
 // type: 'Article' | 'Note' | 'Video' | 'Press'. Newest first is not required; pages sort by date.
 // url: where the piece lives today. Empty = not linked yet.
 export const insights = content('insights', z.array(Insight), [
+  // From Eunice's own LinkedIn posts (read 29 Sep 2026); the dates are the posts' own.
+  {
+    date: '2026-09-16',
+    desk: 'company',
+    type: 'Press',
+    title: 'Our London office has moved to St Paul’s',
+    standfirst:
+      'We’re now right by St Paul’s, in the heart of the City of London, a short walk from many of the institutions we work with.',
+    url: 'https://www.linkedin.com/feed/update/urn:li:activity:7505930300691058688/',
+  },
+  {
+    date: '2026-08-25',
+    desk: 'digital-assets',
+    type: 'Press',
+    title: 'One year with Libeara, now supporting over US$1 billion in regulated digital assets',
+    standfirst:
+      'Eunice provides the diligence and monitoring layer beneath Libeara’s tokenisation infrastructure: visibility into risk events, annual asset reviews and the governance to scale with confidence.',
+    url: 'https://www.linkedin.com/feed/update/urn:li:activity:7497940854154637312/',
+  },
+  {
+    date: '2026-08-04',
+    desk: 'digital-assets',
+    type: 'Press',
+    title: 'Eunice and Orrick partner on token classification in the US',
+    standfirst:
+      'Structured compliance triage from Eunice, with expert counsel from Orrick available when the call needs a formal legal opinion.',
+    url: 'https://www.linkedin.com/feed/update/urn:li:activity:7490398659810062336/',
+  },
+  {
+    date: '2026-07-28',
+    desk: 'digital-assets',
+    type: 'Press',
+    title: 'Eunice and Drew & Napier team up on token classification in Singapore',
+    standfirst:
+      'Structured compliance triage from Eunice, backed by a leading law firm’s formal opinion when you need one to rely on.',
+    url: 'https://www.linkedin.com/feed/update/urn:li:activity:7487786497375449088/',
+  },
   {
     date: '2026-07-23',
     desk: 'token-disclosure',
@@ -675,6 +712,12 @@ export const quotes = contentRecord('quotes', Quote, {
     desk: 'digital-assets',
     text: 'Innovative solutions like Eunice AI support our mission to set new benchmarks for compliance, transparency and operational resilience in digital asset custody.',
     who: 'Risk & Compliance team, Zodia Custody',
+  },
+  // From Eunice's LinkedIn post on a year with Libeara (25 Aug 2026).
+  libeara: {
+    desk: 'digital-assets',
+    text: 'Scaling tokenised infrastructure requires resilient building blocks. Eunice supports the initial assessments and ongoing monitoring of blockchain networks and cryptoasset tokens, giving our teams the insights needed to move fast and scale responsibly.',
+    who: 'Henry Loh, CA, FRM, Chief Risk Officer, Libeara',
   },
 });
 
