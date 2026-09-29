@@ -48,7 +48,7 @@ export default {
   </div>
   <div class="hero-center__visual">
     ${photo(ctx, { img: 'city-of-london.jpg', variant: 'stage', alt: 'The City of London at dusk, looking along the Thames to St Paul’s' })}
-    <div class="hero-center__plate">${plate(ctx, { img: 'home-hero.png', alt: 'The Eunice pipeline: funds and managers under review' })}</div>
+    <div class="hero-center__plate">${plate(ctx, { video: 'home-hero', img: 'home-hero-poster.jpg', alt: 'A walk through Eunice: files, the pipeline, live deals and a fund’s due diligence report' })}</div>
   </div>
 </section>
 

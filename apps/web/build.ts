@@ -76,6 +76,8 @@ function siteCtx(page: Pick<Page, 'slug'>): Ctx {
 const MIME: Record<string, string> = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
