@@ -31,7 +31,7 @@ export default {
     { title: 'FCA regulatory sandbox', text: 'Accepted November 2025 for digital asset disclosure standards' },
     { title: 'SOC 2 Type II · GDPR', text: 'Audited; no training on client data' },
   ])}
-  ${partnersRow()}
+  ${partnersRow(ctx)}
 </section>
 
 <section class="wrap section" id="team">

@@ -74,7 +74,7 @@ ${whoCards(ctx, {
 })}
 
 <section class="wrap section">
-  ${partnersRow()}
+  ${partnersRow(ctx)}
   <div class="grid grid--2 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}</div>
 </section>
 

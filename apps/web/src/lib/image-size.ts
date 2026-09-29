@@ -7,9 +7,13 @@ import { fileURLToPath } from 'node:url';
 
 const ASSETS = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'assets');
 
-/** PNG or JPEG; null for anything else. `file` is relative to src/assets. */
+/** PNG, JPEG or SVG (from its viewBox); null for anything else. `file` is relative to src/assets. */
 export function imageSize(file: string): { width: number; height: number } | null {
   const b = fs.readFileSync(path.join(ASSETS, file));
+  if (file.endsWith('.svg')) {
+    const box = /viewBox="[\d.-]+[ ,]+[\d.-]+[ ,]+([\d.]+)[ ,]+([\d.]+)"/.exec(b.toString('utf8'));
+    return box ? { width: Number(box[1]), height: Number(box[2]) } : null;
+  }
   if (b.readUInt32BE(0) === 0x89504e47) return { width: b.readUInt32BE(16), height: b.readUInt32BE(20) };
   for (let i = 2; i + 9 < b.length; ) {
     if (b[i] !== 0xff) break;

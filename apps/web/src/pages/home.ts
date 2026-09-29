@@ -26,7 +26,7 @@ import { roleCards } from './jobs.ts';
 const VALUES: readonly [string, string][] = [
   ['Show us the evidence', 'Opinions are fine, but we care about what the data says and where it came from.'],
   ['Sweat the details', 'In diligence the small stuff turns into big stuff, so we don’t cut corners.'],
-  ['Look where others don’t', 'The most important risks are often sitting in plain sight, and we like finding them.'],
+  ['Look where others don’t', 'The biggest risks often hide in plain sight. Finding them is our job.'],
   ['No black boxes', 'We always show our workings, so you know exactly why we reached an answer.'],
   ['Raise the bar', '“Good enough” has been the norm in private markets for too long, and we’re here to change that.'],
 ];
@@ -137,10 +137,10 @@ export default {
 
 <section class="wrap section">
   ${sectionHead('What the people who use it say')}
-  <div class="grid grid--3 quotes quotes--tinted">
+  <div class="grid grid--3 quotes">
     ${quoteBlock(quotes.fof)}${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}
   </div>
-  ${partnersRow()}
+  ${partnersRow(ctx)}
 </section>
 
 <section class="wrap section" id="careers">

@@ -199,17 +199,23 @@ export const facts = (
   ${items.map((f) => html`<div class="fact"><p class="h4">${f.title}</p><p class="small muted">${f.text}</p></div>`)}
 </div>`;
 
+// One card for every quote: the same ground, the words in mono, and the product it
+// is about named by the Eunice mark in that product's colour.
 export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
-<figure class="quote quote--${q.desk}">
-  ${withDesk ? deskLabel(q.desk) : ''}
-  <blockquote class="h3">“${q.text}”</blockquote>
+<figure class="quote">
+  ${withDesk ? html`<span class="desk desk--${q.desk} quote__desk">${mark(12)}${desks[q.desk].label}</span>` : ''}
+  <blockquote class="quote__text">“${q.text}”</blockquote>
   <figcaption class="caption muted">${q.who}</figcaption>
 </figure>`;
 
-export const partnersRow = () => html`
+export const partnersRow = (ctx: Ctx) => html`
 <div class="partners">
   <p class="label">Working with</p>
-  <ul>${partners.map((p) => html`<li>${p}</li>`)}</ul>
+  <ul>${partners.map((p) => {
+    const s = imageSize(`img/logos/${p.logo}`);
+    const width = s ? Math.round((s.width / s.height) * p.height) : p.height * 4;
+    return html`<li><img src="${ctx.asset(`img/logos/${p.logo}`)}" alt="${p.name}" width="${width}" height="${p.height}" loading="lazy"></li>`;
+  })}</ul>
 </div>`;
 
 // A photograph that fills its frame. The frame sets the crop, not the file.
