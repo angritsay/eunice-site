@@ -258,11 +258,11 @@ const sizedAsset = (file: string) => {
 /** The same, for an image under assets/img/. */
 export const sized = (img: string) => sizedAsset(`img/${img}`);
 
-// The product hero, as in the Figma file (Eunice · Site v5): a photo field (a Mayfair street
-// for private markets, copper for everything under Crypto & RWA) and on it the drawn UI in
+// The product hero, as in the Figma file (Eunice · Site v5): a photo field (misted ridges,
+// generated art, for private markets; copper for everything under Crypto & RWA) and on it the drawn UI in
 // a frosted glass frame that runs off the right and bottom edges.
 const FIELD: Record<ProductDesk, string> = {
-  'private-markets': 'mayfair.jpg',
+  'private-markets': 'art-ridges.jpg',
   'digital-assets': 'hero-crypto.jpg',
   'token-disclosure': 'hero-crypto.jpg',
 };

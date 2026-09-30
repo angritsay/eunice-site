@@ -49,7 +49,7 @@ export default {
     ${button(ctx, { label: 'Crypto & RWA', kind: 'outline', to: 'digital-assets' })}
   </div>
   <div class="hero-center__visual">
-    ${photo(ctx, { img: 'city-of-london.jpg', variant: 'stage', alt: 'The City of London at dusk, looking along the Thames to St Paul’s' })}
+    ${photo(ctx, { img: 'art-dunes.jpg', variant: 'stage', alt: '' })}
     <div class="hero-center__plate">${plate(ctx, { video: 'home-hero', img: 'home-hero-poster.jpg', alt: 'A walk through Eunice: files, the pipeline, live deals and a fund’s due diligence report' })}</div>
   </div>
 </section>
