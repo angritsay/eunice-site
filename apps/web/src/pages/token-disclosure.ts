@@ -12,6 +12,7 @@ import {
 } from '../components.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
+import { uiRead, uiReport } from '../ui.ts';
 
 const DESK = 'token-disclosure';
 
@@ -32,7 +33,7 @@ export default {
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
     </div>
   </div>
-  ${heroField(ctx, { desk: DESK, img: 'td-hero.png', alt: 'MiCA white papers for a token, managed in Eunice' })}
+  ${heroField(ctx, { desk: DESK })}
 </section>
 
 ${whoCards(ctx, {
@@ -77,11 +78,7 @@ ${feature({
   title: 'Drafted from the library',
   desk: DESK,
   body: html`<p class="body muted">A MiCA white paper drafted from 1,000+ pre-filled papers, so the starting point is a document that has already been through the regime rather than a blank page.</p>`,
-  visual: plate(ctx, {
-    img: 'da-token-disclosure.png',
-    alt: 'A MiCAR white paper, as published',
-    tint: DESK,
-  }),
+  visual: plate(ctx, { tint: DESK, html: uiRead(DESK) }),
 })}
 
 ${feature({
@@ -91,11 +88,7 @@ ${feature({
   desk: DESK,
   flip: true,
   body: html`<p class="body muted">CMS reviews the points that need a legal opinion, rather than a legal bill for the whole document. UK token classification runs with gunnercooke.</p>`,
-  visual: plate(ctx, {
-    img: 'da-jurisdiction.png',
-    alt: 'Audit history on a report: every change, who made it and when',
-    tint: DESK,
-  }),
+  visual: plate(ctx, { tint: DESK, html: uiReport(DESK) }),
 })}
 
 ${feature({
@@ -118,7 +111,7 @@ ${feature({
     <p class="body">Every paper we notify is hosted on a public page. An exchange, a counterparty or an authority can read what an issuer published without asking the issuer for it.</p>
     <div class="buttons">${button(ctx, { label: 'See the register', to: `${DESK}/register` })}</div>
   </div>
-  <div class="feature__visual">${plate(ctx, { img: 'da-token-disclosure.png', alt: 'The public page for a MiCAR white paper', tint: DESK })}</div>
+  <div class="feature__visual">${plate(ctx, { tint: DESK, html: uiRead(DESK, { label: 'The published white paper, open for any exchange to check' }) })}</div>
 </div></section>
 
 ${insightsBlock(ctx, {

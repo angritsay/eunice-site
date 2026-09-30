@@ -8,9 +8,11 @@ import config from './site.config.ts';
 // Re-exported: pages import their building blocks from one place.
 export { esc, html, join, raw } from './lib/html.ts';
 
+import { GLYPH } from './lib/glyph.ts';
 import { esc, type Html, html } from './lib/html.ts';
 import { imageSize } from './lib/image-size.ts';
 import { postHero } from './lib/post-hero.ts';
+import { uiAsk } from './ui.ts';
 
 type MaybeHtml = Html | '';
 export type PersonId = keyof typeof people;
@@ -50,11 +52,9 @@ export function href(ctx: Ctx, item: Omit<NavItem, 'label'>): string {
   return ctx.link(item.to, item.hash, item.query);
 }
 
-// The master brand file, split so the glyph can be used without the wordmark.
+// The master brand file, split so the glyph (lib/glyph.ts) can be used without the wordmark.
 // Both are filled, not stroked, so `color` recolours them at the call site.
 // Coordinates are the master's own, on its 68 x 21 canvas.
-const GLYPH =
-  'M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z';
 const WORDMARK = [
   'M23.9966 15.3572H30.8252V13.8549H25.5479V10.4612H29.9342V8.95888H25.5479V5.8779H30.8252V4.37555H23.9966V15.3572Z',
   'M35.1825 15.5784C36.3474 15.5784 37.2454 15.1284 37.8319 14.3735V15.3572H39.2123V7.12097H37.6464V11.4069C37.6464 13.3592 36.7262 14.0684 35.6127 14.0684C33.9057 14.0684 33.5867 12.4517 33.5867 11.1705V7.12097H32.0132V11.6967C32.0132 12.9702 32.4212 15.5784 35.1825 15.5784Z',
@@ -201,6 +201,16 @@ export const facts = (
   ${items.map((f) => html`<div class="fact"><p class="h4">${f.title}</p><p class="small muted">${f.text}</p></div>`)}
 </div>`;
 
+// Proof as numbers: one big figure and a one-line label each, the way the references
+// show scale. Only figures that already appear elsewhere on the site.
+export const numbers = (items: readonly { n: string; label: string }[]) => html`<ul class="numbers">
+  ${items.map((i) => html`<li><span class="numbers__n">${i.n}</span><span class="numbers__label">${i.label}</span></li>`)}
+</ul>`;
+
+// Credentials as small outlined badges: named, not explained.
+export const badges = (items: readonly string[]) =>
+  html`<ul class="badges">${items.map((b) => html`<li>${b}</li>`)}</ul>`;
+
 // One card for every quote: the same ground, the words in mono, and the product it
 // is about named by the Eunice mark in that product's colour.
 export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
@@ -228,12 +238,7 @@ export function photo(ctx: Ctx, { img, alt, variant }: { img: string; alt: strin
 // A product image on a tinted field. `img` is a file under /assets/img; `html` is inline markup.
 export interface PlateOptions {
   img?: string;
-  /** A silent product film: its name under assets/video/, which holds a VP9 .webm (Chrome,
-   *  Firefox, Edge) and an H.264 .mp4 (Safari, iOS). It plays on its own, loops, and has a
-   *  pause button (WCAG 2.2.2); with reduced motion it starts paused. `img` is its poster,
-   *  shown until it plays and giving the box its size. */
-  video?: string;
-  /** Inline markup, for a visual drawn in HTML rather than a screenshot. */
+  /** Inline markup, for a visual drawn in HTML rather than a screenshot (see ui.ts). */
   html?: Html;
   alt?: string;
   tint?: string;
@@ -248,44 +253,29 @@ const sizedAsset = (file: string) => {
 export const sized = (img: string) => sizedAsset(`img/${img}`);
 
 // The product hero, as in the Figma file (Eunice · Site v5): a photo field (a Mayfair street
-// for private markets, copper for everything under Crypto & RWA) and on it the screenshot in
+// for private markets, copper for everything under Crypto & RWA) and on it the drawn UI in
 // a frosted glass frame that runs off the right and bottom edges.
 const FIELD: Record<ProductDesk, string> = {
   'private-markets': 'mayfair.jpg',
   'digital-assets': 'hero-crypto.jpg',
   'token-disclosure': 'hero-crypto.jpg',
 };
-export const heroField = (ctx: Ctx, { desk, img, alt }: { desk: ProductDesk; img: string; alt: string }): Html => html`
+export const heroField = (ctx: Ctx, { desk }: { desk: ProductDesk }): Html => html`
 <div class="hero__visual hero__visual--field hero__visual--${desk}">
   <img class="field__photo" src="${ctx.asset(`img/${FIELD[desk]}`)}" alt=""${sized(FIELD[desk])}>
-  <div class="field__glass"><img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)}></div>
+  <div class="field__glass">${uiAsk(desk)}</div>
 </div>`;
 
-/** A silent product film with its pause button: see PlateOptions.video. */
-const film = (ctx: Ctx, { video, img, alt }: { video: string; img?: string | undefined; alt: string }): Html =>
-  html`<span class="plate__media"><video${img ? html` poster="${ctx.asset(`img/${img}`)}"${sized(img)}` : ''} aria-label="${alt}" autoplay muted loop playsinline preload="auto" data-autoplay>
-    <source src="${ctx.asset(`video/${video}.webm`)}" type="video/webm">
-    <source src="${ctx.asset(`video/${video}.mp4`)}" type="video/mp4">
-  </video>
-  <button type="button" class="plate__toggle" data-video-toggle aria-pressed="false" aria-label="Pause the film"></button></span>`;
-
-export function plate(ctx: Ctx, { img, video, html: markup, alt = '', tint = 'none' }: PlateOptions): Html {
-  const inner = video
-    ? film(ctx, { video, img, alt })
-    : img
-      ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)} loading="lazy">`
-      : markup;
-  return html`<figure class="plate plate--${tint}${video ? ' plate--video' : ''}">${inner}</figure>`;
+export function plate(ctx: Ctx, { img, html: markup, alt = '', tint = 'none' }: PlateOptions): Html {
+  const inner = img ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)} loading="lazy">` : markup;
+  return html`<figure class="plate plate--${tint}">${inner}</figure>`;
 }
 
-// A product film on a photograph, full width under a feature: the photo is the stage and
-// the film sits on it in the same frosted glass frame as the product heroes.
-export const stage = (
-  ctx: Ctx,
-  { photo, video, img, alt }: { photo: string; video: string; img?: string | undefined; alt: string },
-): Html => html`<figure class="stage">
+// The product film (uiFilm) on a photograph, full width under a feature: the photo is the
+// stage and the film sits on it in the same frosted glass frame as the product heroes.
+export const stage = (ctx: Ctx, { photo, film }: { photo: string; film: Html }): Html => html`<figure class="stage">
   <img class="stage__photo" src="${ctx.asset(`img/${photo}`)}" alt=""${sized(photo)} loading="lazy">
-  <div class="stage__glass">${film(ctx, { video, img, alt })}</div>
+  <div class="stage__glass">${film}</div>
 </figure>`;
 
 // Numbered product row: text on one side, visual on the other.

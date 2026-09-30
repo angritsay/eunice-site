@@ -10,17 +10,15 @@ import { html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 
 interface DeskShared {
-  hero: { img: string; alt: string };
   facts: { title: string; text: string }[];
   quote: Quote | null;
   insights: Pick<InsightsBlockOptions, 'label' | 'aside' | 'deskFilter'>;
 }
 
-// What every audience page on a desk has in common: its imagery, the trust
+// What every audience page on a desk has in common: the trust
 // markers it closes on, its quote and which insights it lists.
 const DESK: Record<ProductDesk, DeskShared> = {
   'private-markets': {
-    hero: { img: 'home-hero.png', alt: 'The Eunice pipeline: funds and managers under review' },
     facts: [
       { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
       { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
@@ -35,7 +33,6 @@ const DESK: Record<ProductDesk, DeskShared> = {
     },
   },
   'digital-assets': {
-    hero: { img: 'da-hero.png', alt: 'Due diligence reports, searching for a token' },
     facts: [
       { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
       { title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
@@ -50,7 +47,6 @@ const DESK: Record<ProductDesk, DeskShared> = {
     },
   },
   'token-disclosure': {
-    hero: { img: 'da-token-disclosure.png', alt: 'A hosted MiCAR white paper' },
     facts: [
       { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
       { title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
@@ -89,7 +85,7 @@ function page(a: AudiencePage): Page {
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
     </div>
   </div>
-  ${heroField(ctx, { desk: a.desk, img: d.hero.img, alt: d.hero.alt })}
+  ${heroField(ctx, { desk: a.desk })}
 </section>
 
 <section class="band section"><div class="wrap">

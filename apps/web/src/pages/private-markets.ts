@@ -7,7 +7,6 @@ import {
   feature,
   heroField,
   insightsBlock,
-  mark,
   peopleStrip,
   plate,
   sectionHead,
@@ -18,6 +17,7 @@ import {
 import { quotes } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
+import { uiFilm, uiMonitor, uiRead, uiReport } from '../ui.ts';
 
 const DESK = 'private-markets';
 
@@ -38,7 +38,7 @@ export default {
       ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
     </div>
   </div>
-  ${heroField(ctx, { desk: DESK, img: 'home-hero.png', alt: 'The Eunice pipeline: funds and managers under review' })}
+  ${heroField(ctx, { desk: DESK })}
 </section>
 
 <p class="trustline">Trusted by asset allocators managing over $1 trillion in AUM</p>
@@ -93,11 +93,7 @@ ${feature({
   title: 'Operational due diligence',
   desk: DESK,
   body: html`<p class="body muted">Every PPM, DDQ, LPA and audited statement, read against the ODD checklist you already use. Every finding cites its page.</p>`,
-  visual: plate(ctx, {
-    tint: DESK,
-    img: 'pm-documents.png',
-    alt: 'Documents for a fund, grouped by folder, with category, stage and dates',
-  }),
+  visual: plate(ctx, { tint: DESK, html: uiRead(DESK) }),
 })}
 
 ${feature({
@@ -112,11 +108,7 @@ ${feature({
     'Ask across the portfolio: one question, every fund, every document, answered with the page it came from.',
     'Eunice catches the data that doesn’t line up and runs a cleaning pass before you ever touch it.',
   ])}`,
-  visual: plate(ctx, {
-    tint: DESK,
-    img: 'pm-portfolio.png',
-    alt: 'Portfolio overview: ask anything, key metrics and quarterly updates',
-  }),
+  visual: plate(ctx, { tint: DESK, html: uiMonitor(DESK) }),
 })}
 
 ${feature({
@@ -125,11 +117,7 @@ ${feature({
   title: 'Data gap analysis',
   desk: DESK,
   body: html`<p class="body muted">Missing documents, unanswered questions and figures that don’t reconcile, surfaced before they become problems and tracked until closed.</p>`,
-  visual: plate(ctx, {
-    tint: DESK,
-    img: 'pm-gaps.png',
-    alt: 'A data gap analysis for a fund, every gap cited to its page',
-  }),
+  visual: plate(ctx, { tint: DESK, html: uiRead(DESK, { missing: true }) }),
 })}
 
 ${feature({
@@ -139,7 +127,7 @@ ${feature({
   desk: DESK,
   flip: true,
   body: html`<p class="body muted">Reports for your Board, committee or clients, built to your template. Every figure traces back to its page.</p>`,
-  visual: plate(ctx, { tint: DESK, html: reportMock() }),
+  visual: plate(ctx, { tint: DESK, html: uiReport(DESK) }),
 })}
 
 ${feature({
@@ -154,12 +142,7 @@ ${feature({
     <li><span class="h4">Review</span><span class="small muted">Findings walked through with your committee; the memo signed off by you.</span></li>
     <li><span class="h4">Monitor</span><span class="small muted">The same questions asked again each quarter. Changes come back as a diff.</span></li>
   </ol>`,
-  stage: stage(ctx, {
-    photo: 'stage-towers.jpg',
-    video: 'home-hero',
-    img: 'home-hero-poster.jpg',
-    alt: 'A walk through Eunice: files, the pipeline, live deals and a fund’s due diligence report',
-  }),
+  stage: stage(ctx, { photo: 'stage-towers.jpg', film: uiFilm(DESK) }),
 })}
 
 ${insightsBlock(ctx, {
@@ -185,18 +168,6 @@ ${cta(ctx, {
 } satisfies Page;
 
 // Figma has no reporting screen yet, so this one stays a drawn stand-in.
-function reportMock() {
-  return html`<div class="mock" role="img" aria-label="A quarterly report for an investment committee, every line cited">
-  <div class="mock__bar">${markSmall()}<b>Investment Committee · Q2 2026</b><i>Your template</i></div>
-  <div class="mock__notes"><b>Portfolio summary</b>
-    <p><span>Net IRR 21.9%</span> · Gridiron Q2 report, p. 3</p>
-    <p><span>One covenant waiver</span> · Pampas Frontier II Q2 letter, p. 14</p>
-    <p><span>Key person change</span> · Northgate Growth III notice, p. 1</p>
-  </div>
-</div>`;
-}
-
-const markSmall = () => mark(11, '#f08a4b');
 
 // Who Private Markets is for: the three client types we serve now, each cut to
 // a line and the needs it names. Where a client-type page matches, the card links to it.

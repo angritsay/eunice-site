@@ -3,6 +3,7 @@ import { insights, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
+import { uiRead } from '../ui.ts';
 
 export default {
   slug: 'company',
@@ -21,7 +22,7 @@ export default {
       ${button(ctx, { label: 'See open roles', kind: 'outline', to: 'careers', hash: 'roles' })}
     </div>
   </div>
-  <div class="hero__visual">${plate(ctx, { img: 'home-hero.png', alt: 'The Eunice pipeline: funds and managers under review' })}</div>
+  <div class="hero__visual">${plate(ctx, { html: uiRead('company', { label: 'Documents read in full, one finding cited to its page' }) })}</div>
 </section>
 
 <section class="wrap section">
