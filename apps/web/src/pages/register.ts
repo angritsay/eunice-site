@@ -13,7 +13,6 @@ export default {
   render: (ctx) => html`
 <section class="wrap hero hero--short">
   <div class="hero__text">
-    <p class="kicker desk-text--${DESK}">Token Disclosure</p>
     <h1 class="h1">The register</h1>
     <p class="lead">Every white paper we notify is hosted here. An exchange, a counterparty or an authority can read what an issuer published, and at what address, without asking the issuer for a copy.</p>
     <div class="buttons">
@@ -27,10 +26,10 @@ export default {
   ${sectionHead('What an entry carries', 'The same fields for every paper, so two can be compared.')}
   ${facts(
     [
-      { title: 'The paper', text: 'The notified white paper as it stands, at a fixed public address' },
-      { title: 'The issuer', text: 'Who filed it, and the token it covers' },
-      { title: 'The jurisdiction', text: 'Which regime it was notified under, and to which authority' },
-      { title: 'The date', text: 'When it was notified' },
+      { art: 'library', title: 'The paper', text: 'The notified white paper as it stands, at a fixed public address' },
+      { art: 'tag', title: 'The issuer', text: 'Who filed it, and the token it covers' },
+      { art: 'globe', title: 'The jurisdiction', text: 'Which regime it was notified under, and to which authority' },
+      { art: 'date', title: 'The date', text: 'When it was notified' },
     ],
     2,
   )}

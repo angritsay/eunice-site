@@ -31,7 +31,6 @@ export default {
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <p class="kicker desk-text--${DESK}">For exchanges, custodians, market makers and issuers</p>
     <h1 class="h1">Crypto &amp; RWA</h1>
     <p class="lead">Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.</p>
     <div class="buttons">
@@ -44,7 +43,6 @@ export default {
 
 ${whoCards(ctx, {
   desk: DESK,
-  kicker: 'Who we work with',
   title: 'One desk for listing, holding and trading',
   lead: 'And for the issuers whose disclosures they read.',
   clients: [
@@ -82,16 +80,23 @@ ${whoCards(ctx, {
 
 <section class="wrap section section--tight">
   ${facts([
-    { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
-    { title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
-    { title: 'Five sources, one view', text: 'Allium, CoinGecko, CoinMarketCap, DeFiLlama and X, cited by name' },
-    { title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
+    {
+      art: 'sandbox',
+      title: 'FCA regulatory sandbox',
+      text: 'Digital asset disclosure standards, since November 2025',
+    },
+    { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
+    {
+      art: 'sources',
+      title: 'Five sources, one view',
+      text: 'Allium, CoinGecko, CoinMarketCap, DeFiLlama and X, cited by name',
+    },
+    { art: 'globe', title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
   ])}
 </section>
 
 ${feature({
   id: 'listing',
-  num: '01',
   title: 'Listing diligence',
   desk: DESK,
   body: html`<p class="body muted">One report per asset covering the team, the code, the reserve and the jurisdiction, in the shape a listing committee signs off.</p>`,
@@ -100,7 +105,6 @@ ${feature({
 
 ${feature({
   id: 'monitoring',
-  num: '02',
   title: 'Monitoring that does not sleep',
   desk: DESK,
   flip: true,
@@ -110,7 +114,6 @@ ${feature({
 
 ${feature({
   id: 'jurisdictions',
-  num: '03',
   title: 'Jurisdiction by jurisdiction',
   desk: DESK,
   body: html`<p class="body muted">MiCA, the UK regime, MAS and VARA in one view, so an asset cleared in one place is not re-cleared from scratch in another.</p>`,

@@ -8,6 +8,7 @@ import config from './site.config.ts';
 // Re-exported: pages import their building blocks from one place.
 export { esc, html, join, raw } from './lib/html.ts';
 
+import { type Art, art } from './art.ts';
 import { GLYPH } from './lib/glyph.ts';
 import { esc, type Html, html } from './lib/html.ts';
 import { imageSize } from './lib/image-size.ts';
@@ -192,13 +193,14 @@ export function footer(ctx: Ctx): Html {
 // ---------- Section scaffolding ----------
 // A section's label, with an aside or an action (a button) on the right.
 export const sectionHead = (label: string, aside = '', action: Html | '' = '') =>
-  html`<div class="shead"><h2 class="label">${label}</h2>${aside ? html`<p class="shead__aside">${aside}</p>` : ''}${action ? html`<div class="shead__action">${action}</div>` : ''}</div>`;
+  html`<div class="shead"><h2 class="shead__title">${label}</h2>${aside ? html`<p class="shead__aside">${aside}</p>` : ''}${action ? html`<div class="shead__action">${action}</div>` : ''}</div>`;
 
+// Every fact carries its picture (art.ts), so the row reads before its words do.
 export const facts = (
-  items: readonly { title: string; text: string }[],
+  items: readonly { art: Art; title: string; text: string }[],
   cols = items.length,
 ) => html`<div class="grid grid--${cols} facts">
-  ${items.map((f) => html`<div class="fact"><p class="h4">${f.title}</p><p class="small muted">${f.text}</p></div>`)}
+  ${items.map((f) => html`<div class="fact">${art(f.art)}<p class="h4">${f.title}</p><p class="small muted">${f.text}</p></div>`)}
 </div>`;
 
 // Proof as numbers: one big figure and a one-line label each, the way the references
@@ -207,12 +209,32 @@ export const numbers = (items: readonly { n: string; label: string }[]) => html`
   ${items.map((i) => html`<li><span class="numbers__n">${i.n}</span><span class="numbers__label">${i.label}</span></li>`)}
 </ul>`;
 
+// A journey read left to right: stops on one line, each a short title and a
+// line of text. With `onward`, the line runs on past the last stop, which is drawn as
+// the stop still in progress. On a phone the path turns and runs down the left.
+export const path = (
+  stops: readonly { title: string; text: string }[],
+  { onward = false, label = '' }: { onward?: boolean; label?: string } = {},
+) => html`<ol class="path${onward ? ' path--onward' : ''}"${label ? html` aria-label="${label}"` : ''}>
+  ${stops.map(
+    (s) =>
+      html`<li class="path__stop"><span class="path__title">${s.title}</span><p class="path__text">${s.text}</p></li>`,
+  )}
+</ol>`;
+
 // Credentials as small outlined badges: named, not explained.
 export const badges = (items: readonly string[]) =>
   html`<ul class="badges">${items.map((b) => html`<li>${b}</li>`)}</ul>`;
 
 // One card for every quote: the same ground, the words in mono, and the product it
 // is about named by the Eunice mark in that product's colour.
+// One quote given the stage: large, on ink, the quotation mark in the desk's colour.
+export const pullQuote = (q: Quote) => html`<figure class="pullquote pullquote--${q.desk}">
+  <span class="pullquote__mark" aria-hidden="true">“</span>
+  <blockquote class="pullquote__text">${q.text}</blockquote>
+  <figcaption class="pullquote__who">${q.who}</figcaption>
+</figure>`;
+
 export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
 <figure class="quote">
   ${withDesk ? html`<span class="desk desk--${q.desk} quote__desk">${mark(12)}${desks[q.desk].label}</span>` : ''}
@@ -260,10 +282,9 @@ export function plate(ctx: Ctx, { img, html: markup, alt = '', tint = 'none' }: 
 // The product film (uiFilm), full width under a feature.
 export const stage = ({ film }: { film: Html }): Html => html`<figure class="stage">${film}</figure>`;
 
-// Numbered product row: text on one side, visual on the other.
+// Product row: text on one side, visual on the other.
 export interface FeatureOptions {
   id?: string;
-  num: string;
   title: string;
   body: Html;
   visual: Html;
@@ -275,7 +296,6 @@ export interface FeatureOptions {
 
 export function feature({
   id,
-  num,
   title,
   body,
   visual,
@@ -284,9 +304,8 @@ export function feature({
   stage: below,
 }: FeatureOptions): Html {
   return html`
-<section class="wrap feature${flip ? ' feature--flip' : ''}" ${id ? html`id="${id}"` : ''}>
+<section class="wrap feature feature--${desk}${flip ? ' feature--flip' : ''}" ${id ? html`id="${id}"` : ''}>
   <div class="feature__text">
-    <p class="num num--${desk}">${num}</p>
     <h2 class="h2">${title}</h2>
     ${body}
   </div>
@@ -457,7 +476,7 @@ export function logoStrip(ctx: Ctx): Html {
 }
 
 // ---------- Who we work with ----------
-// One card per client type: a number, the type, one line and the needs it names.
+// One card per client type: the type, one line and the needs it names.
 // A card links to its client page where there is one. The accent follows the desk.
 export interface WhoClient {
   who: string;
@@ -468,13 +487,7 @@ export interface WhoClient {
 
 export function whoCards(
   ctx: Ctx,
-  {
-    desk,
-    kicker,
-    title,
-    lead,
-    clients,
-  }: { desk: ProductDesk; kicker: string; title: string; lead: string; clients: readonly WhoClient[] },
+  { desk, title, lead, clients }: { desk: ProductDesk; title: string; lead: string; clients: readonly WhoClient[] },
 ): Html {
   // With a multiple of four cards, the intro takes a row of its own so none is left alone.
   const wide = clients.length % 4 === 0;
@@ -482,13 +495,11 @@ export function whoCards(
 <section class="band section" id="clients"><div class="wrap">
   <ul class="who who--${desk}${wide ? ' who--wide-intro' : ''}">
     <li class="who__intro">
-      <p class="kicker desk-text--${desk}">${kicker}</p>
       <h2 class="h2">${title}</h2>
       <p class="body muted">${lead}</p>
     </li>
-    ${clients.map((c, n) => {
-      const inner = html`<span class="who__num">${String(n + 1).padStart(2, '0')}</span>
-        <span class="who__title">${c.who}</span>
+    ${clients.map((c) => {
+      const inner = html`<span class="who__title">${c.who}</span>
         <span class="who__line">${c.line}</span>
         <span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>`;
       return c.to

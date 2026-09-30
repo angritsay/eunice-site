@@ -1,5 +1,5 @@
 // "Welcome to Eunice": the landing page. Its sections are the items of the
-// Welcome menu in the header (history, values, team, trust centre, careers).
+// Welcome menu in the header (team, history, values, trust centre, careers).
 // The intro, the name and the values are the owner's words (Sep 2026); the story is
 // the live careers page's, word for word.
 import {
@@ -12,6 +12,7 @@ import {
   mark,
   numbers,
   partnersRow,
+  path,
   peopleStrip,
   quoteBlock,
   sectionHead,
@@ -21,7 +22,6 @@ import { type Html, html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
 import { uiFilm, uiMonitor, uiRead } from '../ui.ts';
-import { roleList } from './jobs.ts';
 
 const VALUES: readonly [string, string][] = [
   ['Show us the evidence', 'Opinions are fine, but we care about what the data says and where it came from.'],
@@ -64,18 +64,24 @@ export default {
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">
-  <p class="kicker">About Eunice</p>
   <p class="intro__lead">Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong.</p>
-  <div class="intro__cols">
-    <p>We started in digital assets, where Eunice became trusted infrastructure for leading exchanges to assess tokens and monitor risk.</p>
-    <p>Then we brought the same source-traced rigour to private markets: LPs, GPs and family offices.</p>
-    <p>One conviction runs through both: every conclusion traces back to its source, and diligence continues well beyond the close.</p>
-  </div>
-  <ol class="intro__steps">
-    <li><span>01</span>Digital assets, first</li>
-    <li><span>02</span>Private markets, next</li>
-    <li><span>03</span>Diligence beyond the close</li>
-  </ol>
+  ${path(
+    [
+      {
+        title: 'Digital assets, first',
+        text: 'We started in digital assets, where Eunice became trusted infrastructure for leading exchanges to assess tokens and monitor risk.',
+      },
+      {
+        title: 'Private markets, next',
+        text: 'Then we brought the same source-traced rigour to private markets: LPs, GPs and family offices.',
+      },
+      {
+        title: 'Diligence beyond the close',
+        text: 'One conviction runs through both: every conclusion traces back to its source, and diligence continues well beyond the close.',
+      },
+    ],
+    { onward: true, label: 'How Eunice got here' },
+  )}
 </div></section>
 
 <section class="wrap section tiles" id="products">
@@ -91,6 +97,26 @@ export default {
     visual: uiMonitor('digital-assets'),
     text: 'Token due diligence, monitoring and MiCA disclosure for exchanges, custodians, market makers and issuers.',
   })}
+</section>
+
+<section class="wrap section" id="team">
+  ${sectionHead('Our founders', team.intro)}
+  <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
+
+  <div class="team-block">
+    ${sectionHead('The team', 'Point at a person, or tap, to read about them.')}
+    ${peopleStrip(
+      ctx,
+      ['riley', 'vinay', 'petronela', 'chrislyn', 'ana'],
+      {
+        title: 'Client Implementation Consultant, Private Markets',
+        slug: 'client-implementation-consultant-private-markets',
+        line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
+      },
+      'petronela',
+    )}
+    <div class="buttons">${button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', to: 'careers' })}</div>
+  </div>
 </section>
 
 <section class="band section" id="history"><div class="wrap">
@@ -112,32 +138,17 @@ export default {
   <ol class="values">${VALUES.map(([t, d]) => html`<li><p class="h4">${t}</p><p class="small muted">${d}</p></li>`)}</ol>
 </section>
 
-<section class="wrap section" id="team">
-  ${sectionHead('Our founders', team.intro)}
-  <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
-
-  <div class="team-block">
-    ${sectionHead('The team', 'Point at a person, or tap, to read about them.')}
-    ${peopleStrip(
-      ctx,
-      ['riley', 'vinay', 'petronela', 'chrislyn', 'ana'],
-      {
-        title: 'Client Implementation Consultant, Private Markets',
-        slug: 'client-implementation-consultant-private-markets',
-        line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
-      },
-      'petronela',
-    )}
-  </div>
-</section>
-
 <section class="band section" id="trust"><div class="wrap">
   ${sectionHead('Eunice AI Trust Centre', 'How we protect the data clients trust us with.')}
   ${facts([
-    { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
-    { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
-    { title: 'No training on your data', text: 'Your documents are never used to train models. They stay yours.' },
-    { title: 'Every finding', text: 'Cited to the page it came from' },
+    { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
+    { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
+    {
+      art: 'noTrain',
+      title: 'No training on your data',
+      text: 'Your documents are never used to train models. They stay yours.',
+    },
+    { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
   ])}
   <div class="buttons">
     ${button(ctx, { label: 'Our Trust Center on Vanta', href: config.trustCenterUrl, newTab: true })}
@@ -150,11 +161,6 @@ export default {
   <div class="grid grid--3 quotes">
     ${quoteBlock(quotes.fof)}${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}
   </div>
-</section>
-
-<section class="wrap section" id="careers">
-  ${sectionHead('Careers', '', button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', small: true, to: 'careers' }))}
-  ${roleList(ctx)}
 </section>
 
 ${insightsBlock(ctx, { label: 'Insights', aside: 'Notes, analysis and company news, by desk.', featured: 3, rows: 5 })}

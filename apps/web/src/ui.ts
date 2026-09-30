@@ -326,14 +326,14 @@ export const uiReport = (desk: Desk, label = 'A report built to your template, e
 
 /** The product film, drawn: ask, the cited answer, the page it came from, the change it
  *  watches for, and the line they add up to. site.js steps through the scenes (data-step)
- *  and wires the pause button; without it, or with reduced motion, the first scene stands. */
+ *  and holds the scene while the pointer rests on it; without it, or with reduced motion,
+ *  the first scene stands. */
 export const uiFilm = (
   desk: Desk,
   label = 'A question asked, an answer cited line by line, the source page, a change caught while monitoring: every answer traces back to its page',
 ): Html => {
   const c = COPY[desk];
-  return html`<span class="wf-film">
-<div class="wf wf--film wf--${desk}" data-film data-step="0" role="img" aria-label="${label}">
+  return html`<div class="wf wf--film wf--${desk}" data-film data-step="0" role="img" aria-label="${label}">
   <div class="wf__win" aria-hidden="true">
     ${bar(html`${c.space} › <b class="wf__c0">Ask</b><b class="wf__c1">${c.read.doc}</b><b class="wf__c2">Monitoring</b>`)}
     ${rail(-1)}
@@ -342,6 +342,5 @@ export const uiFilm = (
     <div class="wf__view wf__scene">${monitorView(c)}</div>
   </div>
   <div class="wf__close" aria-hidden="true"><p>Every answer traces back to its page.</p></div>
-</div>
-<button type="button" class="plate__toggle" data-film-toggle aria-pressed="false" aria-label="Pause the film"></button></span>`;
+</div>`;
 };

@@ -78,7 +78,6 @@ export const blogIndex = {
   render: (ctx) => html`
 <section class="wrap hero hero--short">
   <div class="hero__text">
-    <p class="kicker">Blog</p>
     <h1 class="h1">News and articles</h1>
     <p class="lead">Articles, press releases and talks from the Eunice team.</p>
   </div>
