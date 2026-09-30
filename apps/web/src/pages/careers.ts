@@ -14,7 +14,6 @@ export default {
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <p class="kicker">Careers</p>
     <h1 class="h1">${team.headline}</h1>
     <p class="lead">${team.standfirst}</p>
     <div class="buttons">
@@ -32,7 +31,6 @@ export default {
 
 <section class="wrap section" id="story"><div class="story">
   <div>
-    <p class="kicker">Our story</p>
     <h2 class="h2">${team.storyTitle}</h2>
     <p class="small muted">${team.founded}</p>
   </div>

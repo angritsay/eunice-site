@@ -58,11 +58,11 @@ const config: SiteConfig = {
       to: '',
       keys: ['company'],
       items: [
+        { label: 'Team', to: '', hash: 'team' },
         { label: 'Firm history', to: '', hash: 'history' },
         { label: 'What we stand for', to: '', hash: 'values' },
-        { label: 'Team', to: '', hash: 'team' },
         { label: 'Eunice AI Trust Centre', to: '', hash: 'trust' },
-        { label: 'Careers', to: '', hash: 'careers' },
+        { label: 'Careers', to: 'careers' },
       ],
     },
     {

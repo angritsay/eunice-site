@@ -2,6 +2,7 @@
 // The pages themselves are data: see `audiencePages` in ../content/index.ts.
 // Nothing here holds copy for a single audience — only what a whole desk shares.
 
+import type { Art } from '../art.ts';
 import type { InsightsBlockOptions } from '../components.ts';
 import { bullets, button, cta, facts, heroField, insightsBlock, quoteBlock, sectionHead } from '../components.ts';
 import { audiencePages, desks, quotes } from '../content/index.ts';
@@ -10,7 +11,7 @@ import { html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 
 interface DeskShared {
-  facts: { title: string; text: string }[];
+  facts: { art: Art; title: string; text: string }[];
   quote: Quote | null;
   insights: Pick<InsightsBlockOptions, 'label' | 'aside' | 'deskFilter'>;
 }
@@ -20,10 +21,14 @@ interface DeskShared {
 const DESK: Record<ProductDesk, DeskShared> = {
   'private-markets': {
     facts: [
-      { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
-      { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
-      { title: 'No training on your data', text: 'Your documents are never used to train models. They stay yours.' },
-      { title: 'Every finding', text: 'Cited to the page it came from' },
+      { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
+      { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
+      {
+        art: 'noTrain',
+        title: 'No training on your data',
+        text: 'Your documents are never used to train models. They stay yours.',
+      },
+      { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
     ],
     quote: quotes.fof,
     insights: {
@@ -34,10 +39,18 @@ const DESK: Record<ProductDesk, DeskShared> = {
   },
   'digital-assets': {
     facts: [
-      { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
-      { title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
-      { title: 'Five sources, one view', text: 'Allium, CoinGecko, CoinMarketCap, DeFiLlama and X, cited by name' },
-      { title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
+      {
+        art: 'sandbox',
+        title: 'FCA regulatory sandbox',
+        text: 'Digital asset disclosure standards, since November 2025',
+      },
+      { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
+      {
+        art: 'sources',
+        title: 'Five sources, one view',
+        text: 'Allium, CoinGecko, CoinMarketCap, DeFiLlama and X, cited by name',
+      },
+      { art: 'globe', title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
     ],
     quote: quotes.falconx,
     insights: {
@@ -48,10 +61,14 @@ const DESK: Record<ProductDesk, DeskShared> = {
   },
   'token-disclosure': {
     facts: [
-      { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
-      { title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
-      { title: 'gunnercooke', text: 'UK token classification, since July 2026' },
-      { title: '1,000+ pre-filled papers', text: 'The library a new white paper is drafted from' },
+      {
+        art: 'sandbox',
+        title: 'FCA regulatory sandbox',
+        text: 'Digital asset disclosure standards, since November 2025',
+      },
+      { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
+      { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
+      { art: 'library', title: '1,000+ pre-filled papers', text: 'The library a new white paper is drafted from' },
     ],
     // No client quote on this desk yet; the section is left out until there is one.
     quote: null,
@@ -77,7 +94,6 @@ function page(a: AudiencePage): Page {
     render: (ctx: Ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <p class="kicker desk-text--${a.desk}">${label}</p>
     <h1 class="h1">${a.h1}</h1>
     <p class="lead">${a.lead}</p>
     <div class="buttons">
@@ -85,7 +101,7 @@ function page(a: AudiencePage): Page {
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
     </div>
   </div>
-  ${heroField(ctx, { desk: a.desk })}
+  ${heroField({ desk: a.desk })}
 </section>
 
 <section class="band section"><div class="wrap">

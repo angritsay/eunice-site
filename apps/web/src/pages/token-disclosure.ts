@@ -25,7 +25,6 @@ export default {
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <p class="kicker desk-text--${DESK}">For issuers, their counsel, and the exchanges that list them</p>
     <h1 class="h1">A white paper accepted once, and true after that</h1>
     <p class="lead">A MiCA white paper drafted from 1,000+ pre-filled papers, reviewed by CMS, notified and published where any exchange can check it.</p>
     <div class="buttons">
@@ -33,12 +32,11 @@ export default {
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
     </div>
   </div>
-  ${heroField(ctx, { desk: DESK })}
+  ${heroField({ desk: DESK })}
 </section>
 
 ${whoCards(ctx, {
   desk: DESK,
-  kicker: 'Who we work with',
   title: 'One paper, three readers',
   lead: 'The issuer who publishes it, the counsel who reviews it and the exchange that checks it.',
   clients: [
@@ -65,16 +63,19 @@ ${whoCards(ctx, {
 
 <section class="wrap section">
   ${facts([
-    { title: 'FCA regulatory sandbox', text: 'Digital asset disclosure standards, since November 2025' },
-    { title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
-    { title: 'gunnercooke', text: 'UK token classification, since July 2026' },
-    { title: '1,000+ pre-filled papers', text: 'The library a new white paper is drafted from' },
+    {
+      art: 'sandbox',
+      title: 'FCA regulatory sandbox',
+      text: 'Digital asset disclosure standards, since November 2025',
+    },
+    { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
+    { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
+    { art: 'library', title: '1,000+ pre-filled papers', text: 'The library a new white paper is drafted from' },
   ])}
 </section>
 
 ${feature({
   id: 'draft',
-  num: '01',
   title: 'Drafted from the library',
   desk: DESK,
   body: html`<p class="body muted">A MiCA white paper drafted from 1,000+ pre-filled papers, so the starting point is a document that has already been through the regime rather than a blank page.</p>`,
@@ -83,7 +84,6 @@ ${feature({
 
 ${feature({
   id: 'review',
-  num: '02',
   title: 'Reviewed where it counts',
   desk: DESK,
   flip: true,
@@ -93,7 +93,6 @@ ${feature({
 
 ${feature({
   id: 'notify',
-  num: '03',
   title: 'Notified, then hosted',
   desk: DESK,
   body: html`<p class="body muted">Notified to the authority and published to the register, so there is one address for the version that stands and nobody has to email an attachment to prove it.</p>`,

@@ -50,14 +50,14 @@
 
   // ---------- Product films ----------
   // Drawn in HTML (ui.ts, uiFilm): the script steps through the scenes, and the scene in
-  // view gets is-on, which plays its animations once. Each film has a pause button
-  // (anything that moves for more than five seconds must be stoppable, WCAG 2.2.2), and a
-  // visitor who asks for reduced motion gets it paused on its first scene.
+  // view gets is-on, which plays its animations once. Between scenes the old one fades
+  // out (is-leaving) before the next comes in. The film holds while the pointer rests on
+  // it, and a visitor who asks for reduced motion gets it still on its first scene.
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
   const FILM_STEPS = [6500, 6000, 6500, 3500]; // ask and cite, find, watch, the closing line
+  const FADE = 350;
   for (const film of /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('[data-film]'))) {
     const scenes = film.querySelectorAll('.wf__scene');
-    const toggle = film.parentElement?.querySelector('[data-film-toggle]');
     let step = 0;
     let timer = 0;
     const go = (/** @type {number} */ n) => {
@@ -67,20 +67,26 @@
     };
     const tick = () => {
       timer = window.setTimeout(() => {
-        go((step + 1) % FILM_STEPS.length);
-        tick();
+        film.classList.add('is-leaving');
+        timer = window.setTimeout(() => {
+          go((step + 1) % FILM_STEPS.length);
+          film.classList.remove('is-leaving');
+          tick();
+        }, FADE);
       }, FILM_STEPS[step]);
     };
     const play = (/** @type {boolean} */ on) => {
       window.clearTimeout(timer);
+      film.classList.remove('is-leaving');
       film.classList.toggle('is-paused', !on);
-      toggle?.setAttribute('aria-pressed', String(!on));
-      toggle?.setAttribute('aria-label', on ? 'Pause the film' : 'Play the film');
       if (on) tick();
     };
-    toggle?.addEventListener('click', () => play(film.classList.contains('is-paused')));
     go(0);
-    play(!still.matches);
+    if (!still.matches) {
+      film.addEventListener('mouseenter', () => play(false));
+      film.addEventListener('mouseleave', () => play(true));
+      play(true);
+    }
   }
 
   // ---------- Reveal on scroll ----------

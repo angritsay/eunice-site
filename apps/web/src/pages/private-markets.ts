@@ -9,6 +9,7 @@ import {
   insightsBlock,
   peopleStrip,
   plate,
+  pullQuote,
   sectionHead,
   stage,
   type WhoClient,
@@ -30,7 +31,6 @@ export default {
   render: (ctx) => html`
 <section class="wrap hero hero--pm">
   <div class="hero__text">
-    <p class="kicker desk-text--${DESK}">For LPs, GPs and family offices</p>
     <h1 class="h1">Private Markets</h1>
     <p class="lead">Technology for private markets investors, with the training, implementation and support to go with it.</p>
     <div class="buttons">
@@ -38,7 +38,7 @@ export default {
       ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
     </div>
   </div>
-  ${heroField(ctx, { desk: DESK })}
+  ${heroField({ desk: DESK })}
 </section>
 
 <p class="trustline">Trusted by asset allocators managing over $1 trillion in AUM</p>
@@ -46,17 +46,14 @@ export default {
 <section class="wrap section" id="approach">
   <div class="approach">
     <div class="approach__item">
-      <p class="approach__num">01</p>
       <h2 class="h3">Every firm’s needs are different</h2>
       <p class="body muted">In-house or outsourced, every firm runs diligence its own way. Eunice fits around yours.</p>
     </div>
     <div class="approach__item">
-      <p class="approach__num">02</p>
       <h2 class="h3">Ready to onboard you now</h2>
       <p class="body muted">We run the training, implementation and hand-holding. Your Board, Investment Committee and clients see the edge it gives you.</p>
     </div>
     <div class="approach__item">
-      <p class="approach__num">03</p>
       <h2 class="h3">Raising the standard</h2>
       <p class="body muted">We work with the industry’s trade bodies, so the tools keep pace with today’s standards and tomorrow’s.</p>
     </div>
@@ -65,31 +62,30 @@ export default {
 
 ${whoCards(ctx, {
   desk: DESK,
-  kicker: 'Who we work with',
   title: 'Every firm’s needs are different',
   lead: 'Three kinds of investor, one standard of diligence.',
   clients: CLIENTS,
 })}
 
 <section class="wrap section section--tight">
-  <figure class="quoteline">
-    <blockquote>“${quotes.fof.text}”</blockquote>
-    <figcaption class="muted">${quotes.fof.who}</figcaption>
-  </figure>
+  ${pullQuote(quotes.fof)}
 </section>
 
 <section class="wrap section">
   ${facts([
-    { title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
-    { title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
-    { title: 'No training on your data', text: 'Your documents are never used to train models. They stay yours.' },
-    { title: 'Every finding', text: 'Cited to the page it came from' },
+    { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
+    { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
+    {
+      art: 'noTrain',
+      title: 'No training on your data',
+      text: 'Your documents are never used to train models. They stay yours.',
+    },
+    { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
   ])}
 </section>
 
 ${feature({
   id: 'odd',
-  num: '01',
   title: 'Operational due diligence',
   desk: DESK,
   body: html`<p class="body muted">Every PPM, DDQ, LPA and audited statement, read against the ODD checklist you already use. Every finding cites its page.</p>`,
@@ -98,7 +94,6 @@ ${feature({
 
 ${feature({
   id: 'monitoring',
-  num: '02',
   title: 'Portfolio monitoring',
   desk: DESK,
   flip: true,
@@ -113,7 +108,6 @@ ${feature({
 
 ${feature({
   id: 'data-gaps',
-  num: '03',
   title: 'Data gap analysis',
   desk: DESK,
   body: html`<p class="body muted">Missing documents, unanswered questions and figures that don’t reconcile, surfaced before they become problems and tracked until closed.</p>`,
@@ -122,7 +116,6 @@ ${feature({
 
 ${feature({
   id: 'reporting',
-  num: '04',
   title: 'Bespoke reporting',
   desk: DESK,
   flip: true,
@@ -132,7 +125,6 @@ ${feature({
 
 ${feature({
   id: 'end-to-end',
-  num: '05',
   title: 'Delivered end to end',
   desk: DESK,
   body: html`<p class="body muted">From pipeline to portfolio, we onboard you and stay alongside: the framework kept current, every data gap cleared.</p>`,
@@ -142,7 +134,7 @@ ${feature({
     <li><span class="h4">Review</span><span class="small muted">Findings walked through with your committee; the memo signed off by you.</span></li>
     <li><span class="h4">Monitor</span><span class="small muted">The same questions asked again each quarter. Changes come back as a diff.</span></li>
   </ol>`,
-  stage: stage(ctx, { photo: 'stage-towers.jpg', film: uiFilm(DESK) }),
+  stage: stage({ film: uiFilm(DESK) }),
 })}
 
 ${insightsBlock(ctx, {

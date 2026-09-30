@@ -167,7 +167,6 @@ export default {
       (s, i) => html`
     <li class="mica-step${i % 2 ? ' mica-step--flip' : ''}">
       <div class="mica-step__text">
-        <p class="mica-step__num">Step ${i + 1}</p>
         <h3 class="mica-step__title">${s.title}</h3>
         <ul class="mica-step__points">${s.points.map((p) => html`<li>${p}</li>`)}</ul>
       </div>

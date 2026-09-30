@@ -104,7 +104,7 @@ No `.env` is needed; `.env.example` lists what can be changed.
 
 - **The register has no listing.** `/token-disclosure/register/` explains what the register is and what an entry carries, but the list of published papers is a marked placeholder. It needs a source — the papers Eunice has notified — and a decision on how that reaches the build.
 - **The copy on the personalised pages is a first draft.** The ten client-type pages were written from material already on the site rather than by the desks. No new claims or numbers, but they need the desks' own words before anyone points a client at them.
-- Real assets: team portraits, and the Private Markets Documents and Portfolio screenshots (currently drawn in HTML as stand-ins). Product images in `apps/web/src/assets/img/` were cropped from page exports and should be replaced with full-resolution originals. The master logo and the City of London and Mayfair photographs are in.
+- Real assets: team portraits. Product visuals are drawn in HTML on purpose (`apps/web/src/ui.ts`), not screenshots. The master logo is in; the background art (dunes, ridges) is generated and needs no licence.
 - Bios for Yi, Philip and Chrislyn; the text of the 4 September note.
 - Contact: confirm `contactEmail` / `careersEmail`. The live form keeps opening the visitor's mail app until intake is deployed and a privacy notice is published; the production build refuses a form endpoint without one ([ADR-0007](docs/adr/0007-personal-data-in-intake.md)).
 - Links for each insight (`url` field) once the articles move over from Framer.

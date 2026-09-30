@@ -14,7 +14,6 @@ export default {
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <p class="kicker">About us</p>
     <h1 class="h1">We read the documents nobody has time to read</h1>
     <p class="lead">A diligence firm for regulated finance. Founded in London in 2023; backed by Moonfire, Speedinvest, Openspace Capital and Locus Ventures.</p>
     <div class="buttons">
@@ -27,10 +26,18 @@ export default {
 
 <section class="wrap section">
   ${facts([
-    { title: '$8m seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
-    { title: 'Fintech 50', text: 'May 2026 · among the 100 fastest-growing startups in the UK and Ireland' },
-    { title: 'FCA regulatory sandbox', text: 'Accepted November 2025 for digital asset disclosure standards' },
-    { title: 'SOC 2 Type II · GDPR', text: 'Audited; no training on client data' },
+    { art: 'seed', title: '$8m seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
+    {
+      art: 'award',
+      title: 'Fintech 50',
+      text: 'May 2026 · among the 100 fastest-growing startups in the UK and Ireland',
+    },
+    {
+      art: 'sandbox',
+      title: 'FCA regulatory sandbox',
+      text: 'Accepted November 2025 for digital asset disclosure standards',
+    },
+    { art: 'shield', title: 'SOC 2 Type II · GDPR', text: 'Audited; no training on client data' },
   ])}
   ${partnersRow(ctx)}
 </section>
