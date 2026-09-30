@@ -85,7 +85,7 @@ function page(a: AudiencePage): Page {
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
     </div>
   </div>
-  ${heroField(ctx, { desk: a.desk })}
+  ${heroField({ desk: a.desk })}
 </section>
 
 <section class="band section"><div class="wrap">

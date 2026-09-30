@@ -38,7 +38,7 @@ export default {
       ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
     </div>
   </div>
-  ${heroField(ctx, { desk: DESK })}
+  ${heroField({ desk: DESK })}
 </section>
 
 <p class="trustline">Trusted by asset allocators managing over $1 trillion in AUM</p>
@@ -142,7 +142,7 @@ ${feature({
     <li><span class="h4">Review</span><span class="small muted">Findings walked through with your committee; the memo signed off by you.</span></li>
     <li><span class="h4">Monitor</span><span class="small muted">The same questions asked again each quarter. Changes come back as a diff.</span></li>
   </ol>`,
-  stage: stage(ctx, { photo: 'art-water.jpg', film: uiFilm(DESK) }),
+  stage: stage({ film: uiFilm(DESK) }),
 })}
 
 ${insightsBlock(ctx, {

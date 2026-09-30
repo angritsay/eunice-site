@@ -230,11 +230,6 @@ export const partnersRow = (ctx: Ctx) => html`
   })}</ul>
 </div>`;
 
-// A photograph that fills its frame. The frame sets the crop, not the file.
-export function photo(ctx: Ctx, { img, alt, variant }: { img: string; alt: string; variant: string }): Html {
-  return html`<figure class="photo photo--${variant}"><img src="${ctx.asset(`img/${img}`)}" alt="${alt}" loading="lazy"></figure>`;
-}
-
 // A product image on a tinted field. `img` is a file under /assets/img; `html` is inline markup.
 export interface PlateOptions {
   img?: string;
@@ -252,31 +247,18 @@ const sizedAsset = (file: string) => {
 /** The same, for an image under assets/img/. */
 export const sized = (img: string) => sizedAsset(`img/${img}`);
 
-// The product hero, as in the Figma file (Eunice · Site v5): a photo field (misted ridges,
-// generated art, for private markets; copper for everything under Crypto & RWA) and on it the drawn UI in
-// a frosted glass frame that runs off the right and bottom edges.
-const FIELD: Record<ProductDesk, string> = {
-  'private-markets': 'art-ridges.jpg',
-  'digital-assets': 'hero-crypto.jpg',
-  'token-disclosure': 'hero-crypto.jpg',
-};
-export const heroField = (ctx: Ctx, { desk }: { desk: ProductDesk }): Html => html`
-<div class="hero__visual hero__visual--field hero__visual--${desk}">
-  <img class="field__photo" src="${ctx.asset(`img/${FIELD[desk]}`)}" alt=""${sized(FIELD[desk])}>
-  <div class="field__glass">${uiAsk(desk)}</div>
-</div>`;
+// The product hero: the drawn question and cited answer (uiAsk). The drawing carries its
+// own frame of the desk's background art, a thin border round the product (ui.ts).
+export const heroField = ({ desk }: { desk: ProductDesk }): Html =>
+  html`<div class="hero__visual hero__visual--field">${uiAsk(desk)}</div>`;
 
 export function plate(ctx: Ctx, { img, html: markup, alt = '', tint = 'none' }: PlateOptions): Html {
   const inner = img ? html`<img src="${ctx.asset(`img/${img}`)}" alt="${alt}"${sized(img)} loading="lazy">` : markup;
   return html`<figure class="plate plate--${tint}">${inner}</figure>`;
 }
 
-// The product film (uiFilm) on a photograph, full width under a feature: the photo is the
-// stage and the film sits on it in the same frosted glass frame as the product heroes.
-export const stage = (ctx: Ctx, { photo, film }: { photo: string; film: Html }): Html => html`<figure class="stage">
-  <img class="stage__photo" src="${ctx.asset(`img/${photo}`)}" alt=""${sized(photo)} loading="lazy">
-  <div class="stage__glass">${film}</div>
-</figure>`;
+// The product film (uiFilm), full width under a feature.
+export const stage = ({ film }: { film: Html }): Html => html`<figure class="stage">${film}</figure>`;
 
 // Numbered product row: text on one side, visual on the other.
 export interface FeatureOptions {

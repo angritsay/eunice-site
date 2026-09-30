@@ -33,7 +33,7 @@ export default {
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
     </div>
   </div>
-  ${heroField(ctx, { desk: DESK })}
+  ${heroField({ desk: DESK })}
 </section>
 
 ${whoCards(ctx, {

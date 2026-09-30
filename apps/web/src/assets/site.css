@@ -165,21 +165,10 @@ button { font: inherit; color: inherit; }
 .hero__visual { position: relative; }
 /* Product hero (Figma, Site v5): the screenshot in a frosted glass frame on a photo field,
    running off the field's right and bottom edges. Every corner is rounded alike. */
-.hero__visual--field { overflow: hidden; height: clamp(320px, 34vw, 480px); border-radius: var(--radius); background: var(--band); }
-.hero__visual--private-markets { background: var(--pm-tint); }
-.hero__visual--digital-assets, .hero__visual--token-disclosure { background: var(--da-tint); }
-.field__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.field__glass { position: absolute; left: 34px; top: 30px; width: 141%; padding: 9px; background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.45); border-radius: 12px; -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); }
-.field__glass img { display: block; width: 100%; height: auto; border-radius: 6px; }
-/* Background art is abstract nature, generated to the palette with the blur baked in, so the
-   product stays the sharp thing. On Private Markets the glass sits lower so the ridges show above it. */
-.hero__visual--private-markets .field__photo { object-position: center; }
-.hero__visual--private-markets .field__glass { top: 44%; }
+.hero__visual--field { height: clamp(320px, 34vw, 480px); }
+.hero__visual--field .wf { width: 100%; height: 100%; aspect-ratio: auto; border-radius: var(--radius); }
 .trustline { margin-top: 0; background: var(--band); text-align: center; padding: 16px var(--gutter); font-size: 9.6px; letter-spacing: .12em; text-transform: uppercase; color: var(--text); }
 
-/* Photography slots. The frame sets the crop; the file fills it. */
-.photo { margin: 0; background: var(--band); border-radius: var(--radius); overflow: hidden; }
-.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ---------- Sections ---------- */
 .section { padding-block: var(--section) 0; }
@@ -287,10 +276,8 @@ section.feature { padding-top: var(--section); }
 .steps--token-disclosure li::before { color: var(--td-ink); }
 /* A film on a photograph, full width under a feature's text and visual. */
 .feature__stage { grid-column: 1 / -1; }
-.stage { position: relative; margin: 0; overflow: hidden; border-radius: var(--radius); padding: clamp(20px, 6vw, 96px) clamp(16px, 8vw, 140px); background: #1b2330; }
-.stage__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.stage__glass { position: relative; padding: 9px; background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.45); border-radius: 12px; -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); }
-.stage__glass .wf { border-radius: 6px; }
+.stage { margin: 0; }
+.stage .wf { border-radius: var(--radius); }
 .bullets--token-disclosure li::before { background: var(--td-ink); }
 
 /* Token Disclosure band */
@@ -366,11 +353,8 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .hero-center__title { font-size: clamp(40px, 6vw, 76px); max-width: 14em; }
 .hero-center__lead { margin-top: 20px; max-width: 34em; }
 .hero-center__buttons { justify-content: center; margin-top: 32px; }
-.hero-center__visual { width: 100%; margin-top: clamp(40px, 6vw, 72px); }
-.photo--stage { height: clamp(220px, 34vw, 480px); border-radius: 24px; }
-.photo--stage img { object-position: center 50%; }
-.hero-center__plate { position: relative; width: min(84%, 1040px); margin: calc(-1 * clamp(120px, 20vw, 320px)) auto 0; }
-.hero-center__plate .plate { box-shadow: 0 30px 80px rgba(17,18,20,.22); border-radius: 14px; }
+.hero-center__visual { width: 100%; max-width: 1120px; margin: clamp(40px, 6vw, 72px) auto 0; }
+.hero-center__visual .wf { border-radius: var(--radius); }
 
 /* Private Markets: the approach in three parts, and who we work with. */
 .approach { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px); }
@@ -613,7 +597,6 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 }
 @media (max-width: 960px) {
   .approach { grid-template-columns: minmax(0, 1fr); gap: 24px; }
-  .hero-center__plate { width: 92%; }
   /* Tablet and phone: the cover drops under the date, inside the card. */
   .acard { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .acrumbs { margin-bottom: 12px; }
@@ -651,7 +634,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .hero, .feature, .ifeature { grid-template-columns: minmax(0, 1fr); }
   .feature--flip .feature__text { order: 0; }
   .hero__visual--field { height: clamp(240px, 56vw, 380px); }
-  .field__glass { left: 16px; top: 18px; width: 150%; padding: 6px; }
+  .hero__visual--field .wf { --u: 1.5cqw; }
   .grid--3, .grid--4, .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
   .tiles { grid-template-columns: minmax(0, 1fr); }
@@ -877,13 +860,18 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
    in --u (container units), so a drawing reads the same on a tile, a plate or the hero
    glass. Ink on white; the desk colour (--hint) marks only the one thing that matters.
    One nine-second loop for all: the view settles in, the accent lands, holds, repeats. */
-.wf { --hint: var(--ink); --hint-soft: #eceef2; --u: 1.12cqw; container-type: inline-size; position: relative; display: block; aspect-ratio: 4 / 3; background: var(--band); border-radius: 14px; overflow: hidden; color: var(--ink); text-align: left; letter-spacing: 0; }
+.wf { --hint: var(--ink); --hint-soft: #eceef2; --u: 1.12cqw; container-type: inline-size; position: relative; display: block; aspect-ratio: 4 / 3; background: var(--band) center / cover no-repeat; border-radius: 14px; overflow: hidden; color: var(--ink); text-align: left; letter-spacing: 0; }
 .wf--private-markets, .wf--company { --hint: var(--pm-field); --hint-soft: color-mix(in srgb, var(--pm-field) 18%, #fff); }
+/* The frame: each desk's background art, blurred and quiet, shows only as a thin border
+   round the window (4% a side, about 15% of the drawing). The product is the rest. */
+.wf--company { background-image: url('img/art-dunes.jpg'); }
+.wf--private-markets { background-image: url('img/art-ridges.jpg'); }
+.wf--digital-assets, .wf--token-disclosure { background-image: url('img/hero-crypto.jpg'); }
 .wf--digital-assets { --hint: var(--da-field); --hint-soft: color-mix(in srgb, var(--da-field) 20%, #fff); }
 .wf--token-disclosure { --hint: var(--td-field); --hint-soft: color-mix(in srgb, var(--td-field) 22%, #fff); }
 .wf p { margin: 0; }
 .wf ul { list-style: none; margin: 0; padding: 0; }
-.wf__win { position: absolute; inset: 7% 6%; display: grid; grid-template-columns: calc(var(--u) * 6) minmax(0, 1fr); grid-template-rows: calc(var(--u) * 6) minmax(0, 1fr); background: #fff; border: 1px solid var(--line); border-radius: calc(var(--u) * 1.4); box-shadow: 0 calc(var(--u) * 3) calc(var(--u) * 8) rgba(17,18,20,.10); overflow: hidden; font-size: calc(var(--u) * 1.85); line-height: 1.45; }
+.wf__win { position: absolute; inset: 4%; display: grid; grid-template-columns: calc(var(--u) * 6) minmax(0, 1fr); grid-template-rows: calc(var(--u) * 6) minmax(0, 1fr); background: #fff; border: 1px solid var(--line); border-radius: calc(var(--u) * 1.4); box-shadow: 0 0 0 calc(var(--u) * .7) rgba(255,255,255,.4), 0 calc(var(--u) * 2) calc(var(--u) * 6) rgba(17,18,20,.14); overflow: hidden; font-size: calc(var(--u) * 1.85); line-height: 1.45; }
 .wf__bar { grid-column: 1 / -1; display: flex; align-items: center; gap: calc(var(--u) * 1.4); min-width: 0; padding: 0 calc(var(--u) * 2); border-bottom: 1px solid var(--line); color: var(--muted); font-size: calc(var(--u) * 1.55); white-space: nowrap; overflow: hidden; }
 .wf__bar svg { flex: none; width: calc(var(--u) * 1.7); height: calc(var(--u) * 1.9); color: var(--ink); }
 .wf__bar span { overflow: hidden; text-overflow: ellipsis; }
@@ -960,18 +948,14 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 @keyframes wf-rise { 0%, 34% { opacity: 0; transform: translateY(calc(var(--u) * 1.2)); } 44%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; transform: none; } }
 @keyframes wf-pulse { 0%, 38% { box-shadow: 0 0 0 0 transparent; } 40% { box-shadow: 0 0 0 0 var(--hint-soft); } 60%, 100% { box-shadow: 0 0 0 calc(var(--u) * 1.8) transparent; } }
 
-/* In a hero's glass frame the window is the frame's white, and runs off the edges with it. */
-.field__glass .wf { --u: .7cqw; aspect-ratio: 16 / 10; background: #fff; border-radius: 6px; }
-.field__glass .wf__win { inset: 0; border: 0; border-radius: 0; box-shadow: none; }
-.field__glass .wf__view { padding-right: 36%; }
 /* On a home tile the window is a wide crop. */
 .tile__shot .wf { --u: .8cqw; aspect-ratio: 16 / 7; border-radius: 4px 4px 0 0; }
-.tile__shot .wf__win { inset: 8% 6% -12%; }
+.tile__shot .wf__win { inset: 5% 4% -8%; }
 
 /* The film: one window, its scenes stacked in the view. site.js steps data-step and puts
    is-on on the scene in view, which starts that scene's animations once. */
 .wf--film { --u: .84cqw; aspect-ratio: 16 / 9; }
-.wf--film .wf__win { inset: 6% 7%; }
+.wf--film .wf__win { inset: 4%; }
 .wf__scene { grid-area: 2 / 2; opacity: 0; visibility: hidden; transition: opacity .7s ease, visibility 0s .7s; }
 .wf__scene.is-on { opacity: 1; visibility: visible; transition: opacity .7s ease .15s; }
 .wf--film .wf__scene:not(.is-on) * { animation: none !important; }

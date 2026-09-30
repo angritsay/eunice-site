@@ -39,7 +39,7 @@ export default {
       ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
     </div>
   </div>
-  ${heroField(ctx, { desk: DESK })}
+  ${heroField({ desk: DESK })}
 </section>
 
 ${whoCards(ctx, {

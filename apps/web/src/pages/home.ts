@@ -13,8 +13,6 @@ import {
   numbers,
   partnersRow,
   peopleStrip,
-  photo,
-  plate,
   quoteBlock,
   sectionHead,
 } from '../components.ts';
@@ -49,8 +47,7 @@ export default {
     ${button(ctx, { label: 'Crypto & RWA', kind: 'outline', to: 'digital-assets' })}
   </div>
   <div class="hero-center__visual">
-    ${photo(ctx, { img: 'art-dunes.jpg', variant: 'stage', alt: '' })}
-    <div class="hero-center__plate">${plate(ctx, { html: uiFilm('company') })}</div>
+    ${uiFilm('company')}
   </div>
 </section>
 
