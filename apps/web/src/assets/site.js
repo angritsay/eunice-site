@@ -49,22 +49,38 @@
   }
 
   // ---------- Product films ----------
-  // They play on their own, silent and looping. Each has a pause button (anything that
-  // moves for more than five seconds must be stoppable, WCAG 2.2.2), and a visitor who
-  // asks for reduced motion gets the film paused on its first frame.
+  // Drawn in HTML (ui.ts, uiFilm): the script steps through the scenes, and the scene in
+  // view gets is-on, which plays its animations once. Each film has a pause button
+  // (anything that moves for more than five seconds must be stoppable, WCAG 2.2.2), and a
+  // visitor who asks for reduced motion gets it paused on its first scene.
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
-  for (const video of /** @type {NodeListOf<HTMLVideoElement>} */ (document.querySelectorAll('video[data-autoplay]'))) {
-    const toggle = video.parentElement?.querySelector('[data-video-toggle]');
-    const show = () => {
-      toggle?.setAttribute('aria-pressed', String(video.paused));
-      toggle?.setAttribute('aria-label', video.paused ? 'Play the film' : 'Pause the film');
+  const FILM_STEPS = [6500, 6000, 6500, 3500]; // ask and cite, find, watch, the closing line
+  for (const film of /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll('[data-film]'))) {
+    const scenes = film.querySelectorAll('.wf__scene');
+    const toggle = film.parentElement?.querySelector('[data-film-toggle]');
+    let step = 0;
+    let timer = 0;
+    const go = (/** @type {number} */ n) => {
+      step = n;
+      film.dataset['step'] = String(n);
+      for (const [i, s] of scenes.entries()) s.classList.toggle('is-on', i === Math.min(n, scenes.length - 1));
     };
-    video.addEventListener('play', show);
-    video.addEventListener('pause', show);
-    if (still.matches) video.pause();
-    else video.play().catch(() => show());
-    toggle?.addEventListener('click', () => (video.paused ? video.play().catch(() => show()) : video.pause()));
-    show();
+    const tick = () => {
+      timer = window.setTimeout(() => {
+        go((step + 1) % FILM_STEPS.length);
+        tick();
+      }, FILM_STEPS[step]);
+    };
+    const play = (/** @type {boolean} */ on) => {
+      window.clearTimeout(timer);
+      film.classList.toggle('is-paused', !on);
+      toggle?.setAttribute('aria-pressed', String(!on));
+      toggle?.setAttribute('aria-label', on ? 'Pause the film' : 'Play the film');
+      if (on) tick();
+    };
+    toggle?.addEventListener('click', () => play(film.classList.contains('is-paused')));
+    go(0);
+    play(!still.matches);
   }
 
   // ---------- Reveal on scroll ----------

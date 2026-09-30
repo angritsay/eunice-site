@@ -17,7 +17,7 @@ import {
 import { quotes } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
-import { uiMonitor, uiRead, uiReport } from '../ui.ts';
+import { uiFilm, uiMonitor, uiRead, uiReport } from '../ui.ts';
 
 const DESK = 'private-markets';
 
@@ -142,12 +142,7 @@ ${feature({
     <li><span class="h4">Review</span><span class="small muted">Findings walked through with your committee; the memo signed off by you.</span></li>
     <li><span class="h4">Monitor</span><span class="small muted">The same questions asked again each quarter. Changes come back as a diff.</span></li>
   </ol>`,
-  stage: stage(ctx, {
-    photo: 'art-water.jpg',
-    video: 'home-hero',
-    img: 'home-hero-poster.jpg',
-    alt: 'A walk through Eunice: files, the pipeline, live deals and a fund’s due diligence report',
-  }),
+  stage: stage(ctx, { photo: 'art-water.jpg', film: uiFilm(DESK) }),
 })}
 
 ${insightsBlock(ctx, {

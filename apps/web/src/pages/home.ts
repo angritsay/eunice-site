@@ -22,7 +22,7 @@ import { quotes, team } from '../content/index.ts';
 import { type Html, html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
-import { uiMonitor, uiRead } from '../ui.ts';
+import { uiFilm, uiMonitor, uiRead } from '../ui.ts';
 import { roleList } from './jobs.ts';
 
 const VALUES: readonly [string, string][] = [
@@ -50,7 +50,7 @@ export default {
   </div>
   <div class="hero-center__visual">
     ${photo(ctx, { img: 'art-dunes.jpg', variant: 'stage', alt: '' })}
-    <div class="hero-center__plate">${plate(ctx, { video: 'home-hero', img: 'home-hero-poster.jpg', alt: 'A walk through Eunice: files, the pipeline, live deals and a fund’s due diligence report' })}</div>
+    <div class="hero-center__plate">${plate(ctx, { html: uiFilm('company') })}</div>
   </div>
 </section>
 

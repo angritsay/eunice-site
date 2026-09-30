@@ -173,52 +173,48 @@ test.describe('team strip', () => {
   });
 });
 
-// The film in the welcome page's hero: it plays by itself, silent and looping, the
-// button stops and restarts it, and a visitor who asks for reduced motion gets it still.
+// The film in the welcome page's hero, drawn in HTML: it steps through its scenes by
+// itself, the button stops and restarts it, and a visitor who asks for reduced motion
+// gets it still on its first scene.
 test.describe('home film', () => {
   test.use({ reducedMotion: 'no-preference' });
-  const film = (p: Page) => p.locator('.hero-center video');
-  const time = (p: Page) => film(p).evaluate((v: HTMLVideoElement) => v.currentTime);
+  const film = (p: Page) => p.locator('.hero-center [data-film]');
+  const step = (p: Page) => film(p).getAttribute('data-step');
 
-  test('plays on its own, silent and looping; the button pauses and plays it', async ({ page }) => {
+  test('steps through its scenes on its own; the button pauses and plays it', async ({ page }) => {
     await page.goto(BASE);
-    await expect(film(page)).toHaveJSProperty('muted', true);
-    await expect(film(page)).toHaveJSProperty('loop', true);
-    await expect.poll(() => time(page), { timeout: 10_000 }).toBeGreaterThan(0.3);
-    const toggle = page.locator('.hero-center [data-video-toggle]');
+    await expect(film(page)).toHaveAttribute('data-step', '0');
+    await expect(film(page).locator('.wf__scene.is-on')).toHaveCount(1);
+    await expect(film(page)).toHaveAttribute('data-step', '1', { timeout: 10_000 });
+    const toggle = page.locator('.hero-center [data-film-toggle]');
     await expect(toggle).toHaveAttribute('aria-label', 'Pause the film');
     await toggle.click();
-    await expect(film(page)).toHaveJSProperty('paused', true);
     await expect(toggle).toHaveAttribute('aria-pressed', 'true');
     await expect(toggle).toHaveAttribute('aria-label', 'Play the film');
-    const stopped = await time(page);
-    await page.waitForTimeout(400);
-    expect(await time(page)).toBe(stopped);
+    const stopped = await step(page);
+    await page.waitForTimeout(7_000);
+    expect(await step(page)).toBe(stopped);
     await toggle.click();
-    await expect(film(page)).toHaveJSProperty('paused', false);
     await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    await expect.poll(() => step(page), { timeout: 10_000 }).not.toBe(stopped);
   });
 
   test('on Private Markets it plays in "Delivered end to end", with its own button', async ({ page }) => {
     await page.goto(`${BASE}private-markets/`);
-    const pmFilm = page.locator('#end-to-end video');
+    const pmFilm = page.locator('#end-to-end [data-film]');
     await pmFilm.scrollIntoViewIfNeeded();
-    await expect(pmFilm).toHaveJSProperty('muted', true);
-    await expect(pmFilm).toHaveJSProperty('loop', true);
-    await expect
-      .poll(() => pmFilm.evaluate((v: HTMLVideoElement) => v.currentTime), { timeout: 10_000 })
-      .toBeGreaterThan(0.3);
-    await page.locator('#end-to-end [data-video-toggle]').click();
-    await expect(pmFilm).toHaveJSProperty('paused', true);
-    await expect(page.locator('.hero video')).toHaveCount(0); // the film is not the hero here
+    await expect(pmFilm).toHaveAttribute('data-step', '1', { timeout: 10_000 });
+    await page.locator('#end-to-end [data-film-toggle]').click();
+    await expect(page.locator('#end-to-end [data-film-toggle]')).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.hero [data-film]')).toHaveCount(0); // the film is not the hero here
   });
 
   test('with reduced motion it stays still, and can still be played', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(BASE);
-    await page.waitForTimeout(800);
-    await expect(film(page)).toHaveJSProperty('paused', true);
-    await expect(page.locator('.hero-center [data-video-toggle]')).toHaveAttribute('aria-label', 'Play the film');
+    await page.waitForTimeout(7_000);
+    await expect(film(page)).toHaveAttribute('data-step', '0');
+    await expect(page.locator('.hero-center [data-film-toggle]')).toHaveAttribute('aria-label', 'Play the film');
   });
 });
 
