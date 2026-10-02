@@ -350,7 +350,8 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 /* Welcome: a centred hero, the product over the City below it. */
 .hero-center { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: clamp(56px, 8vw, 112px); }
 .hero-center__title { font-size: clamp(40px, 6vw, 76px); max-width: 14em; }
-.hero-center__lead { margin-top: 20px; max-width: 34em; }
+.hero-center__lead { margin-top: 20px; font-size: 20.4px; max-width: none; text-wrap: balance; }
+@media (min-width: 961px) { .hero-center__lead { white-space: nowrap; } }
 .hero-center__buttons { justify-content: center; margin-top: 32px; }
 .hero-center__visual { width: 100%; max-width: 1120px; margin: clamp(40px, 6vw, 72px) auto 0; }
 .hero-center__visual .wf { border-radius: var(--radius); }
