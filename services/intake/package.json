@@ -16,8 +16,8 @@
     "@eunice/platform": "workspace:*",
     "@hono/node-server": "2.1.1",
     "@hono/zod-openapi": "1.6.3",
-    "@scalar/hono-api-reference": "0.12.3",
-    "hono": "4.13.8",
+    "@scalar/hono-api-reference": "0.12.5",
+    "hono": "4.13.9",
     "kysely": "0.29.6",
     "pg": "8.23.0",
     "zod": "4.6.5"
