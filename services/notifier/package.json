@@ -14,7 +14,7 @@
     "@eunice/contracts": "workspace:*",
     "@eunice/platform": "workspace:*",
     "@hono/node-server": "2.1.1",
-    "hono": "4.13.8",
+    "hono": "4.13.9",
     "kysely": "0.29.6",
     "nodemailer": "10.0.10",
     "pg": "8.23.0",
