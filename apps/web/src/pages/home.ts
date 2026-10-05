@@ -39,7 +39,7 @@ export default {
     'Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong.',
   render: (ctx) => html`
 <section class="wrap hero-center">
-  <h1 class="h1 hero-center__title">Welcome to Eunice</h1>
+  <h1 class="h1 hero-center__title">We believe when trust is visible, markets move.</h1>
   <p class="lead hero-center__lead">Source-traced due diligence and monitoring for digital assets and private markets.</p>
   <div class="buttons hero-center__buttons">
     ${button(ctx, { label: 'Book demo', form: 'general', placement: 'hero' })}
