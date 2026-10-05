@@ -1,7 +1,7 @@
 // Shared building blocks. Pages compose these; nothing here holds page copy.
 import type { Placement } from '@eunice/contracts/forms';
-import { audiencePages, desks, events, insights, integrations, partners, people } from './content/index.ts';
-import type { Insight, Person, Quote } from './content/schema.ts';
+import { audiencePages, clients, desks, events, insights, integrations, partners, people } from './content/index.ts';
+import type { Firm, Insight, Person, Quote } from './content/schema.ts';
 import type { Ctx, Desk, NavItem, NavKey, ProductDesk } from './lib/types.ts';
 import config from './site.config.ts';
 
@@ -242,14 +242,21 @@ export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
   <figcaption class="caption muted">${q.who}</figcaption>
 </figure>`;
 
+// One labelled row of logos, each at the height its content entry sets.
+const logoRow = (ctx: Ctx, label: string, firms: readonly Firm[]) => html`
+  <p class="label">${label}</p>
+  <ul>${firms.map((f) => {
+    const s = imageSize(`img/logos/${f.logo}`);
+    const width = s ? Math.round((s.width / s.height) * f.height) : f.height * 4;
+    return html`<li><img src="${ctx.asset(`img/logos/${f.logo}`)}" alt="${f.name}" width="${width}" height="${f.height}" loading="lazy"></li>`;
+  })}</ul>`;
+
+// The firms we work with and the law firms we partner with, as two rows on one grid: the
+// labels share a column, so both rows of logos start on the same line.
 export const partnersRow = (ctx: Ctx) => html`
 <div class="partners">
-  <p class="label">Working with</p>
-  <ul>${partners.map((p) => {
-    const s = imageSize(`img/logos/${p.logo}`);
-    const width = s ? Math.round((s.width / s.height) * p.height) : p.height * 4;
-    return html`<li><img src="${ctx.asset(`img/logos/${p.logo}`)}" alt="${p.name}" width="${width}" height="${p.height}" loading="lazy"></li>`;
-  })}</ul>
+  ${logoRow(ctx, 'Working with', clients)}
+  ${logoRow(ctx, 'Partners', partners)}
 </div>`;
 
 // A product image on a tinted field. `img` is a file under /assets/img; `html` is inline markup.

@@ -229,9 +229,11 @@ button { font: inherit; color: inherit; }
 .pullquote__who::before { content: ""; width: 32px; height: 1px; background: rgba(255,255,255,.5); }
 
 /* Partners */
-.partners { display: flex; align-items: center; gap: 40px; margin-top: var(--section); }
-.partners .label { flex: 0 0 auto; }
-.partners ul { flex: 1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px 32px; }
+/* Two rows of logos, "Working with" and "Partners", on one grid: the labels share a
+   column, so both rows start on the same line. A row that outgrows the width wraps
+   into equal cells, each logo at the left of its cell. */
+.partners { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 40px 48px; align-items: center; margin-top: var(--section); }
+.partners ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 24px 32px; align-items: center; }
 .partners li { display: flex; align-items: center; }
 /* Each firm's own logo, all in one grey so none outshouts the others. */
 .partners img { display: block; filter: brightness(0); opacity: .78; }
@@ -650,8 +652,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .footer__brand { grid-column: 1 / -1; }
   .event { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   .cta { flex-direction: column; align-items: flex-start; }
-  .partners { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .partners ul { justify-content: flex-start; }
+  .partners { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .partners ul + .label { margin-top: 32px; }
 }
 
 /* Small screens: the -20% scale was set for a desktop reading distance. Here the
