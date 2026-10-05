@@ -228,18 +228,30 @@ button { font: inherit; color: inherit; }
 .pullquote__who { display: flex; align-items: center; gap: 14px; margin-top: clamp(24px, 3vw, 40px); font-size: 15px; color: rgba(255,255,255,.72); }
 .pullquote__who::before { content: ""; width: 32px; height: 1px; background: rgba(255,255,255,.5); }
 
-/* Partners */
-/* Two rows of logos, "Working with" and "Partners", on one grid: the labels share a
-   column, so both rows start on the same line. A row that outgrows the width wraps
-   into equal cells, each logo at the left of its cell. */
-.partners { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 40px 48px; align-items: center; margin-top: var(--section); }
-.partners ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 24px 32px; align-items: center; }
-.partners li { display: flex; align-items: center; }
-/* Each firm's own logo, all in one grey so none outshouts the others. */
-.partners img { display: block; filter: brightness(0); opacity: .78; }
+/* Logos: "Working with" and "Partners". The grey caption on the left, then the firms
+   drifting slowly left in a loop; both rows share the label width, so their logos
+   start on one line, and every logo sits on the row's vertical centre. */
+.partners { display: flex; flex-direction: column; gap: 48px; margin-top: var(--section); }
 .partners + .quotes { margin-top: var(--section); }
-/* The proof strip opens with the logos: the section's own padding is the gap above. */
-.proof .partners { margin-top: 0; }
+.logos { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 32px; align-items: center; }
+.logos__view { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.logos__track { display: flex; width: max-content; animation: logos 90s linear infinite; }
+.logos--partners .logos__track { animation-duration: 50s; }
+.logos__view:hover .logos__track { animation-play-state: paused; }
+.logos__list { display: flex; align-items: center; gap: 72px; padding-right: 72px; }
+.logos__list li { display: flex; align-items: center; height: 40px; }
+/* Each firm's own logo, all in one grey so none outshouts the others. */
+.logos__list img { display: block; filter: brightness(0); opacity: .78; }
+@keyframes logos { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .logos__view { -webkit-mask-image: none; mask-image: none; }
+  .logos__track { animation: none; width: auto; }
+  .logos__list { flex-wrap: wrap; gap: 24px 48px; padding-right: 0; }
+  .logos__list[aria-hidden] { display: none; }
+}
+/* Home: the proof block runs logos, numbers, logos, badges, with the same air between. */
+.proof > .logos:first-child { margin-top: 0; }
+.numbers + .logos { margin-top: clamp(96px, 13vw, 192px); }
 .numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: clamp(96px, 13vw, 192px); }
 .numbers li { display: flex; flex-direction: column; gap: 10px; padding-top: 18px; border-top: 1px solid var(--line); }
 .numbers__n { font-family: var(--font-head); font-weight: 400; font-size: clamp(36px, 4.2vw, 56px); line-height: 1; letter-spacing: -.035em; color: var(--ink); }
@@ -653,8 +665,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .footer__brand { grid-column: 1 / -1; }
   .event { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   .cta { flex-direction: column; align-items: flex-start; }
-  .partners { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .partners ul + .label { margin-top: 32px; }
+  .logos { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .partners { gap: 40px; }
 }
 
 /* Small screens: the -20% scale was set for a desktop reading distance. Here the
