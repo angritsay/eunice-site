@@ -134,7 +134,7 @@ test.describe('entry points open the right form', () => {
     await expect(dialog.getByText('your note is on its way')).toBeVisible();
     expect(posts).toEqual([]);
     const mailto = decodeURIComponent(await page.evaluate(() => (window as unknown as { mailto: string }).mailto));
-    expect(mailto).toMatch(/^mailto:hello@eunice\.ai\?subject=private-markets — Jane Doe&body=/);
+    expect(mailto).toMatch(/^mailto:inquiries@eunice\.ai\?subject=private-markets — Jane Doe&body=/);
     expect(mailto).toContain('message: Gridiron Capital Fund V');
   });
 
