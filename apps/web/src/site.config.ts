@@ -34,8 +34,8 @@ const config: SiteConfig = {
   // Where "Talk to us" submissions go. formEndpoint is intake's POST /v1/submissions;
   // it is set per build with PUBLIC_FORM_ENDPOINT, and a production build refuses it
   // until there is a privacy page (ADR-0007). While it is empty, the form opens the
-  // visitor's mail app addressed to contactEmail. TODO: confirm it before going live.
-  contactEmail: 'hello@eunice.ai',
+  // visitor's mail app addressed to contactEmail: the enquiries address eunice.ai uses.
+  contactEmail: 'inquiries@eunice.ai',
   // Job applications go to each role's application form (roles in content/index.ts).
   // This address is for everyone else who wants to work with us, as on eunice.ai.
   careersEmail: 'career@eunice.ai',
