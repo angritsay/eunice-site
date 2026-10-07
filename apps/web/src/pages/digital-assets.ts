@@ -25,17 +25,17 @@ const DESK = 'digital-assets';
 export default {
   slug: DESK,
   nav: DESK,
-  title: 'Crypto & RWA — Eunice',
+  title: 'Digital Assets — Eunice',
   description:
-    'Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.',
+    'Token due diligence in the format your risk committee already uses, and monitoring that surfaces what changes the same day, with the source attached.',
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <h1 class="h1">Crypto &amp; RWA</h1>
-    <p class="lead">Token due diligence in the format your risk committee already uses, and monitoring that reaches you before the trade press does.</p>
+    <h1 class="h1">Digital Assets</h1>
+    <p class="lead">Token due diligence in the format your risk committee already uses, and monitoring that surfaces what changes the same day, with the source attached.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
-      ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
+      ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'working-with' })}
     </div>
   </div>
   ${heroField({ desk: DESK })}
@@ -73,7 +73,7 @@ ${whoCards(ctx, {
   ],
 })}
 
-<section class="wrap section">
+<section class="wrap section" id="working-with">
   ${partnersRow(ctx)}
   <div class="grid grid--3 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}${quoteBlock(quotes.libeara)}</div>
 </section>
@@ -82,15 +82,11 @@ ${whoCards(ctx, {
   ${facts([
     {
       art: 'sandbox',
-      title: 'FCA regulatory sandbox',
-      text: 'Digital asset disclosure standards, since November 2025',
+      title: 'FCA Regulatory Sandbox',
+      text: 'Participant since November 2025, testing disclosure standards',
     },
     { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
-    {
-      art: 'sources',
-      title: 'Five sources, one view',
-      text: 'Allium, CoinGecko, CoinMarketCap, DeFiLlama and X, cited by name',
-    },
+    { art: 'cite', title: 'Every claim', text: 'Cited to the source it came from' },
     { art: 'globe', title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
   ])}
 </section>
@@ -99,16 +95,16 @@ ${feature({
   id: 'listing',
   title: 'Listing diligence',
   desk: DESK,
-  body: html`<p class="body muted">One report per asset covering the team, the code, the reserve and the jurisdiction, in the shape a listing committee signs off.</p>`,
+  body: html`<p class="body muted">One report per token covering the team, the code, the reserve where there is one, and the jurisdiction, in the shape a listing committee signs off on.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiRead(DESK) }),
 })}
 
 ${feature({
   id: 'monitoring',
-  title: 'Monitoring that does not sleep',
+  title: 'Continuous monitoring',
   desk: DESK,
   flip: true,
-  body: html`<p class="body muted">Exploits, protocol changes, enforcement actions and reserve movements — surfaced the hour they land, with the source attached.</p>`,
+  body: html`<p class="body muted">Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached. Drawn from Allium, CoinGecko, CoinMarketCap, DeFiLlama and X, each cited by name.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiMonitor(DESK) }),
 })}
 
@@ -134,7 +130,7 @@ ${feature({
 
 ${insightsBlock(ctx, {
   label: 'Insights on digital assets',
-  aside: 'Exploits, risk and regulation, as they happen.',
+  aside: 'Exploits, risk and regulation.',
   deskFilter: [DESK, 'token-disclosure'],
   featured: 3,
   rows: 4,
@@ -149,7 +145,7 @@ ${insightsBlock(ctx, {
 ${eventsBlock(ctx, { label: 'Where we have been', aside: 'Talks, panels and delegations.', desk: DESK, today: ctx.today })}
 
 ${cta(ctx, {
-  title: 'Put one asset through it',
+  title: 'Put one token through it',
   text: 'Pick a token you are reviewing now. We will run it and show you the report and the monitoring feed side by side.',
   buttons: [
     { label: 'See a sample report', kind: 'outline-light', form: 'sample-report' },

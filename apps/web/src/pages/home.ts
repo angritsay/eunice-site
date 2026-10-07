@@ -44,7 +44,7 @@ export default {
   <div class="buttons hero-center__buttons">
     ${button(ctx, { label: 'Book demo', form: 'general', placement: 'hero' })}
     ${button(ctx, { label: 'Private Markets', kind: 'outline', to: 'private-markets' })}
-    ${button(ctx, { label: 'Crypto & RWA', kind: 'outline', to: 'digital-assets' })}
+    ${button(ctx, { label: 'Digital Assets', kind: 'outline', to: 'digital-assets' })}
   </div>
   <div class="hero-center__visual">
     ${uiFilm('company')}
@@ -94,7 +94,7 @@ export default {
   })}
   ${tile(ctx, {
     desk: 'digital-assets',
-    title: 'Crypto & RWA',
+    title: 'Digital Assets',
     visual: uiMonitor('digital-assets'),
     text: 'Token due diligence, monitoring and MiCA disclosure for exchanges, custodians, market makers and issuers.',
   })}
@@ -152,7 +152,7 @@ export default {
     { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
   ])}
   <div class="buttons">
-    ${button(ctx, { label: 'Our Trust Center on Vanta', href: config.trustCenterUrl, newTab: true })}
+    ${button(ctx, { label: 'Our Trust Centre on Vanta', href: config.trustCenterUrl, newTab: true })}
     ${button(ctx, { label: 'How we handle security', kind: 'outline', to: 'security' })}
   </div>
 </div></section>
