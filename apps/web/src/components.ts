@@ -1,7 +1,7 @@
 // Shared building blocks. Pages compose these; nothing here holds page copy.
 import type { Placement } from '@eunice/contracts/forms';
-import { audiencePages, desks, events, insights, integrations, partners, people } from './content/index.ts';
-import type { Insight, Person, Quote } from './content/schema.ts';
+import { audiencePages, clients, desks, events, insights, integrations, partners, people } from './content/index.ts';
+import type { Firm, Insight, Person, Quote } from './content/schema.ts';
 import type { Ctx, Desk, NavItem, NavKey, ProductDesk } from './lib/types.ts';
 import config from './site.config.ts';
 
@@ -242,14 +242,34 @@ export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
   <figcaption class="caption muted">${q.who}</figcaption>
 </figure>`;
 
+// A labelled row of logos that drifts slowly to the left, in a loop. The firms are
+// written once for readers; the copies that make the loop seamless are hidden from
+// them. Each half of the track holds at least ten logos, so a short row still fills
+// the width. Under reduced motion the copies go and the row stands still.
+const FIRMS = { clients: { label: 'Working with', firms: clients }, partners: { label: 'Partners', firms: partners } };
+
+export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
+  const { label, firms } = FIRMS[row];
+  const list = (hidden: boolean) =>
+    html`<ul class="logos__list"${hidden ? html` aria-hidden="true"` : ''}>${firms.map((f: Firm) => {
+      const s = imageSize(`img/logos/${f.logo}`);
+      const width = s ? Math.round((s.width / s.height) * f.height) : f.height * 4;
+      return html`<li><img src="${ctx.asset(`img/logos/${f.logo}`)}" alt="${hidden ? '' : f.name}" width="${width}" height="${f.height}" loading="lazy"></li>`;
+    })}</ul>`;
+  const perHalf = Math.max(1, Math.ceil(10 / firms.length));
+  const copies = Array.from({ length: perHalf * 2 }, (_, i) => list(i > 0));
+  return html`
+<div class="logos logos--${row}">
+  <p class="caption muted logos__label">${label}</p>
+  <div class="logos__view"><div class="logos__track">${copies}</div></div>
+</div>`;
+}
+
+// Both rows together, for pages that show them as one block.
 export const partnersRow = (ctx: Ctx) => html`
 <div class="partners">
-  <p class="label">Working with</p>
-  <ul>${partners.map((p) => {
-    const s = imageSize(`img/logos/${p.logo}`);
-    const width = s ? Math.round((s.width / s.height) * p.height) : p.height * 4;
-    return html`<li><img src="${ctx.asset(`img/logos/${p.logo}`)}" alt="${p.name}" width="${width}" height="${p.height}" loading="lazy"></li>`;
-  })}</ul>
+  ${logoMarquee(ctx, 'clients')}
+  ${logoMarquee(ctx, 'partners')}
 </div>`;
 
 // A product image on a tinted field. `img` is a file under /assets/img; `html` is inline markup.
