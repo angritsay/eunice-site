@@ -103,13 +103,14 @@ export type Event = z.infer<typeof Event>;
 
 export const Quote = z.strictObject({ desk: Desk, text, who: text });
 
-/** A firm we work with, shown by its logo: an SVG under assets/img/logos/, from its own brand assets. */
-export const Partner = z.strictObject({
+/** A firm shown by its logo in the "Working with" or "Partners" row: an SVG under assets/img/logos/, from its own brand assets. */
+export const Firm = z.strictObject({
   name: text,
   logo: z.string().regex(/^[a-z0-9-]+\.svg$/),
   /** Height in px, set by eye so the logos look the same size (a wordmark is lower than a stacked mark). */
   height: z.number().int().min(12).max(40),
 });
+export type Firm = z.infer<typeof Firm>;
 export type Quote = z.infer<typeof Quote>;
 
 export const Role = z.strictObject({
