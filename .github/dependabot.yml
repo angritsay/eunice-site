@@ -11,6 +11,12 @@ updates:
     groups:
       tooling:
         patterns: ['*']
+    ignore:
+      # The architecture check (dependency-cruiser) cannot read TypeScript 7 yet: with it,
+      # every .ts file is silently skipped and the check passes on nothing. Stay on 6
+      # until dependency-cruiser supports 7.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
     schedule:
