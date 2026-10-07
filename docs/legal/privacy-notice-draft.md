@@ -8,9 +8,13 @@
 
 ## Who we are
 
-Reasoon Limited, trading as Eunice, [registered address — CONFIRM], is the controller of
-the personal data described here. Contact: [privacy contact address — CONFIRM, e.g.
-privacy@eunice.ai].
+Reasoon Limited (company number 13839159), trading as Eunice, is the controller of the
+personal data described here. Registered office: 1 Giltspur Street, London EC1A 9DD
+(Companies House, checked 7 October 2026). Contact: chrislyn@eunice.ai, or by post to
+Work.Life, 20 Red Lion St, London WC1R 4PS (both as published on eunice.ai today).
+**[CONFIRM]** whether to keep a named person's email or switch to a role address such as
+privacy@eunice.ai, and which postal address to publish (the registered office or the
+Red Lion Street one).
 
 ## What we collect when you use a form on this site
 
@@ -65,7 +69,7 @@ from the device beyond loading the page.
 ## Your rights
 
 You can ask us for a copy of your data, or ask us to correct or delete it, restrict or
-object to our use of it, or move it. Write to [privacy contact — CONFIRM]. We can delete
+object to our use of it, or move it. Write to chrislyn@eunice.ai **[CONFIRM, as above]**. We can delete
 everything we hold about an email address, including backups as they expire.
 
 You can also complain to the Information Commissioner's Office (ico.org.uk).
@@ -94,3 +98,28 @@ We will update this page if what we collect or why changes, with the date below.
   - admin endpoints not public: edge configuration.
 - The data inventory with every storage location is in
   [`docs/analysis/data-model.md`](../analysis/data-model.md).
+
+## What the policy published today says (for counsel)
+
+Read from eunice.ai/privacy-policy and /terms-and-conditions on 7 October 2026, so the
+new notice can be checked against what visitors have been told so far.
+
+- **Controller and contact:** Reasoon Limited; no DPO appointed; enquiries to
+  chrislyn@eunice.ai or Work.Life, 20 Red Lion St, London WC1R 4PS; complaints to the ICO.
+  The new notice keeps these, adding the company number and registered office.
+- **Lawful bases listed:** consent (newsletters), contractual obligations, legal
+  compliance, legitimate interests. The new notice uses legitimate interests for
+  enquiries and pre-contract steps for applications, which fits that list.
+- **Two dates:** "Effective Date: 22/08/2023" at the top and "This version is dated
+  6 July 2023" at the end.
+- **International transfer:** says data "may be stored and processed in the US" and asks
+  for consent to transfer outside the US. The new system stores submissions in London
+  (AWS eu-west-2); only Google Workspace's location is open (see above).
+- **Retention:** no period, only "as long as reasonably necessary". The new notice gives a
+  period.
+- **Cookies and analytics:** not mentioned. The new notice describes the cookieless
+  analytics.
+- **Out of date for this site:** accounts, passwords and newsletter opt-ins, and a
+  California section. None of these exist on the new site; counsel to decide what stays.
+- **Age:** users must be 18 or over; the site is not aimed at children.
+
