@@ -7,9 +7,9 @@ import {
   contentRecord,
   Desks,
   Event,
+  Firm,
   Insight,
   Integration,
-  Partner,
   Person,
   Quote,
   Role,
@@ -684,18 +684,34 @@ export const quotes = contentRecord('quotes', Quote, {
   },
 });
 
-// The firms in the "Working with" row, by logo. Each file is the firm's own mark: from
-// its website header or logo file (Copper, Crypto.com, Zodia Custody, FalconX, CMS,
-// gunnercooke), or for Coinbase, whose site blocks automated visits, the public-domain
-// wordmark on Wikimedia Commons. Shown in one grey, so none outshouts the others.
-export const partners = content('partners', z.array(Partner), [
-  { name: 'Coinbase', logo: 'coinbase.svg', height: 20 },
-  { name: 'Copper', logo: 'copper.svg', height: 24 },
+// Two rows of logos, "Working with" and "Partners". Each file is the firm's own mark: from
+// its website header or logo file (Copper, Crypto.com, Zodia Custody, FalconX, Kraken,
+// Libeara, Zero Hash, Flowdesk, CMS, gunnercooke, Drew & Napier, Orrick, Cahill), or for
+// Coinbase, whose site blocks automated visits, the public-domain wordmark on Wikimedia
+// Commons. Shown in one grey, so none outshouts the others.
+//
+// "Working with": clients and the exchanges, custodians and market makers Eunice works
+// alongside, in the order of the team's slide (October 2026). Stripe and OKX wait for the
+// firms' permission; Blockchain.com and VALR publish no logo file to take from.
+export const clients = content('clients', z.array(Firm), [
+  { name: 'Kraken', logo: 'kraken.svg', height: 16 },
   { name: 'Crypto.com', logo: 'crypto-com.svg', height: 22 },
   { name: 'Zodia Custody', logo: 'zodia-custody.svg', height: 30 },
+  { name: 'Copper', logo: 'copper.svg', height: 24 },
+  { name: 'Libeara', logo: 'libeara.svg', height: 18 },
+  { name: 'Coinbase', logo: 'coinbase.svg', height: 20 },
+  { name: 'Zero Hash', logo: 'zero-hash.svg', height: 24 },
   { name: 'FalconX', logo: 'falconx.svg', height: 16 },
-  { name: 'CMS', logo: 'cms.svg', height: 30 },
+  { name: 'Flowdesk', logo: 'flowdesk.svg', height: 18 },
+]);
+
+// "Partners": the law firms Eunice works with on token classification and disclosure.
+export const partners = content('partners', z.array(Firm), [
   { name: 'gunnercooke', logo: 'gunnercooke.svg', height: 22 },
+  { name: 'CMS', logo: 'cms.svg', height: 30 },
+  { name: 'Drew & Napier', logo: 'drew-napier.svg', height: 20 },
+  { name: 'Orrick', logo: 'orrick.svg', height: 34 },
+  { name: 'Cahill', logo: 'cahill.svg', height: 18 },
 ]);
 
 export const roles = content('roles', z.array(Role), [

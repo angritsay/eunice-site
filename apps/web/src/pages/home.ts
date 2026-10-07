@@ -9,9 +9,9 @@ import {
   facts,
   founder,
   insightsBlock,
+  logoMarquee,
   mark,
   numbers,
-  partnersRow,
   path,
   peopleStrip,
   quoteBlock,
@@ -39,7 +39,7 @@ export default {
     'Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong.',
   render: (ctx) => html`
 <section class="wrap hero-center">
-  <h1 class="h1 hero-center__title">Welcome to Eunice</h1>
+  <h1 class="h1 hero-center__title">We believe when trust is visible, markets move.</h1>
   <p class="lead hero-center__lead">Source-traced due diligence and monitoring for digital assets and private markets.</p>
   <div class="buttons hero-center__buttons">
     ${button(ctx, { label: 'Book demo', form: 'general', placement: 'hero' })}
@@ -53,13 +53,14 @@ export default {
 
 <!-- Proof first: who we work with and what backs us, before any description. -->
 <section class="wrap section section--tight proof" id="proof">
-  ${partnersRow(ctx)}
+  ${logoMarquee(ctx, 'clients')}
   ${numbers([
     { n: '$1T+', label: 'AUM managed by the allocators who trust Eunice' },
     { n: '1,000+', label: 'Pre-filled MiCA white papers' },
     { n: '4', label: 'Jurisdictions: MiCA, the UK, MAS and VARA' },
     { n: '$8m', label: 'Seed, March 2026 · Moonfire, Speedinvest, Openspace, Locus' },
   ])}
+  ${logoMarquee(ctx, 'partners')}
   ${badges(['SOC 2 Type II', 'GDPR', 'FCA regulatory sandbox', 'Fintech 50, 2026', 'US · EU · UK · Singapore'])}
 </section>
 
