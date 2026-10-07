@@ -7,7 +7,7 @@
 // is CSS only and stops under prefers-reduced-motion.
 
 import { GLYPH } from './lib/glyph.ts';
-import { type Html, html } from './lib/html.ts';
+import { type Html, html, raw } from './lib/html.ts';
 import type { Desk } from './lib/types.ts';
 
 type Row = readonly [string, string, string];
@@ -235,21 +235,38 @@ const win = (desk: Desk, kind: string, label: string, on: number, crumb: Html, v
   </div>
 </div>`;
 
-const bar = (crumb: Html) =>
-  html`<div class="wf__bar"><svg viewBox="0 0 18.3 20.55" fill="currentColor"><path d="${GLYPH}"/></svg><span>${crumb}</span></div>`;
-const rail = (on: number) =>
-  html`<div class="wf__rail">${[0, 1, 2, 3, 4].map((i) => html`<i class="wf__r${i}${i === on ? ' is-on' : ''}"></i>`)}</div>`;
+// Line icons, 16 x 16, drawn in currentColor: the rail's five places, and the few marks
+// the views need. Our own markup, so it goes in raw.
+const ICON = {
+  ask: '<path d="M3 4.5h10v6H7.5L5 13v-2.5H3Z"/>',
+  docs: '<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/><path d="M9.5 2.5V5H12"/>',
+  watch: '<path d="M2 8.5h2.5l1.5-4 2.5 7 1.5-3H14"/>',
+  report: '<rect x="2.5" y="3" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M6.5 6.5V13"/>',
+  set: '<path d="M3 5h10M3 11h10"/><circle cx="6" cy="5" r="1.4" fill="#fff"/><circle cx="10.5" cy="11" r="1.4" fill="#fff"/>',
+  send: '<path d="M8 12.5v-9M4.5 7 8 3.5 11.5 7"/>',
+  search: '<circle cx="7" cy="7" r="3.8"/><path d="m10 10 3 3"/>',
+  down: '<path d="M8 3v7M5 7.5 8 10.5l3-3M3.5 13h9"/>',
+  page: '<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>',
+} as const;
+const icon = (name: keyof typeof ICON, cls = '') =>
+  html`<svg class="wf__ico${cls ? ` ${cls}` : ''}" viewBox="0 0 16 16">${raw(ICON[name])}</svg>`;
 
-const chip = (text: string, hot = false) => html`<span class="wf__chip${hot ? ' wf__chip--hot' : ''}">${text}</span>`;
+const bar = (crumb: Html) =>
+  html`<div class="wf__bar"><svg class="wf__glyph" viewBox="0 0 18.3 20.55" fill="currentColor"><path d="${GLYPH}"/></svg><span class="wf__crumb">${crumb}</span><span class="wf__search">${icon('search')}</span><span class="wf__me"></span></div>`;
+const RAIL = ['ask', 'docs', 'watch', 'report', 'set'] as const;
+const rail = (on: number) =>
+  html`<div class="wf__rail">${RAIL.map((n, i) => html`<span class="wf__r wf__r${i}${i === on ? ' is-on' : ''}">${icon(n)}</span>`)}</div>`;
+
+/** A citation: a quiet page mark; the one that matters takes the desk's tint. */
+const cite = (text: string, hot = false) => html`<span class="wf__cite${hot ? ' wf__cite--hot' : ''}">${text}</span>`;
 
 const askView = ({ ask }: Copy) => html`
-    <div class="wf__q"><span class="wf__typed"><span>${ask.q}</span></span><span class="wf__send"></span></div>
-    <div class="wf__scope">${ask.scope.map((s) => chip(s))}</div>
+    <div class="wf__q"><span class="wf__typed"><span>${ask.q}</span></span><i class="wf__caret"></i><span class="wf__send">${icon('send')}</span></div>
+    <p class="wf__scope">${ask.scope.join(' · ')}</p>
     <div class="wf__answer">${ask.a.map(
-      ([text, cite], i) =>
-        html`<div class="wf__arow wf__in wf__d${i + 4}"><p>${text}</p>${chip(cite, i === ask.hot)}</div>`,
+      ([text, c], i) => html`<div class="wf__arow wf__in wf__d${i + 4}"><p>${text}</p>${cite(c, i === ask.hot)}</div>`,
     )}</div>
-    <p class="wf__foot wf__in wf__d7">${ask.sources}</p>`;
+    <p class="wf__foot wf__in wf__d7"><span class="wf__docs">${icon('page')}${icon('page')}${icon('page')}</span>${ask.sources}</p>`;
 
 const readView = ({ read, gap }: Copy, missing: boolean) => {
   const doc = missing ? gap : read;
@@ -265,35 +282,39 @@ const readView = ({ read, gap }: Copy, missing: boolean) => {
             : html`<p class="wf__clause">${read.before}<mark>${read.hit}</mark>${read.after}</p>`
         }
         <span class="wf__ln"></span><span class="wf__ln"></span><span class="wf__ln wf__ln--s"></span>
-        <span class="wf__ln wf__ln--h"></span><span class="wf__ln"></span><span class="wf__ln"></span><span class="wf__ln"></span><span class="wf__ln wf__ln--s"></span>
+        <span class="wf__ln wf__ln--h"></span><span class="wf__ln"></span><span class="wf__ln"></span><span class="wf__ln wf__ln--s"></span>
       </div>
-      <div class="wf__margin wf__in wf__d5">${chip(missing ? 'Missing' : `Cited · ${read.page.split(' of ')[0]}`, true)}<p>${missing ? gap.note : read.note}</p></div>
+      <div class="wf__margin wf__in wf__d5">${cite(missing ? 'Missing' : `Cited · ${read.page.split(' of ')[0]}`, true)}<p>${missing ? gap.note : read.note}</p></div>
     </div>`;
 };
 
 const monitorView = ({ monitor: m }: Copy) => html`
     <div class="wf__head"><b>${m.title}</b><span>${m.sub}</span></div>
-    <ul class="wf__table">${m.rows.map(
-      ([name, status, date], i) =>
-        html`<li class="wf__in wf__l${i + 1}${i === m.rows.length - 1 ? ' is-changed' : ''}"><span>${name}</span><span>${status}</span><span>${date}</span></li>`,
-    )}</ul>
+    <ul class="wf__table">
+      <li class="wf__th"><span>${m.rows[0]?.[0].split(' ')[0] ?? 'Name'}</span><span>Status</span><span>Updated</span></li>
+      ${m.rows.map(([name, status, date], i) =>
+        i === m.rows.length - 1
+          ? html`<li class="wf__in wf__l${i + 1} is-changed"><span>${name}</span><span class="wf__status"><i></i>${status}</span><span>${date}</span></li>`
+          : html`<li class="wf__in wf__l${i + 1}"><span>${name}</span><span>${status}</span><span>${date}</span></li>`,
+      )}
+    </ul>
     <div class="wf__time">
-      <div class="wf__track">${[0, 1, 2, 3, 4, 5, 6].map((i) => html`<i${i === 5 ? html` class="is-flag"` : ''}></i>`)}</div>
+      <div class="wf__track"><b class="wf__scan"></b>${[0, 1, 2, 3, 4, 5, 6].map((i) => html`<i${i === 5 ? html` class="is-flag"` : ''}></i>`)}</div>
       <div class="wf__ticks">${m.ticks.map((t) => html`<span>${t}</span>`)}</div>
     </div>
     <div class="wf__card">
-      ${chip('Changed', true)}
+      <span class="wf__tag"><i></i>Changed</span>
       <b>${m.card.title}</b>
       <span class="wf__meta">${m.card.meta}</span>
-      <p>${m.card.label} <del>${m.card.from}</del> <ins>${m.card.to}</ins></p>
+      <p class="wf__diff"><span>${m.card.label}</span><del>${m.card.from}</del><ins>${m.card.to}</ins></p>
     </div>`;
 
 const reportView = ({ report: r }: Copy) => html`
-    <div class="wf__head"><b>${r.title}</b><span class="wf__btn">Export</span></div>
+    <div class="wf__head"><b>${r.title}</b><span class="wf__btn">${icon('down')}Export</span></div>
     <span class="wf__meta">${r.sub}</span>
     <ul class="wf__rep">${r.rows.map(
       ([k, v, src], i) =>
-        html`<li class="wf__in wf__l${i + 1}"><span>${k}</span><span>${v}</span>${chip(src, i === r.hot)}</li>`,
+        html`<li class="wf__in wf__l${i + 1}"><span>${k}</span><span class="wf__val"><i class="wf__sk"></i><span>${v}</span></span>${cite(src, i === r.hot)}</li>`,
     )}</ul>`;
 
 /** A question, and an answer whose every line ends in a citation. */
@@ -341,6 +362,6 @@ export const uiFilm = (
     <div class="wf__view wf__scene">${readView(c, false)}</div>
     <div class="wf__view wf__scene">${monitorView(c)}</div>
   </div>
-  <div class="wf__close" aria-hidden="true"><p>Every answer traces back to its page.</p></div>
+  <div class="wf__close" aria-hidden="true"><p><span>Every answer</span> <span>traces back</span> <span>to its page.</span></p></div>
 </div>`;
 };

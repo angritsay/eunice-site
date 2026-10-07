@@ -131,52 +131,91 @@
 <div class="wf wf--ask wf--private-markets" role="img" aria-label="A question asked, and an answer where every line is cited">
 <div class="wf__win" aria-hidden="true">
 <div class="wf__bar">
-<svg viewBox="0 0 18.3 20.55" fill="currentColor">
+<svg class="wf__glyph" viewBox="0 0 18.3 20.55" fill="currentColor">
 <path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
 </svg>
-<span>Portfolio › <b>Ask</b>
+<span class="wf__crumb">Portfolio › <b>Ask</b>
+</span>
+<span class="wf__search">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<circle cx="7" cy="7" r="3.8"/>
+<path d="m10 10 3 3"/>
+</svg>
+</span>
+<span class="wf__me">
 </span>
 </div>
 <div class="wf__rail">
-<i class="wf__r0 is-on">
-</i>
-<i class="wf__r1">
-</i>
-<i class="wf__r2">
-</i>
-<i class="wf__r3">
-</i>
-<i class="wf__r4">
-</i>
+<span class="wf__r wf__r0 is-on">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 4.5h10v6H7.5L5 13v-2.5H3Z"/>
+</svg>
+</span>
+<span class="wf__r wf__r1">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+<path d="M9.5 2.5V5H12"/>
+</svg>
+</span>
+<span class="wf__r wf__r2">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M2 8.5h2.5l1.5-4 2.5 7 1.5-3H14"/>
+</svg>
+</span>
+<span class="wf__r wf__r3">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<rect x="2.5" y="3" width="11" height="10" rx="1.5"/>
+<path d="M2.5 6.5h11M6.5 6.5V13"/>
+</svg>
+</span>
+<span class="wf__r wf__r4">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 5h10M3 11h10"/>
+<circle cx="6" cy="5" r="1.4" fill="#fff"/>
+<circle cx="10.5" cy="11" r="1.4" fill="#fff"/>
+</svg>
+</span>
 </div>
 <div class="wf__view">
 <div class="wf__q">
 <span class="wf__typed">
 <span>Which funds changed their key-person terms this year?</span>
 </span>
+<i class="wf__caret">
+</i>
 <span class="wf__send">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M8 12.5v-9M4.5 7 8 3.5 11.5 7"/>
+</svg>
 </span>
 </div>
-<div class="wf__scope">
-<span class="wf__chip">12 funds</span>
-<span class="wf__chip">486 documents</span>
-<span class="wf__chip">Since Jan 2026</span>
-</div>
+<p class="wf__scope">12 funds · 486 documents · Since Jan 2026</p>
 <div class="wf__answer">
 <div class="wf__arow wf__in wf__d4">
 <p>Fund C added a second key person in its amended LPA.</p>
-<span class="wf__chip wf__chip--hot">p. 14</span>
+<span class="wf__cite wf__cite--hot">p. 14</span>
 </div>
 <div class="wf__arow wf__in wf__d5">
 <p>Fund F cut its key-person cure period from 180 to 120 days.</p>
-<span class="wf__chip">p. 22</span>
+<span class="wf__cite">p. 22</span>
 </div>
 <div class="wf__arow wf__in wf__d6">
 <p>No other fund changed its key-person terms.</p>
-<span class="wf__chip">12 funds</span>
+<span class="wf__cite">12 funds</span>
 </div>
 </div>
-<p class="wf__foot wf__in wf__d7">Sources · 3 documents · every line cited</p>
+<p class="wf__foot wf__in wf__d7">
+<span class="wf__docs">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+</svg>
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+</svg>
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+</svg>
+</span>Sources · 3 documents · every line cited</p>
 </div>
 </div>
 </div>
@@ -315,23 +354,50 @@
 <div class="wf wf--read wf--private-markets" role="img" aria-label="A document read in full, with one finding cited to its page">
 <div class="wf__win" aria-hidden="true">
 <div class="wf__bar">
-<svg viewBox="0 0 18.3 20.55" fill="currentColor">
+<svg class="wf__glyph" viewBox="0 0 18.3 20.55" fill="currentColor">
 <path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
 </svg>
-<span>Documents › <b>Fund C · Amended LPA</b>
+<span class="wf__crumb">Documents › <b>Fund C · Amended LPA</b>
+</span>
+<span class="wf__search">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<circle cx="7" cy="7" r="3.8"/>
+<path d="m10 10 3 3"/>
+</svg>
+</span>
+<span class="wf__me">
 </span>
 </div>
 <div class="wf__rail">
-<i class="wf__r0">
-</i>
-<i class="wf__r1 is-on">
-</i>
-<i class="wf__r2">
-</i>
-<i class="wf__r3">
-</i>
-<i class="wf__r4">
-</i>
+<span class="wf__r wf__r0">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 4.5h10v6H7.5L5 13v-2.5H3Z"/>
+</svg>
+</span>
+<span class="wf__r wf__r1 is-on">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+<path d="M9.5 2.5V5H12"/>
+</svg>
+</span>
+<span class="wf__r wf__r2">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M2 8.5h2.5l1.5-4 2.5 7 1.5-3H14"/>
+</svg>
+</span>
+<span class="wf__r wf__r3">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<rect x="2.5" y="3" width="11" height="10" rx="1.5"/>
+<path d="M2.5 6.5h11M6.5 6.5V13"/>
+</svg>
+</span>
+<span class="wf__r wf__r4">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 5h10M3 11h10"/>
+<circle cx="6" cy="5" r="1.4" fill="#fff"/>
+<circle cx="10.5" cy="11" r="1.4" fill="#fff"/>
+</svg>
+</span>
 </div>
 <div class="wf__view">
 <div class="wf__doc">
@@ -364,13 +430,11 @@
 </span>
 <span class="wf__ln">
 </span>
-<span class="wf__ln">
-</span>
 <span class="wf__ln wf__ln--s">
 </span>
 </div>
 <div class="wf__margin wf__in wf__d5">
-<span class="wf__chip wf__chip--hot">Cited · p. 14</span>
+<span class="wf__cite wf__cite--hot">Cited · p. 14</span>
 <p>Second key person added</p>
 </div>
 </div>
@@ -395,23 +459,50 @@
 <div class="wf wf--monitor wf--private-markets" role="img" aria-label="Events monitored over time, one change flagged">
 <div class="wf__win" aria-hidden="true">
 <div class="wf__bar">
-<svg viewBox="0 0 18.3 20.55" fill="currentColor">
+<svg class="wf__glyph" viewBox="0 0 18.3 20.55" fill="currentColor">
 <path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
 </svg>
-<span>Monitoring › <b>12 funds</b>
+<span class="wf__crumb">Monitoring › <b>12 funds</b>
+</span>
+<span class="wf__search">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<circle cx="7" cy="7" r="3.8"/>
+<path d="m10 10 3 3"/>
+</svg>
+</span>
+<span class="wf__me">
 </span>
 </div>
 <div class="wf__rail">
-<i class="wf__r0">
-</i>
-<i class="wf__r1">
-</i>
-<i class="wf__r2 is-on">
-</i>
-<i class="wf__r3">
-</i>
-<i class="wf__r4">
-</i>
+<span class="wf__r wf__r0">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 4.5h10v6H7.5L5 13v-2.5H3Z"/>
+</svg>
+</span>
+<span class="wf__r wf__r1">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+<path d="M9.5 2.5V5H12"/>
+</svg>
+</span>
+<span class="wf__r wf__r2 is-on">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M2 8.5h2.5l1.5-4 2.5 7 1.5-3H14"/>
+</svg>
+</span>
+<span class="wf__r wf__r3">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<rect x="2.5" y="3" width="11" height="10" rx="1.5"/>
+<path d="M2.5 6.5h11M6.5 6.5V13"/>
+</svg>
+</span>
+<span class="wf__r wf__r4">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 5h10M3 11h10"/>
+<circle cx="6" cy="5" r="1.4" fill="#fff"/>
+<circle cx="10.5" cy="11" r="1.4" fill="#fff"/>
+</svg>
+</span>
 </div>
 <div class="wf__view">
 <div class="wf__head">
@@ -419,6 +510,11 @@
 <span>Read again each quarter</span>
 </div>
 <ul class="wf__table">
+<li class="wf__th">
+<span>Fund</span>
+<span>Status</span>
+<span>Updated</span>
+</li>
 <li class="wf__in wf__l1">
 <span>Fund A</span>
 <span>No change</span>
@@ -441,12 +537,16 @@
 </li>
 <li class="wf__in wf__l5 is-changed">
 <span>Fund F</span>
-<span>Changed</span>
+<span class="wf__status">
+<i>
+</i>Changed</span>
 <span>Sep 24</span>
 </li>
 </ul>
 <div class="wf__time">
 <div class="wf__track">
+<b class="wf__scan">
+</b>
 <i>
 </i>
 <i>
@@ -470,10 +570,14 @@
 </div>
 </div>
 <div class="wf__card">
-<span class="wf__chip wf__chip--hot">Changed</span>
+<span class="wf__tag">
+<i>
+</i>Changed</span>
 <b>Fund F · LPA amendment</b>
 <span class="wf__meta">Clause 4.3 · p. 22</span>
-<p>Cure period <del>180 days</del>
+<p class="wf__diff">
+<span>Cure period</span>
+<del>180 days</del>
 <ins>120 days</ins>
 </p>
 </div>
@@ -493,23 +597,50 @@
 <div class="wf wf--read wf--private-markets" role="img" aria-label="A document read in full, with a missing item flagged">
 <div class="wf__win" aria-hidden="true">
 <div class="wf__bar">
-<svg viewBox="0 0 18.3 20.55" fill="currentColor">
+<svg class="wf__glyph" viewBox="0 0 18.3 20.55" fill="currentColor">
 <path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
 </svg>
-<span>Documents › <b>Fund C · Dataroom</b>
+<span class="wf__crumb">Documents › <b>Fund C · Dataroom</b>
+</span>
+<span class="wf__search">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<circle cx="7" cy="7" r="3.8"/>
+<path d="m10 10 3 3"/>
+</svg>
+</span>
+<span class="wf__me">
 </span>
 </div>
 <div class="wf__rail">
-<i class="wf__r0">
-</i>
-<i class="wf__r1 is-on">
-</i>
-<i class="wf__r2">
-</i>
-<i class="wf__r3">
-</i>
-<i class="wf__r4">
-</i>
+<span class="wf__r wf__r0">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 4.5h10v6H7.5L5 13v-2.5H3Z"/>
+</svg>
+</span>
+<span class="wf__r wf__r1 is-on">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+<path d="M9.5 2.5V5H12"/>
+</svg>
+</span>
+<span class="wf__r wf__r2">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M2 8.5h2.5l1.5-4 2.5 7 1.5-3H14"/>
+</svg>
+</span>
+<span class="wf__r wf__r3">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<rect x="2.5" y="3" width="11" height="10" rx="1.5"/>
+<path d="M2.5 6.5h11M6.5 6.5V13"/>
+</svg>
+</span>
+<span class="wf__r wf__r4">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 5h10M3 11h10"/>
+<circle cx="6" cy="5" r="1.4" fill="#fff"/>
+<circle cx="10.5" cy="11" r="1.4" fill="#fff"/>
+</svg>
+</span>
 </div>
 <div class="wf__view">
 <div class="wf__doc">
@@ -543,13 +674,11 @@
 </span>
 <span class="wf__ln">
 </span>
-<span class="wf__ln">
-</span>
 <span class="wf__ln wf__ln--s">
 </span>
 </div>
 <div class="wf__margin wf__in wf__d5">
-<span class="wf__chip wf__chip--hot">Missing</span>
+<span class="wf__cite wf__cite--hot">Missing</span>
 <p>Not in the dataroom. Asked for.</p>
 </div>
 </div>
@@ -569,55 +698,105 @@
 <div class="wf wf--report wf--private-markets" role="img" aria-label="A report built to your template, every line with its source">
 <div class="wf__win" aria-hidden="true">
 <div class="wf__bar">
-<svg viewBox="0 0 18.3 20.55" fill="currentColor">
+<svg class="wf__glyph" viewBox="0 0 18.3 20.55" fill="currentColor">
 <path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
 </svg>
-<span>Reports › <b>Fund C · Q3 review</b>
+<span class="wf__crumb">Reports › <b>Fund C · Q3 review</b>
+</span>
+<span class="wf__search">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<circle cx="7" cy="7" r="3.8"/>
+<path d="m10 10 3 3"/>
+</svg>
+</span>
+<span class="wf__me">
 </span>
 </div>
 <div class="wf__rail">
-<i class="wf__r0">
-</i>
-<i class="wf__r1">
-</i>
-<i class="wf__r2">
-</i>
-<i class="wf__r3 is-on">
-</i>
-<i class="wf__r4">
-</i>
+<span class="wf__r wf__r0">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 4.5h10v6H7.5L5 13v-2.5H3Z"/>
+</svg>
+</span>
+<span class="wf__r wf__r1">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+<path d="M9.5 2.5V5H12"/>
+</svg>
+</span>
+<span class="wf__r wf__r2">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M2 8.5h2.5l1.5-4 2.5 7 1.5-3H14"/>
+</svg>
+</span>
+<span class="wf__r wf__r3 is-on">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<rect x="2.5" y="3" width="11" height="10" rx="1.5"/>
+<path d="M2.5 6.5h11M6.5 6.5V13"/>
+</svg>
+</span>
+<span class="wf__r wf__r4">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 5h10M3 11h10"/>
+<circle cx="6" cy="5" r="1.4" fill="#fff"/>
+<circle cx="10.5" cy="11" r="1.4" fill="#fff"/>
+</svg>
+</span>
 </div>
 <div class="wf__view">
 <div class="wf__head">
 <b>Fund C · Q3 review</b>
-<span class="wf__btn">Export</span>
+<span class="wf__btn">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M8 3v7M5 7.5 8 10.5l3-3M3.5 13h9"/>
+</svg>Export</span>
 </div>
 <span class="wf__meta">Your template · 8 sections</span>
 <ul class="wf__rep">
 <li class="wf__in wf__l1">
 <span>Strategy</span>
+<span class="wf__val">
+<i class="wf__sk">
+</i>
 <span>Mid-market buyout</span>
-<span class="wf__chip">PPM p. 4</span>
+</span>
+<span class="wf__cite">PPM p. 4</span>
 </li>
 <li class="wf__in wf__l2">
 <span>Key persons</span>
+<span class="wf__val">
+<i class="wf__sk">
+</i>
 <span>Two, named</span>
-<span class="wf__chip wf__chip--hot">LPA p. 14</span>
+</span>
+<span class="wf__cite wf__cite--hot">LPA p. 14</span>
 </li>
 <li class="wf__in wf__l3">
 <span>Management fee</span>
+<span class="wf__val">
+<i class="wf__sk">
+</i>
 <span>1.5% after year 5</span>
-<span class="wf__chip">LPA p. 31</span>
+</span>
+<span class="wf__cite">LPA p. 31</span>
 </li>
 <li class="wf__in wf__l4">
 <span>Net IRR</span>
+<span class="wf__val">
+<i class="wf__sk">
+</i>
 <span>14.2%</span>
-<span class="wf__chip">Q2 p. 6</span>
+</span>
+<span class="wf__cite">Q2 p. 6</span>
 </li>
 <li class="wf__in wf__l5">
 <span>ESG policy</span>
+<span class="wf__val">
+<i class="wf__sk">
+</i>
 <span>In place</span>
-<span class="wf__chip">DDQ p. 12</span>
+</span>
+<span class="wf__cite">DDQ p. 12</span>
 </li>
 </ul>
 </div>
@@ -656,54 +835,93 @@
 <div class="wf wf--film wf--private-markets" data-film data-step="0" role="img" aria-label="A question asked, an answer cited line by line, the source page, a change caught while monitoring: every answer traces back to its page">
 <div class="wf__win" aria-hidden="true">
 <div class="wf__bar">
-<svg viewBox="0 0 18.3 20.55" fill="currentColor">
+<svg class="wf__glyph" viewBox="0 0 18.3 20.55" fill="currentColor">
 <path d="M17.8114 5.1871L9.15253 0.104897L0.493652 5.1871V15.3585L9.15253 20.4413L17.8114 15.3585V13.457L16.1311 12.4974L9.15253 16.648L3.58606 13.3357V7.20867L9.15253 3.89828L12.9173 6.13656L7.5415 9.33383V11.2232L9.15253 12.1689L17.8114 7.08602V5.1871Z"/>
 </svg>
-<span>Portfolio › <b class="wf__c0">Ask</b>
+<span class="wf__crumb">Portfolio › <b class="wf__c0">Ask</b>
 <b class="wf__c1">Fund C · Amended LPA</b>
 <b class="wf__c2">Monitoring</b>
 </span>
+<span class="wf__search">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<circle cx="7" cy="7" r="3.8"/>
+<path d="m10 10 3 3"/>
+</svg>
+</span>
+<span class="wf__me">
+</span>
 </div>
 <div class="wf__rail">
-<i class="wf__r0">
-</i>
-<i class="wf__r1">
-</i>
-<i class="wf__r2">
-</i>
-<i class="wf__r3">
-</i>
-<i class="wf__r4">
-</i>
+<span class="wf__r wf__r0">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 4.5h10v6H7.5L5 13v-2.5H3Z"/>
+</svg>
+</span>
+<span class="wf__r wf__r1">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+<path d="M9.5 2.5V5H12"/>
+</svg>
+</span>
+<span class="wf__r wf__r2">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M2 8.5h2.5l1.5-4 2.5 7 1.5-3H14"/>
+</svg>
+</span>
+<span class="wf__r wf__r3">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<rect x="2.5" y="3" width="11" height="10" rx="1.5"/>
+<path d="M2.5 6.5h11M6.5 6.5V13"/>
+</svg>
+</span>
+<span class="wf__r wf__r4">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M3 5h10M3 11h10"/>
+<circle cx="6" cy="5" r="1.4" fill="#fff"/>
+<circle cx="10.5" cy="11" r="1.4" fill="#fff"/>
+</svg>
+</span>
 </div>
 <div class="wf__view wf__scene is-on">
 <div class="wf__q">
 <span class="wf__typed">
 <span>Which funds changed their key-person terms this year?</span>
 </span>
+<i class="wf__caret">
+</i>
 <span class="wf__send">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M8 12.5v-9M4.5 7 8 3.5 11.5 7"/>
+</svg>
 </span>
 </div>
-<div class="wf__scope">
-<span class="wf__chip">12 funds</span>
-<span class="wf__chip">486 documents</span>
-<span class="wf__chip">Since Jan 2026</span>
-</div>
+<p class="wf__scope">12 funds · 486 documents · Since Jan 2026</p>
 <div class="wf__answer">
 <div class="wf__arow wf__in wf__d4">
 <p>Fund C added a second key person in its amended LPA.</p>
-<span class="wf__chip wf__chip--hot">p. 14</span>
+<span class="wf__cite wf__cite--hot">p. 14</span>
 </div>
 <div class="wf__arow wf__in wf__d5">
 <p>Fund F cut its key-person cure period from 180 to 120 days.</p>
-<span class="wf__chip">p. 22</span>
+<span class="wf__cite">p. 22</span>
 </div>
 <div class="wf__arow wf__in wf__d6">
 <p>No other fund changed its key-person terms.</p>
-<span class="wf__chip">12 funds</span>
+<span class="wf__cite">12 funds</span>
 </div>
 </div>
-<p class="wf__foot wf__in wf__d7">Sources · 3 documents · every line cited</p>
+<p class="wf__foot wf__in wf__d7">
+<span class="wf__docs">
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+</svg>
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+</svg>
+<svg class="wf__ico" viewBox="0 0 16 16">
+<path d="M4.5 2.5h5l2.5 2.5v8.5h-7.5Z"/>
+</svg>
+</span>Sources · 3 documents · every line cited</p>
 </div>
 <div class="wf__view wf__scene">
 <div class="wf__doc">
@@ -736,13 +954,11 @@
 </span>
 <span class="wf__ln">
 </span>
-<span class="wf__ln">
-</span>
 <span class="wf__ln wf__ln--s">
 </span>
 </div>
 <div class="wf__margin wf__in wf__d5">
-<span class="wf__chip wf__chip--hot">Cited · p. 14</span>
+<span class="wf__cite wf__cite--hot">Cited · p. 14</span>
 <p>Second key person added</p>
 </div>
 </div>
@@ -753,6 +969,11 @@
 <span>Read again each quarter</span>
 </div>
 <ul class="wf__table">
+<li class="wf__th">
+<span>Fund</span>
+<span>Status</span>
+<span>Updated</span>
+</li>
 <li class="wf__in wf__l1">
 <span>Fund A</span>
 <span>No change</span>
@@ -775,12 +996,16 @@
 </li>
 <li class="wf__in wf__l5 is-changed">
 <span>Fund F</span>
-<span>Changed</span>
+<span class="wf__status">
+<i>
+</i>Changed</span>
 <span>Sep 24</span>
 </li>
 </ul>
 <div class="wf__time">
 <div class="wf__track">
+<b class="wf__scan">
+</b>
 <i>
 </i>
 <i>
@@ -804,17 +1029,25 @@
 </div>
 </div>
 <div class="wf__card">
-<span class="wf__chip wf__chip--hot">Changed</span>
+<span class="wf__tag">
+<i>
+</i>Changed</span>
 <b>Fund F · LPA amendment</b>
 <span class="wf__meta">Clause 4.3 · p. 22</span>
-<p>Cure period <del>180 days</del>
+<p class="wf__diff">
+<span>Cure period</span>
+<del>180 days</del>
 <ins>120 days</ins>
 </p>
 </div>
 </div>
 </div>
 <div class="wf__close" aria-hidden="true">
-<p>Every answer traces back to its page.</p>
+<p>
+<span>Every answer</span>
+<span>traces back</span>
+<span>to its page.</span>
+</p>
 </div>
 </div>
 </figure>
@@ -948,9 +1181,8 @@
 <p class="shead__aside">Where the desk will be, and where it has been.</p>
 </div>
 <ul class="events">
-<li class="event event--upcoming">
-<span class="event__when">October 2026<span class="event__soon">Upcoming</span>
-</span>
+<li class="event">
+<span class="event__when">October 2026</span>
 <span class="event__name h4">Grow London Germany Trade Mission</span>
 <span class="event__note muted">Petronela Pell attending a week of meetings with local institutional clients &amp; prospects.</span>
 </li>
