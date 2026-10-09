@@ -79,14 +79,14 @@ const config: SiteConfig = {
     },
     {
       id: 'crypto',
-      label: 'Crypto & RWA',
+      label: 'Digital Assets',
       to: 'digital-assets',
       keys: ['digital-assets', 'token-disclosure'],
       items: [
         { label: 'Listing diligence', to: 'digital-assets', hash: 'listing' },
         { label: 'Monitoring', to: 'digital-assets', hash: 'monitoring' },
         { label: 'Token Disclosure', to: 'token-disclosure' },
-        { label: 'MiCA Whitepaper', to: 'mica-whitepaper' },
+        { label: 'MiCA white paper', to: 'mica-whitepaper' },
         { label: 'The register', to: 'token-disclosure/register' },
       ],
     },
@@ -113,7 +113,7 @@ const config: SiteConfig = {
       title: 'Token disclosure',
       links: [
         ...tabs('token-disclosure'),
-        { label: 'MiCA Whitepaper', to: 'mica-whitepaper' },
+        { label: 'MiCA white paper', to: 'mica-whitepaper' },
         { label: 'The register', to: 'token-disclosure/register' },
       ],
     },
@@ -139,7 +139,7 @@ const config: SiteConfig = {
     {
       title: 'Connect',
       links: [
-        { label: 'Trust Center', href: TRUST_CENTER },
+        { label: 'Trust Centre', href: TRUST_CENTER },
         { label: 'Support', href: 'mailto:support@eunice.ai' },
         { label: 'LinkedIn', href: 'https://www.linkedin.com/company/euniceai/' },
         { label: 'X (Twitter)', href: 'https://x.com/eunice_ai1' },

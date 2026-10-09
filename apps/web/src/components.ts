@@ -246,7 +246,10 @@ export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
 // written once for readers; the copies that make the loop seamless are hidden from
 // them. Each half of the track holds at least ten logos, so a short row still fills
 // the width. Under reduced motion the copies go and the row stands still.
-const FIRMS = { clients: { label: 'Working with', firms: clients }, partners: { label: 'Partners', firms: partners } };
+const FIRMS = {
+  clients: { label: 'Clients', firms: clients },
+  partners: { label: 'Legal partners', firms: partners },
+};
 
 export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
   const { label, firms } = FIRMS[row];

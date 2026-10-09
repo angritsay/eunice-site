@@ -31,6 +31,8 @@ export const AudiencePage = z.strictObject({
   now: z.array(text).length(3),
   work: z.array(TitleText).length(3),
   cta: TitleText,
+  /** The client quote the page shows, by its key in `quotes`; without one, the desk's. */
+  quote: slugId.optional(),
 });
 export type AudiencePage = z.infer<typeof AudiencePage>;
 
@@ -103,7 +105,7 @@ export type Event = z.infer<typeof Event>;
 
 export const Quote = z.strictObject({ desk: Desk, text, who: text });
 
-/** A firm shown by its logo in the "Working with" or "Partners" row: an SVG under assets/img/logos/, from its own brand assets. */
+/** A firm shown by its logo in the "Clients" or "Legal partners" row: an SVG under assets/img/logos/, from its own brand assets. */
 export const Firm = z.strictObject({
   name: text,
   logo: z.string().regex(/^[a-z0-9-]+\.svg$/),

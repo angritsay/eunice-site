@@ -46,7 +46,7 @@ export default {
     [
       'A listing team reads the paper at its address rather than as an attachment forwarded through a thread.',
       'The page carries the paper as it stands, so what is read is what is true today.',
-      'The issuer files once and points everyone at the same place, instead of answering the same request in eleven formats.',
+      'The issuer files once and points everyone at the same place, instead of answering the same request again for every exchange that asks.',
     ],
     DESK,
   )}

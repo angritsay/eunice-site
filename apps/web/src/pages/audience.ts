@@ -17,7 +17,7 @@ interface DeskShared {
 }
 
 // What every audience page on a desk has in common: the trust
-// markers it closes on, its quote and which insights it lists.
+// markers it closes on, its quote (unless the page names its own) and which insights it lists.
 const DESK: Record<ProductDesk, DeskShared> = {
   'private-markets': {
     facts: [
@@ -41,21 +41,17 @@ const DESK: Record<ProductDesk, DeskShared> = {
     facts: [
       {
         art: 'sandbox',
-        title: 'FCA regulatory sandbox',
-        text: 'Digital asset disclosure standards, since November 2025',
+        title: 'FCA Regulatory Sandbox',
+        text: 'Participant since November 2025, testing disclosure standards',
       },
       { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
-      {
-        art: 'sources',
-        title: 'Five sources, one view',
-        text: 'Allium, CoinGecko, CoinMarketCap, DeFiLlama and X, cited by name',
-      },
+      { art: 'cite', title: 'Every claim', text: 'Cited to the source it came from' },
       { art: 'globe', title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
     ],
     quote: quotes.falconx,
     insights: {
       label: 'Insights on digital assets',
-      aside: 'Exploits, risk and regulation, as they happen.',
+      aside: 'Exploits, risk and regulation.',
       deskFilter: ['digital-assets', 'token-disclosure'],
     },
   },
@@ -63,8 +59,8 @@ const DESK: Record<ProductDesk, DeskShared> = {
     facts: [
       {
         art: 'sandbox',
-        title: 'FCA regulatory sandbox',
-        text: 'Digital asset disclosure standards, since November 2025',
+        title: 'FCA Regulatory Sandbox',
+        text: 'Participant since November 2025, testing disclosure standards',
       },
       { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
       { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
@@ -84,6 +80,8 @@ const DESK: Record<ProductDesk, DeskShared> = {
 function page(a: AudiencePage): Page {
   const d = DESK[a.desk];
   const label = desks[a.desk].label;
+  const quote = a.quote ? (quotes as Record<string, Quote>)[a.quote] : d.quote;
+  if (quote === undefined) throw new Error(`${a.desk}/${a.id}: no quote "${a.quote}" in quotes (src/content/index.ts)`);
   return {
     slug: `${a.desk}/${a.id}`,
     nav: a.desk,
@@ -118,7 +116,7 @@ function page(a: AudiencePage): Page {
 
 <section class="wrap section">
   ${facts(d.facts, 2)}
-  ${d.quote ? html`<div class="grid grid--1 quotes">${quoteBlock(d.quote)}</div>` : ''}
+  ${quote ? html`<div class="grid grid--1 quotes">${quoteBlock(quote)}</div>` : ''}
 </section>
 
 ${insightsBlock(ctx, { ...d.insights, featured: 1, rows: 2 })}

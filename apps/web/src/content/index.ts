@@ -30,6 +30,7 @@ export const desks = content('desks', Desks, {
 //   card       the title and one line shown on the desk page's card
 //   now        what the week looks like without us; three lines, no more
 //   work       what Eunice does about it; three, in the order they happen
+//   quote      the client quote it shows, when not the desk's own (a key in `quotes` below)
 export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'lps',
@@ -141,20 +142,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     desk: 'digital-assets',
     nav: 'For exchanges',
     card: { title: 'Exchanges', text: 'A listing queue that grows faster than the team reviewing it.' },
-    title: 'Eunice for exchanges — listing diligence your committee signs off',
+    title: 'Eunice for exchanges — listing diligence your committee signs off on',
     description:
-      'One report per asset covering the team, the code, the reserve and the jurisdiction, in the shape a listing committee already signs off.',
+      'One report per token covering the team, the code, the reserve where there is one, and the jurisdiction, in the shape a listing committee already signs off on.',
     h1: 'A listing queue the review team can keep up with',
-    lead: 'One report per asset — the team, the code, the reserve and the jurisdiction — in the shape your listing committee already signs off.',
+    lead: 'One report per token — the team, the code, the reserve where there is one, and the jurisdiction — in the shape your listing committee already signs off on.',
     now: [
       'The queue grows faster than the team reviewing it, and the backlog is the product decision.',
-      'Two analysts review the same asset to two different standards.',
+      'Two analysts review the same token to two different standards.',
       'An asset cleared under one regime is cleared again from scratch under the next.',
     ],
     work: [
       {
-        title: 'One report per asset',
-        text: 'Team, code, reserve and jurisdiction in a single document, in the format the committee already reads.',
+        title: 'One report per token',
+        text: 'Team, code, reserve where there is one, and jurisdiction in a single document, in the format the committee already reads.',
       },
       {
         title: 'The same standard every time',
@@ -166,7 +167,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
       },
     ],
     cta: {
-      title: 'Put one asset through it',
+      title: 'Put one token through it',
       text: 'Pick a token in your queue now. We will run it and show you the report and the monitoring feed side by side.',
     },
   },
@@ -174,12 +175,13 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     id: 'custodians',
     desk: 'digital-assets',
     nav: 'For custodians',
+    quote: 'zodia',
     card: { title: 'Custodians', text: 'You hold the asset. You are the last to hear when something moves.' },
-    title: 'Eunice for custodians — monitoring that reaches you first',
+    title: 'Eunice for custodians — monitoring with the source attached',
     description:
-      'Exploits, protocol changes, enforcement actions and reserve movements, surfaced the hour they land with the source attached.',
-    h1: 'Hear it before the trade press does',
-    lead: 'You hold the asset, so you should not be the last to know. Exploits, protocol changes, enforcement actions and reserve movements, surfaced the hour they land with the source attached.',
+      'Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached.',
+    h1: 'Hear it from the source, not from a client',
+    lead: 'You hold the asset, so you should not be the last to know. Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached.',
     now: [
       'The first notice of an exploit is a client asking about it.',
       'The asset was reviewed at onboarding, and the review is as old as the relationship.',
@@ -188,11 +190,11 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     work: [
       {
         title: 'Watched, not sampled',
-        text: 'Every asset you hold monitored continuously rather than revisited at review time.',
+        text: 'Every token you hold monitored continuously rather than revisited at review time.',
       },
       {
-        title: 'The hour it lands',
-        text: 'Exploits, protocol changes, enforcement actions and reserve movements surfaced as they happen, each with its source named.',
+        title: 'The day it lands',
+        text: 'Exploits, protocol changes, enforcement actions and reserve movements surfaced the same day, each with its source named.',
       },
       {
         title: 'Something you can forward',
@@ -208,6 +210,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     id: 'market-makers',
     desk: 'digital-assets',
     nav: 'For market makers',
+    quote: 'libeara',
     card: { title: 'Market makers', text: 'Inventory in something whose disclosure changed this morning.' },
     title: 'Eunice for market makers — know what changed before the position does',
     description:
@@ -221,12 +224,12 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'A view per asset',
-        text: 'The team, the code, the reserve and the jurisdiction in one place, so the reason for holding is written down.',
+        title: 'A view per token',
+        text: 'The team, the code, the reserve where there is one, and the jurisdiction in one place, so the reason for holding is written down.',
       },
       {
         title: 'Changes as they land',
-        text: 'Protocol changes, enforcement actions and reserve movements surfaced the hour they happen, with the source named.',
+        text: 'Protocol changes, enforcement actions and reserve movements surfaced the same day, with the source named.',
       },
       {
         title: 'Defensible to risk',
@@ -337,7 +340,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     cta: {
       title: 'Look up a token you are reviewing',
-      text: 'Name an asset in your queue. We will show you what the register holds on it, and what the listing report adds.',
+      text: 'Name a token in your queue. We will show you what the register holds on it, and what the listing report adds.',
     },
   },
 ]);
@@ -358,7 +361,7 @@ export const people = contentRecord('people', Person, {
     role: 'CEO · Finance/Crypto',
     facts: [
       'Co-Founder at FreeUp · Fintech acquired by Earnd',
-      'Scaled team on US & UK',
+      'Scaled teams across the US and UK',
       'Former VC with 40+ investments',
     ],
     photo: 'yi.webp',
@@ -368,7 +371,7 @@ export const people = contentRecord('people', Person, {
     name: 'Philip Lam',
     role: 'CTO · Product/Engineering',
     facts: [
-      'Co-Founder at NEX · US based AI startup, raised $40M',
+      'Co-Founder at NEX · US-based AI startup, raised $40M',
       'VP Eng at Goodnotes (30M MAU), built & led a team of 200 engineers',
       'Ex-Apple & Microsoft',
     ],
@@ -494,7 +497,7 @@ export const insights = content('insights', z.array(Insight), [
     date: '2026-07-28',
     desk: 'digital-assets',
     type: 'Press',
-    title: 'Eunice and Drew & Napier team up on token classification in Singapore',
+    title: 'Eunice and Drew & Napier partner on token classification in Singapore',
     standfirst:
       'Structured compliance triage from Eunice, backed by a leading law firm’s formal opinion when you need one to rely on.',
     url: 'https://www.linkedin.com/feed/update/urn:li:activity:7487786497375449088/',
@@ -581,7 +584,7 @@ export const insights = content('insights', z.array(Insight), [
     date: '2025-03-06',
     desk: 'token-disclosure',
     type: 'Press',
-    title: 'Introducing Eunice’s AI-powered MiCA whitepaper library',
+    title: 'Introducing Eunice’s AI-powered MiCA white paper library',
     post: 'introducing-the-ai-powered-mica-whitepaper-library',
   },
   {
@@ -654,10 +657,10 @@ export const events = content('events', z.array(Event), [
   {
     month: '2024-10',
     desks: ['digital-assets'],
-    name: 'ETHSofia, Sofia',
-    note: 'Talk: macroeconomic drivers of crypto assets.',
+    name: 'ETHSofia, Sofia · Talk',
+    note: 'Macroeconomic drivers of crypto assets.',
   },
-  { month: '2024-05', desks: ['digital-assets'], name: 'Consensus, Austin', note: 'Panel: de-risking DeFi.' },
+  { month: '2024-05', desks: ['digital-assets'], name: 'Consensus, Austin · Panel', note: 'De-risking DeFi.' },
 ]);
 
 export const quotes = contentRecord('quotes', Quote, {
@@ -684,13 +687,13 @@ export const quotes = contentRecord('quotes', Quote, {
   },
 });
 
-// Two rows of logos, "Working with" and "Partners". Each file is the firm's own mark: from
+// Two rows of logos, "Clients" and "Legal partners". Each file is the firm's own mark: from
 // its website header or logo file (Copper, Crypto.com, Zodia Custody, FalconX, Kraken,
 // Libeara, Zero Hash, Flowdesk, CMS, gunnercooke, Drew & Napier, Orrick, Cahill), or for
 // Coinbase, whose site blocks automated visits, the public-domain wordmark on Wikimedia
 // Commons. Shown in one grey, so none outshouts the others.
 //
-// "Working with": clients and the exchanges, custodians and market makers Eunice works
+// "Clients": clients and the exchanges, custodians and market makers Eunice works
 // alongside, in the order of the team's slide (October 2026). Stripe and OKX wait for the
 // firms' permission; Blockchain.com and VALR publish no logo file to take from.
 export const clients = content('clients', z.array(Firm), [
@@ -705,7 +708,7 @@ export const clients = content('clients', z.array(Firm), [
   { name: 'Flowdesk', logo: 'flowdesk.svg', height: 18 },
 ]);
 
-// "Partners": the law firms Eunice works with on token classification and disclosure.
+// "Legal partners": the law firms Eunice works with on token classification and disclosure.
 export const partners = content('partners', z.array(Firm), [
   { name: 'gunnercooke', logo: 'gunnercooke.svg', height: 22 },
   { name: 'CMS', logo: 'cms.svg', height: 30 },

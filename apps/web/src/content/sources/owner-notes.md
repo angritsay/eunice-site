@@ -26,3 +26,11 @@ Two typos on the live careers page, fixed here at the owner's request:
 
 Head of Private Markets
 VP Eng at Goodnotes (30M MAU), built & led a team of 200 engineers
+
+## Corrections from the copy review (2026-10-03)
+
+From Chrislyn Pereira's website copy review of the Crypto & RWA pages, "Should fix"
+section, the wording of two lines on the live careers page:
+
+Scaled teams across the US and UK
+Co-Founder at NEX - US-based AI startup, raised $40M

@@ -101,7 +101,7 @@ const DA: Copy = {
       ['No other token changed its schedule.', '40 tokens'],
     ],
     hot: 0,
-    sources: 'Sources · on-chain and 3 documents · every line cited',
+    sources: 'Sources · 2 of 1,120 · every line cited',
   },
   read: {
     doc: 'Token D · White paper v3',
@@ -207,7 +207,7 @@ const COMPANY: Copy = {
   ...PM,
   ask: {
     q: 'What changed across our investments this quarter?',
-    scope: ['Private markets', 'Crypto & RWA', 'Since Jul 2026'],
+    scope: ['Private markets', 'Digital assets', 'Since Jul 2026'],
     a: [
       ['Two funds amended their LPAs; both changes are cited.', 'p. 14'],
       ['One token changed who controls its treasury.', 'Vote #42'],

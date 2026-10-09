@@ -228,7 +228,7 @@ button { font: inherit; color: inherit; }
 .pullquote__who { display: flex; align-items: center; gap: 14px; margin-top: clamp(24px, 3vw, 40px); font-size: 15px; color: rgba(255,255,255,.72); }
 .pullquote__who::before { content: ""; width: 32px; height: 1px; background: rgba(255,255,255,.5); }
 
-/* Logos: "Working with" and "Partners". The grey caption on the left, then the firms
+/* Logos: "Clients" and "Legal partners". The grey caption on the left, then the firms
    drifting slowly left in a loop; both rows share the label width, so their logos
    start on one line, and every logo sits on the row's vertical centre. */
 .partners { display: flex; flex-direction: column; gap: 48px; margin-top: var(--section); }

@@ -65,8 +65,8 @@ ${whoCards(ctx, {
   ${facts([
     {
       art: 'sandbox',
-      title: 'FCA regulatory sandbox',
-      text: 'Digital asset disclosure standards, since November 2025',
+      title: 'FCA Regulatory Sandbox',
+      text: 'Participant since November 2025, testing disclosure standards',
     },
     { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
     { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
