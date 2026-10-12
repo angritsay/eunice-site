@@ -135,11 +135,7 @@ export default {
 
 ${insightsBlock(ctx, { label: 'Insights', featured: 3, rows: 5 })}
 
-${cta(ctx, {
-  title: 'Bring Us the Fund, or the Token, You Are Reviewing Now',
-  text: 'A thirty-minute call with the desk that would run it. We show you what Eunice reads and what it returns; you decide.',
-  buttons: [{ label: 'Book demo', kind: 'light', form: 'general' }],
-})}`,
+${cta(ctx, { buttons: [{ label: 'Book demo', kind: 'light', form: 'general' }] })}`,
 } satisfies Page;
 
 function tile(
