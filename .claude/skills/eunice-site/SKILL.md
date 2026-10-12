@@ -1,6 +1,6 @@
 ---
 name: eunice-site
-description: Make a change to the eunice.ai website the way the team agreed — copy, a person or bio, an insight, event, quote, role or logo, a section, a page, or a visual. Use for any request to add, edit, remove or fix something on the site, including plain-language requests from non-developers ("update Yi's bio", "add the October event", "the hero line should say…").
+description: Make a change to the eunice.ai website the way the team agreed — copy, a person or bio, an insight, event, quote, role or logo, a section, a page, a visual or an animation. Use for any request to add, edit, remove or fix something on the site, including plain-language requests from non-developers ("update Yi's bio", "add the October event", "the hero line should say…").
 ---
 
 # Changing the Eunice site
@@ -63,6 +63,27 @@ changing markup, layout or styles. The short version:
 type size, shadow or dark section, invent a component, change the product drawings'
 style, state a new figure or claim, or touch the ported live pages.
 
+## 4b. If it moves, stop and read
+
+Motion is the easiest thing to break and the hardest to notice. If the change touches
+the product drawings (`ui.ts`), the `.wf…` styles or `@keyframes` in `site.css`, the
+film, the reveal, the logo rows or the team strip in `site.js`, read
+[docs/brand/motion.md](../../../docs/brand/motion.md) first.
+
+- **Safe without asking:** the words inside a drawing (keep the row count and roughly
+  the length; keep the typed question 45–60 characters; keep the copy fictional), which
+  drawing or desk a page uses, the drawing's alt text, the firms in a logo row.
+- **Ask the owner first, every time:** any duration, delay, easing, keyframe percentage,
+  `steps()` count, class name a keyframe hangs on, `FILM_STEPS` or `FADE`, anything
+  under `prefers-reduced-motion`, a new animation or a new drawing. Open the pull request
+  as a draft and say what you want to change and why.
+- **Never** rename `wf__in`, `wf__l1`…, `wf__d4`…, `is-on`, `is-leaving`, `is-paused` or
+  the other classes the motion hangs on, add a pause button to the film, or make
+  something move under reduced motion.
+- After a motion change, `test/web/motion.spec.ts` must pass, and the pull request says
+  which drawings you watched on the preview through two full loops, on desktop, on a
+  phone and with reduced motion on.
+
 ## 5. Prove it
 
 ```
@@ -90,6 +111,7 @@ Check your own change against this list:
 
 - [ ] The words read like the rest of the site (tone-of-voice.md checklist).
 - [ ] No new colour, size, border, shadow, number label or eyebrow.
+- [ ] Nothing that moves changed, or the owner agreed and motion.md's checks pass.
 - [ ] Shared content edited in `content/index.ts`, not pasted into a page.
 - [ ] Every claim and figure already appears elsewhere on the site.
 - [ ] `pnpm build` and `pnpm test:web` pass; golden changes are only the intended ones.

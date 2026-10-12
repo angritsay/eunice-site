@@ -146,7 +146,8 @@ one view) with fictional funds and tokens:
   a side, about 15% of the drawing): dunes for the company, misted ridges for Private
   Markets, copper for Digital Assets and Token Disclosure. Change the frame in `site.css`
   (`.wf`, `.wf__win`), never per page.
-- **New drawing:** add it to `ui.ts`, reusing the window and its views.
+- **New drawing:** add it to `ui.ts`, reusing the window and its views, after reading
+  [motion.md](motion.md).
 
 ## Imagery
 
@@ -156,6 +157,9 @@ one view) with fictional funds and tokens:
 - Logos: one grey, sized by height in `content/index.ts`.
 
 ## Motion
+
+The full rules, what is tied to what, and what is safe to change are in
+[motion.md](motion.md); `test/web/motion.spec.ts` holds them. In short:
 
 Blocks ease up into place as they scroll in, the items of a row following one another
 (`site.js`, `.reveal`); only what starts below the fold is hidden. Logo rows drift slowly.

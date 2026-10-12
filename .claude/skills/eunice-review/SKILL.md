@@ -22,6 +22,13 @@ plainly: what is fine, what must change, and what is a matter of taste.
      the rules in `CLAUDE.md`: ink on white, the one grey, desk colour as a hint only,
      four type roles, hairlines not boxes, no numbering or eyebrows, components reused,
      shared fixes in the shared component.
+   - **Motion** — [docs/brand/motion.md](../../../docs/brand/motion.md): any diff to
+     `ui.ts` outside the copy objects, to `.wf…` / `@keyframes` / transitions in
+     `site.css`, or to the film, reveal, logo or team-strip sections of `site.js` is
+     **the owner's call**, every time, with what it changes in plain words. Check that
+     copy edits inside a drawing keep the row count, the length of the typed question
+     (45–60 characters) and fictional names, that no motion class was renamed, and that
+     `motion.spec.ts` still passes.
    - **Structure** — shared content only in `content/index.ts`; imported posts and jobs
      not hand-edited; ported pages (`mica-whitepaper.ts`, `security.ts`) untouched; a new
      page added to `urls.json`; golden changes match the intent.
