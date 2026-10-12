@@ -14,19 +14,19 @@
   "dependencies": {
     "@eunice/contracts": "workspace:*",
     "@eunice/platform": "workspace:*",
-    "@hono/node-server": "2.1.1",
+    "@hono/node-server": "2.1.3",
     "@hono/zod-openapi": "1.6.3",
-    "@scalar/hono-api-reference": "0.12.5",
-    "hono": "4.13.9",
+    "@scalar/hono-api-reference": "0.12.8",
+    "hono": "4.13.12",
     "kysely": "0.29.6",
-    "pg": "8.23.0",
+    "pg": "8.23.1",
     "zod": "4.6.5"
   },
   "devDependencies": {
     "@nats-io/jetstream": "3.4.0",
-    "@testcontainers/postgresql": "12.1.0",
+    "@testcontainers/postgresql": "12.2.0",
     "@types/pg": "8.23.1",
-    "testcontainers": "12.1.0",
+    "testcontainers": "12.2.0",
     "tsdown": "0.23.0"
   }
 }
