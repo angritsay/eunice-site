@@ -262,6 +262,9 @@ async function importPosts(browser: Browser) {
       await download(url, path.join(WEB, 'src', 'assets', name));
       html = html.split(`src="${url}"`).join(`src="${name}"`);
     }
+    // Covers are committed as WebP, at most 1200px wide (October 2026: the PNGs from the
+    // live site were up to 600KB each and slowed every page with an insights block).
+    // A re-import downloads the original format; convert a new cover before committing.
     let hero = '';
     if (x.hero) {
       hero = `img/blog/${slug}.${ext(x.hero)}`;

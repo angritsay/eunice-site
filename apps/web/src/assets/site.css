@@ -251,6 +251,15 @@ button { font: inherit; color: inherit; }
 /* Home: the proof block runs logos, numbers, logos, badges, with the same air between. */
 .proof > .logos:first-child { margin-top: 0; }
 .numbers + .logos { margin-top: clamp(96px, 13vw, 192px); }
+/* The investors: a statement on the left, the backers' logos in an open 2×2 wall on the right,
+   in step with the numbers block above. */
+.backers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 7vw, 112px); align-items: center; margin-top: clamp(96px, 13vw, 192px); }
+.backers__lead .h2 { max-width: 14em; }
+.backers__lead .small { margin-top: 16px; max-width: 30em; }
+.backers__wall { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; list-style: none; margin: 0; padding: 0; }
+.backers__wall li { display: flex; align-items: center; height: 112px; }
+.backers__wall img { display: block; filter: brightness(0); opacity: .78; }
+.team + .backers { margin-top: var(--section-tight); }
 .numbers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 7vw, 112px); align-items: center; margin-top: clamp(96px, 13vw, 192px); }
 .numbers__lead img { display: block; width: auto; height: 44px; filter: brightness(0); }
 .numbers__lead .h2 { margin-top: 20px; max-width: 14em; }
@@ -301,15 +310,18 @@ section.feature { padding-top: var(--section); }
 
 /* ---------- Home tiles ---------- */
 .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.tile { display: flex; flex-direction: column; justify-content: space-between; gap: 32px; color: #fff; padding: 28px; min-height: 300px; border-radius: 4px; transition: transform .2s ease; }
+.tile { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 40px; color: #fff; padding: 28px 0 0 28px; min-height: 420px; border-radius: 4px; }
 .tile:hover { color: #fff; }
 /* Both product tiles are ink; the desk shows only in its glyph. */
 .tile--private-markets, .tile--digital-assets { background: var(--ink); }
 .tile--private-markets .tile__title .mark { fill: var(--pm-field); }
 .tile--digital-assets .tile__title .mark { fill: var(--da-field); }
-.tile__shot { display: block; border-radius: 8px; overflow: hidden; background: rgba(255,255,255,.25); padding: 8px 8px 0; }
-.tile__shot img { height: auto; border-radius: 4px 4px 0 0; }
-.tile__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+/* The drawing breaks out: larger than the card and cropped by its bottom-right corner.
+   It sits flat; pointing at the card tilts it. */
+.tile__shot { display: block; width: 100%; margin: auto 0 -14% 10%; border-radius: 8px 0 0 0; overflow: hidden; background: rgba(255,255,255,.25); padding: 8px 0 0 8px; box-shadow: 0 32px 64px rgba(0,0,0,.4); transform-origin: 0 0; transform: perspective(1600px); transition: transform .7s cubic-bezier(.22,.61,.36,1); }
+.tile:hover .tile__shot, .tile:focus-visible .tile__shot { transform: perspective(1600px) rotateX(12deg) rotateY(-14deg) rotateZ(3deg); }
+.tile__shot img { height: auto; border-radius: 4px 0 0 0; }
+.tile__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-right: 28px; }
 .tile__title { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 20.8px; letter-spacing: -.015em; }
 .tile__text { display: block; margin-top: 10px; font-size: 11.2px; line-height: 1.5; color: rgba(255,255,255,.9); max-width: 34em; }
 .tile .btn--light { flex: 0 0 auto; }
@@ -400,16 +412,19 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .why { max-width: 40em; }
 .why .body + .body { margin-top: 12px; }
 @media (max-width: 1100px) { .story { grid-template-columns: minmax(0, 1fr); } }
-.team-block { margin-top: 56px; }
-.founders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
-.founder { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 24px; align-items: start; border-top: 1px solid var(--line-strong); padding-top: 20px; }
-.founder__media { aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: #eef0f3; }
-.founder__media img, .founder__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.founder__text { display: flex; flex-direction: column; gap: 8px; }
-.founder__text .pfacts { margin-top: 8px; }
-.pfacts { display: flex; flex-direction: column; gap: 6px; margin: 0; }
-.pfacts li { position: relative; padding-left: 16px; color: var(--muted); }
-.pfacts li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; background: var(--ink); }
+
+/* The team: one plain grid, everyone the same. Portrait, name, role, LinkedIn. */
+.team { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 24px; list-style: none; margin: 0; padding: 0; }
+.team__person { display: flex; flex-direction: column; gap: 4px; }
+.team__face { aspect-ratio: 1; margin-bottom: 12px; border-radius: var(--radius); overflow: hidden; background: #eef0f3; display: flex; align-items: center; justify-content: center; }
+.team__face img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+.team__initials { font-family: var(--font-head); font-size: 28px; color: var(--faint); }
+.team__face--open { background: none; border: 1.5px dashed #c9cfd9; }
+.team__in { display: inline-flex; width: 24px; height: 24px; margin-top: 6px; color: var(--muted); }
+.team__in:hover { color: var(--ink); }
+.team__hiring .more { margin-top: 6px; }
+@media (max-width: 1100px) { .team { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 16px; } }
 /* The integrations strip: logos drift left to right, slowly; still for reduced motion. */
 .strip { overflow: hidden; border-bottom: 1px solid var(--line); background: #fff; }
 .strip__track { display: flex; width: max-content; animation: strip 60s linear infinite; }
@@ -418,11 +433,6 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .strip__row img { height: 20px; width: auto; filter: grayscale(1); opacity: .7; }
 @keyframes strip { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 @media (prefers-reduced-motion: reduce) { .strip__track { animation: none; } }
-.people--team { margin-top: 40px; }
-.join { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--line); padding-top: 16px; }
-.join .small { margin-top: 6px; }
-.join { border-top-color: var(--pm-ink); }
-.join .h4 { color: var(--pm-ink); }
 
 /* ---------- Company, careers ---------- */
 .rules { display: flex; flex-direction: column; }
@@ -581,25 +591,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 .path__text { margin: 0; font-size: var(--body); line-height: 1.6; color: var(--path-muted); max-width: 30em; }
 
 /* ---------- Welcome: the people strip ---------- */
-.pstrip { display: flex; gap: 10px; height: 440px; list-style: none; margin: 0; padding: 0; }
-.pstrip__item { position: relative; flex: 1 1 0; min-width: 96px; border-radius: var(--radius); overflow: hidden; background: #eef0f3; transition: flex-grow .28s ease; }
-.pstrip__item.is-open { flex-grow: 3.4; }
-.pstrip__face { position: absolute; inset: 0 auto 0 0; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; transition: width .28s ease; }
-.pstrip__item.is-open .pstrip__face { width: 44%; cursor: default; }
-.pstrip__initials { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-family: var(--font-head); font-size: 28px; color: var(--faint); }
-.pstrip__face img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
-.pstrip__face .pstrip__initials { position: absolute; inset: 0; }
-.pstrip__label { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 2px; padding: 36px 14px 14px; background: linear-gradient(to top, rgba(238,240,243,.96) 55%, rgba(238,240,243,0)); transition: opacity .15s ease; }
-.pstrip__item.is-open .pstrip__label { opacity: 0; }
-.pstrip__name { font-family: var(--font-head); font-size: 14px; color: var(--ink); }
-.pstrip__role { font-size: var(--caption); color: var(--muted); line-height: 1.35; }
-.pstrip__empty { position: absolute; inset: 10px; display: flex; align-items: center; justify-content: center; border: 1.5px dashed #c9cfd9; border-radius: 6px; font-size: var(--caption); color: var(--muted); }
-.pstrip__info { position: absolute; top: 0; bottom: 0; left: 44%; right: 0; display: flex; flex-direction: column; gap: 10px; padding: 26px 24px; background: #fff; border: 1px solid var(--line); border-left: 0; border-radius: 0 var(--radius) var(--radius) 0; overflow-y: auto; visibility: hidden; opacity: 0; transition: opacity .2s ease 0s, visibility 0s linear .2s; }
-.pstrip__item.is-open .pstrip__info { visibility: visible; opacity: 1; transition: opacity .22s ease .2s, visibility 0s linear 0s; }
-.pstrip__info .h3 { margin-bottom: 2px; }
-.pstrip__info .more { margin-top: auto; }
 @media (prefers-reduced-motion: reduce) { .who__card { transition: none; } }
-@media (prefers-reduced-motion: reduce) { .pstrip__item, .pstrip__face, .pstrip__info, .pstrip__label { transition: none; } }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
@@ -616,6 +608,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 }
 @media (max-width: 960px) {
   .approach { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .backers { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .backers__wall li { height: 88px; }
   /* Tablet and phone: the cover drops under the date, inside the card. */
   .acard { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .acrumbs { margin-bottom: 12px; }
@@ -623,19 +617,6 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .path { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .path::before, .path--onward::before { left: 6px; right: auto; top: 6px; bottom: 0; width: 1px; height: auto; background: linear-gradient(180deg, var(--path-ink) 0 80%, transparent); }
   .path__stop { padding: 0 0 0 36px; }
-  /* The strip becomes an accordion: a row per person, the open one shows its text. */
-  .pstrip { flex-direction: column; height: auto; gap: 8px; }
-  .pstrip__item { flex: none; min-width: 0; background: none; border: 1px solid var(--line); overflow: visible; }
-  .pstrip__face { position: static; width: 100%; display: flex; align-items: center; gap: 14px; padding: 10px; min-height: 76px; }
-  .pstrip__item.is-open .pstrip__face { width: 100%; }
-  .pstrip__face img, .pstrip__face .pstrip__initials, .pstrip__empty { position: static; flex: 0 0 56px; width: 56px; height: 56px; border-radius: 6px; background: #eef0f3; font-size: 16px; }
-  .pstrip__empty { font-size: 0; }
-  .pstrip__label { position: static; padding: 0; background: none; }
-  .pstrip__item.is-open .pstrip__label { opacity: 1; }
-  .pstrip__info { position: static; display: none; padding: 4px 16px 18px; border: 0; border-radius: 0; visibility: visible; opacity: 1; overflow: visible; }
-  .pstrip__item.is-open .pstrip__info { display: flex; }
-  .pstrip__info .h3 { display: none; }
-  .founders, .story { grid-template-columns: minmax(0, 1fr); }
   .nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: #fff; flex-direction: column; gap: 0; padding: 8px var(--gutter) 20px; border-bottom: 1px solid var(--line); box-shadow: 0 20px 40px rgba(17,18,20,.08); }
   .nav__links.is-open { display: flex; }
   .nav__links a { padding: 12px 0; font-size: 12.8px; border-bottom: 1px solid var(--line); }
@@ -710,9 +691,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .shead { flex-direction: column; gap: 6px; }
   .irow { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .irow__tag { text-align: left; order: -1; }
-  .tile__foot { flex-direction: column; align-items: flex-start; }
-  .founder { grid-template-columns: minmax(0, 1fr); }
-  .founder__media { max-width: 320px; }
+  .tile__head { flex-direction: column; align-items: flex-start; }
+  .tile { min-height: 0; }
   .dialog__in { padding: 24px; }
 }
 
@@ -871,6 +851,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
    what starts below the fold, only with JavaScript, never with reduced motion). */
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1); transition-delay: calc(var(--i, 0) * 90ms); }
 .reveal.is-in { opacity: 1; transform: none; }
+/* A row of facts arrives one card at a time, so each credential gets its own moment. */
+.facts > .reveal { transition-delay: calc(var(--i, 0) * 220ms); }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
 /* ---------- The product, drawn (ui.ts) ----------
@@ -1010,7 +992,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 @keyframes wf-shimmer { to { background-position: -150% 0; } }
 
 /* On a home tile the window is a wide crop. */
-.tile__shot .wf { --u: .8cqw; aspect-ratio: 16 / 7; border-radius: 4px 4px 0 0; }
+.tile__shot .wf { --u: .8cqw; aspect-ratio: 16 / 9; border-radius: 4px 0 0 0; }
 .tile__shot .wf__win { inset: 5% 4% -8%; }
 
 /* The film: one window, its scenes stacked in the view. site.js steps data-step and puts

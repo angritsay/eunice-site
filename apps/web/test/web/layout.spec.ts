@@ -132,45 +132,60 @@ test.describe('base path', () => {
   }
 });
 
-// The team strip on the welcome page: exactly one person open at a time, and the one
-// you point at (wide screens) or tap (phones) is the one that opens.
-test.describe('team strip', () => {
-  const open = (p: Page) => p.locator('.pstrip__item.is-open');
+// The team on the welcome page: one plain grid, everyone the same size. Four to a row
+// on a wide screen, two on a phone, and every card names the person and their role.
+test.describe('team grid', () => {
+  const rowOf = async (p: Page) => {
+    const boxes = await p.locator('#team .team > li').evaluateAll((els) =>
+      els.map((e) => {
+        const r = e.getBoundingClientRect();
+        return { top: Math.round(r.top), width: Math.round(r.width) };
+      }),
+    );
+    return boxes.filter((b) => b.top === boxes[0]?.top);
+  };
 
-  test('on the welcome page, Petronela is the one open when it loads', async ({ page }) => {
-    await page.goto(BASE);
-    await expect(open(page)).toHaveCount(1);
-    await expect(open(page).locator('.pstrip__name')).toHaveText('Petronela Pell');
-  });
-
-  test('pointing at a person opens them and collapses the rest', async ({ page }) => {
+  test('four cards of equal width to a row on a wide screen', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE);
-    await expect(open(page)).toHaveCount(1);
-    const third = page.locator('.pstrip__item').nth(2);
-    await third.hover();
-    await expect(third).toHaveClass(/is-open/);
-    await expect(open(page)).toHaveCount(1);
-    await expect(third.locator('.pstrip__face')).toHaveAttribute('aria-expanded', 'true');
-    await page.waitForTimeout(400); // the width transition
-    const wide = (await third.boundingBox())?.width ?? 0;
-    const narrow = (await page.locator('.pstrip__item').first().boundingBox())?.width ?? 0;
-    expect(wide).toBeGreaterThan(narrow * 2);
-    await page.mouse.move(5, 5); // leaving the row keeps the last person open
-    await expect(third).toHaveClass(/is-open/);
+    const row = await rowOf(page);
+    expect(row).toHaveLength(4);
+    expect(new Set(row.map((b) => b.width)).size).toBe(1);
   });
 
-  test('on a phone, tapping a person opens their row', async ({ browser }) => {
-    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
-    const page = await ctx.newPage();
+  test('two to a row on a phone', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(BASE);
-    const second = page.locator('.pstrip__item').nth(1);
-    await second.locator('.pstrip__face').tap();
-    await expect(second).toHaveClass(/is-open/);
-    await expect(second.locator('.pstrip__info')).toBeVisible();
-    await expect(open(page)).toHaveCount(1);
-    await ctx.close();
+    expect(await rowOf(page)).toHaveLength(2);
   });
+
+  test('every card names the person and their role', async ({ page }) => {
+    await page.goto(BASE);
+    for (const card of await page.locator('#team .team__person:not(.team__hiring)').all()) {
+      await expect(card.locator('.h4')).not.toBeEmpty();
+      await expect(card.locator('.small')).not.toBeEmpty();
+    }
+  });
+});
+
+// The investors on the welcome page: four logos in a 2×2 wall, every cell the same width,
+// every logo showing.
+test('the investors wall holds two logos to a row', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(BASE);
+  const cells = await page.locator('.backers__wall > li').evaluateAll((els) =>
+    els.map((e) => {
+      const r = e.getBoundingClientRect();
+      return { top: Math.round(r.top), width: Math.round(r.width) };
+    }),
+  );
+  expect(cells).toHaveLength(4);
+  expect(new Set(cells.map((c) => c.top)).size).toBe(2);
+  expect(new Set(cells.map((c) => c.width)).size).toBe(1);
+  for (const img of await page.locator('.backers__wall img').all()) {
+    await img.scrollIntoViewIfNeeded();
+    await expect(img).toBeVisible();
+  }
 });
 
 // The film in the welcome page's hero, drawn in HTML: it steps through its scenes by
