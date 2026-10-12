@@ -419,6 +419,11 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .who__card--link { position: relative; }
 .who__card--link::after { content: '→'; position: absolute; top: 24px; right: 24px; color: var(--accent); transition: transform .2s ease; }
 .who__card--link:hover::after { transform: translateX(3px); }
+/* A card that says where it goes: the line at its foot is the cue, not the corner arrow. */
+.who__card--more::after { content: none; }
+.who__more { margin-top: auto; padding-top: 16px; font-size: var(--small); font-weight: 500; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.who__more span { display: inline-block; transition: transform .2s ease; }
+.who__card--more:hover .who__more span { transform: translateX(3px); }
 .who__line { font-size: var(--small); line-height: 1.5; color: var(--muted); }
 .who__needs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 12px; }
 .who__needs span { padding: 5px 10px; border-radius: 999px; background: var(--accent-tint); color: var(--accent); font-size: var(--caption); line-height: 1.3; }

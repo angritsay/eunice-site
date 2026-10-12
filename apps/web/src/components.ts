@@ -588,6 +588,8 @@ export interface WhoClient {
   art?: Art;
   needs?: readonly string[];
   to?: string;
+  /** Where the card goes, said at its foot ("See Token Disclosure"), when the corner arrow is not enough. */
+  more?: string;
 }
 
 export function whoCards(
@@ -608,9 +610,10 @@ export function whoCards(
     ${clients.map((c) => {
       const inner = html`${c.art ? art(c.art) : ''}<span class="who__title">${c.who}</span>
         <span class="who__line">${c.line}</span>
-        ${c.needs ? html`<span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>` : ''}`;
+        ${c.needs ? html`<span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>` : ''}
+        ${c.more ? html`<span class="who__more">${c.more} <span aria-hidden="true">→</span></span>` : ''}`;
       return c.to
-        ? html`<li><a class="who__card who__card--link" href="${ctx.link(c.to)}">${inner}</a></li>`
+        ? html`<li><a class="who__card who__card--link${c.more ? ' who__card--more' : ''}" href="${ctx.link(c.to)}">${inner}</a></li>`
         : html`<li><div class="who__card">${inner}</div></li>`;
     })}
   </ul>

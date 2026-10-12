@@ -45,13 +45,12 @@ ${whoCards(ctx, {
   desk: DESK,
   title: 'One Solution for Institutions and Issuers',
   clients: [
-    { who: 'Exchanges', line: audienceLine(DESK, 'exchanges'), art: 'exchange', to: `${DESK}/exchanges` },
-    { who: 'Custodians', line: audienceLine(DESK, 'custodians'), art: 'vault', to: `${DESK}/custodians` },
+    { who: 'Exchanges', line: audienceLine(DESK, 'exchanges'), art: 'exchange' },
+    { who: 'Custodians', line: audienceLine(DESK, 'custodians'), art: 'vault' },
     {
       who: 'Market Makers',
       line: audienceLine(DESK, 'market-makers'),
       art: 'orderBook',
-      to: `${DESK}/market-makers`,
     },
     {
       who: 'Banks',
@@ -68,6 +67,7 @@ ${whoCards(ctx, {
       line: audienceLine('token-disclosure', 'issuers'),
       art: 'issuer',
       to: 'token-disclosure',
+      more: 'See Token Disclosure',
     },
   ],
 })}
