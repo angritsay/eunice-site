@@ -71,7 +71,7 @@ style, state a new figure or claim, or touch the ported live pages.
 
 Motion is the easiest thing to break and the hardest to notice. If the change touches
 the product drawings (`ui.ts`), the `.wf…` styles or `@keyframes` in `site.css`, the
-film, the reveal, the logo rows or the team strip in `site.js`, read
+film, the reveal or the logo rows in `site.js`, read
 [docs/brand/motion.md](../../../docs/brand/motion.md) first.
 
 - **Safe without asking:** the words inside a drawing (keep the row count and roughly

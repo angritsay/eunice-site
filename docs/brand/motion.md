@@ -34,9 +34,12 @@ first: open the pull request as a draft and say so.
 | Product drawings (`uiAsk`, `uiRead`, `uiMonitor`, `uiReport`) | markup and copy: `apps/web/src/ui.ts`; motion: `site.css`, "The product, drawn" (`.wf…`, `@keyframes wf-*`) | 9s loop; caret blinks 1.1s; placeholder shimmers 1.4s | keeps playing | all animation off; scan line, placeholders hidden |
 | The film (`uiFilm`: ask and cite, find, watch, the closing line) | markup: `ui.ts`; steps: `site.js` "Product films" (`FILM_STEPS`, `FADE`); look: `site.css` `.wf--film`, `.wf__scene`, `.wf__close` | scenes 6.5s, 6s, 6.5s, 3.5s; a 350ms fade between; each scene's animations play once over 8s | holds | stays on its first scene |
 | Reveal on scroll | `site.js` "Reveal on scroll"; `site.css` `.reveal` | 0.9s, `--wf-ease`, items of a row one after another (up to 7) | — | nothing is hidden or moved |
-| Logo rows ("Clients", "Legal partners") | `components.ts` `logoMarquee()`; `site.css` `.logos…`, `@keyframes logos` | 90s and 50s a loop, linear | holds | stands still; the row wraps |
-| Team strip | `components.ts` `peopleStrip()`; `site.js` "People strip"; `site.css` `.pstrip…` | 0.28s open, text fades in 0.22s after 0.2s | opens on pointer or tap | no transitions |
+| Logo rows ("Clients", "Partners"; the investors row stands still: four logos are too few to loop) | `components.ts` `logoMarquee()`; `site.css` `.logos…`, `@keyframes logos` | 90s and 50s a loop, linear | holds | stands still; the row wraps |
 | Hover and focus details | `site.css` (buttons .15s, menus .2s, cards .4–.5s) | short, ease | — | all transitions off |
+
+The team does not move. It was an expanding strip until October 2026; Yi and Philip asked
+for a plain grid (`teamGrid()`, angritsay/eunice-site#72), and the owner agreed to drop
+the motion.
 
 ## What is tied to what
 
