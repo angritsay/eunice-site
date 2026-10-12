@@ -1,6 +1,6 @@
 # 5. Contracts first: one form registry drives the page and the server
 
-- Status: Accepted
+- Status: Accepted, amended by [ADR-0014](0014-static-site-on-aws.md)
 - Date: 2026-09-25
 
 ## Context

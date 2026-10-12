@@ -1,6 +1,6 @@
 # 9. NATS JetStream between intake and notifier; email through one port, two providers
 
-- Status: Accepted. The email transport (Mailpit HTTP / Resend) is superseded by [ADR-0012](0012-production-on-existing-vendors.md): SMTP to Google Workspace's relay.
+- Status: Superseded by [ADR-0014](0014-static-site-on-aws.md)
 - Date: 2026-09-25
 
 ## Context

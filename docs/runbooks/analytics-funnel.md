@@ -42,4 +42,4 @@ reports can filter on them.
 
 Who anyone is. No names, emails or message text reach analytics. Visitors who declined
 cookies are not counted at all, so the numbers are a floor, not a total. A lead's
-identity is only in the email ops receives (and in intake, if it is deployed).
+identity is only where the contact form delivers it (today, the inquiries@ inbox).

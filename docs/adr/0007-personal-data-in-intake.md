@@ -1,6 +1,6 @@
 # 7. Personal data in intake: collect little, keep it briefly, show it to no one else
 
-- Status: Accepted
+- Status: Superseded by [ADR-0014](0014-static-site-on-aws.md)
 - Date: 2026-09-25
 
 ## Context

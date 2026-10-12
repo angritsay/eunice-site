@@ -1,38 +1,27 @@
 # eunice.ai
 
-The Eunice website as code: eighteen pages, one stylesheet, no framework, no dependencies. It replaces the Framer project.
+The Eunice website as code: eighteen pages, one stylesheet, no framework, no runtime dependencies. It replaces the Framer project.
 
 **Pages:** Home · Private Markets · Digital Assets · Token Disclosure · Company · Careers · Insights
 
 Each of the three desks also has a personalised page per client type — `/private-markets/lps/`, `/token-disclosure/issuers/` and so on — plus `/token-disclosure/register/`. Those are generated from `audiencePages` in `apps/web/src/content/index.ts` through one template in `apps/web/src/pages/audience.ts`, so adding a client type is an edit to the content file and nothing else.
 
-## Start here (a ten-minute tour)
+## Start here
 
-**Engineering taking the site over:** read [docs/handover.md](docs/handover.md) first — what is live, what was built but never deployed, and the decisions still open.
+**Engineering taking the site over:** read [docs/handover.md](docs/handover.md) first: what is live, what is decided and what is left.
 
-1. **Run it.** `docker compose up --build --wait`, then open http://localhost:8080 and send
-   a form. The email is at http://localhost:8025, and the trace of that one request at
-   http://localhost:16686.
-2. **What it is.** [docs/architecture/overview.md](docs/architecture/overview.md) has
-   the C4 context and containers, and the boundaries with the ADRs behind them.
-3. **How a lead moves.** [docs/architecture/flows.md](docs/architecture/flows.md) has
-   sequence diagrams, each naming the code and the test that proves it.
-4. **Why.** [docs/adr/](docs/adr/) records thirteen decisions, including what was deliberately
-   *not* built.
-5. **What it must do, and how we know.** [docs/analysis/requirements.md](docs/analysis/requirements.md)
-   lists the measurable requirements and where each is verified.
-   [Failure modes](docs/architecture/failure-modes.md) covers what happens when each
-   part is down.
-6. **The code.** Start with the form registry (`packages/contracts/src/forms/`), which
-   the page and the server both use. Then `services/intake/src/`: `domain` → `application`
-   → `adapters` → `server.ts`, with the layering enforced in CI.
+1. **Run it.** `pnpm install && pnpm build`, then open `apps/web/dist/index.html`, or `pnpm preview` for every page in one file.
+2. **How it is built.** `apps/web/build.ts` renders every page from `apps/web/src/` into plain HTML. Markup goes through one escaping `html` tag; content is checked against a schema when the site builds ([ADR-0011](docs/adr/0011-typed-static-generator.md)).
+3. **How it looks, reads and moves.** [docs/brand/](docs/brand/): the design system, the tone of voice and the motion rules, which contributors' Claude follows through `.claude/skills/`.
+4. **Where it runs.** AWS S3 and CloudFront, defined in Terraform under [infra/terraform/](infra/terraform/), with a staging and a production environment ([ADR-0014](docs/adr/0014-static-site-on-aws.md)).
+5. **Why.** [docs/adr/](docs/adr/) records every significant decision, including what was built and then removed.
 
 ## Why a repo instead of Framer
 
 - **Branches that stay put.** In Framer a branch follows main, so a fix on main can break work in progress. Here a branch is a git branch: nothing moves until it is merged.
 - **Edits by asking.** Anyone on the team can open the repo in Claude Code and say "add the October event" or "update Yi's bio". Every change is a readable diff and a pull request, reviewed before it goes live.
 - **One source per fact.** A person, an event or an insight is written once in `apps/web/src/content/index.ts` and appears on every page that lists it. In Framer the same bio lives in three places.
-- **Hosting is free** on GitHub Pages; `eunice.ai` can point at it when we are ready.
+- **Hosting is plain files** on S3 behind CloudFront in Eunice's own AWS account: nothing to run or patch.
 
 ## Editing
 
@@ -59,32 +48,13 @@ pnpm test:web           # the site in a real browser: see below
 
 Every pull request runs the build and the web tests (`.github/workflows/ci.yml`). Publishing is `.github/workflows/pages.yml`, which runs after CI: it publishes the head of `main` (a failed CI run on `main` never deploys, and the ruleset only lets checked pull requests in), then checks the live URLs, and every open pull request from this repository gets a preview at `/eunice-site/preview/pr-<N>/` (noindex; forks are never built; a pull request's code is built with a read-only token and never runs in the job that deploys). A closed pull request's preview goes on the next run. A daily run rebuilds so dated content stays current. One-time setup: repo **Settings → Pages → Source: GitHub Actions**.
 
-## The whole system, locally
-
-The forms post to **intake**, which stores each submission and announces it on NATS;
-**notifier** turns that into an email to the ops inbox, with Reply-To set to the lead
-([services/](services/), decisions in [docs/adr/](docs/adr/)). One command runs it all —
-Postgres, NATS, both services with their migrations, the site behind a Caddy edge with a
-strict CSP, Mailpit to catch the email, and Jaeger for traces:
-
-```
-docker compose up --build --wait
-open http://localhost:8080                  # the site; its forms submit for real
-open http://localhost:8080/api/intake/docs  # the API, from its OpenAPI document
-open http://localhost:8025                  # Mailpit: the email ops receives
-open http://localhost:16686                 # one trace per submission, browser to inbox
-pnpm test:e2e                               # entry points to the inbox, outages
-docker compose down -v                      # stop, and delete the local data
-```
-
-No `.env` is needed; `.env.example` lists what can be changed.
+## Checks
 
 | Command | Runs |
 | --- | --- |
-| `pnpm check` | Biome, strict TypeScript everywhere, architecture rules |
-| `pnpm --filter './packages/*' --filter './services/*' test` | Unit tests, no containers |
-| `pnpm --filter './services/*' test:integration` | Services against real Postgres 18 and NATS (Testcontainers) |
-| `pnpm generate` | Regenerates the OpenAPI (intake) and AsyncAPI (events) documents; CI fails if they are stale |
+| `pnpm check` | Biome, strict TypeScript, architecture rules |
+| `pnpm build` then `pnpm test:web` | The site in a real browser (below) |
+| `pnpm check:determinism` | Two builds, byte for byte the same |
 
 ## Tests
 
@@ -98,8 +68,8 @@ No `.env` is needed; `.env.example` lists what can be changed.
 | `layout › base path` | A page that only works at `/` or only under `/eunice-site/` |
 | `a11y` | WCAG 2.2 AA violations via axe; known ones are listed per element in `known-a11y.json`, which can only shrink |
 | `dom` | Any change to rendered HTML, against goldens in `apps/web/test/web/__golden__/` |
-
-`pnpm check:determinism` builds twice and fails if a single byte differs.
+| `forms` | The contact dialog per entry point; no submission sent anywhere until an endpoint is set; the cookie banner when analytics is on |
+| `motion` | A drawing off the nine-second loop or the one easing; anything that moves under reduced motion ([docs/brand/motion.md](docs/brand/motion.md)) |
 
 ## Before going live
 
@@ -107,6 +77,7 @@ No `.env` is needed; `.env.example` lists what can be changed.
 - **The copy on the personalised pages is a first draft.** The ten client-type pages were written from material already on the site rather than by the desks. No new claims or numbers, but they need the desks' own words before anyone points a client at them.
 - Real assets: team portraits. Product visuals are drawn in HTML on purpose (`apps/web/src/ui.ts`), not screenshots. The master logo is in; the background art (dunes, ridges) is generated and needs no licence.
 - Bios for Yi, Philip and Chrislyn; the text of the 4 September note.
-- Contact: confirm `contactEmail` / `careersEmail`. The live form keeps opening the visitor's mail app until intake is deployed and a privacy notice is published; the production build refuses a form endpoint without one ([ADR-0007](docs/adr/0007-personal-data-in-intake.md)).
+- Contact form: it opens the visitor's mail app (addressed to `inquiries@eunice.ai`) until it is wired to Attio ([docs/handover.md](docs/handover.md)).
 - Links for each insight (`url` field) once the articles move over from Framer.
-- DNS: point `eunice.ai` at GitHub Pages and set `BASE_PATH` back to `/`.
+- Hosting: apply the Terraform for staging, then production; point `eunice.ai` at CloudFront from `eunice-infrastructure` ([infra/terraform/README.md](infra/terraform/README.md)).
+- Analytics: create the GA4 property and set its measurement id on the production build.

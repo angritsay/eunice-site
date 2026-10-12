@@ -44,7 +44,8 @@ const PAGES: Page[] = [
 ];
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.join(ROOT, 'src');
-const DIST = path.join(ROOT, 'dist');
+// OUT_DIR builds somewhere else (the tests use it to build a variant without touching dist/).
+const DIST = process.env['OUT_DIR'] ? path.resolve(process.env['OUT_DIR']) : path.join(ROOT, 'dist');
 const TODAY = process.env['SITE_DATE'] || new Date().toISOString().slice(0, 10);
 
 // Fonts are served from the site itself: no request to a third party on every page
@@ -117,10 +118,11 @@ const ANALYTICS_ON = Boolean(GA_ID);
 
 // A live form collects personal data, and GDPR (Art. 13) requires the privacy notice
 // to be available at the point of collection. So a production build that points the
-// form at a real endpoint fails unless the site has a privacy page. Until then the
-// form falls back to the visitor's mail app, which collects nothing on our side.
-// Analytics falls under the same rule: the notice must say what is measured and which cookies are set.
-const HAS_PRIVACY_PAGE = PAGES.some((p) => p.slug === 'privacy');
+// form at a real endpoint, or turns analytics on, fails unless the site has its privacy
+// page. That page is the policy imported from eunice.ai (Oct 2026: the owner and
+// engineering chose to reuse it rather than wait for a new notice; see ADR-0014).
+const PRIVACY_SLUG = 'privacy-policy';
+const HAS_PRIVACY_PAGE = PAGES.some((p) => p.slug === PRIVACY_SLUG);
 if (SITE_ENV === 'production' && FORM_ENDPOINT && !HAS_PRIVACY_PAGE) {
   throw new Error(
     'PUBLIC_FORM_ENDPOINT is set for a production build, but there is no privacy page. See the go-live gate in docs.',
