@@ -26,8 +26,9 @@ couple of minutes, so every change goes through a branch and a pull request firs
 
 Open the repo in Claude Code and describe the change in plain words, e.g. "add the
 October event in Singapore" or "update Yi's bio to …". Claude reads [`CLAUDE.md`](CLAUDE.md),
-which holds the design rules, makes the change on a new branch, runs the tests and opens
-a draft pull request. Open the preview link once the bot posts it, then mark the pull
+which holds the design rules, and follows the `eunice-site` skill: it makes the change on
+a new branch in the site's [voice](docs/brand/tone-of-voice.md) and
+[design](docs/brand/design-system.md), runs the tests and opens a draft pull request. Open the preview link once the bot posts it, then mark the pull
 request ready for review.
 
 Ask Claude to show you a screenshot of the page before you mark it ready.

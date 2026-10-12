@@ -2,6 +2,8 @@
 
 | Read | For |
 |---|---|
+| [brand/tone-of-voice.md](brand/tone-of-voice.md) | How the site writes: voice, mechanics, buttons, claims, microcopy, a checklist |
+| [brand/design-system.md](brand/design-system.md) | Tokens, type, layout, components and when to use them, product drawings |
 | [handover.md](handover.md) | For engineering taking the site over: what is live, what was never deployed, what is decided and what is open |
 | [architecture/overview.md](architecture/overview.md) | C4 context and containers, inside a service, cross-cutting concerns, deployment |
 | [architecture/flows.md](architecture/flows.md) | Sequence diagrams: submit, outbox to inbox, outages, erasure, analytics, each with its code and tests |

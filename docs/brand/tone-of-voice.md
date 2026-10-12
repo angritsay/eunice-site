@@ -1,0 +1,267 @@
+# Eunice tone of voice
+
+How the site writes, taken from the copy we wrote ourselves (`apps/web/src/pages/`,
+`content/index.ts`, `site.config.ts`, the forms and the product drawings). It does not
+describe the pages ported from the live site (`mica-whitepaper.ts`, `security.ts`), the
+imported blog posts and jobs, or the team lines quoted from the live careers page: those
+keep their own wording on purpose.
+
+**In one line:** we write like a diligence desk talking to a client: plain, specific,
+calm, and never claiming more than we can show.
+
+## Voice
+
+### Specific: name the document, the number, the day
+
+Say what is actually on the client's desk: the PPM, the DDQ, the committee date, the
+token, Thursday, 09:00. Not "insights", "workflows" or "solutions".
+
+| Write | Not |
+|---|---|
+| Ten fund documents, one committee, and a question you have to answer by Thursday. | Streamline your due diligence workflow with AI-powered insights. |
+| Every PPM, DDQ, LPA and audited statement, read against the ODD checklist you already use. Every finding cites its page. | Comprehensive document analysis at scale. |
+| The disclosure changed at 09:00 and the position was still on at noon. | Real-time alerts keep you ahead of the market. |
+
+### Proof over promise: every claim has its source
+
+The citation is the brand. Say where a thing came from, and do not say what we cannot
+show. The refrain comes back on purpose: "cites its page", "with the source attached",
+"traces back to its page".
+
+| Write | Not |
+|---|---|
+| If we cannot show you where it came from, we do not say it. | Trusted, accurate, reliable AI. |
+| Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached. | Instant alerts the moment anything happens. |
+
+Speed claims stay at "the same day" until there is data behind anything faster.
+
+### The client's week, in the client's words
+
+Describe the situation the reader is in, flatly, as they would tell it. No "struggling
+with", no "pain points".
+
+| Write | Not |
+|---|---|
+| A finding without a page reference is a finding you have to verify yourself. | Are you tired of manual diligence? |
+| Two answers to the same question disagree, and nobody notices until an LP does. | Inconsistent answers can be a real headache. |
+| The first notice of an exploit is a client asking about it. | Never miss a critical event again! |
+
+### Humble about the machine: the client decides
+
+Eunice prepares; people approve. The product pages do not lean on the word "AI".
+
+| Write | Not |
+|---|---|
+| Eunice does not approve anything. It prepares the thing you approve. | Let AI make the decision for you. |
+| We show you what Eunice reads and what it returns; you decide. | Our intelligent agents handle everything. |
+
+### Calm and balanced
+
+Full negatives ("do not", "cannot", "is not") rather than contractions. Short sentences.
+Balanced "X, not Y" lines. No exclamation marks.
+
+| Write | Not |
+|---|---|
+| Review the paper, not the boilerplate | Say goodbye to boilerplate! |
+| A disclosure nobody can find is not a disclosure. | Disclosures made easy. |
+
+## Who is speaking, and to whom
+
+- **We** is the firm and the people on a desk: "We run the training, implementation and
+  hand-holding." "We will run it and show you the report."
+- **Eunice** is the product, in the third person, and it does the reading: "Eunice reads
+  your own documents once and answers from them."
+- **The desk** is the team the client talks to: "A thirty-minute call with the desk that
+  would run it."
+- **You** is the client's team, with possessives: the checklist you already use, your
+  committee, your book, what you hold.
+- **How we describe ourselves:** "A diligence firm for regulated finance." "Due
+  diligence, disclosure and monitoring for regulated finance." The legal name is
+  "Reasoon Limited, trading as Eunice". Say "Eunice", not "Eunice AI", except in "Eunice
+  AI Trust Centre".
+
+### Desks and audiences
+
+| Desk (proper noun, always capitalised) | Who it serves (the labels we use) |
+|---|---|
+| Private Markets | LPs and asset owners, fund managers, family offices; in prose "LPs, GPs and family offices" |
+| Digital Assets | Exchanges, custodians, market makers, issuers and counsel |
+| Token Disclosure (part of Digital Assets: "the other side of the desk") | Issuers, counsel, exchanges ("one paper, three readers") |
+
+- When you mean the market rather than the desk, use lower case: "the same rigour to
+  private markets".
+- The section is called "Digital Assets", not "Crypto & RWA".
+- Do not use CASP, RWA or VASP in our copy.
+- Keep regulation (MiCA, the FCA sandbox, MAS, VARA) to Digital Assets and Token
+  Disclosure. Private Markets is about operational due diligence, portfolio monitoring
+  and the end-to-end service.
+
+## Mechanics
+
+| Topic | Rule | Example |
+|---|---|---|
+| Spelling | UK | personalised, tokenisation, rigour, judgement, Trust Centre |
+| Case | Sentence case for headings, buttons, labels, menu items and page titles; proper nouns keep capitals | Operational due diligence · Book demo |
+| Oxford comma | None | LPs, GPs and family offices |
+| "And" or "&" | Write "and"; keep "&" only inside a firm's own name | Insights and news · Drew & Napier |
+| Exclamation marks | Never | |
+| Contractions | Avoid in our copy | do not, cannot |
+| Quotes and apostrophes | Curly | firm’s, “Good enough” |
+| Small counts in prose | Spell out | ten fund documents, a thirty-minute call |
+| Figures in facts, numbers and drawings | Digits | 4 jurisdictions, 12 funds |
+| Money | `$` with a lower-case suffix for big figures | $8m, $1T+; in prose "over $1 trillion in AUM" |
+| Dates | Day month year, month and year in prose | 16 Sep 2026 · March 2026 · since November 2025 |
+| Time | 24-hour | 09:00 |
+| Ranges | En dash, no spaces | 1819–1888 · p. 1–24 |
+| Page references | "p." | p. 14 of 62 · LPA p. 31 |
+| Metadata separator | Middle dot with spaces | March 2026 · Moonfire, Speedinvest |
+| Em dash | Only as the separator in page titles, and rarely in body copy | Private Markets — Eunice |
+| Abbreviations | Used bare: the readers know them | ODD, PPM, DDQ, LPA, LP, GP, AUM, MiCA, FCA, MAS, VARA |
+| Compounds | One spelling each | dataroom · white paper · cryptoassets |
+
+## Patterns
+
+### Headings
+
+- **H1:** the desk's name alone, or a 4–9 word claim in sentence case, no full stop.
+  "A white paper accepted once, and true after that". "Diligence on every fund, before
+  the committee sits". "Know what changed before the position does".
+- **H2, three kinds:**
+  - **Plain nouns:** "Portfolio monitoring", "Listing diligence", "The desk".
+  - **"What…" heads:** "What we stand for", "What this looks like now".
+  - **A twist on a phrase:** "Jurisdiction by jurisdiction", "Delivered end to end",
+    "One paper, three readers".
+- **Section aside:** one short line, often under 8 words. "Newest first." "The week we
+  hear described most often."
+- One H2 per idea. Never the same heading twice on a page.
+
+### Leads
+
+Two shapes:
+
+- **Name the offer as a noun phrase:** "Technology for private markets investors, with
+  the training, implementation and support to go with it."
+- **Problem, then promise:** "Eleven LPs, eleven formats, one set of facts. Eunice reads
+  your own documents once and answers from them."
+
+### The closing call to action
+
+- **Title:** an imperative about one real item on the client's desk now. "Bring us the
+  fund, or the token, you are reviewing now". "Put one fund through it". "Run it against
+  your book".
+- **Text:** the offer, then "We will show you…". "Pick a token you are reviewing now. We
+  will run it and show you the report and the monitoring feed side by side."
+
+### Buttons
+
+A short verb phrase in sentence case:
+
+| Use | Label |
+|---|---|
+| Primary call to action (Private Markets, Digital Assets, company pages) | Book demo |
+| Token Disclosure's primary | Start a white paper |
+| Secondary | See a sample report · See the register · Meet the team · Email the team · Who we work with |
+| Roles | See open roles |
+| Form | Send · Close |
+| Cookies | Accept · Decline |
+
+Avoid "Get started", "Learn more", "Click here" and "Submit".
+
+## Vocabulary
+
+**Words we use:** diligence, monitoring, cite / cited, source, finding, committee,
+checklist, sign off, notify, register, the same day, read in full, data gap, defensible,
+dataroom, flag.
+
+**Phrases that carry the brand:**
+- cites its page
+- with the source attached
+- the checklist you already use
+- in the shape a listing committee signs off on
+- comes back as a diff
+- the version that stands
+- What is missing is the finding
+
+**Words we do not use:** revolutionary, game-changing, unlock (except "unlock schedule"),
+seamless, leverage, cutting-edge, empower, robust, transform, innovative, world-class,
+best-in-class, enterprise-grade, ironclad, solution(s), leading, "shaping the future".
+"AI-powered" appears only in the owner's home page line; do not spread it.
+
+## Claims
+
+Only figures and credentials the site already states, in the same words. Name a
+credential, then qualify it in one plain line with a date or scope. Never a superlative.
+
+| Claim | Say it as | Where it may appear |
+|---|---|---|
+| Scale | $1T+ · "Trusted by asset allocators managing over $1 trillion in AUM" | Home, Private Markets |
+| White papers | 1,000+ · "drafted from 1,000+ pre-filled papers" | Home, Digital Assets, Token Disclosure |
+| Jurisdictions | 4 · "MiCA, the UK regime, MAS and VARA" | Home, Digital Assets |
+| Funding | $8m seed · "March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures" | Home, Company |
+| SOC 2 Type II | "Audited; the report is available on request" | Everywhere |
+| GDPR | "Compliant, with a data processing agreement for every engagement" | Everywhere |
+| No training | "Your documents are never used to train models. They stay yours." | Everywhere; it is a Private Markets trust marker |
+| FCA regulatory sandbox | "Participant since November 2025, testing disclosure standards" | Digital Assets, Token Disclosure, Home, Company; not Private Markets |
+| Fintech 50 | "Fintech 50, 2026" | Home, Company |
+| CMS | "Reviewed by CMS, where a legal opinion is needed" | Token Disclosure, Digital Assets |
+| Citations | "Every finding cited to the page it came from" | Everywhere |
+
+A new figure or credential needs the owner's sign-off and a source, recorded in
+`apps/web/src/content/sources/owner-notes.md`.
+
+## Microcopy
+
+- **Form titles:** "Talk to us", "Talk to the Private Markets desk", "Start a white paper".
+  The lead says what happens next and when: "Someone from the right desk replies within
+  one working day."
+- **Placeholders:** name what to write, in the client's terms. "The fund you are
+  reviewing, your committee date, what worries you".
+- **Errors:** what happened and what to do instead. "That did not go through. Email us
+  instead at inquiries@eunice.ai."
+- **Success:** confirm, then say when. "Thank you — your note is on its way to the desk.
+  We reply within one working day."
+- **Empty states:** say what will appear. "Private markets notes will appear here as the
+  desk publishes them."
+- **Alt text and drawing labels:** describe what the picture shows, as a fragment in
+  sentence case with no full stop. "A question asked, and an answer where every line is
+  cited". Decorative images get `alt=""`. Logos use the firm's name; portraits use the
+  person's name unless it sits beside them.
+- **No internal notes visible to visitors.** No brackets, "TBD" or "see the README".
+
+## Checklist before you publish copy
+
+- [ ] Does each line tell the reader something? Cut the ones that do not.
+- [ ] Is it specific: a document, a number, a day, a desk?
+- [ ] Is every claim one the site already makes, in the same words?
+- [ ] UK spelling, sentence case, no Oxford comma, no exclamation marks?
+- [ ] None of the words on the "do not use" list?
+- [ ] Desk names capitalised; regulation kept off Private Markets?
+- [ ] Buttons from the list above?
+- [ ] Alt text describes the picture?
+
+## Known inconsistencies on the site today
+
+Found while writing this guide. Each needs the owner's call before it changes, because
+it changes rendered pages.
+
+1. **Private Markets menu items are in title case** ("Operational Due Diligence"…),
+   unlike the rest (`site.config.ts`).
+2. **"FCA Regulatory Sandbox" and "FCA regulatory sandbox"** are both used, and the
+   footer legal line puts the sandbox on Private Markets pages too (`site.config.ts`).
+3. **Footer column titles write desk names in lower case** ("Private markets").
+4. **Token Disclosure client-type pages say "Book demo"** under a "Start a white paper"
+   title (`pages/audience.ts`).
+5. **"Book demo" opens a dialog titled "Talk to us"** that offers a call, not a demo.
+6. **Roles buttons use four wordings** ("See the roles", "See open roles", "All roles",
+   "Life at Eunice and all roles").
+7. **"Learn more" on the Home tiles.**
+8. **Money formats:** "$8m" next to "$40M", "$100M" and "US$1 billion".
+9. **Sandbox tense:** "Participant since November 2025" on the desk pages, but the events
+   list says testing completed in August 2026.
+10. **Fintech 50 is described as "among the 100 fastest-growing startups"** (company page);
+    check against the source.
+11. **"Every firm’s needs are different" is used twice** on Private Markets.
+12. **A bracketed internal note shows on the register page** (`register.ts`).
+13. **The family offices card reads "Enable you to do more with a lean team."**: a
+    fragment with no subject.
+14. **Mixed compounds:** dataroom / data rooms; crypto assets / cryptoassets.

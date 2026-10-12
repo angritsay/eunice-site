@@ -60,5 +60,8 @@ changes nothing a visitor sees today.
 - **Search engines.** The `github.io` copy has no `noindex`. Once `eunice.ai` serves the
   same pages, retire the `github.io` site or mark it `noindex`, so search engines do not
   see duplicates.
-- **Editing.** Content and page copy rules are in [../CLAUDE.md](../CLAUDE.md); the
-  contribution flow is in [../CONTRIBUTING.md](../CONTRIBUTING.md).
+- **Editing.** Content and page copy rules are in [../CLAUDE.md](../CLAUDE.md), the voice
+  in [brand/tone-of-voice.md](brand/tone-of-voice.md), the design in
+  [brand/design-system.md](brand/design-system.md), and the contribution flow in
+  [../CONTRIBUTING.md](../CONTRIBUTING.md). Contributors' Claude follows the
+  `eunice-site` skill; `eunice-review` gives the reviewer a first pass.
