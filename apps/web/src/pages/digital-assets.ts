@@ -31,7 +31,7 @@ export default {
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <h1 class="h1">Defensible Decisions. In Every Jurisdiction.</h1>
+    <h1 class="h1">Defensible Decisions for Every Asset, in Every Jurisdiction.</h1>
     <p class="lead">Token due diligence in the format your risk committee already uses, and real-time monitoring across 50+ risk types. Built for lean teams covering every asset and every regulator.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
