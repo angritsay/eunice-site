@@ -469,7 +469,7 @@ export const insights = content('insights', z.array(Insight), [
   {
     date: '2026-09-16',
     desk: 'company',
-    type: 'Press',
+    type: 'Note',
     title: 'Our London office has moved to St Paul’s',
     standfirst:
       'We’re now right by St Paul’s, in the heart of the City of London, a short walk from many of the institutions we work with.',
@@ -534,6 +534,7 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Press',
     title: 'Eunice makes the Fintech 50',
     post: 'eunice-makes-the-fintech-50',
+    standfirst: 'TechRound ranked Eunice #43 among the 50 most promising fintech companies of 2026.',
   },
   {
     date: '2026-03-27',
@@ -541,6 +542,8 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Press',
     title: 'Eunice raises $8m to replace manual due diligence with institutional-grade AI infrastructure',
     post: 'eunice-raises-8m-to-replace-manual-due-diligence',
+    standfirst:
+      'Seed funding from Moonfire, Speedinvest, Openspace Capital and Locus Ventures, as we expand into private markets.',
   },
   {
     date: '2025-12-02',
@@ -646,6 +649,7 @@ export const events = content('events', z.array(Event), [
     desks: ['private-markets', 'digital-assets'],
     name: 'London FinTech delegation to Singapore',
     note: 'A week of meetings with the exchanges and custodians that operate under MAS.',
+    post: 'eunice-is-part-of-the-london-fintech-delegation-to-singapore',
   },
   {
     month: '2024-10',

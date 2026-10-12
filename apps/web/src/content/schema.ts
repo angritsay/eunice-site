@@ -100,6 +100,10 @@ export const Event = z.strictObject({
   desks: z.array(ProductDesk).min(1),
   name: text,
   note: text,
+  /** Its page elsewhere (a recording, a write-up). Absent, with no post: not a link. */
+  url: z.url().optional(),
+  /** Its write-up on this site, blog/<post>/. The post then is not listed again beside it. */
+  post: slugId.optional(),
 });
 export type Event = z.infer<typeof Event>;
 

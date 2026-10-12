@@ -443,6 +443,10 @@ export function insightsBlock(
 }
 
 // ---------- Events ----------
+// One row per event: when, what, and a line about it. With `insights`, the latest posts
+// join the same list in the same rows, newest first, so news and events read as one.
+// Notes (an office move) stay out of it. A row with somewhere to go is one link, the
+// whole row; one without stays text.
 export interface EventsBlockOptions {
   id?: string;
   label?: string;
@@ -451,28 +455,80 @@ export interface EventsBlockOptions {
   pastOnly?: boolean;
   band?: boolean;
   today: string;
+  insights?: { deskFilter: readonly Desk[]; count: number };
+}
+
+interface EventRow {
+  key: string;
+  month: string;
+  kind?: string;
+  name: string;
+  note: string;
+  href?: string | undefined;
 }
 
 export function eventsBlock(
-  _ctx: Ctx,
-  { id = 'events', label = 'Events', aside, desk, pastOnly = false, band = true, today }: EventsBlockOptions,
+  ctx: Ctx,
+  {
+    id = 'events',
+    label = 'Events',
+    aside,
+    desk,
+    pastOnly = false,
+    band = true,
+    today,
+    insights: news,
+  }: EventsBlockOptions,
 ): Html {
   const nowYm = today.slice(0, 7);
-  const list = events
+  const rows: EventRow[] = events
     .filter((e) => !desk || e.desks.includes(desk))
     .filter((e) => !pastOnly || e.month <= nowYm)
-    .sort((a, b) => (a.month < b.month ? 1 : -1));
+    .map((e) => ({
+      key: `${e.month}-01`,
+      month: e.month,
+      name: e.name,
+      note: e.note,
+      href: e.post ? ctx.link(`blog/${e.post}`) : e.url,
+    }));
+  if (news) {
+    const told = new Set(events.map((e) => e.post).filter(Boolean));
+    const posts = insights
+      .filter(
+        (it) =>
+          news.deskFilter.includes(it.desk) && it.type !== 'Note' && !it.placeholder && !(it.post && told.has(it.post)),
+      )
+      .sort(byDateDesc)
+      .slice(0, news.count);
+    for (const it of posts) {
+      rows.push({
+        key: it.date,
+        month: it.date.slice(0, 7),
+        kind: it.type,
+        name: it.title,
+        note: it.standfirst ?? '',
+        href: insightHref(ctx, it),
+      });
+    }
+  }
+  rows.sort((a, b) => (a.key < b.key ? 1 : -1));
   return html`
 <section class="${band ? 'band ' : ''}section" id="${id}"><div class="wrap">
   ${sectionHead(label, aside)}
-  <ul class="events">${list.map(
-    (e) => html`
-    <li class="event${e.month > nowYm ? ' event--upcoming' : ''}">
-      <span class="event__when">${fmtMonth(e.month)}${e.month > nowYm ? html`<span class="event__soon">Upcoming</span>` : ''}</span>
-      <span class="event__name h4">${e.name}</span>
-      <span class="event__note muted">${e.note}</span>
-    </li>`,
-  )}
+  <ul class="events">${rows.map((r) => {
+    const soon = !r.kind && r.month > nowYm;
+    const tag = soon ? 'Upcoming' : r.kind;
+    const inner = html`
+      <span class="event__when">${fmtMonth(r.month)}${tag ? html`<span class="event__soon">${tag}</span>` : ''}</span>
+      <span class="event__name h4">${r.name}</span>
+      <span class="event__note muted">${r.note}</span>`;
+    const cls = `event${soon ? ' event--upcoming' : ''}`;
+    return r.href
+      ? html`
+    <li><a class="${cls} event--link" href="${r.href}">${inner}</a></li>`
+      : html`
+    <li class="${cls}">${inner}</li>`;
+  })}
   </ul>
 </div></section>`;
 }

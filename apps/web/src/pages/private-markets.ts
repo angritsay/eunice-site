@@ -6,7 +6,6 @@ import {
   facts,
   feature,
   heroField,
-  insightsBlock,
   peopleStrip,
   plate,
   quoteBlock,
@@ -146,20 +145,17 @@ ${feature({
   <div class="section-stage">${stage({ film: uiFilm(DESK) })}</div>
 </section>
 
-${insightsBlock(ctx, {
-  label: 'From Our Blog',
-  aside: 'Research and news from Eunice.',
-  deskFilter: [DESK, 'company'],
-  featured: 1,
-  rows: 2,
-})}
-
 <section class="wrap section" id="team">
-  ${sectionHead('The Desk', 'Who runs private markets, and who builds what it runs on.')}
+  ${sectionHead('The Desk')}
   ${peopleStrip(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
 </section>
 
-${eventsBlock(ctx, { label: 'Events', desk: DESK, today: ctx.today })}
+${eventsBlock(ctx, {
+  label: 'News and Events',
+  desk: DESK,
+  today: ctx.today,
+  insights: { deskFilter: [DESK, 'company'], count: 3 },
+})}
 
 ${cta(ctx, { buttons: [{ label: 'Book demo', kind: 'light', form: DESK }] })}`,
 } satisfies Page;
