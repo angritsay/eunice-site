@@ -316,10 +316,10 @@ section.feature { padding-top: var(--section); }
 .tile--private-markets, .tile--digital-assets { background: var(--ink); }
 .tile--private-markets .tile__title .mark { fill: var(--pm-field); }
 .tile--digital-assets .tile__title .mark { fill: var(--da-field); }
-/* The drawing breaks out: larger than the card, set at a slight tilt and cropped by its
-   bottom-right corner. Pointing at the card straightens it. */
-.tile__shot { display: block; width: 100%; margin: auto 0 -14% 10%; border-radius: 8px 0 0 0; overflow: hidden; background: rgba(255,255,255,.25); padding: 8px 0 0 8px; box-shadow: 0 32px 64px rgba(0,0,0,.4); transform-origin: 0 0; transform: perspective(1600px) rotateX(12deg) rotateY(-14deg) rotateZ(3deg); transition: transform .7s cubic-bezier(.22,.61,.36,1); }
-.tile:hover .tile__shot, .tile:focus-visible .tile__shot { transform: perspective(1600px) translateY(-6px); }
+/* The drawing breaks out: larger than the card and cropped by its bottom-right corner.
+   It sits flat; pointing at the card tilts it. */
+.tile__shot { display: block; width: 100%; margin: auto 0 -14% 10%; border-radius: 8px 0 0 0; overflow: hidden; background: rgba(255,255,255,.25); padding: 8px 0 0 8px; box-shadow: 0 32px 64px rgba(0,0,0,.4); transform-origin: 0 0; transform: perspective(1600px); transition: transform .7s cubic-bezier(.22,.61,.36,1); }
+.tile:hover .tile__shot, .tile:focus-visible .tile__shot { transform: perspective(1600px) rotateX(12deg) rotateY(-14deg) rotateZ(3deg); }
 .tile__shot img { height: auto; border-radius: 4px 0 0 0; }
 .tile__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-right: 28px; }
 .tile__title { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 20.8px; letter-spacing: -.015em; }
