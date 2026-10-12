@@ -147,8 +147,6 @@ ${insightsBlock(ctx, {
 ${eventsBlock(ctx, { label: 'Where We Have Been', aside: 'Talks, panels and delegations.', desk: DESK, today: ctx.today })}
 
 ${cta(ctx, {
-  title: 'Put One Token Through It',
-  text: 'Pick a token you are reviewing now. We will run it and show you the report and the monitoring feed side by side.',
   buttons: [
     { label: 'See a sample report', kind: 'outline-light', form: 'sample-report' },
     { label: 'Book demo', kind: 'light', form: DESK },

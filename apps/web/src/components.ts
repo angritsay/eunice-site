@@ -754,6 +754,11 @@ export const demoAsk = (form: string, placement: Placement = 'closing') => html`
   <p class="ask__msg" role="status"></p>
 </form>`;
 
+// With no title the closing block sits on white, so a button made for the dark band
+// takes its light-ground twin.
+const onWhite = (kind: ButtonOptions['kind'] = 'dark'): NonNullable<ButtonOptions['kind']> =>
+  kind === 'outline-light' ? 'outline' : kind === 'light' ? 'dark' : kind;
+
 export const cta = (
   ctx: Ctx,
   { title, text, buttons }: { title?: string; text?: string; buttons: readonly ButtonOptions[] },
@@ -762,7 +767,9 @@ export const cta = (
   <div class="cta${title ? '' : ' cta--bare'}">
     ${title ? html`<div><h2 class="h2">${title}</h2>${text ? html`<p class="cta__text">${text}</p>` : ''}</div>` : ''}
     <div class="cta__buttons">${buttons.map((b) =>
-      b.form !== undefined && b.label === DEMO ? demoAsk(b.form) : button(ctx, { placement: 'closing', ...b }),
+      b.form !== undefined && b.label === DEMO
+        ? demoAsk(b.form)
+        : button(ctx, { placement: 'closing', ...b, ...(title ? {} : { kind: onWhite(b.kind) }) }),
     )}</div>
   </div>
 </section>`;
