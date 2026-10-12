@@ -2,6 +2,7 @@
 
 | Read | For |
 |---|---|
+| [handover.md](handover.md) | For engineering taking the site over: what is live, what was never deployed, what is decided and what is open |
 | [architecture/overview.md](architecture/overview.md) | C4 context and containers, inside a service, cross-cutting concerns, deployment |
 | [architecture/flows.md](architecture/flows.md) | Sequence diagrams: submit, outbox to inbox, outages, erasure, analytics, each with its code and tests |
 | [architecture/failure-modes.md](architecture/failure-modes.md) | What fails, what everyone sees, whether anything is lost, how we know |
