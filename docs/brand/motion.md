@@ -17,7 +17,8 @@ first: open the pull request as a draft and say so.
 - **One loop:** every product drawing repeats on the same nine seconds. Keyframe
   percentages are written against 9s: 8% is 0.72s, 92% is 8.28s.
 - **One rhythm:** items step in 120ms apart (`.wf__l1`…`.wf__l5` = .12s….6s). The
-  answer lines of the Ask view follow later (`.wf__d4`…`.wf__d7` = 1.75s…2.25s), after
+  answer lines of the Ask view follow later (`.wf__d4`…`.wf__d7` = 1.75s…2.25s; the Digital Assets
+  table puts its four rows on `.wf__d4`…`.wf__d7` and its footer on `.wf__d8` = 2.4s), after
   the question has typed.
 - **One entrance:** rise a little and un-blur (`wf-in`: from 0.6u down, 2px blur, to
   rest), then hold, then everything fades out together at the end of the loop.

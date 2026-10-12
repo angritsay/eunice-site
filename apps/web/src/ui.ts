@@ -14,7 +14,18 @@ type Row = readonly [string, string, string];
 
 interface Copy {
   space: string;
-  ask: { q: string; scope: readonly string[]; a: readonly (readonly [string, string])[]; hot: number; sources: string };
+  ask: {
+    q: string;
+    scope: readonly string[];
+    a: readonly (readonly [string, string])[];
+    hot: number;
+    sources: string;
+    /** Answers that read as a table instead of lines: four columns, the last one cited. */
+    table?: {
+      head: readonly [string, string, string, string];
+      rows: readonly (readonly [string, string, string, string])[];
+    };
+  };
   read: { doc: string; page: string; h: string; before: string; hit: string; after: string; note: string };
   gap: { doc: string; page: string; h: string; lead: string; item: string; note: string };
   monitor: {
@@ -93,15 +104,22 @@ const PM: Copy = {
 const DA: Copy = {
   space: 'Tokens',
   ask: {
-    q: 'Which tokens changed their unlock schedule this quarter?',
-    scope: ['40 tokens', '1,120 sources', 'Since Jul 2026'],
-    a: [
-      ['Token B moved its team unlock from March to June.', 'Vote #42'],
-      ['Token D added a 12-month cliff for new advisors.', 'p. 18'],
-      ['No other token changed its schedule.', '40 tokens'],
-    ],
-    hot: 0,
-    sources: 'Sources · 2 of 1,120 · every line cited',
+    // Yi, October 2026: a question listing desks actually ask. Token B has no review on
+    // file, so its decision is the one tinted.
+    q: 'Which listed tokens had a severe tech risk event?',
+    scope: ['340 tokens', '9,520 sources', 'Last 12 months'],
+    a: [],
+    table: {
+      head: ['Token', 'Event', 'Date', 'Your decision'],
+      rows: [
+        ['Token A', 'Bridge exploit, ~$41m drained', '14 Mar', 'Kept listed, deposits paused'],
+        ['Token B', 'Chain halt, 9 hours without blocks', '2 Jun', 'No review on file'],
+        ['Token C', 'Oracle manipulation, bad liquidations', '21 Jul', 'Under watch'],
+        ['Token D', 'Critical vulnerability, forced upgrade', '9 Sep', 'No action'],
+      ],
+    },
+    hot: 1,
+    sources: 'Sources · 4 of 9,520 · every line cited',
   },
   read: {
     doc: 'Token D · White paper v3',
@@ -121,7 +139,7 @@ const DA: Copy = {
     note: 'Not published. Asked for.',
   },
   monitor: {
-    title: '40 tokens',
+    title: '340 tokens',
     sub: 'On-chain and off, every day',
     rows: [
       ['Token A', 'No change', 'Sep 12'],
@@ -263,10 +281,21 @@ const cite = (text: string, hot = false) => html`<span class="wf__cite${hot ? ' 
 const askView = ({ ask }: Copy) => html`
     <div class="wf__q"><span class="wf__typed"><span>${ask.q}</span></span><i class="wf__caret"></i><span class="wf__send">${icon('send')}</span></div>
     <p class="wf__scope">${ask.scope.join(' · ')}</p>
-    <div class="wf__answer">${ask.a.map(
-      ([text, c], i) => html`<div class="wf__arow wf__in wf__d${i + 4}"><p>${text}</p>${cite(c, i === ask.hot)}</div>`,
-    )}</div>
-    <p class="wf__foot wf__in wf__d7"><span class="wf__docs">${icon('page')}${icon('page')}${icon('page')}</span>${ask.sources}</p>`;
+    ${
+      ask.table
+        ? html`<ul class="wf__table wf__table--ask">
+      <li class="wf__th">${ask.table.head.map((h) => html`<span>${h}</span>`)}</li>
+      ${ask.table.rows.map(
+        ([name, event, date, decision], i) =>
+          html`<li class="wf__in wf__d${i + 4}"><span>${name}</span><span>${event}</span><span>${date}</span>${cite(decision, i === ask.hot)}</li>`,
+      )}
+    </ul>`
+        : html`<div class="wf__answer">${ask.a.map(
+            ([text, c], i) =>
+              html`<div class="wf__arow wf__in wf__d${i + 4}"><p>${text}</p>${cite(c, i === ask.hot)}</div>`,
+          )}</div>`
+    }
+    <p class="wf__foot wf__in wf__d${ask.table ? 8 : 7}"><span class="wf__docs">${icon('page')}${icon('page')}${icon('page')}</span>${ask.sources}</p>`;
 
 const readView = ({ read, gap }: Copy, missing: boolean) => {
   const doc = missing ? gap : read;

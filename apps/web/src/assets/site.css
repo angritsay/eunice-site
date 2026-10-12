@@ -997,6 +997,10 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 .wf__table li span:last-child { text-align: right; }
 .wf__table .wf__th { border-top: 0; padding-top: 0; font-size: calc(var(--u) * 1.15); color: var(--muted); }
 .wf__table .wf__th span:first-child { color: var(--muted); }
+/* The ask view's table answer (Digital Assets): four columns, the decision cited. */
+.wf__table--ask { width: 100%; padding-left: calc(var(--u) * 1.6); border-left: 2px solid var(--wf-line); }
+.wf__table--ask li { grid-template-columns: .7fr 2fr .7fr 1.5fr; }
+.wf__table--ask li > .wf__cite { justify-self: end; }
 .wf__status { display: inline-flex; align-items: center; gap: calc(var(--u) * .6); color: var(--ink); }
 .wf__status i, .wf__tag i { width: calc(var(--u) * .7); height: calc(var(--u) * .7); border-radius: 50%; background: var(--hint); }
 .wf__track { position: relative; display: flex; justify-content: space-between; align-items: center; height: calc(var(--u) * 2); }
@@ -1026,7 +1030,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
    everything inside it. */
 .wf__in { animation: wf-in 9s var(--wf-ease) var(--d, 0s) infinite both; }
 .wf__l1 { --d: .12s; } .wf__l2 { --d: .24s; } .wf__l3 { --d: .36s; } .wf__l4 { --d: .48s; } .wf__l5 { --d: .6s; }
-.wf__d4 { --d: 1.75s; } .wf__d5 { --d: 1.9s; } .wf__d6 { --d: 2.05s; } .wf__d7 { --d: 2.25s; }
+.wf__d4 { --d: 1.75s; } .wf__d5 { --d: 1.9s; } .wf__d6 { --d: 2.05s; } .wf__d7 { --d: 2.25s; } .wf__d8 { --d: 2.4s; }
 @keyframes wf-in { 0% { opacity: 0; transform: translateY(calc(var(--u) * .6)); filter: blur(2px); } 8%, 92% { opacity: 1; transform: none; filter: none; } 100% { opacity: 0; transform: none; filter: none; } }
 @keyframes wf-type { 0%, 3% { clip-path: inset(0 100% 0 0); } 18%, 100% { clip-path: inset(0 0 0 0); } }
 @keyframes wf-blink { 50% { opacity: 0; } }
