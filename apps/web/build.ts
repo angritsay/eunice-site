@@ -105,7 +105,7 @@ function previewCtx(page: Pick<Page, 'slug'>): Ctx {
 
 // ---------- Shared chrome ----------
 // Build-time settings. SITE_ENV defaults to production so the guards apply unless a
-// build says otherwise; the local compose stack builds with SITE_ENV=local.
+// build says otherwise (SITE_ENV=local, for example).
 const SITE_ENV = process.env['SITE_ENV'] || 'production';
 const FORM_ENDPOINT = process.env['PUBLIC_FORM_ENDPOINT'] ?? config.formEndpoint;
 // Google Analytics 4 (ADR-0013): the measurement id, or no analytics at all. Nothing

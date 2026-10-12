@@ -1,0 +1,98 @@
+# AWS (ADR-0014): main goes to staging after CI passes on it; production is deployed
+# by hand from main (Actions → Deploy → Run workflow → production). The buckets,
+# distributions and roles are infra/terraform; this workflow only syncs files.
+#
+# Each GitHub environment (staging, production) needs these variables, from the
+# Terraform outputs. Until AWS_ROLE_ARN is set the job skips, so nothing fails
+# before the infrastructure exists:
+#   AWS_ROLE_ARN                deploy_role_arn
+#   SITE_BUCKET                 bucket
+#   CLOUDFRONT_DISTRIBUTION_ID  distribution_id
+#   GA_MEASUREMENT_ID           the GA4 property for that environment (optional)
+# GitHub Pages (pages.yml) keeps serving the pull request previews.
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Where to deploy main
+        type: choice
+        options: [staging, production]
+        default: staging
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ inputs.environment || 'staging' }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment || 'staging' }}
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref_name == github.event.repository.default_branch) ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event != 'pull_request')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: ${{ inputs.environment || 'staging' }}
+      url: ${{ inputs.environment == 'production' && 'https://eunice.ai' || 'https://staging.eunice.ai' }}
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      ROLE: ${{ vars.AWS_ROLE_ARN }}
+    steps:
+      - if: env.ROLE == ''
+        run: echo "::notice::AWS_ROLE_ARN is not set for this environment yet, so there is nothing to deploy to."
+      - if: env.ROLE != ''
+        uses: actions/checkout@v7
+        with:
+          # The commit CI just passed, or main when run by hand.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - if: env.ROLE != ''
+        uses: pnpm/action-setup@v6
+      - if: env.ROLE != ''
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - if: env.ROLE != ''
+        run: pnpm install --frozen-lockfile
+      - if: env.ROLE != ''
+        name: Build
+        working-directory: apps/web
+        run: |
+          pnpm build
+          if [ "$ENVIRONMENT" = production ]; then
+            printf 'User-agent: *\nAllow: /\n' > dist/robots.txt
+          else
+            printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+          fi
+        env:
+          ENVIRONMENT: ${{ inputs.environment || 'staging' }}
+          BASE_PATH: /
+          SITE_ENV: production
+          PUBLIC_GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID }}
+      - if: env.ROLE != ''
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-west-2
+      - if: env.ROLE != ''
+        name: Upload and invalidate
+        run: |
+          # Asset names carry no hash, so browsers keep files for five minutes only;
+          # CloudFront drops its copies on every deploy.
+          aws s3 sync apps/web/dist "s3://$BUCKET" --delete --cache-control "public, max-age=300"
+          aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION" --paths '/*'
+        env:
+          BUCKET: ${{ vars.SITE_BUCKET }}
+          DISTRIBUTION: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}

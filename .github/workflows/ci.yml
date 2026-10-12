@@ -39,6 +39,23 @@ jobs:
       - name: Architecture rules (.dependency-cruiser.cjs)
         run: pnpm check:architecture
 
+  terraform:
+    name: Terraform · format and validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.3
+      - run: terraform fmt -check -recursive infra/terraform
+      - name: Validate staging and prod (no AWS credentials, no state)
+        run: |
+          for env in infra/terraform/envs/*/; do
+            terraform -chdir="$env" init -backend=false -input=false
+            terraform -chdir="$env" validate
+          done
+
   web:
     name: Web · build and test
     runs-on: ubuntu-24.04
