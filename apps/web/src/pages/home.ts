@@ -48,8 +48,7 @@ export default {
     lead: {
       logo: 'sifted.svg',
       name: 'Sifted',
-      text: '100 fastest-growing startups in the UK & Ireland',
-      note: 'By revenue, 2026',
+      text: '100 fastest-growing startups in the UK & Ireland by revenue, 2026',
     },
     rows: [
       { n: '$8m', label: 'Seed and pre-seed raised' },

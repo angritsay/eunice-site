@@ -214,7 +214,7 @@ export const numbers = (
     lead,
     rows,
   }: {
-    lead: { logo: string; name: string; text: string; note: string };
+    lead: { logo: string; name: string; text: string; note?: string };
     rows: readonly { n: string; label: string }[];
   },
 ) => {
@@ -225,7 +225,7 @@ export const numbers = (
   <div class="numbers__lead">
     <img src="${ctx.asset(`img/logos/${lead.logo}`)}" alt="${lead.name}" width="${w}" height="${h}">
     <p class="h2">${lead.text}</p>
-    <p class="small muted">${lead.note}</p>
+    ${lead.note ? html`<p class="small muted">${lead.note}</p>` : ''}
   </div>
   <ul class="numbers__rows">
     ${rows.map((r) => html`<li><span class="h3">${r.n}</span><span class="small muted">${r.label}</span></li>`)}
