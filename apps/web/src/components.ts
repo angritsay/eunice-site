@@ -1,7 +1,18 @@
 // Shared building blocks. Pages compose these; nothing here holds page copy.
 import type { Placement } from '@eunice/contracts/forms';
-import { audiencePages, clients, desks, events, insights, integrations, partners, people } from './content/index.ts';
-import type { Firm, Insight, Person, Quote } from './content/schema.ts';
+import {
+  alsoBackedBy,
+  audiencePages,
+  clients,
+  desks,
+  events,
+  insights,
+  integrations,
+  investors,
+  partners,
+  people,
+} from './content/index.ts';
+import type { Firm, Insight, Quote } from './content/schema.ts';
 import type { Ctx, Desk, NavItem, NavKey, ProductDesk } from './lib/types.ts';
 import config from './site.config.ts';
 
@@ -48,7 +59,6 @@ export const fmtMonth = (ym: string) => {
 
 // Resolve a nav/link item to an href.
 export function href(ctx: Ctx, item: Omit<NavItem, 'label'>): string {
-  if (item.href === 'login') return config.loginUrl;
   if (item.href) return item.href;
   return ctx.link(item.to, item.hash, item.query);
 }
@@ -129,7 +139,6 @@ const CHEVRON = html`<svg width="12" height="12" viewBox="0 0 24 24" fill="none"
 export function header(ctx: Ctx, navKey: NavKey = 'company'): Html {
   const deskForm = navKey === 'company' ? 'general' : navKey;
   const lockup = config.lockups[navKey];
-  const login = config.loginOn.includes(navKey);
   // Keyed by page: preview.html holds every page in one document.
   const idFor = (menu: string) => `menu-${(ctx.slug || 'home').replaceAll('/', '-')}-${menu}`;
   return html`
@@ -148,12 +157,10 @@ export function header(ctx: Ctx, navKey: NavKey = 'company'): Html {
     )}
     </ul>
     <span class="nav__mobile-extra">
-      ${login ? html`<a href="${config.loginUrl}">User login</a>` : ''}
       <button type="button" class="btn btn--dark" data-form="${deskForm}" data-placement="nav">Book demo</button>
     </span>
   </nav>
   <div class="nav__actions">
-    ${login ? html`<a class="btn btn--outline nav__login" href="${config.loginUrl}">User login</a>` : ''}
     <button type="button" class="btn btn--dark" data-form="${deskForm}" data-placement="nav">Book demo</button>
     <button type="button" class="nav__menu" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
@@ -163,7 +170,9 @@ export function header(ctx: Ctx, navKey: NavKey = 'company'): Html {
 }
 
 // ---------- Footer ----------
-export function footer(ctx: Ctx): Html {
+// `consent`: the site runs Google Analytics, so the legal line offers a way back to the
+// cookie choice (GDPR: withdrawing consent is as easy as giving it).
+export function footer(ctx: Ctx, consent = false): Html {
   return html`
 <footer class="wrap footer">
   <div class="footer__grid">
@@ -187,10 +196,24 @@ export function footer(ctx: Ctx): Html {
   </div>
   <div class="footer__legal">
     <span>${config.legalLine}</span>
-    <span class="footer__legal-links"><a href="${ctx.link('privacy-policy')}">Privacy</a><a href="${ctx.link('terms-and-conditions')}">Terms</a><a href="${ctx.link('security')}">Security</a></span>
+    <span class="footer__legal-links"><a href="${ctx.link('privacy-policy')}">Privacy</a><a href="${ctx.link('terms-and-conditions')}">Terms</a><a href="${ctx.link('security')}">Security</a>${consent ? html`<button type="button" class="linklike" data-consent-open>Cookies</button>` : ''}</span>
   </div>
 </footer>`;
 }
+
+// ---------- Cookie consent ----------
+// Shown only when the build turns Google Analytics on (ADR-0013). site.js reveals it
+// until the visitor chooses, and loads Analytics only after "Accept".
+export const consentBanner = (ctx: Ctx): Html => html`
+<section class="consent" data-consent hidden aria-label="Cookies">
+  <div class="wrap consent__inner">
+    <p class="small">We use Google Analytics cookies to see which pages help and which forms work. They load only if you accept. <a href="${ctx.link('privacy-policy')}">Privacy</a></p>
+    <div class="buttons">
+      <button type="button" class="btn btn--sm btn--outline" data-consent-choice="denied">Decline</button>
+      <button type="button" class="btn btn--sm btn--dark" data-consent-choice="granted">Accept</button>
+    </div>
+  </div>
+</section>`;
 
 // ---------- Section scaffolding ----------
 // A section's label: the heading alone, no aside under or beside it (owner's call, Oct 2026).
@@ -274,14 +297,16 @@ const FIRMS = {
   partners: { label: 'Partners', firms: partners },
 };
 
+const firmLogo = (ctx: Ctx, f: Firm, hidden = false) => {
+  const s = imageSize(`img/logos/${f.logo}`);
+  const width = s ? Math.round((s.width / s.height) * f.height) : f.height * 4;
+  return html`<li><img src="${ctx.asset(`img/logos/${f.logo}`)}" alt="${hidden ? '' : f.name}" width="${width}" height="${f.height}" loading="lazy"></li>`;
+};
+
 export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
   const { label, firms } = FIRMS[row];
   const list = (hidden: boolean) =>
-    html`<ul class="logos__list"${hidden ? html` aria-hidden="true"` : ''}>${firms.map((f: Firm) => {
-      const s = imageSize(`img/logos/${f.logo}`);
-      const width = s ? Math.round((s.width / s.height) * f.height) : f.height * 4;
-      return html`<li><img src="${ctx.asset(`img/logos/${f.logo}`)}" alt="${hidden ? '' : f.name}" width="${width}" height="${f.height}" loading="lazy"></li>`;
-    })}</ul>`;
+    html`<ul class="logos__list"${hidden ? html` aria-hidden="true"` : ''}>${firms.map((f: Firm) => firmLogo(ctx, f, hidden))}</ul>`;
   const perHalf = Math.max(1, Math.ceil(10 / firms.length));
   const copies = Array.from({ length: perHalf * 2 }, (_, i) => list(i > 0));
   return html`
@@ -290,6 +315,21 @@ export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
   <div class="logos__view"><div class="logos__track">${copies}</div></div>
 </div>`;
 }
+
+// The investors, in step with the numbers block: the statement on the left, with the
+// scout and angel programmes named in words under it; the backers' logos in a 2×2 wall
+// on the right, with no rules between them.
+const inWords = (items: readonly string[]) =>
+  items.length > 1 ? `${items.slice(0, -1).join(', ')} and ${items.at(-1)}` : (items[0] ?? '');
+
+export const investorsBlock = (ctx: Ctx) => html`
+<div class="backers">
+  <div class="backers__lead">
+    <p class="h2">Backed by Leading Institutions and Individuals</p>
+    <p class="small muted">Also by ${inWords(alsoBackedBy)}.</p>
+  </div>
+  <ul class="backers__wall">${investors.map((f) => firmLogo(ctx, f))}</ul>
+</div>`;
 
 // Both rows together, for pages that show them as one block.
 export const partnersRow = (ctx: Ctx) => html`
@@ -513,8 +553,6 @@ export function eventsBlock(
 }
 
 // ---------- People ----------
-// variant 'row': small portrait beside the name (product pages). 'portrait': tall photo (company, careers).
-
 const initials = (name: string) =>
   name
     .split(/\s+/)
@@ -522,28 +560,34 @@ const initials = (name: string) =>
     .join('')
     .slice(0, 2);
 
-// The lines under a person's name, from the fact base. Nothing when there are none yet.
-const factList = (p: Person, size: 'body' | 'small') =>
-  p.facts.length ? html`<ul class="pfacts ${size}">${p.facts.map((f) => html`<li>${f}</li>`)}</ul>` : '';
+const LINKEDIN = html`<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="1.5" width="17" height="17" rx="3"/><path d="M6 8.5v5.5M6 6v.01M9.5 14V8.5M9.5 11c0-1.6 1-2.6 2.4-2.6 1.4 0 2.1.9 2.1 2.6V14"/></svg>`;
 
-// A founder, larger: portrait (or their film, once there is one), name, role, bio.
-export function founder(ctx: Ctx, id: PersonId): Html {
-  const p = people[id];
-  const portrait = html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="${p.name}" loading="lazy">`;
-  return html`
-<article class="founder">
-  <div class="founder__media">${
-    p.video
-      ? html`<video controls preload="none" poster="${ctx.asset(`img/people/${p.photo}`)}"><source src="${ctx.asset(`video/${p.video}`)}" type="video/mp4"><p>${p.name}: <a href="${ctx.asset(`video/${p.video}`)}">watch the film</a>.</p></video>`
-      : portrait
-  }</div>
-  <div class="founder__text">
-    <h3 class="h3">${p.name}</h3>
-    <p class="caption muted">${p.role}</p>
-    ${factList(p, 'body')}
-    ${p.linkedin ? html`<a class="more" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>` : ''}
-  </div>
-</article>`;
+// The team as a plain grid, everyone the same (Yi and Philip, October 2026, after the
+// Tetrix about page): portrait, name, role, LinkedIn. Founders come first by order, not by
+// size. `hiring`: a last card pointing at the open roles.
+export function teamGrid(ctx: Ctx, ids: readonly PersonId[], hiring?: { line: string }): Html {
+  return html`<ul class="team">${ids.map((id) => {
+    const p = people[id];
+    return html`<li class="team__person">
+    <div class="team__face">${
+      p.photo
+        ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="${p.name}" loading="lazy">`
+        : html`<span class="team__initials" aria-hidden="true">${initials(p.name)}</span>`
+    }</div>
+    <p class="h4">${p.name}</p>
+    <p class="small muted">${p.role}</p>
+    ${p.linkedin ? html`<a class="team__in" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">${LINKEDIN}</a>` : ''}
+  </li>`;
+  })}${
+    hiring
+      ? html`<li class="team__person team__hiring">
+    <div class="team__face team__face--open" aria-hidden="true"><span class="small muted">Your photo here</span></div>
+    <p class="h4">We Are Hiring</p>
+    <p class="small muted">${hiring.line}</p>
+    <a class="more" href="${ctx.link('careers', 'roles')}">See open roles</a>
+  </li>`
+      : ''
+  }</ul>`;
 }
 
 // The integrations strip along the top of every page: a slow loop of logos. The
@@ -671,57 +715,9 @@ export const listCards = (cards: readonly ListCard[]): Html => html`
     : html`<li><a class="lcard" href="${c.href}">${media}${text}</a></li>`;
 })}</ul>`;
 
-// ---------- People strip ----------
-// The team in one row. One person is always open: their portrait and, to its right,
-// who they are. Pointing at, focusing or tapping another opens them instead; the row
-// never snaps back to empty. On tablet and phone it is an accordion.
-// `open`: who is open when the page loads (the first person unless given).
-export function peopleStrip(
-  ctx: Ctx,
-  ids: readonly PersonId[],
-  opening?: { title: string; slug: string; line: string },
-  open: PersonId | undefined = ids[0],
-): Html {
-  const key = (ctx.slug || 'home').replaceAll('/', '-');
-  const item = (id: string, open: boolean, face: Html, label: Html, info: Html) => html`
-  <li class="pstrip__item${open ? ' is-open' : ''}">
-    <button type="button" class="pstrip__face" aria-expanded="${String(open)}" aria-controls="ps-${key}-${id}">${face}<span class="pstrip__label">${label}</span></button>
-    <div class="pstrip__info" id="ps-${key}-${id}">${info}</div>
-  </li>`;
-  return html`<ul class="pstrip" data-strip>${ids.map((id) => {
-    const p = people[id];
-    const face = p.photo
-      ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="" loading="lazy">`
-      : html`<span class="pstrip__initials" aria-hidden="true">${initials(p.name)}</span>`;
-    return item(
-      id,
-      id === open,
-      face,
-      html`<span class="pstrip__name">${p.name}</span><span class="pstrip__role">${p.role}</span>`,
-      html`<p class="h3">${p.name}</p>
-      <p class="caption muted">${p.role}</p>
-      ${factList(p, 'small')}
-      ${p.linkedin ? html`<a class="more" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>` : ''}`,
-    );
-  })}${
-    opening
-      ? item(
-          'opening',
-          false,
-          html`<span class="pstrip__empty">Your photo here</span>`,
-          html`<span class="pstrip__name">We Are Hiring</span><span class="pstrip__role">${opening.title}</span>`,
-          html`<p class="h3">${opening.title}</p>
-      <p class="caption muted">Open role</p>
-      <p class="small">${opening.line}</p>
-      <a class="more" href="${ctx.link(`careers/${opening.slug}`)}">Read the role and apply</a>`,
-        )
-      : ''
-  }</ul>`;
-}
-
 // ---------- Closing call to action ----------
 // "Book demo" as one line: the visitor's work email and the button, in the desk's
-// colour. A demo request asks nothing else (ADR-0013), so site.js sends it from here and
+// colour. A demo request asks nothing else (ADR-0015), so site.js sends it from here and
 // thanks the visitor in place; method="dialog" keeps the address out of the URL when
 // there is no script. Token Disclosure's own form is the white paper, which needs a
 // name, so its pages ask for a demo through the general form, in the desk's gold.

@@ -6,14 +6,14 @@ import {
   button,
   cta,
   facts,
-  founder,
   insightsBlock,
+  investorsBlock,
   logoMarquee,
   mark,
   numbers,
-  peopleStrip,
   quoteBlock,
   sectionHead,
+  teamGrid,
 } from '../components.ts';
 import { quotes } from '../content/index.ts';
 import { type Html, html } from '../lib/html.ts';
@@ -57,6 +57,7 @@ export default {
     ],
   })}
   ${logoMarquee(ctx, 'partners')}
+  ${investorsBlock(ctx)}
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">
@@ -104,23 +105,11 @@ export default {
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Our Founders')}
-  <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
-
-  <div class="team-block">
-    ${sectionHead('The Team')}
-    ${peopleStrip(
-      ctx,
-      ['riley', 'vinay', 'petronela', 'chrislyn', 'ana'],
-      {
-        title: 'Client Implementation Consultant, Private Markets',
-        slug: 'client-implementation-consultant-private-markets',
-        line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
-      },
-      'petronela',
-    )}
-    <div class="buttons">${button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', to: 'careers' })}</div>
-  </div>
+  ${sectionHead('Our Team')}
+  ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'], {
+    line: 'GTM for digital assets, client implementation for private markets, senior engineering.',
+  })}
+  <div class="buttons">${button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', to: 'careers' })}</div>
 </section>
 
 <section class="band section" id="why"><div class="wrap">
@@ -143,13 +132,13 @@ function tile(
 ) {
   return html`
 <a class="tile tile--${desk}" href="${ctx.link(desk)}">
-  <span class="tile__shot" aria-hidden="true">${visual}</span>
-  <span class="tile__foot">
+  <span class="tile__head">
     <span>
       <span class="tile__title">${mark(18, '#fff')}${title}</span>
       <span class="tile__text">${text}</span>
     </span>
     <span class="btn btn--light">Learn more</span>
   </span>
+  <span class="tile__shot" aria-hidden="true">${visual}</span>
 </a>`;
 }

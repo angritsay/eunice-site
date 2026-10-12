@@ -8,10 +8,10 @@ import {
   heroField,
   logoMarquee,
   mark,
-  peopleStrip,
   plate,
   quoteBlock,
   sectionHead,
+  teamGrid,
   whoCards,
 } from '../components.ts';
 import { quotes } from '../content/index.ts';
@@ -131,7 +131,7 @@ ${feature({
 
 <section class="wrap section" id="team">
   ${sectionHead('The Team')}
-  ${peopleStrip(ctx, ['yi', 'philip', 'chrislyn', 'riley'])}
+  ${teamGrid(ctx, ['yi', 'philip', 'chrislyn', 'riley'])}
 </section>
 
 ${eventsBlock(ctx, {

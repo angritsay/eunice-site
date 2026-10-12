@@ -1,5 +1,5 @@
 import type { Art } from '../art.ts';
-import { button, cta, facts, peopleStrip, plate, quoteBlock, sectionHead } from '../components.ts';
+import { button, cta, facts, plate, quoteBlock, sectionHead, teamGrid } from '../components.ts';
 import { quotes, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
@@ -52,7 +52,7 @@ export default {
 
 <section class="wrap section" id="team">
   ${sectionHead('Who You Will Work With')}
-  ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'])}
+  ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'])}
 </section>
 
 <section class="band section"><div class="wrap">

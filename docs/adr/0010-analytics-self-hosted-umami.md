@@ -1,6 +1,6 @@
 # 10. Analytics: self-hosted Umami, cookieless, funnel per entry point
 
-- Status: Accepted
+- Status: Superseded by [ADR-0013](0013-analytics-google-analytics-with-consent.md)
 - Date: 2026-09-25
 
 ## Context

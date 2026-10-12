@@ -64,7 +64,7 @@ const DESK: Record<ProductDesk, DeskShared> = {
         title: 'FCA Regulatory Sandbox',
         text: 'Participant since November 2025, testing disclosure standards',
       },
-      { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
+      { art: 'legal', title: 'Reviewed by a Law Firm', text: 'Where a legal opinion is needed' },
       { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
       { art: 'library', title: '30+ MiCA White Papers', text: 'Filed through 4 NCAs' },
     ],

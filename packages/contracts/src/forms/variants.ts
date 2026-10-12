@@ -1,7 +1,7 @@
 // What each form asks. A variant is chosen by the button the visitor pressed; the
 // page and placement around that button are the entry point (see entry.ts).
 // A demo request needs one thing — a work email — so it can be sent from a single line
-// on the page (ADR-0013). The dialog also offers the name, optional, and Digital Assets
+// on the page (ADR-0015). The dialog also offers the name, optional, and Digital Assets
 // an optional note. The white paper
 // and sample report forms ask a name, an email and an optional note. The variant sets the wording and which desk it goes to.
 // Job applications are not taken here: they go to each role's application form.

@@ -6,11 +6,11 @@ import {
   facts,
   feature,
   heroField,
-  peopleStrip,
   plate,
   quoteBlock,
   sectionHead,
   stage,
+  teamGrid,
   type WhoClient,
   whoCards,
 } from '../components.ts';
@@ -147,7 +147,7 @@ ${feature({
 
 <section class="wrap section" id="team">
   ${sectionHead('The Team')}
-  ${peopleStrip(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
+  ${teamGrid(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
 </section>
 
 ${eventsBlock(ctx, {

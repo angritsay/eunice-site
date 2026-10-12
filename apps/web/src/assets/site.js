@@ -1,8 +1,8 @@
 // @ts-check
 // Eunice site behaviour. No framework, no dependencies: this file is all the
-// JavaScript a visitor downloads.
+// JavaScript a visitor downloads, unless they accept Google Analytics cookies (ADR-0013).
 (() => {
-  /** @type {{ preview: boolean, contactEmail: string, formEndpoint: string, page: string, audience?: string }} */
+  /** @type {{ preview: boolean, contactEmail: string, formEndpoint: string, analyticsId?: string, page: string, audience?: string }} */
   const CFG = JSON.parse(document.getElementById('eunice-config')?.textContent || '{}');
   const PREVIEW = Boolean(CFG.preview);
 
@@ -125,34 +125,61 @@
     }
   }
 
-  // ---------- People strip ----------
-  // One person is always open. On a wide screen, pointing at someone opens them after
-  // a short pause (so sweeping across the row does not flicker); focus and tap open at
-  // once. Leaving the row keeps the last person open rather than snapping back.
-  const wide = window.matchMedia('(min-width: 961px)');
-  for (const strip of document.querySelectorAll('[data-strip]')) {
-    const items = [...strip.querySelectorAll('.pstrip__item')];
-    /** @type {ReturnType<typeof setTimeout> | undefined} */
-    let pending;
-    /** @param {Element} item */
-    const show = (item) => {
-      for (const i of items) {
-        const on = i === item;
-        i.classList.toggle('is-open', on);
-        i.querySelector('.pstrip__face')?.setAttribute('aria-expanded', String(on));
+  // ---------- Cookie consent and Google Analytics (ADR-0013) ----------
+  // Only when the build set a measurement id. Nothing from Google loads, and no cookie is
+  // set, until the visitor presses Accept. The choice is remembered on this device; the
+  // footer's "Cookies" link brings the banner back to change it.
+  if (CFG.analyticsId) {
+    const KEY = 'eunice-consent';
+    const banner = /** @type {HTMLElement | null} */ (document.querySelector('[data-consent]'));
+    /** @returns {string | null} */
+    const stored = () => {
+      try {
+        return localStorage.getItem(KEY);
+      } catch {
+        return null;
       }
     };
-    for (const item of items) {
-      const face = item.querySelector('.pstrip__face');
-      item.addEventListener('mouseenter', () => {
-        if (!wide.matches) return;
-        clearTimeout(pending);
-        pending = setTimeout(() => show(item), 70);
-      });
-      item.addEventListener('mouseleave', () => clearTimeout(pending));
-      face?.addEventListener('click', () => show(item));
-      face?.addEventListener('focus', () => wide.matches && show(item));
-    }
+    let loaded = false;
+    const loadAnalytics = () => {
+      if (loaded || !CFG.analyticsId) return;
+      loaded = true;
+      const w = /** @type {{ dataLayer?: unknown[], gtag?: (...args: unknown[]) => void }} */ (
+        /** @type {unknown} */ (window)
+      );
+      w.dataLayer = w.dataLayer || [];
+      w.gtag = function () {
+        // gtag.js reads the arguments object itself, so it is pushed as is.
+        // biome-ignore lint/complexity/noArguments: the documented gtag shape
+        w.dataLayer?.push(arguments);
+      };
+      w.gtag('js', new Date());
+      w.gtag('config', CFG.analyticsId);
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(CFG.analyticsId)}`;
+      document.head.append(s);
+    };
+    const choice = stored();
+    if (choice === 'granted') loadAnalytics();
+    else if (choice !== 'denied' && banner) banner.hidden = false;
+    document.addEventListener('click', (e) => {
+      const t = /** @type {HTMLElement} */ (e.target);
+      const pick = /** @type {HTMLElement | null} */ (t.closest('[data-consent-choice]'));
+      if (pick) {
+        const value = pick.dataset['consentChoice'] || 'denied';
+        try {
+          localStorage.setItem(KEY, value);
+        } catch {
+          // Private mode: the choice holds for this page only.
+        }
+        if (banner) banner.hidden = true;
+        if (value === 'granted') loadAnalytics();
+        // Declining after accepting: the next page loads without Analytics.
+        return;
+      }
+      if (t.closest('[data-consent-open]') && banner) banner.hidden = false;
+    });
   }
 
   // ---------- Contact dialog ----------
@@ -168,12 +195,10 @@
       null
     );
 
-  // ---------- Form funnel analytics (ADR-0010) ----------
-  // Events go to our own Umami, if the page loaded its tracker; otherwise this does
-  // nothing. They describe the form and where it was opened — never what was typed.
-  // Read at call time: the tracker loads after this script.
-  const umami = () =>
-    /** @type {{ umami?: { track(name: string, data: object): void } }} */ (/** @type {unknown} */ (window)).umami;
+  // ---------- Form funnel analytics (ADR-0013) ----------
+  // Events go to Google Analytics, once the visitor has accepted its cookies; otherwise
+  // this does nothing. They describe the form and where it was opened — never what was typed.
+  const gtag = () => /** @type {{ gtag?: (...args: unknown[]) => void }} */ (/** @type {unknown} */ (window)).gtag;
   /**
    * @param {string} name @param {Record<string, string | number>} [extra]
    * @param {{ variant: string, entry: Record<string, string> } | null} [state] the form it describes
@@ -190,7 +215,7 @@
       ...extra,
     };
     try {
-      umami()?.track(name, data);
+      gtag()?.('event', name, data);
     } catch {
       // Analytics must never get in the way of a lead.
     }
@@ -308,7 +333,7 @@
   }
 
   // ---------- The closing "Book demo" line ----------
-  // A demo request asks only the work email (ADR-0013), so this line sends it as it
+  // A demo request asks only the work email (ADR-0015), so this line sends it as it
   // stands: no form opens. It thanks the visitor in place. Until intake is live, the
   // visitor's mail app sends it instead, as the dialog does.
   for (const ask of /** @type {NodeListOf<HTMLFormElement>} */ (document.querySelectorAll('form.ask[data-form]'))) {

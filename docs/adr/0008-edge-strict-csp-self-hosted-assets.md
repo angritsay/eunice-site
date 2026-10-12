@@ -1,6 +1,6 @@
 # 8. One edge, a strict Content Security Policy, everything self-hosted
 
-- Status: Accepted
+- Status: Accepted, amended by [ADR-0014](0014-static-site-on-aws.md)
 - Date: 2026-09-25
 
 ## Context

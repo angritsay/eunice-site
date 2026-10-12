@@ -2,7 +2,7 @@
   "name": "eunice",
   "private": true,
   "type": "module",
-  "description": "eunice.ai — the site, and the services behind its forms",
+  "description": "eunice.ai \u2014 the site",
   "packageManager": "pnpm@12.6.0",
   "engines": {
     "node": ">=22.18"
@@ -10,23 +10,20 @@
   "scripts": {
     "build": "pnpm --filter @eunice/web build",
     "preview": "pnpm --filter @eunice/web preview",
-    "test": "pnpm -r --workspace-concurrency=1 test",
+    "test": "pnpm test:web",
     "test:web": "pnpm --filter @eunice/web test",
     "test:web:update": "pnpm --filter @eunice/web test:update",
-    "test:e2e": "pnpm --filter @eunice/e2e e2e",
-    "generate": "pnpm --filter @eunice/intake openapi && pnpm --filter @eunice/contracts asyncapi",
     "check:determinism": "pnpm --filter @eunice/web check:determinism",
     "lint": "biome check .",
     "format": "biome check --write .",
     "typecheck": "pnpm -r typecheck",
-    "check:architecture": "depcruise apps packages services --config .dependency-cruiser.cjs",
+    "check:architecture": "depcruise apps packages --config .dependency-cruiser.cjs",
     "check": "pnpm lint && pnpm typecheck && pnpm check:architecture"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "@types/node": "26.6.4",
     "dependency-cruiser": "18.5.0",
-    "typescript": "6.0.3",
-    "vitest": "5.0.3"
+    "typescript": "6.0.3"
   }
 }

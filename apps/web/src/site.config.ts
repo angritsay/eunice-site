@@ -10,11 +10,9 @@ export interface SiteConfig {
   careersEmail: string;
   formEndpoint: string;
   basePath: string;
-  loginUrl: string;
   trustCenterUrl: string;
   menus: { id: string; label: string; to: string; keys: NavKey[]; items: NavItem[] }[];
   lockups: Partial<Record<NavKey, string>>;
-  loginOn: NavKey[];
   footer: { title: string; links: NavItem[] }[];
 }
 
@@ -31,10 +29,10 @@ const config: SiteConfig = {
   legalLine: 'Reasoon Limited, trading as Eunice · London · SOC 2 Type II · GDPR · FCA regulatory sandbox',
   tagline: 'Due diligence, disclosure and monitoring for regulated finance.',
 
-  // Where "Talk to us" submissions go. formEndpoint is intake's POST /v1/submissions;
-  // it is set per build with PUBLIC_FORM_ENDPOINT, and a production build refuses it
-  // until there is a privacy page (ADR-0007). While it is empty, the form opens the
-  // visitor's mail app addressed to contactEmail: the enquiries address eunice.ai uses.
+  // Where "Talk to us" submissions go. formEndpoint is set per build with
+  // PUBLIC_FORM_ENDPOINT once the form has a receiver (ADR-0014), and a production build
+  // refuses it without the privacy page. While it is empty, the form opens the visitor's
+  // mail app addressed to contactEmail: the enquiries address eunice.ai uses.
   contactEmail: 'inquiries@eunice.ai',
   // Job applications go to each role's application form (roles in content/index.ts).
   // This address is for everyone else who wants to work with us, as on eunice.ai.
@@ -45,7 +43,6 @@ const config: SiteConfig = {
   // '/<repo-name>/' while it lives at <user>.github.io/<repo-name>. Only the 404 page uses it.
   basePath: process.env['BASE_PATH'] || '/',
 
-  loginUrl: 'https://app.eunice.ai', // TODO: confirm
   trustCenterUrl: TRUST_CENTER,
 
   // One header on every page: three menus, each a landing page with a dropdown of
@@ -95,8 +92,6 @@ const config: SiteConfig = {
     'digital-assets': 'Digital Assets',
     'token-disclosure': 'Token Disclosure',
   },
-  // The product sign-in is for digital assets clients only, so it shows on those pages.
-  loginOn: ['digital-assets', 'token-disclosure'],
 
   footer: [
     { title: 'Private Markets', links: tabs('private-markets') },

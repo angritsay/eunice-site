@@ -38,96 +38,23 @@ jobs:
         run: pnpm typecheck
       - name: Architecture rules (.dependency-cruiser.cjs)
         run: pnpm check:architecture
-      - name: The committed OpenAPI and AsyncAPI documents are the ones the code implements
-        run: |
-          pnpm generate
-          # The checkout is clean, so any change at all after generating is drift.
-          if [ -n "$(git status --porcelain)" ]; then
-            git status --porcelain
-            git --no-pager diff
-            echo "::error::Generated contracts are out of date. Run 'pnpm generate' and commit the result."
-            exit 1
-          fi
 
-  deploy-config:
-    name: Deploy config · CloudFormation, shell, production compose
+  terraform:
+    name: Terraform · format and validate
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: hashicorp/setup-terraform@v3
         with:
-          python-version: '3.13'
-      - name: CloudFormation template (cfn-lint)
+          terraform_version: 1.13.3
+      - run: terraform fmt -check -recursive infra/terraform
+      - name: Validate staging and prod (no AWS credentials, no state)
         run: |
-          pip install --quiet cfn-lint==1.56.3
-          cfn-lint --regions eu-west-2 -t deploy/aws/stack.yaml
-      - name: Shell scripts (ShellCheck)
-        run: shellcheck -x deploy/*.sh infra/postgres/init/*.sh
-      - name: Every variable production compose uses is written by render-env.sh
-        run: |
-          needed=$(docker compose -f deploy/compose.prod.yaml config --variables | awk 'NR>1 {print $1}' | sort -u)
-          rendered=$(sed -n '/^cat <<ENV$/,/^ENV$/p' deploy/render-env.sh | grep -oE '^[A-Z0-9_]+=' | tr -d = | sort -u)
-          missing=$(comm -23 <(echo "$needed") <(echo "$rendered"))
-          if [ -n "$missing" ]; then
-            echo "::error::deploy/compose.prod.yaml uses variables deploy/render-env.sh does not write: $missing"
-            exit 1
-          fi
-          for v in $needed; do echo "$v=x"; done > prod.env
-          docker compose -f deploy/compose.prod.yaml --env-file prod.env config --quiet
-
-  services:
-    name: Services · unit and integration (Postgres and NATS in containers)
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Unit tests (contracts, platform, services)
-        run: pnpm --filter './packages/*' --filter './services/*' test
-      - name: Integration tests against Postgres 18 and NATS (Testcontainers)
-        run: pnpm --filter './services/*' test:integration
-
-  system:
-    name: System · docker compose, end to end in a browser
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Start the stack
-        run: docker compose up --build --wait --wait-timeout 300
-      - name: Cache Playwright browsers
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm --filter @eunice/e2e exec playwright install --with-deps chromium
-      - name: Lead flow to the ops inbox, one trace, analytics funnel, outages
-        run: pnpm test:e2e
-      - name: Back up the database, then prove the backup restores to the same rows
-        run: |
-          deploy/backup.sh "file://$RUNNER_TEMP/backups"
-          deploy/restore-check.sh "file://$RUNNER_TEMP/backups" --match-live
-      - name: Service logs
-        if: failure()
-        run: docker compose logs --no-color
-      - if: failure()
-        uses: actions/upload-artifact@v7
-        with:
-          name: e2e-report
-          path: e2e/playwright-report/
-          retention-days: 7
+          for env in infra/terraform/envs/*/; do
+            terraform -chdir="$env" init -backend=false -input=false
+            terraform -chdir="$env" validate
+          done
 
   web:
     name: Web · build and test
