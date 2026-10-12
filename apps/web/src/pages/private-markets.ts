@@ -154,7 +154,7 @@ ${eventsBlock(ctx, {
   label: 'News and Events',
   desk: DESK,
   today: ctx.today,
-  insights: { deskFilter: [DESK, 'company'], count: 3 },
+  insights: { deskFilter: [DESK, 'company'], count: 2 },
 })}
 
 ${cta(ctx, { buttons: [{ label: 'Book demo', kind: 'light', form: DESK }] })}`,
