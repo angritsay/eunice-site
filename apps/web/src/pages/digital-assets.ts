@@ -43,31 +43,30 @@ export default {
 
 ${whoCards(ctx, {
   desk: DESK,
-  title: 'One Desk for Listing, Holding and Trading',
-  lead: 'And for the issuers whose disclosures they read.',
+  title: 'One Solution for Institutions and Issuers',
   clients: [
-    {
-      who: 'Exchanges',
-      line: audienceLine(DESK, 'exchanges'),
-      needs: ['Listing diligence', 'Committee-ready reports'],
-      to: `${DESK}/exchanges`,
-    },
-    {
-      who: 'Custodians',
-      line: audienceLine(DESK, 'custodians'),
-      needs: ['Live risk events', 'Reserve movements'],
-      to: `${DESK}/custodians`,
-    },
+    { who: 'Exchanges', line: audienceLine(DESK, 'exchanges'), art: 'exchange', to: `${DESK}/exchanges` },
+    { who: 'Custodians', line: audienceLine(DESK, 'custodians'), art: 'vault', to: `${DESK}/custodians` },
     {
       who: 'Market Makers',
       line: audienceLine(DESK, 'market-makers'),
-      needs: ['Disclosure changes', 'Monitoring'],
+      art: 'orderBook',
       to: `${DESK}/market-makers`,
     },
     {
-      who: 'Issuers and Counsel',
+      who: 'Banks',
+      line: 'Custody and trading in digital assets, held to the same scrutiny as the rest of the bank.',
+      art: 'bank',
+    },
+    {
+      who: 'Tokenisation Platforms',
+      line: 'Real-world assets brought on-chain, each with its diligence and disclosure kept current.',
+      art: 'tokenise',
+    },
+    {
+      who: 'Issuers',
       line: audienceLine('token-disclosure', 'issuers'),
-      needs: ['MiCA white paper', 'UK token classification'],
+      art: 'issuer',
       to: 'token-disclosure',
     },
   ],

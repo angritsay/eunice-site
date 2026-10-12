@@ -594,11 +594,13 @@ export function whoCards(
   ctx: Ctx,
   { desk, title, lead, clients }: { desk: ProductDesk; title: string; lead?: string; clients: readonly WhoClient[] },
 ): Html {
-  // With a multiple of four cards, the intro takes a row of its own so none is left alone.
-  const wide = clients.length % 4 === 0;
+  // With a multiple of four cards, or of three (laid out three across), the intro takes a
+  // row of its own so no card is left alone.
+  const three = clients.length % 3 === 0 && clients.length % 4 !== 0;
+  const wide = clients.length % 4 === 0 || three;
   return html`
 <section class="band section" id="clients"><div class="wrap">
-  <ul class="who who--${desk}${wide ? ' who--wide-intro' : ''}">
+  <ul class="who who--${desk}${wide ? ' who--wide-intro' : ''}${three ? ' who--three' : ''}">
     <li class="who__intro">
       <h2 class="h2">${title}</h2>
       ${lead ? html`<p class="body muted">${lead}</p>` : ''}

@@ -61,6 +61,18 @@ const ART = {
   done: `<rect x="26" y="8" width="44" height="48" rx="3" fill="#fff"/><rect x="44" y="40" width="22" height="9" rx="2" class="t"/><path d="m32 20 3 3 5-5M32 32l3 3 5-5M32 44l3 3 5-5M46 21h18M46 33h18M46 45h12"/>`,
   /** Model-agnostic: one task routed to the model that suits it. */
   models: `<rect x="12" y="24" width="18" height="16" rx="3" fill="#fff"/><path d="M30 32h12M42 32c8 0 8-12 16-12M42 32c8 0 8 12 16 12"/><rect x="58" y="12" width="24" height="16" rx="3" class="t"/><rect x="58" y="36" width="24" height="16" rx="3" fill="#fff"/><path d="M64 20h12M64 44h12"/>`,
+  /** An exchange: one asset traded for another. */
+  exchange: `<circle cx="24" cy="32" r="12" fill="#fff"/><circle cx="72" cy="32" r="12" class="t"/><path d="M40 27h16m-4-4 4 4-4 4M56 37H40m4-4-4 4 4 4"/>`,
+  /** A custodian: a vault, its dial set. */
+  vault: `<rect x="26" y="10" width="44" height="40" rx="4" fill="#fff"/><circle cx="48" cy="30" r="10" class="t"/><path d="M48 24v12M42 30h12M32 50v5M64 50v5"/>`,
+  /** A market maker: both sides of the book, the best quote marked. */
+  orderBook: `<path d="M48 10v44"/><rect x="26" y="14" width="18" height="6" rx="1" fill="#fff"/><rect x="18" y="25" width="26" height="6" rx="1" fill="#fff"/><rect x="30" y="36" width="14" height="6" rx="1" fill="#fff"/><rect x="52" y="14" width="22" height="6" rx="1" class="t"/><rect x="52" y="25" width="14" height="6" rx="1" fill="#fff"/><rect x="52" y="36" width="28" height="6" rx="1" fill="#fff"/>`,
+  /** A bank: the pediment and its columns. */
+  bank: `<path d="M20 24 48 10l28 14Z" class="t"/><path d="M22 24h52M22 50h52M18 55h60M29 28v18M41 28v18M55 28v18M67 28v18"/>`,
+  /** Tokenisation: an asset becoming a token. */
+  tokenise: `<rect x="12" y="18" width="24" height="32" rx="2" fill="#fff"/><path d="M18 26h4M26 26h4M18 34h4M26 34h4M24 50v-7"/><path d="M42 34h14m-4-4 4 4-4 4"/><circle cx="72" cy="34" r="13" class="t"/><circle cx="72" cy="34" r="6"/>`,
+  /** An issuer: a white paper with its seal. */
+  issuer: `<rect x="26" y="8" width="34" height="46" rx="3" fill="#fff"/><path d="M32 18h22M32 25h22M32 32h14"/><circle cx="62" cy="44" r="9" class="t"/><path d="m58.5 44 2.5 2.5 5-5"/>`,
 } as const;
 
 export type Art = keyof typeof ART;
