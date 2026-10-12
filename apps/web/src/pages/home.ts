@@ -133,7 +133,7 @@ export default {
   </div>
 </div></section>
 
-${insightsBlock(ctx, { label: 'Insights', aside: 'Notes, analysis and company news, by desk.', featured: 3, rows: 5 })}
+${insightsBlock(ctx, { label: 'Insights', featured: 3, rows: 5 })}
 
 ${cta(ctx, {
   title: 'Bring us the fund, or the token, you are reviewing now',
