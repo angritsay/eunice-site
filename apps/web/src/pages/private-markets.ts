@@ -136,8 +136,8 @@ ${feature({
       },
       {
         art: 'models',
-        title: 'Model-Agnostic, Private',
-        text: 'OpenAI and Anthropic, per use case. Never trained on your data.',
+        title: 'The Right Model for the Task',
+        text: 'Model-agnostic, per use case. Never trained on your data.',
       },
     ],
     3,
