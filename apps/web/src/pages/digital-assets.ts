@@ -41,6 +41,12 @@ export default {
   ${heroField({ desk: DESK })}
 </section>
 
+<section class="wrap section" id="working-with">
+  ${logoMarquee(ctx, 'clients')}
+  <div class="grid grid--3 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}${quoteBlock(quotes.libeara)}</div>
+  ${logoMarquee(ctx, 'partners')}
+</section>
+
 ${whoCards(ctx, {
   desk: DESK,
   title: 'One Solution for Institutions and Issuers',
@@ -71,12 +77,6 @@ ${whoCards(ctx, {
     },
   ],
 })}
-
-<section class="wrap section" id="working-with">
-  ${logoMarquee(ctx, 'clients')}
-  <div class="grid grid--3 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}${quoteBlock(quotes.libeara)}</div>
-  ${logoMarquee(ctx, 'partners')}
-</section>
 
 <section class="wrap section section--tight">
   ${facts([
