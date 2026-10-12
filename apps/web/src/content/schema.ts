@@ -105,7 +105,7 @@ export type Event = z.infer<typeof Event>;
 
 export const Quote = z.strictObject({ desk: Desk, text, who: text });
 
-/** A firm shown by its logo in the "Clients" or "Legal partners" row: an SVG under assets/img/logos/, from its own brand assets. */
+/** A firm shown by its logo in the "Clients" or "Partners" row: an SVG under assets/img/logos/, from its own brand assets. */
 export const Firm = z.strictObject({
   name: text,
   logo: z.string().regex(/^[a-z0-9-]+\.svg$/),

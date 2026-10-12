@@ -687,11 +687,12 @@ export const quotes = contentRecord('quotes', Quote, {
   },
 });
 
-// Two rows of logos, "Clients" and "Legal partners". Each file is the firm's own mark: from
+// Two rows of logos, "Clients" and "Partners". Each file is the firm's own mark: from
 // its website header or logo file (Copper, Crypto.com, Zodia Custody, FalconX, Kraken,
-// Libeara, Zero Hash, Flowdesk, CMS, gunnercooke, Drew & Napier, Orrick, Cahill), or for
+// Libeara, Zero Hash, Flowdesk, CMS, gunnercooke, Drew & Napier, Orrick, Cahill), for
 // Coinbase, whose site blocks automated visits, the public-domain wordmark on Wikimedia
-// Commons. Shown in one grey, so none outshouts the others.
+// Commons, and for the IA, CCRI, CryptoUK and Grow London, traced from the logo files
+// the team supplied (October 2026). Shown in one grey, so none outshouts the others.
 //
 // "Clients": clients and the exchanges, custodians and market makers Eunice works
 // alongside, in the order of the team's slide (October 2026). Stripe and OKX wait for the
@@ -708,13 +709,18 @@ export const clients = content('clients', z.array(Firm), [
   { name: 'Flowdesk', logo: 'flowdesk.svg', height: 18 },
 ]);
 
-// "Legal partners": the law firms Eunice works with on token classification and disclosure.
+// "Partners": the law firms Eunice works with on token classification and disclosure, then
+// the industry bodies and programmes it belongs to.
 export const partners = content('partners', z.array(Firm), [
   { name: 'gunnercooke', logo: 'gunnercooke.svg', height: 22 },
   { name: 'CMS', logo: 'cms.svg', height: 30 },
   { name: 'Drew & Napier', logo: 'drew-napier.svg', height: 20 },
   { name: 'Orrick', logo: 'orrick.svg', height: 34 },
   { name: 'Cahill', logo: 'cahill.svg', height: 18 },
+  { name: 'The Investment Association, Fintech member', logo: 'ia-fintech.svg', height: 30 },
+  { name: 'CCRI', logo: 'ccri.svg', height: 22 },
+  { name: 'CryptoUK', logo: 'cryptouk.svg', height: 18 },
+  { name: 'Grow London', logo: 'grow-london.svg', height: 28 },
 ]);
 
 export const roles = content('roles', z.array(Role), [

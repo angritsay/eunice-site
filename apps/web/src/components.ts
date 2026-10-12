@@ -248,7 +248,7 @@ export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
 // the width. Under reduced motion the copies go and the row stands still.
 const FIRMS = {
   clients: { label: 'Clients', firms: clients },
-  partners: { label: 'Legal partners', firms: partners },
+  partners: { label: 'Partners', firms: partners },
 };
 
 export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
