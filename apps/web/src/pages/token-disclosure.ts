@@ -106,7 +106,7 @@ ${feature({
 
 <section class="band band--td section" id="register"><div class="wrap feature feature--flat">
   <div class="feature__text">
-    <h2 class="h2 td-title">${mark(21, '#b27a14')}The register</h2>
+    <h2 class="h2 td-title">${mark(21, '#b27a14')}The Register</h2>
     <p class="body">Every paper we notify is hosted on a public page. An exchange, a counterparty or an authority can read what an issuer published without asking the issuer for it.</p>
     <div class="buttons">${button(ctx, { label: 'See the register', to: `${DESK}/register` })}</div>
   </div>

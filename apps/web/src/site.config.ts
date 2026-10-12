@@ -127,7 +127,7 @@ const config: SiteConfig = {
     {
       title: 'Company',
       links: [
-        { label: 'About Us', to: '', hash: 'why' },
+        { label: 'About Us', to: 'company' },
         { label: 'Careers', to: 'careers' },
         { label: 'Blog', to: 'blog' },
         { label: 'Security', to: 'security' },

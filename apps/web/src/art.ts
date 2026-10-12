@@ -73,6 +73,8 @@ const ART = {
   tokenise: `<rect x="12" y="18" width="24" height="32" rx="2" fill="#fff"/><path d="M18 26h4M26 26h4M18 34h4M26 34h4M24 50v-7"/><path d="M42 34h14m-4-4 4 4-4 4"/><circle cx="72" cy="34" r="13" class="t"/><circle cx="72" cy="34" r="6"/>`,
   /** An issuer: a white paper with its seal. */
   issuer: `<rect x="26" y="8" width="34" height="46" rx="3" fill="#fff"/><path d="M32 18h22M32 25h22M32 32h14"/><circle cx="62" cy="44" r="9" class="t"/><path d="m58.5 44 2.5 2.5 5-5"/>`,
+  /** Fast growth: bars rising, the latest marked. */
+  rise: `<path d="M16 54h64"/><rect x="22" y="40" width="10" height="14" rx="1" fill="#fff"/><rect x="38" y="32" width="10" height="22" rx="1" fill="#fff"/><rect x="54" y="22" width="10" height="32" rx="1" fill="#fff"/><rect x="70" y="10" width="10" height="44" rx="1" class="t"/>`,
 } as const;
 
 export type Art = keyof typeof ART;

@@ -1,10 +1,15 @@
-import { button, cta, peopleStrip, plate, quoteBlock, sectionHead } from '../components.ts';
+import type { Art } from '../art.ts';
+import { button, cta, facts, peopleStrip, plate, quoteBlock, sectionHead } from '../components.ts';
 import { quotes, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
 import { uiAsk } from '../ui.ts';
 import { roleList } from './jobs.ts';
+
+// The perks' drawings, in the order team.perks lists them: AI that matters, London and
+// remote, time off, pay and equity, the people, health and learning.
+const PERK_ART: readonly Art[] = ['cite', 'globe', 'date', 'seed', 'roles', 'library'];
 
 export default {
   slug: 'careers',
@@ -39,9 +44,10 @@ export default {
 
 <section class="band section"><div class="wrap">
   ${sectionHead(team.perksTitle)}
-  <div class="grid grid--3 perks">
-    ${team.perks.map((p) => html`<div class="fact"><p class="h4">${p.title}</p><p class="small muted">${p.text}</p></div>`)}
-  </div>
+  ${facts(
+    team.perks.map((p, i) => ({ ...p, art: PERK_ART[i] ?? 'cite' })),
+    3,
+  )}
 </div></section>
 
 <section class="wrap section" id="team">

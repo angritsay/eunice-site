@@ -33,7 +33,6 @@ const DESK: Record<ProductDesk, DeskShared> = {
     quote: quotes.fof,
     insights: {
       label: 'Insights and News',
-      aside: 'Private markets notes will appear here as the desk publishes them.',
       deskFilter: ['private-markets', 'company'],
     },
   },
@@ -46,7 +45,11 @@ const DESK: Record<ProductDesk, DeskShared> = {
       },
       { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
       { art: 'cite', title: 'Every Claim', text: 'Cited to the source it came from' },
-      { art: 'globe', title: '4 Jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
+      {
+        art: 'globe',
+        title: '8 Jurisdictions',
+        text: 'Live and expanding: the EU, the UK, the US, MAS, VARA and more',
+      },
     ],
     quote: quotes.falconx,
     insights: {

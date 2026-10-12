@@ -27,10 +27,11 @@ export default {
 <section class="wrap section">
   ${facts([
     { art: 'seed', title: '$8m Seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
+    { art: 'award', title: 'Fintech 50', text: 'May 2026 · TechRound ranked Eunice #43 of 50' },
     {
-      art: 'award',
-      title: 'Fintech 50',
-      text: 'May 2026 · among the 100 fastest-growing startups in the UK and Ireland',
+      art: 'rise',
+      title: 'Sifted',
+      text: '2026 · among the 100 fastest-growing startups in the UK & Ireland, by revenue',
     },
     {
       art: 'sandbox',
