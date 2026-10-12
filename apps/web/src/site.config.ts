@@ -58,7 +58,7 @@ const config: SiteConfig = {
       to: '',
       keys: ['company'],
       items: [
-        { label: 'Security and Transparency, by Design', to: '', hash: 'trust' },
+        { label: 'Security', to: '', hash: 'trust' },
         { label: 'Team', to: '', hash: 'team' },
         { label: 'Why Eunice', to: '', hash: 'why' },
         { label: 'Careers', to: 'careers' },
