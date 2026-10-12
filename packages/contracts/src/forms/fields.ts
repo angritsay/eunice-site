@@ -34,6 +34,9 @@ export interface FieldSpec {
 
 export const field = (spec: FieldSpec): FieldSpec => spec;
 
+/** The same field, offered but not needed. */
+export const optional = (f: FieldSpec): FieldSpec => ({ ...f, required: false });
+
 /** The fields every variant starts from. */
 export const common = {
   name: field({

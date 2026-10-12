@@ -49,6 +49,15 @@ describe('the ops email', () => {
     expect(email.replyTo.name).not.toMatch(/[\r\n]/);
   });
 
+  it('names a demo request by its address when no name was given', () => {
+    const emailOnly: Lead = { ...lead, contact: { email: 'jo@x.example' } };
+    const email = composeEmail(emailOnly, routing);
+    expect(email.subject).toBe('[Private Markets · lps · hero] jo@x.example');
+    expect(email.text).not.toContain('Name:');
+    expect(email.text).toContain('Reply to this email to answer jo@x.example directly.');
+    expect(email.replyTo).toEqual({ email: 'jo@x.example', name: '' });
+  });
+
   it('leaves out what was not given', () => {
     const bare: Lead = {
       ...lead,

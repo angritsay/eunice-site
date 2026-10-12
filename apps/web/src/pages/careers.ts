@@ -9,7 +9,7 @@ import { roleList } from './jobs.ts';
 export default {
   slug: 'careers',
   nav: 'company',
-  title: 'Careers at Eunice — We build the accountability layer',
+  title: 'Careers at Eunice — We Build the Accountability Layer',
   description: team.standfirst,
   render: (ctx) => html`
 <section class="wrap hero">
@@ -25,7 +25,7 @@ export default {
 </section>
 
 <section class="wrap section" id="roles">
-  ${sectionHead('Open roles', team.hiring)}
+  ${sectionHead('Open Roles', team.hiring)}
   ${roleList(ctx)}
 </section>
 
@@ -45,17 +45,17 @@ export default {
 </div></section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Who you will work with', team.intro)}
+  ${sectionHead('Who You Will Work With', team.intro)}
   ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'])}
 </section>
 
 <section class="band section"><div class="wrap">
-  ${sectionHead('What clients say')}
+  ${sectionHead('What Clients Say')}
   <div class="grid grid--2 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}</div>
 </div></section>
 
 ${cta(ctx, {
-  title: 'Your role is not listed?',
+  title: 'Your Role Is Not Listed?',
   text: `Write to ${config.careersEmail} with a CV or a link to something you built, and two lines on why regulated finance. We answer everyone.`,
   buttons: [
     { label: 'Email the team', kind: 'outline-light', href: `mailto:${config.careersEmail}` },
@@ -64,7 +64,7 @@ ${cta(ctx, {
 })}
 
 <section class="wrap section feature feature--flat foote">
-  <div class="feature__text"><h2 class="h2">Named after Eunice Foote</h2></div>
+  <div class="feature__text"><h2 class="h2">Named After Eunice Foote</h2></div>
   <div class="foote__text body">
     <p>Eunice Newton Foote, 1819–1888, scientist and campaigner for women’s rights. In 1856 she showed that carbon dioxide traps heat, the first person to connect it to the Earth’s temperature. Someone else took the credit; her result was overlooked until 2011.</p>
     <p>We took her name because the finding sat in plain sight for a hundred and fifty years and nobody read it carefully. That is the failure this company exists to prevent.</p>

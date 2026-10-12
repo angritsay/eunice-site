@@ -3,7 +3,7 @@
 // the application layer maps requests into this, so the model outlives both.
 
 export interface Contact {
-  readonly name: string;
+  readonly name?: string;
   readonly email: string;
   readonly company?: string;
 }
@@ -42,14 +42,14 @@ export function toSubmission(input: {
   attribution?: Attribution;
 }): NewSubmission {
   const { name, email, company, message } = input.fields;
-  if (!name || !email) throw new Error('A submission needs a name and an email');
+  if (!email) throw new Error('A submission needs an email');
   const details = Object.fromEntries(
     Object.entries(input.fields).filter((e): e is [string, string] => !CONTACT_FIELDS.has(e[0]) && e[1] !== undefined),
   );
   return {
     variant: input.variant,
     desk: input.desk,
-    contact: { name, email, ...(company ? { company } : {}) },
+    contact: { ...(name ? { name } : {}), email, ...(company ? { company } : {}) },
     details,
     ...(message ? { message } : {}),
     entry: input.entry,

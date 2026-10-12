@@ -144,7 +144,6 @@
                           }
                         },
                         "required": [
-                          "name",
                           "email"
                         ],
                         "additionalProperties": false

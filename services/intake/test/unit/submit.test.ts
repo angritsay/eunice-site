@@ -6,7 +6,7 @@ import { fixedClock, memoryStore, silentLog } from './fakes.ts';
 
 const request: SubmissionRequest = {
   variant: 'private-markets',
-  fields: { name: 'Jane Doe', email: 'Jane@Acme.example', message: 'Gridiron V, committee in March' },
+  fields: { email: 'Jane@Acme.example' },
   entry: { page: 'private-markets/lps/', placement: 'hero', audience: 'lps' },
   attribution: { referrer: 'https://www.google.com/', utm: { source: 'newsletter' } },
   elapsedMs: 8200,
@@ -37,7 +37,6 @@ describe('submit', () => {
       variant: 'private-markets',
       desk: 'Private Markets',
       details: {},
-      message: 'Gridiron V, committee in March',
       entry: { placement: 'hero', audience: 'lps' },
     });
     expect(rows[0]?.purgeAfter.toISOString()).toBe('2027-09-25T10:00:00.000Z');
@@ -49,8 +48,7 @@ describe('submit', () => {
     expect(event.subject).toBe(outcome.kind === 'accepted' ? outcome.id : '');
     expect(event.data).toMatchObject({
       submissionId: event.subject,
-      contact: { name: 'Jane Doe' },
-      message: 'Gridiron V, committee in March',
+      contact: { email: 'Jane@Acme.example' },
     });
   });
 
@@ -66,7 +64,7 @@ describe('submit', () => {
   it('refuses a key reused for a different submission', async () => {
     const { submit } = setup();
     await submit(request, KEY);
-    const other = { ...request, fields: { ...request.fields, name: 'Someone Else' } };
+    const other = { ...request, fields: { email: 'someone.else@acme.example' } };
     expect(await submit(other, KEY)).toEqual({ kind: 'conflict' });
   });
 

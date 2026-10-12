@@ -80,7 +80,7 @@ describe('toSubmission', () => {
     expect(s.details).toEqual({ token: 'ACME' });
   });
 
-  it('refuses a submission without a name or an email', () => {
+  it('refuses a submission without an email', () => {
     expect(() =>
       toSubmission({
         variant: 'general',
@@ -89,5 +89,15 @@ describe('toSubmission', () => {
         entry: { page: '', placement: 'nav' },
       }),
     ).toThrow();
+  });
+
+  it('takes a demo request that gives only the email', () => {
+    const s = toSubmission({
+      variant: 'private-markets',
+      desk: 'Private Markets',
+      fields: { email: 'j@x.example' },
+      entry: { page: 'private-markets/', placement: 'closing' },
+    });
+    expect(s.contact).toEqual({ email: 'j@x.example' });
   });
 });

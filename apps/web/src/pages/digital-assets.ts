@@ -43,7 +43,7 @@ export default {
 
 ${whoCards(ctx, {
   desk: DESK,
-  title: 'One desk for listing, holding and trading',
+  title: 'One Desk for Listing, Holding and Trading',
   lead: 'And for the issuers whose disclosures they read.',
   clients: [
     {
@@ -59,13 +59,13 @@ ${whoCards(ctx, {
       to: `${DESK}/custodians`,
     },
     {
-      who: 'Market makers',
+      who: 'Market Makers',
       line: audienceLine(DESK, 'market-makers'),
       needs: ['Disclosure changes', 'Monitoring'],
       to: `${DESK}/market-makers`,
     },
     {
-      who: 'Issuers and counsel',
+      who: 'Issuers and Counsel',
       line: audienceLine('token-disclosure', 'issuers'),
       needs: ['MiCA white paper', 'UK token classification'],
       to: 'token-disclosure',
@@ -86,14 +86,14 @@ ${whoCards(ctx, {
       text: 'Participant since November 2025, testing disclosure standards',
     },
     { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
-    { art: 'cite', title: 'Every claim', text: 'Cited to the source it came from' },
-    { art: 'globe', title: '8 jurisdictions', text: 'Live and expanding: the EU, the UK, the US, MAS, VARA and more' },
+    { art: 'cite', title: 'Every Claim', text: 'Cited to the source it came from' },
+    { art: 'globe', title: '8 Jurisdictions', text: 'Live and expanding: the EU, the UK, the US, MAS, VARA and more' },
   ])}
 </section>
 
 ${feature({
   id: 'listing',
-  title: 'Listing diligence',
+  title: 'Listing Diligence',
   desk: DESK,
   body: html`<p class="body muted">One report per token covering the team, the code, the reserve where there is one, and the jurisdiction, in the shape a listing committee signs off on.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiRead(DESK) }),
@@ -101,7 +101,7 @@ ${feature({
 
 ${feature({
   id: 'monitoring',
-  title: 'Continuous monitoring',
+  title: 'Continuous Monitoring',
   desk: DESK,
   flip: true,
   body: html`<p class="body muted">Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached. Drawn from Allium, CoinGecko, CoinMarketCap, DeFiLlama and X, each cited by name.</p>`,
@@ -110,7 +110,7 @@ ${feature({
 
 ${feature({
   id: 'jurisdictions',
-  title: 'Jurisdiction by jurisdiction',
+  title: 'Jurisdiction by Jurisdiction',
   desk: DESK,
   body: html`<p class="body muted">Eight jurisdictions live, among them the EU, the UK, the US, MAS and VARA, in one view, so an asset cleared in one place is not re-cleared from scratch in another.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiReport(DESK) }),
@@ -129,7 +129,7 @@ ${feature({
 </div></section>
 
 ${insightsBlock(ctx, {
-  label: 'Insights on digital assets',
+  label: 'Insights on Digital Assets',
   aside: 'Exploits, risk and regulation.',
   deskFilter: [DESK, 'token-disclosure'],
   featured: 3,
@@ -138,14 +138,14 @@ ${insightsBlock(ctx, {
 })}
 
 <section class="wrap section" id="team">
-  ${sectionHead('The desk', 'Who runs digital assets, from listing reviews to the FCA sandbox.')}
+  ${sectionHead('The Desk', 'Who runs digital assets, from listing reviews to the FCA sandbox.')}
   ${peopleStrip(ctx, ['yi', 'philip', 'chrislyn', 'riley'])}
 </section>
 
-${eventsBlock(ctx, { label: 'Where we have been', aside: 'Talks, panels and delegations.', desk: DESK, today: ctx.today })}
+${eventsBlock(ctx, { label: 'Where We Have Been', aside: 'Talks, panels and delegations.', desk: DESK, today: ctx.today })}
 
 ${cta(ctx, {
-  title: 'Put one token through it',
+  title: 'Put One Token Through It',
   text: 'Pick a token you are reviewing now. We will run it and show you the report and the monitoring feed side by side.',
   buttons: [
     { label: 'See a sample report', kind: 'outline-light', form: 'sample-report' },

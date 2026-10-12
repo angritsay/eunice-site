@@ -105,15 +105,9 @@
                     "type": "string",
                     "maxLength": 254,
                     "format": "email"
-                  },
-                  "message": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4000
                   }
                 },
                 "required": [
-                  "name",
                   "email"
                 ],
                 "additionalProperties": false
@@ -234,15 +228,9 @@
                     "type": "string",
                     "maxLength": 254,
                     "format": "email"
-                  },
-                  "message": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4000
                   }
                 },
                 "required": [
-                  "name",
                   "email"
                 ],
                 "additionalProperties": false
@@ -371,7 +359,6 @@
                   }
                 },
                 "required": [
-                  "name",
                   "email"
                 ],
                 "additionalProperties": false

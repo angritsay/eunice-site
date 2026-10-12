@@ -85,7 +85,8 @@ export const deskLabel = (desk: Desk, extra = '') =>
 // the entry point the submission records: which page, which button, which form.
 export interface ButtonOptions {
   label: string;
-  kind?: 'dark' | 'light' | 'outline' | 'outline-light';
+  /** 'desk' fills the button with the colour of the desk its form belongs to. */
+  kind?: 'dark' | 'light' | 'outline' | 'outline-light' | 'desk';
   small?: boolean;
   to?: string;
   hash?: string;
@@ -113,7 +114,8 @@ export function button(
     newTab = false,
   }: ButtonOptions,
 ): Html {
-  const cls = `btn btn--${kind}${small ? ' btn--sm' : ''}`;
+  const fill = kind === 'desk' ? `desk-${form ?? 'general'}` : kind;
+  const cls = `btn btn--${fill}${small ? ' btn--sm' : ''}`;
   if (form !== undefined) {
     return html`<button type="button" class="${cls}" data-form="${form}" data-placement="${placement}">${label}</button>`;
   }
@@ -521,18 +523,20 @@ export function logoStrip(ctx: Ctx): Html {
 }
 
 // ---------- Who we work with ----------
-// One card per client type: the type, one line and the needs it names.
-// A card links to its client page where there is one. The accent follows the desk.
+// One card per client type: its drawing where it has one, the type, one line and,
+// where given, the needs it names. A card links to its client page where there is
+// one. The accent follows the desk.
 export interface WhoClient {
   who: string;
   line: string;
-  needs: readonly string[];
+  art?: Art;
+  needs?: readonly string[];
   to?: string;
 }
 
 export function whoCards(
   ctx: Ctx,
-  { desk, title, lead, clients }: { desk: ProductDesk; title: string; lead: string; clients: readonly WhoClient[] },
+  { desk, title, lead, clients }: { desk: ProductDesk; title: string; lead?: string; clients: readonly WhoClient[] },
 ): Html {
   // With a multiple of four cards, the intro takes a row of its own so none is left alone.
   const wide = clients.length % 4 === 0;
@@ -541,12 +545,12 @@ export function whoCards(
   <ul class="who who--${desk}${wide ? ' who--wide-intro' : ''}">
     <li class="who__intro">
       <h2 class="h2">${title}</h2>
-      <p class="body muted">${lead}</p>
+      ${lead ? html`<p class="body muted">${lead}</p>` : ''}
     </li>
     ${clients.map((c) => {
-      const inner = html`<span class="who__title">${c.who}</span>
+      const inner = html`${c.art ? art(c.art) : ''}<span class="who__title">${c.who}</span>
         <span class="who__line">${c.line}</span>
-        <span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>`;
+        ${c.needs ? html`<span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>` : ''}`;
       return c.to
         ? html`<li><a class="who__card who__card--link" href="${ctx.link(c.to)}">${inner}</a></li>`
         : html`<li><div class="who__card">${inner}</div></li>`;
@@ -665,7 +669,7 @@ export function peopleStrip(
           'opening',
           false,
           html`<span class="pstrip__empty">Your photo here</span>`,
-          html`<span class="pstrip__name">We are hiring</span><span class="pstrip__role">${opening.title}</span>`,
+          html`<span class="pstrip__name">We Are Hiring</span><span class="pstrip__role">${opening.title}</span>`,
           html`<p class="h3">${opening.title}</p>
       <p class="caption muted">Open role</p>
       <p class="small">${opening.line}</p>
@@ -676,13 +680,27 @@ export function peopleStrip(
 }
 
 // ---------- Closing call to action ----------
+// "Book demo" as one line: the visitor's work email and the button, in the desk's
+// colour. A demo request asks nothing else (ADR-0013), so site.js sends it from here and
+// thanks the visitor in place; method="dialog" keeps the address out of the URL when
+// there is no script.
+const DEMO = 'Book demo';
+export const demoAsk = (form: string, placement: Placement = 'closing') => html`
+<form class="ask" method="dialog" data-form="${form}" data-placement="${placement}">
+  <label class="ask__field"><span class="sr-only">Work email</span><input type="email" name="email" placeholder="What’s your work email?" autocomplete="email" required></label>
+  <button type="submit" class="btn btn--desk-${form}">${DEMO}</button>
+  <p class="ask__msg" role="status"></p>
+</form>`;
+
 export const cta = (
   ctx: Ctx,
-  { title, text, buttons }: { title: string; text: string; buttons: readonly ButtonOptions[] },
+  { title, text, buttons }: { title?: string; text?: string; buttons: readonly ButtonOptions[] },
 ) => html`
 <section class="wrap section">
-  <div class="cta">
-    <div><h2 class="h2">${title}</h2><p class="cta__text">${text}</p></div>
-    <div class="cta__buttons">${buttons.map((b) => button(ctx, { placement: 'closing', ...b }))}</div>
+  <div class="cta${title ? '' : ' cta--bare'}">
+    ${title ? html`<div><h2 class="h2">${title}</h2>${text ? html`<p class="cta__text">${text}</p>` : ''}</div>` : ''}
+    <div class="cta__buttons">${buttons.map((b) =>
+      b.form !== undefined && b.label === DEMO ? demoAsk(b.form) : button(ctx, { placement: 'closing', ...b }),
+    )}</div>
   </div>
 </section>`;

@@ -33,14 +33,17 @@ const table = (rows: readonly (readonly [string, string | undefined])[]) => {
   return present.map(([k, v]) => `${`${k}:`.padEnd(width)}${v}`).join('\n');
 };
 
+/** Who wrote: their name, or the address when a demo request gave only that. */
+const nameOf = (lead: Lead) => lead.contact.name || lead.contact.email;
+
 export function subjectFor(lead: Lead): string {
   const where = [lead.desk, lead.entry.audience, lead.entry.placement].filter(Boolean).join(' · ');
-  const who = lead.contact.company ? `${lead.contact.name} — ${lead.contact.company}` : lead.contact.name;
+  const who = lead.contact.company ? `${nameOf(lead)} — ${lead.contact.company}` : nameOf(lead);
   return oneLine(`[${where}] ${who}`, 200);
 }
 
 export function composeEmail(lead: Lead, routing: Routing): Email {
-  const first = lead.contact.name.split(/\s+/)[0] ?? lead.contact.name;
+  const first = lead.contact.name ? (lead.contact.name.split(/\s+/)[0] ?? lead.contact.name) : lead.contact.email;
   const pageUrl = new URL(lead.entry.page, `${routing.siteUrl.replace(/\/$/, '')}/`).toString();
   const utm = Object.entries(lead.attribution?.utm ?? {})
     .filter(([, v]) => v)
@@ -68,7 +71,7 @@ export function composeEmail(lead: Lead, routing: Routing): Email {
 
   return {
     to: routing.opsInbox,
-    replyTo: { email: lead.contact.email, name: oneLine(lead.contact.name) },
+    replyTo: { email: lead.contact.email, name: oneLine(lead.contact.name ?? '') },
     subject: subjectFor(lead),
     text: `${sections.filter(Boolean).join('\n\n')}\n`,
   };

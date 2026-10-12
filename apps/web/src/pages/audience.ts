@@ -25,14 +25,14 @@ const DESK: Record<ProductDesk, DeskShared> = {
       { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
       {
         art: 'noTrain',
-        title: 'No training on your data',
+        title: 'No Training on Your Data',
         text: 'Your documents are never used to train models. They stay yours.',
       },
-      { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
+      { art: 'cite', title: 'Every Finding', text: 'Cited to the page it came from' },
     ],
     quote: quotes.fof,
     insights: {
-      label: 'Insights and news',
+      label: 'Insights and News',
       aside: 'Private markets notes will appear here as the desk publishes them.',
       deskFilter: ['private-markets', 'company'],
     },
@@ -45,12 +45,12 @@ const DESK: Record<ProductDesk, DeskShared> = {
         text: 'Participant since November 2025, testing disclosure standards',
       },
       { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
-      { art: 'cite', title: 'Every claim', text: 'Cited to the source it came from' },
-      { art: 'globe', title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
+      { art: 'cite', title: 'Every Claim', text: 'Cited to the source it came from' },
+      { art: 'globe', title: '4 Jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
     ],
     quote: quotes.falconx,
     insights: {
-      label: 'Insights on digital assets',
+      label: 'Insights on Digital Assets',
       aside: 'Exploits, risk and regulation.',
       deskFilter: ['digital-assets', 'token-disclosure'],
     },
@@ -64,12 +64,12 @@ const DESK: Record<ProductDesk, DeskShared> = {
       },
       { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
       { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
-      { art: 'library', title: '30+ MiCA white papers', text: 'Filed through 4 NCAs' },
+      { art: 'library', title: '30+ MiCA White Papers', text: 'Filed through 4 NCAs' },
     ],
     // No client quote on this desk yet; the section is left out until there is one.
     quote: null,
     insights: {
-      label: 'Insights on token disclosure',
+      label: 'Insights on Token Disclosure',
       aside: 'Regulation and disclosure, as they change.',
       deskFilter: ['token-disclosure'],
     },
@@ -103,12 +103,12 @@ function page(a: AudiencePage): Page {
 </section>
 
 <section class="band section"><div class="wrap">
-  ${sectionHead('What this looks like now', 'The week we hear described most often.')}
+  ${sectionHead('What This Looks Like Now', 'The week we hear described most often.')}
   ${bullets(a.now, a.desk)}
 </div></section>
 
 <section class="wrap section">
-  ${sectionHead('What Eunice does', 'Three things, in the order they happen.')}
+  ${sectionHead('What Eunice Does', 'Three things, in the order they happen.')}
   <ol class="steps steps--${a.desk}">
     ${a.work.map((w) => html`<li><span class="h4">${w.title}</span><span class="small muted">${w.text}</span></li>`)}
   </ol>

@@ -67,32 +67,45 @@ test.describe('production guard', () => {
 });
 
 test.describe('entry points open the right form', () => {
+  // A demo form needs only the work email (ADR-0013); the white paper and sample report
+  // forms ask a name, an email and a note. Optional fields say so in their label.
   const cases = [
     {
       page: 'private-markets/lps/',
       button: 'main >> [data-placement="hero"]',
-      title: 'Talk to the Private Markets desk',
-      field: 'What would you like to cover?',
+      title: 'Talk to the Private Markets Desk',
+      field: 'Name (optional)',
+      inputs: 2,
+    },
+    {
+      page: 'digital-assets/',
+      button: 'main >> [data-placement="hero"]',
+      title: 'Talk to the Digital Assets Desk',
+      field: 'What would you like to cover? (optional)',
+      inputs: 3,
     },
     {
       page: 'digital-assets/',
       button: '[data-form="sample-report"] >> nth=0',
-      title: 'See a sample report',
-      field: 'Anything to tailor it to?',
+      title: 'See a Sample Report',
+      field: 'Anything to tailor it to? (optional)',
+      inputs: 3,
     },
     {
       page: 'token-disclosure/',
       button: 'main >> [data-placement="hero"]',
-      title: 'Start a white paper',
-      field: 'About the token',
+      title: 'Start a White Paper',
+      field: 'About the token (optional)',
+      inputs: 3,
     },
     {
       page: 'mica-whitepaper/',
       button: 'main >> [data-placement="band"]',
-      title: 'Start a white paper',
-      field: 'About the token',
+      title: 'Start a White Paper',
+      field: 'About the token (optional)',
+      inputs: 3,
     },
-    { page: '', button: 'footer [data-form="general"]', title: 'Talk to us', field: 'What would you like to cover?' },
+    { page: '', button: 'footer [data-form="general"]', title: 'Talk to Us', field: 'Work email', inputs: 2 },
   ];
   for (const c of cases) {
     test(`${c.page || 'home'} → "${c.title}"`, async ({ page }) => {
@@ -105,10 +118,36 @@ test.describe('entry points open the right form', () => {
       // Only the active variant is enabled; every other field is out of the form.
       const enabled = await dialog.locator('fieldset:not([disabled])').count();
       expect(enabled).toBe(1);
-      // Name, work email and a note: nothing else to fill.
-      await expect(dialog.locator('fieldset:not([disabled])').locator('input, textarea, select')).toHaveCount(3);
+      // Nothing more to fill than the variant asks.
+      await expect(dialog.locator('fieldset:not([disabled])').locator('input, textarea, select')).toHaveCount(c.inputs);
     });
   }
+
+  test('the closing line sends the work email on its own, without opening a form', async ({ page }) => {
+    await page.addInitScript(() => {
+      const click = HTMLAnchorElement.prototype.click;
+      HTMLAnchorElement.prototype.click = function (this: HTMLAnchorElement) {
+        if (this.href.startsWith('mailto:')) (window as unknown as { mailto: string }).mailto = this.href;
+        else click.call(this);
+      };
+    });
+    const posts: string[] = [];
+    page.on('request', (r) => {
+      if (r.method() === 'POST') posts.push(r.url());
+    });
+    await page.goto(`${BASE}private-markets/`);
+    const ask = page.locator('form.ask');
+    await ask.getByLabel('Work email').fill('jane@acme.example');
+    await ask.getByRole('button', { name: 'Book demo' }).click();
+    await expect(ask.getByRole('status')).toHaveText('Your mail app has the request ready: press send.');
+    await expect(page.getByRole('dialog')).toBeHidden();
+    expect(posts).toEqual([]);
+    expect(page.url()).not.toContain('acme');
+    const mailto = decodeURIComponent(await page.evaluate(() => (window as unknown as { mailto: string }).mailto));
+    expect(mailto).toBe(
+      'mailto:inquiries@eunice.ai?subject=private-markets — jane@acme.example&body=email: jane@acme.example',
+    );
+  });
 
   test('with no endpoint, submitting hands off to the mail app instead of the network', async ({ page }) => {
     // Record the mailto: link instead of following it: headless Chromium has no mail app.
@@ -127,15 +166,14 @@ test.describe('entry points open the right form', () => {
     await page.locator('main [data-placement="hero"]').click();
     const dialog = page.getByRole('dialog');
     const active = dialog.locator('fieldset:not([disabled])');
-    await active.getByLabel('Name').fill('Jane Doe');
+    await active.getByLabel('Name (optional)').fill('Jane Doe');
     await active.getByLabel('Work email').fill('jane@acme.example');
-    await active.getByLabel('What would you like to cover?').fill('Gridiron Capital Fund V');
     await dialog.getByRole('button', { name: 'Send' }).click();
     await expect(dialog.getByText('your note is on its way')).toBeVisible();
     expect(posts).toEqual([]);
     const mailto = decodeURIComponent(await page.evaluate(() => (window as unknown as { mailto: string }).mailto));
     expect(mailto).toMatch(/^mailto:inquiries@eunice\.ai\?subject=private-markets — Jane Doe&body=/);
-    expect(mailto).toContain('message: Gridiron Capital Fund V');
+    expect(mailto).toContain('email: jane@acme.example');
   });
 
   test('required fields are enforced before anything is sent', async ({ page }) => {

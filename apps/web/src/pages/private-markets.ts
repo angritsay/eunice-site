@@ -9,7 +9,7 @@ import {
   insightsBlock,
   peopleStrip,
   plate,
-  pullQuote,
+  quoteBlock,
   sectionHead,
   stage,
   type WhoClient,
@@ -31,62 +31,49 @@ export default {
   render: (ctx) => html`
 <section class="wrap hero hero--pm">
   <div class="hero__text">
-    <h1 class="h1">Private Markets</h1>
-    <p class="lead">Technology for private markets investors, with the training, implementation and support to go with it.</p>
+    <h1 class="h1">Better Decisions, Better Outcomes</h1>
+    <p class="lead">Purpose-built for private market investors, with implementation, support and training included.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
-      ${button(ctx, { label: 'Who we work with', kind: 'outline', to: DESK, hash: 'clients' })}
+      ${button(ctx, { label: 'Book demo', kind: 'desk', form: DESK, placement: 'hero' })}
     </div>
   </div>
   ${heroField({ desk: DESK })}
 </section>
 
-<p class="trustline">Trusted by asset allocators managing over $1 trillion in AUM</p>
-
-<section class="wrap section" id="approach">
-  <div class="approach">
-    <div class="approach__item">
-      <h2 class="h3">Every firm’s needs are different</h2>
-      <p class="body muted">In-house or outsourced, every firm runs diligence its own way. Eunice fits around yours.</p>
-    </div>
-    <div class="approach__item">
-      <h2 class="h3">Ready to onboard you now</h2>
-      <p class="body muted">We run the training, implementation and hand-holding. Your Board, Investment Committee and clients see the edge it gives you.</p>
-    </div>
-    <div class="approach__item">
-      <h2 class="h3">Raising the standard</h2>
-      <p class="body muted">We work with the industry’s trade bodies, so the tools keep pace with today’s standards and tomorrow’s.</p>
-    </div>
+<section class="wrap trustline" aria-label="Trusted by asset allocators">
+  ${quoteBlock(quotes.fof)}
+  <div class="trustline__figure">
+    <p class="h1">$1.4T+</p>
+    <p class="lead">In AUM, managed by the asset allocators who trust Eunice</p>
   </div>
 </section>
 
 ${whoCards(ctx, {
   desk: DESK,
-  title: 'Every firm’s needs are different',
-  lead: 'Three kinds of investor, one standard of diligence.',
+  title: 'Every Client’s Needs',
   clients: CLIENTS,
 })}
 
-<section class="wrap section section--tight">
-  ${pullQuote(quotes.fof)}
-</section>
-
 <section class="wrap section">
-  ${facts([
-    { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
-    { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
-    {
-      art: 'noTrain',
-      title: 'No training on your data',
-      text: 'Your documents are never used to train models. They stay yours.',
-    },
-    { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
-  ])}
+  ${sectionHead('Engineered for Your Most Sensitive Data')}
+  ${facts(
+    [
+      { art: 'tenant', title: 'Tenant Isolation', text: 'Every client’s data walled off' },
+      { art: 'lock', title: 'Encrypted End to End', text: 'In transit and at rest' },
+      { art: 'audit', title: 'Immutable Audit Trail', text: 'Every action logged' },
+      { art: 'noTrain', title: 'Never Trained on Your Data', text: 'No shared model learns from your files' },
+      { art: 'globe', title: 'GDPR', text: 'Aligned with UK and EU data law' },
+      { art: 'shield', title: 'SOC 2 Type II', text: 'Independently audited controls' },
+      { art: 'sso', title: 'SSO', text: 'Enterprise identity, your policy' },
+      { art: 'roles', title: 'Role-Based Access', text: 'Permissions per user and per deal' },
+    ],
+    4,
+  )}
 </section>
 
 ${feature({
   id: 'odd',
-  title: 'Operational due diligence',
+  title: 'Operational Due Diligence',
   desk: DESK,
   body: html`<p class="body muted">Every PPM, DDQ, LPA and audited statement, read against the ODD checklist you already use. Every finding cites its page.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiRead(DESK) }),
@@ -94,7 +81,7 @@ ${feature({
 
 ${feature({
   id: 'monitoring',
-  title: 'Portfolio monitoring',
+  title: 'Portfolio Monitoring',
   desk: DESK,
   flip: true,
   body: html`<p class="body muted">The same questions asked again each quarter, or as often as it suits your workflow, across every fund you hold.</p>
@@ -108,7 +95,7 @@ ${feature({
 
 ${feature({
   id: 'data-gaps',
-  title: 'Data gap analysis',
+  title: 'Data Gap Analysis',
   desk: DESK,
   body: html`<p class="body muted">Missing documents, unanswered questions and figures that don’t reconcile, surfaced before they become problems and tracked until closed.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiRead(DESK, { missing: true }) }),
@@ -116,29 +103,51 @@ ${feature({
 
 ${feature({
   id: 'reporting',
-  title: 'Bespoke reporting',
+  title: 'Bespoke Reporting',
   desk: DESK,
   flip: true,
   body: html`<p class="body muted">Reports for your Board, committee or clients, built to your template. Every figure traces back to its page.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiReport(DESK) }),
 })}
 
-${feature({
-  id: 'end-to-end',
-  title: 'Delivered end to end',
-  desk: DESK,
-  body: html`<p class="body muted">From pipeline to portfolio, we onboard you and stay alongside: the framework kept current, every data gap cleared.</p>`,
-  visual: html`<ol class="steps steps--${DESK}">
-    <li><span class="h4">Scope</span><span class="small muted">Your checklist, your funds, your committee calendar.</span></li>
-    <li><span class="h4">Read</span><span class="small muted">The dataroom read in full, every finding cited to its page.</span></li>
-    <li><span class="h4">Review</span><span class="small muted">Findings walked through with your committee; the memo signed off by you.</span></li>
-    <li><span class="h4">Monitor</span><span class="small muted">The same questions asked again each quarter. Changes come back as a diff.</span></li>
-  </ol>`,
-  stage: stage({ film: uiFilm(DESK) }),
-})}
+<section class="wrap section" id="end-to-end">
+  ${sectionHead('Automated Where It Is Trustworthy. Human Where Judgement Counts.')}
+  ${facts(
+    [
+      { art: 'journey', title: 'Delivered End to End', text: 'We onboard you and stay alongside' },
+      {
+        art: 'review',
+        title: 'Human in the Loop',
+        text: 'Uncertain values flagged for review. Your team signs off.',
+      },
+      {
+        art: 'framework',
+        title: 'Your Framework',
+        text: 'Your DD templates, IC format and scoring, configured to your own set-up',
+      },
+      {
+        art: 'alongside',
+        title: 'Alongside, Not Instead',
+        text: 'Wraps around your existing stack, administrators and your file system',
+      },
+      {
+        art: 'done',
+        title: 'Minimal Work for You',
+        text: 'Our implementation team loads, checks and maintains data',
+      },
+      {
+        art: 'models',
+        title: 'Model-Agnostic, Private',
+        text: 'OpenAI and Anthropic, per use case. Never trained on your data.',
+      },
+    ],
+    3,
+  )}
+  <div class="section-stage">${stage({ film: uiFilm(DESK) })}</div>
+</section>
 
 ${insightsBlock(ctx, {
-  label: 'From our blog',
+  label: 'From Our Blog',
   aside: 'Research and news from Eunice.',
   deskFilter: [DESK, 'company'],
   featured: 1,
@@ -146,51 +155,42 @@ ${insightsBlock(ctx, {
 })}
 
 <section class="wrap section" id="team">
-  ${sectionHead('The desk', 'Who runs private markets, and who builds what it runs on.')}
+  ${sectionHead('The Desk', 'Who runs private markets, and who builds what it runs on.')}
   ${peopleStrip(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
 </section>
 
-${eventsBlock(ctx, { label: 'Events', aside: 'Where the desk will be, and where it has been.', desk: DESK, today: ctx.today })}
+${eventsBlock(ctx, { label: 'Events', desk: DESK, today: ctx.today })}
 
-${cta(ctx, {
-  title: 'Talk to us about the fund you are reviewing now',
-  text: 'A thirty-minute call with the desk. Bring the fund; we show you what Eunice reads, what it returns and how the quarterly cycle runs.',
-  buttons: [{ label: 'Book demo', kind: 'light', form: DESK }],
-})}`,
+${cta(ctx, { buttons: [{ label: 'Book demo', kind: 'light', form: DESK }] })}`,
 } satisfies Page;
 
 // Figma has no reporting screen yet, so this one stays a drawn stand-in.
 
-// Who Private Markets is for: the three client types we serve now, each cut to
-// a line and the needs it names. Where a client-type page matches, the card links to it.
+// Who Private Markets is for: the client types we serve now, each drawn and cut to
+// a line. Where a client-type page matches, the card links to it.
 const CLIENTS: readonly WhoClient[] = [
   {
-    who: 'High-activity asset allocators',
+    who: 'High-Activity Asset Allocators',
     line: 'High levels of dealmaking, large numbers of funds and managers.',
-    needs: ['Fast-paced due diligence', 'Portfolio monitoring at scale'],
+    art: 'pace',
     to: `${DESK}/lps`,
   },
   {
-    who: 'Focused asset allocators',
+    who: 'Focused Asset Allocators',
     line: 'Smaller size and lower deal activity, but higher levels of scrutiny.',
-    needs: ['On-the-ground operational due diligence', 'Sophisticated portfolio management'],
+    art: 'scrutiny',
     to: `${DESK}/lps`,
   },
   {
-    who: 'Family offices',
+    who: 'Family Offices',
     line: 'Lean teams with ambitious goals, branching out into new asset classes.',
-    needs: ['Generalist expertise', 'The fundamentals of each private asset class'],
+    art: 'branch',
     to: `${DESK}/family-offices`,
   },
   {
     who: 'General Partners',
     line: 'Private assets funds and separately managed accounts.',
-    needs: [
-      'Liquidity tools for evergreen funds',
-      'Scenario analysis and forecasting',
-      'Bespoke LP reporting',
-      'Opportunity scoring and style filters',
-    ],
+    art: 'report',
     to: `${DESK}/managers`,
   },
 ];

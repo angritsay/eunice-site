@@ -5,7 +5,11 @@ export interface Lead {
   readonly submissionId: string;
   readonly desk: string;
   readonly receivedAt: Date;
-  readonly contact: { readonly name: string; readonly email: string; readonly company?: string | undefined };
+  readonly contact: {
+    readonly name?: string | undefined;
+    readonly email: string;
+    readonly company?: string | undefined;
+  };
   readonly details: Readonly<Record<string, string>>;
   readonly message?: string | undefined;
   readonly entry: {

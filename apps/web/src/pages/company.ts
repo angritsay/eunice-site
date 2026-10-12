@@ -8,13 +8,13 @@ import { uiRead } from '../ui.ts';
 export default {
   slug: 'company',
   nav: 'company',
-  title: 'About Eunice — We read the documents nobody has time to read',
+  title: 'About Eunice — We Read the Documents Nobody Has Time to Read',
   description:
     'A diligence firm for regulated finance. Founded in London in 2023; backed by Moonfire, Speedinvest, Openspace Capital and Locus Ventures.',
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <h1 class="h1">We read the documents nobody has time to read</h1>
+    <h1 class="h1">We Read the Documents Nobody Has Time to Read</h1>
     <p class="lead">A diligence firm for regulated finance. Founded in London in 2023; backed by Moonfire, Speedinvest, Openspace Capital and Locus Ventures.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Meet the team', to: 'company', hash: 'team' })}
@@ -26,7 +26,7 @@ export default {
 
 <section class="wrap section">
   ${facts([
-    { art: 'seed', title: '$8m seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
+    { art: 'seed', title: '$8m Seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
     {
       art: 'award',
       title: 'Fintech 50',
@@ -34,7 +34,7 @@ export default {
     },
     {
       art: 'sandbox',
-      title: 'FCA regulatory sandbox',
+      title: 'FCA Regulatory Sandbox',
       text: 'Accepted November 2025 for digital asset disclosure standards',
     },
     { art: 'shield', title: 'SOC 2 Type II · GDPR', text: 'Audited; no training on client data' },
@@ -46,12 +46,12 @@ export default {
   ${sectionHead('Leadership', team.intro)}
   ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'])}
   <div class="grid grid--4 people people--row people--team">
-    <a class="join" href="${ctx.link('careers', 'roles')}"><span class="h4">Join the team</span><span class="caption muted">Three open roles</span><span class="small">GTM for digital assets, client implementation for private markets, senior engineering.</span></a>
+    <a class="join" href="${ctx.link('careers', 'roles')}"><span class="h4">Join the Team</span><span class="caption muted">Three open roles</span><span class="small">GTM for digital assets, client implementation for private markets, senior engineering.</span></a>
   </div>
 </section>
 
 <section class="band section" id="press"><div class="wrap">
-  ${sectionHead('News and press', 'What has been announced.')}
+  ${sectionHead('News and Press', 'What has been announced.')}
   <ul class="irows">${insights
     .filter((i) => i.desk === 'company' || /FCA/.test(i.title))
     .sort((a, b) => (a.date < b.date ? 1 : -1))
@@ -61,7 +61,7 @@ export default {
 
 <section class="wrap section feature feature--flat" id="how-we-work">
   <div class="feature__text">
-    <h2 class="h2">How we work</h2>
+    <h2 class="h2">How We Work</h2>
     <p class="body muted">Three rules that have not changed since the first customer.</p>
   </div>
   <ol class="rules">
@@ -72,7 +72,7 @@ export default {
 </section>
 
 ${cta(ctx, {
-  title: 'Come and build it',
+  title: 'Come and Build It',
   text: 'Three open roles in London, remote-friendly. Your work ships into regulated financial workflows, where every output has to be defensible.',
   buttons: [
     { label: 'Email the team', kind: 'outline-light', href: `mailto:${config.careersEmail}` },

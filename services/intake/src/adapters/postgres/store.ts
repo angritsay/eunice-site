@@ -17,7 +17,7 @@ export function postgresSubmissionStore(db: Kysely<DB>): SubmissionStore {
             fingerprint,
             variant: s.variant,
             desk: s.desk,
-            name: s.contact.name,
+            name: s.contact.name ?? null,
             email: s.contact.email,
             company: s.contact.company ?? null,
             message: s.message ?? null,

@@ -190,11 +190,11 @@ ${runtimeConfig(false, page)}
   }
 
   // 404 uses the home chrome with absolute-safe links back to the root.
-  const nf = { slug: '', nav: 'company', title: 'Page not found — Eunice', render: () => '' };
+  const nf = { slug: '', nav: 'company', title: 'Page Not Found — Eunice', render: () => '' };
   fs.writeFileSync(
     path.join(DIST, '404.html'),
     `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${nf.title}</title>${fonts((a: string) => `${config.basePath}assets/${a}`)}<link rel="stylesheet" href="${config.basePath}assets/site.css"></head><body>
-<main class="wrap hero hero--short"><div class="hero__text"><h1 class="h1">This page has moved</h1><p class="lead">The address may be from the old site. Start from the home page.</p><div class="buttons"><a class="btn btn--dark" href="${config.basePath}">Go to the home page</a></div></div></main></body></html>`,
+<main class="wrap hero hero--short"><div class="hero__text"><h1 class="h1">This Page Has Moved</h1><p class="lead">The address may be from the old site. Start from the home page.</p><div class="buttons"><a class="btn btn--dark" href="${config.basePath}">Go to the home page</a></div></div></main></body></html>`,
   );
   console.log(`dist/: ${PAGES.length} pages + 404`);
 }

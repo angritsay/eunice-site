@@ -16,7 +16,8 @@ export const SubmissionReceivedData = z.object({
   desk: z.string(),
   receivedAt: z.iso.datetime({ offset: true }),
   contact: z.object({
-    name: z.string(),
+    /** Absent for a demo request, which asks only the email. */
+    name: z.string().optional(),
     email: z.email(),
     company: z.string().optional(),
   }),

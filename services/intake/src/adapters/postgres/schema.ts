@@ -10,7 +10,7 @@ export interface SubmissionsTable {
   fingerprint: string;
   variant: string;
   desk: string;
-  name: string;
+  name: string | null;
   email: string;
   company: string | null;
   message: string | null;

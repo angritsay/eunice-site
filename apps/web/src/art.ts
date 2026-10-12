@@ -1,4 +1,4 @@
-// Line illustrations for fact cards: one picture per idea, so a card reads at a glance
+// Line illustrations for fact and client cards: one picture per idea, so a card reads at a glance
 // before its words. Drawn on a 96 x 64 canvas in the ink colour (currentColor), 1.5px
 // strokes, white fills where shapes overlap, and one soft tint for what matters.
 // Decorative: the card's title says the same thing in words. The markup is ours, not
@@ -33,6 +33,34 @@ const ART = {
   library: `<rect x="40" y="6" width="30" height="40" rx="3" fill="#fff"/><rect x="34" y="11" width="30" height="40" rx="3" fill="#fff"/><rect x="28" y="16" width="30" height="40" rx="3" class="t"/><path d="M34 26h18M34 33h18M34 40h11"/>`,
   /** A date: a calendar page with the day marked. */
   date: `<rect x="28" y="10" width="40" height="44" rx="4" fill="#fff"/><path d="M28 22h40M38 6v8M58 6v8"/><path d="M36 31h4M46 31h4M56 31h4M36 39h4M56 39h4M36 47h4M46 47h4"/><rect x="44" y="36" width="8" height="7" rx="1.5" class="f"/>`,
+  /** Many funds at pace: a stack of papers moving through. */
+  pace: `<path d="M14 30h14M18 39h10M14 48h14"/><rect x="50" y="8" width="26" height="34" rx="3" fill="#fff"/><rect x="43" y="15" width="26" height="34" rx="3" fill="#fff"/><rect x="36" y="22" width="26" height="34" rx="3" class="t"/><path d="M42 32h14M42 39h14M42 46h9"/>`,
+  /** Close scrutiny of one fund: a document under a lens. */
+  scrutiny: `<rect x="22" y="8" width="32" height="44" rx="3" fill="#fff"/><path d="M28 18h20M28 25h20M28 32h12"/><circle cx="58" cy="36" r="12" class="t"/><path d="M52 36h12"/><path d="m66.5 44.5 9 9" class="x"/>`,
+  /** Branching out: one stem into three asset classes, the new one marked. */
+  branch: `<path d="M48 56V36M48 36c0-10-18-9-18-19M48 36V17M48 36c0-10 18-9 18-19"/><circle cx="30" cy="12" r="5" fill="#fff"/><circle cx="48" cy="12" r="5" fill="#fff"/><circle cx="66" cy="12" r="5" class="t"/><circle cx="48" cy="57" r="3" class="f"/>`,
+  /** Reporting to investors: a report with rising bars. */
+  report: `<rect x="26" y="6" width="44" height="52" rx="3" fill="#fff"/><path d="M32 15h20M32 21h12M32 50h32"/><rect x="35" y="38" width="6" height="12" rx="1"/><rect x="45" y="32" width="6" height="18" rx="1"/><rect x="55" y="26" width="6" height="24" rx="1" class="t"/>`,
+  /** Tenant isolation: each client's data in its own walled space. */
+  tenant: `<rect x="12" y="16" width="20" height="32" rx="3" fill="#fff"/><rect x="38" y="16" width="20" height="32" rx="3" class="t"/><rect x="64" y="16" width="20" height="32" rx="3" fill="#fff"/><path d="M17 26h10M17 32h10M43 26h10M43 32h10M69 26h10M69 32h10"/>`,
+  /** An audit trail: every action on a line, in order, the latest marked. */
+  audit: `<path d="M30 14v28"/><circle cx="30" cy="14" r="3" fill="#fff"/><circle cx="30" cy="28" r="3" fill="#fff"/><circle cx="30" cy="42" r="3" class="f"/><path d="M40 14h28M40 28h22"/><rect x="38" y="37" width="34" height="10" rx="2" class="t"/>`,
+  /** Single sign-on: one key opening several apps. */
+  sso: `<circle cx="22" cy="32" r="8" class="t"/><path d="M30 32h22M42 32v6M47 32v4M52 32c8 0 8-14 16-14M52 32h16M52 32c8 0 8 14 16 14"/><rect x="68" y="12" width="14" height="12" rx="2" fill="#fff"/><rect x="68" y="26" width="14" height="12" rx="2" fill="#fff"/><rect x="68" y="40" width="14" height="12" rx="2" fill="#fff"/>`,
+  /** Role-based access: two people, one with a permission granted. */
+  roles: `<circle cx="60" cy="22" r="7" class="t"/><path d="M46 50c0-9 6-14 14-14s14 5 14 14" class="t"/><circle cx="34" cy="22" r="7" fill="#fff"/><path d="M20 50c0-9 6-14 14-14s14 5 14 14" fill="#fff"/><rect x="66" y="40" width="18" height="12" rx="3" fill="#fff"/><path d="m70.5 46 3 3 6-6"/>`,
+  /** Delivered end to end: a route from the first step to the finish flag. */
+  journey: `<path d="M14 44c14 0 14-20 30-20s16 20 38 20"/><circle cx="14" cy="44" r="4" class="f"/><circle cx="44" cy="24" r="4" fill="#fff"/><path d="M82 44V18"/><path d="M82 18h12l-4 5 4 5H82Z" class="t"/>`,
+  /** Human in the loop: a flagged line, and a person who signs it off. */
+  review: `<rect x="14" y="10" width="40" height="44" rx="3" fill="#fff"/><path d="M20 20h28M20 27h28M20 45h20"/><rect x="18" y="32" width="32" height="8" rx="2" class="t"/><circle cx="70" cy="26" r="7" fill="#fff"/><path d="M57 54c0-9 6-14 13-14s13 5 13 14"/><circle cx="82" cy="44" r="6" class="t"/><path d="m79 44 2 2 4-4"/>`,
+  /** Your framework: settings tuned to your own set-up. */
+  framework: `<path d="M20 18h56M20 32h56M20 46h56"/><circle cx="36" cy="18" r="5" fill="#fff"/><circle cx="62" cy="32" r="5" class="t"/><circle cx="44" cy="46" r="5" fill="#fff"/>`,
+  /** Alongside, not instead: your system with Eunice beside it. */
+  alongside: `<rect x="14" y="14" width="30" height="36" rx="3" fill="#fff"/><path d="M20 24h18M20 31h18M20 38h12M44 32h8"/><rect x="52" y="14" width="30" height="36" rx="3" class="t"/><circle cx="67" cy="32" r="5"/>`,
+  /** Minimal work for you: a checklist already ticked. */
+  done: `<rect x="26" y="8" width="44" height="48" rx="3" fill="#fff"/><rect x="44" y="40" width="22" height="9" rx="2" class="t"/><path d="m32 20 3 3 5-5M32 32l3 3 5-5M32 44l3 3 5-5M46 21h18M46 33h18M46 45h12"/>`,
+  /** Model-agnostic: one task routed to the model that suits it. */
+  models: `<rect x="12" y="24" width="18" height="16" rx="3" fill="#fff"/><path d="M30 32h12M42 32c8 0 8-12 16-12M42 32c8 0 8 12 16 12"/><rect x="58" y="12" width="24" height="16" rx="3" class="t"/><rect x="58" y="36" width="24" height="16" rx="3" fill="#fff"/><path d="M64 20h12M64 44h12"/>`,
 } as const;
 
 export type Art = keyof typeof ART;
