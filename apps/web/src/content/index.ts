@@ -581,13 +581,6 @@ export const insights = content('insights', z.array(Insight), [
     post: 'cryptoasset-classification-under-mica-other-regimes',
   },
   {
-    date: '2025-03-06',
-    desk: 'token-disclosure',
-    type: 'Press',
-    title: 'Introducing Eunice’s AI-powered MiCA white paper library',
-    post: 'introducing-the-ai-powered-mica-whitepaper-library',
-  },
-  {
     date: '2024-10-16',
     desk: 'digital-assets',
     type: 'Video',

@@ -46,7 +46,7 @@ export default {
 <section class="wrap section section--tight proof" id="proof">
   ${logoMarquee(ctx, 'clients')}
   ${numbers([
-    { n: '$1T+', label: 'AUM managed by the allocators who trust Eunice' },
+    { n: '$1.4T+', label: 'AUM managed by the allocators who trust Eunice' },
     { n: 'Top 100', label: 'Sifted’s fastest-growing startups in the UK and Ireland, by revenue, 2026' },
     { n: 'Fintech 50', label: 'Named to TechRound’s Fintech 50, May 2026, among the firms building financial services infrastructure' },
     { n: '$8m', label: 'Seed, March 2026 · Moonfire, Speedinvest, Openspace, Locus' },
