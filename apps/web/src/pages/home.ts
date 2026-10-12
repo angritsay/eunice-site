@@ -1,5 +1,5 @@
 // "Welcome to Eunice": the landing page. Its sections are the items of the
-// Welcome menu in the header (team, history, values, trust centre, careers).
+// Welcome menu in the header (security, team, history, values, careers).
 // The intro, the name and the values are the owner's words (Sep 2026); the story is
 // the live careers page's, word for word.
 import {
@@ -98,6 +98,24 @@ export default {
   })}
 </section>
 
+<section class="band section" id="trust"><div class="wrap">
+  ${sectionHead('Security and transparency, by design', 'How we protect the data clients trust us with.')}
+  ${facts([
+    { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
+    { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
+    {
+      art: 'noTrain',
+      title: 'No training on your data',
+      text: 'Your documents are never used to train models. They stay yours.',
+    },
+    { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
+  ])}
+  <div class="buttons">
+    ${button(ctx, { label: 'Our Trust Centre on Vanta', href: config.trustCenterUrl, newTab: true })}
+    ${button(ctx, { label: 'How we handle security', kind: 'outline', to: 'security' })}
+  </div>
+</div></section>
+
 <section class="wrap section" id="team">
   ${sectionHead('Our founders', team.intro)}
   <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
@@ -136,24 +154,6 @@ export default {
   ${sectionHead('What we stand for')}
   <ol class="values">${VALUES.map(([t, d]) => html`<li><p class="h4">${t}</p><p class="small muted">${d}</p></li>`)}</ol>
 </section>
-
-<section class="band section" id="trust"><div class="wrap">
-  ${sectionHead('Eunice AI Trust Centre', 'How we protect the data clients trust us with.')}
-  ${facts([
-    { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
-    { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
-    {
-      art: 'noTrain',
-      title: 'No training on your data',
-      text: 'Your documents are never used to train models. They stay yours.',
-    },
-    { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
-  ])}
-  <div class="buttons">
-    ${button(ctx, { label: 'Our Trust Centre on Vanta', href: config.trustCenterUrl, newTab: true })}
-    ${button(ctx, { label: 'How we handle security', kind: 'outline', to: 'security' })}
-  </div>
-</div></section>
 
 <section class="wrap section">
   ${sectionHead('What the people who use it say')}

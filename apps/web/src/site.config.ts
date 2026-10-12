@@ -58,10 +58,10 @@ const config: SiteConfig = {
       to: '',
       keys: ['company'],
       items: [
+        { label: 'Security and transparency, by design', to: '', hash: 'trust' },
         { label: 'Team', to: '', hash: 'team' },
         { label: 'Firm history', to: '', hash: 'history' },
         { label: 'What we stand for', to: '', hash: 'values' },
-        { label: 'Eunice AI Trust Centre', to: '', hash: 'trust' },
         { label: 'Careers', to: 'careers' },
       ],
     },
