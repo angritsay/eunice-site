@@ -57,7 +57,6 @@ export default {
     ],
   })}
   ${logoMarquee(ctx, 'partners')}
-  ${investorsBlock(ctx)}
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">
@@ -110,6 +109,7 @@ export default {
     line: 'GTM for digital assets, client implementation for private markets, senior engineering.',
   })}
   <div class="buttons">${button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', to: 'careers' })}</div>
+  ${investorsBlock(ctx)}
 </section>
 
 <section class="band section" id="why"><div class="wrap">
