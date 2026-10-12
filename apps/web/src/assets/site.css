@@ -251,14 +251,13 @@ button { font: inherit; color: inherit; }
 /* Home: the proof block runs logos, numbers, logos, badges, with the same air between. */
 .proof > .logos:first-child { margin-top: 0; }
 .numbers + .logos { margin-top: clamp(96px, 13vw, 192px); }
-/* The investors: a statement on the left, the backers' logos in a 2×2 wall on the right,
+/* The investors: a statement on the left, the backers' logos in an open 2×2 wall on the right,
    in step with the numbers block above. */
 .backers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 7vw, 112px); align-items: center; margin-top: clamp(96px, 13vw, 192px); }
 .backers__lead .h2 { max-width: 14em; }
 .backers__lead .small { margin-top: 16px; max-width: 30em; }
 .backers__wall { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; list-style: none; margin: 0; padding: 0; }
-.backers__wall li { display: flex; align-items: center; height: 112px; border-top: 1px solid var(--line); }
-.backers__wall li:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line); }
+.backers__wall li { display: flex; align-items: center; height: 112px; }
 .backers__wall img { display: block; filter: brightness(0); opacity: .78; }
 .team + .backers { margin-top: var(--section-tight); }
 .numbers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 7vw, 112px); align-items: center; margin-top: clamp(96px, 13vw, 192px); }

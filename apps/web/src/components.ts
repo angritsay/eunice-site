@@ -305,7 +305,7 @@ export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
 
 // The investors, in step with the numbers block: the statement on the left, with the
 // scout and angel programmes named in words under it; the backers' logos in a 2×2 wall
-// on the right, a hairline over each.
+// on the right, with no rules between them.
 const inWords = (items: readonly string[]) =>
   items.length > 1 ? `${items.slice(0, -1).join(', ')} and ${items.at(-1)}` : (items[0] ?? '');
 
