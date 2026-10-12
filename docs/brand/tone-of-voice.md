@@ -147,7 +147,7 @@ Conversational rather than formal: contractions are fine where the full form rea
 | Case | Sentence case for headings, buttons, labels, menu items and page titles; proper nouns keep capitals | Operational due diligence · Book demo |
 | Oxford comma | None | LPs, GPs and family offices |
 | "And" or "&" | Write "and"; keep "&" only inside a firm's own name | Insights and news · Drew & Napier |
-| Exclamation marks | Never | |
+| Exclamation marks | Never, except the one in the Home call to action | Book a demo! |
 | Contractions | Allowed where the full form reads stiff | can’t, don’t |
 | Quotes and apostrophes | Curly | firm’s, “Good enough” |
 | Small counts in prose | Spell out | ten fund documents, a thirty-minute call |
@@ -190,7 +190,7 @@ Two shapes:
 ### The closing call to action
 
 Short and direct: the reader is not yet convinced, so do not promise to transform their
-process. Yi's line for Home: "Ready to see Eunice in action? Book a demo."
+process. Yi's line for Home: "Ready to see Eunice in action? Book a demo!"
 
 - **Title:** a short question or an imperative about one real item on the client's
   desk. "Ready to see Eunice in action?" "Put one fund through it". "Run it against your
@@ -296,7 +296,7 @@ A new figure or credential needs the owner's sign-off and a source, recorded in
 - [ ] Do credentials and the thesis come early on the page?
 - [ ] Is it specific: a document, a number, a day, a desk?
 - [ ] Is every claim one the site already makes, in the same words?
-- [ ] UK spelling, sentence case, no Oxford comma, no exclamation marks?
+- [ ] UK spelling, sentence case, no Oxford comma, no exclamation marks (bar the Home call to action)?
 - [ ] None of the words on the "do not use" list?
 - [ ] Desk names capitalised; regulation kept off Private Markets?
 - [ ] Buttons from the list above?
@@ -332,7 +332,7 @@ it changes rendered pages.
 ## Yi's voice check: what changes on the site
 
 Her picks (October 2026), with what each means for the pages. None of these is on the
-site yet; each is a copy change for the owner to approve.
+site yet; they are applied in the site review (`docs/brand/site-review-plan.md`).
 
 | Where | Yi's choice | Change |
 |---|---|---|
@@ -341,7 +341,7 @@ site yet; each is a copy change for the owner to approve.
 | Private Markets, "What this looks like now" | Use what USS said: "Messy data, slow consolidation, and AI you can’t defend, inside a stack you can’t rip out." | Replace the scene, if USS agrees to be quoted or unnamed |
 | Company, what we stand for | "Every claim comes with its source." | Shorter line |
 | Company, AI | "AI-powered analysis, with your team in control." | Name AI |
-| Home, closing call to action | "Ready to see Eunice in action? Book a demo" | Shorter title and text |
+| Home, closing call to action | "Ready to see Eunice in action? Book a demo!" | Shorter title and text |
 | Main button | "Book demo" | None |
 | Digital Assets, custodians | "Know what changed. Act before it spreads. 50+ risk types. Every asset you support. Every event sourced and logged, so you move first when a black swan hits and have the record when a regulator asks." | New hero; "50+ risk types" needs a source |
 | Trust markers | "Enterprise-grade security · SOC 2 Type II, GDPR, and no training on your data." | One trust line |
@@ -351,10 +351,11 @@ site yet; each is a copy change for the owner to approve.
 Asked after she answered, not yet picked: the exchanges, market makers and Digital
 Assets main-page heroes.
 
-Still open between her answers and the rules:
+Where her answers and the older rules disagree, her answers win (the owner's decision,
+October 2026):
 
-- **Exclamation marks.** Yi wrote "Book a demo!"; the site has none. The guide keeps
-  none until the owner decides.
+- **Exclamation marks.** One, in the Home call to action as Yi wrote it: "Ready to see
+  Eunice in action? Book a demo!" Nowhere else.
 - **"Book demo" or "Book a demo".** She kept the button as "Book demo" but wrote "Book a
   demo" in the call to action. Use "Book demo" on buttons and "Book a demo" in sentences.
 - **A voice she admires:** eliseai.com. Worth a read before rewriting a hero.
