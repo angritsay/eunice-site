@@ -717,13 +717,13 @@ export const partners = content('partners', z.array(Firm), [
 ]);
 
 // "Backed by leading institutions and individuals": the investors, in Yi's order (October
-// 2026), traced from the logo files she supplied. The scout and angel programmes are
+// 2026), traced from the logo files she supplied, sized so the four look equally heavy. The scout and angel programmes are
 // named in words only, at her request: their logos are not ours to show.
 export const investors = content('investors', z.array(Firm), [
-  { name: 'Moonfire', logo: 'moonfire.svg', height: 18 },
-  { name: 'Speedinvest', logo: 'speedinvest.svg', height: 24 },
+  { name: 'Moonfire', logo: 'moonfire.svg', height: 23 },
+  { name: 'Speedinvest', logo: 'speedinvest.svg', height: 28 },
   { name: 'Openspace Capital', logo: 'openspace.svg', height: 40 },
-  { name: 'Tiny Supercomputer Investment Company', logo: 'tsic.svg', height: 26 },
+  { name: 'Tiny Supercomputer Investment Company', logo: 'tsic.svg', height: 24 },
 ]);
 export const alsoBackedBy = content('alsoBackedBy', z.array(z.string().min(1)), [
   'Sequoia Scout',

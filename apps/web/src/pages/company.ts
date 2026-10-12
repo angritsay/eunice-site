@@ -3,7 +3,7 @@ import {
   cta,
   facts,
   insightRow,
-  investorsRow,
+  investorsBlock,
   partnersRow,
   plate,
   sectionHead,
@@ -57,7 +57,7 @@ export default {
   ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'], {
     line: 'GTM for digital assets, client implementation for private markets, senior engineering.',
   })}
-  ${investorsRow(ctx)}
+  ${investorsBlock(ctx)}
 </section>
 
 <section class="band section" id="press"><div class="wrap">

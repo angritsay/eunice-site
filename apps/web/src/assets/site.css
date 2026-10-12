@@ -251,11 +251,16 @@ button { font: inherit; color: inherit; }
 /* Home: the proof block runs logos, numbers, logos, badges, with the same air between. */
 .proof > .logos:first-child { margin-top: 0; }
 .numbers + .logos { margin-top: clamp(96px, 13vw, 192px); }
-/* The investors: a still row under the others, ending with the programmes in words. */
-.logos + .logos--investors { margin-top: 48px; }
-.logos--investors .logos__list { flex-wrap: wrap; gap: 24px 56px; padding-right: 0; }
-.logos__more p { max-width: 32ch; }
-.team + .logos--investors { margin-top: var(--section-tight); }
+/* The investors: a statement on the left, the backers' logos in a 2×2 wall on the right,
+   in step with the numbers block above. */
+.backers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 7vw, 112px); align-items: center; margin-top: clamp(96px, 13vw, 192px); }
+.backers__lead .h2 { max-width: 14em; }
+.backers__lead .small { margin-top: 16px; max-width: 30em; }
+.backers__wall { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; list-style: none; margin: 0; padding: 0; }
+.backers__wall li { display: flex; align-items: center; height: 112px; border-top: 1px solid var(--line); }
+.backers__wall li:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line); }
+.backers__wall img { display: block; filter: brightness(0); opacity: .78; }
+.team + .backers { margin-top: var(--section-tight); }
 .numbers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 7vw, 112px); align-items: center; margin-top: clamp(96px, 13vw, 192px); }
 .numbers__lead img { display: block; width: auto; height: 44px; filter: brightness(0); }
 .numbers__lead .h2 { margin-top: 20px; max-width: 14em; }
@@ -306,15 +311,18 @@ section.feature { padding-top: var(--section); }
 
 /* ---------- Home tiles ---------- */
 .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.tile { display: flex; flex-direction: column; justify-content: space-between; gap: 32px; color: #fff; padding: 28px; min-height: 300px; border-radius: 4px; transition: transform .2s ease; }
+.tile { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 40px; color: #fff; padding: 28px 0 0 28px; min-height: 420px; border-radius: 4px; }
 .tile:hover { color: #fff; }
 /* Both product tiles are ink; the desk shows only in its glyph. */
 .tile--private-markets, .tile--digital-assets { background: var(--ink); }
 .tile--private-markets .tile__title .mark { fill: var(--pm-field); }
 .tile--digital-assets .tile__title .mark { fill: var(--da-field); }
-.tile__shot { display: block; border-radius: 8px; overflow: hidden; background: rgba(255,255,255,.25); padding: 8px 8px 0; }
-.tile__shot img { height: auto; border-radius: 4px 4px 0 0; }
-.tile__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+/* The drawing breaks out: larger than the card, set at a slight tilt and cropped by its
+   bottom-right corner. Pointing at the card straightens it. */
+.tile__shot { display: block; width: 100%; margin: auto 0 -14% 10%; border-radius: 8px 0 0 0; overflow: hidden; background: rgba(255,255,255,.25); padding: 8px 0 0 8px; box-shadow: 0 32px 64px rgba(0,0,0,.4); transform-origin: 0 0; transform: perspective(1600px) rotateX(12deg) rotateY(-14deg) rotateZ(3deg); transition: transform .7s cubic-bezier(.22,.61,.36,1); }
+.tile:hover .tile__shot, .tile:focus-visible .tile__shot { transform: perspective(1600px) translateY(-6px); }
+.tile__shot img { height: auto; border-radius: 4px 0 0 0; }
+.tile__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-right: 28px; }
 .tile__title { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 20.8px; letter-spacing: -.015em; }
 .tile__text { display: block; margin-top: 10px; font-size: 11.2px; line-height: 1.5; color: rgba(255,255,255,.9); max-width: 34em; }
 .tile .btn--light { flex: 0 0 auto; }
@@ -601,6 +609,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 }
 @media (max-width: 960px) {
   .approach { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .backers { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .backers__wall li { height: 88px; }
   /* Tablet and phone: the cover drops under the date, inside the card. */
   .acard { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .acrumbs { margin-bottom: 12px; }
@@ -682,7 +692,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .shead { flex-direction: column; gap: 6px; }
   .irow { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .irow__tag { text-align: left; order: -1; }
-  .tile__foot { flex-direction: column; align-items: flex-start; }
+  .tile__head { flex-direction: column; align-items: flex-start; }
+  .tile { min-height: 0; }
   .dialog__in { padding: 24px; }
 }
 
@@ -841,6 +852,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
    what starts below the fold, only with JavaScript, never with reduced motion). */
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1); transition-delay: calc(var(--i, 0) * 90ms); }
 .reveal.is-in { opacity: 1; transform: none; }
+/* A row of facts arrives one card at a time, so each credential gets its own moment. */
+.facts > .reveal { transition-delay: calc(var(--i, 0) * 220ms); }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
 /* ---------- The product, drawn (ui.ts) ----------
@@ -980,7 +993,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 @keyframes wf-shimmer { to { background-position: -150% 0; } }
 
 /* On a home tile the window is a wide crop. */
-.tile__shot .wf { --u: .8cqw; aspect-ratio: 16 / 7; border-radius: 4px 4px 0 0; }
+.tile__shot .wf { --u: .8cqw; aspect-ratio: 16 / 9; border-radius: 4px 0 0 0; }
 .tile__shot .wf__win { inset: 5% 4% -8%; }
 
 /* The film: one window, its scenes stacked in the view. site.js steps data-step and puts

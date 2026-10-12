@@ -7,7 +7,7 @@ import {
   cta,
   facts,
   insightsBlock,
-  investorsRow,
+  investorsBlock,
   logoMarquee,
   mark,
   numbers,
@@ -58,7 +58,7 @@ export default {
     ],
   })}
   ${logoMarquee(ctx, 'partners')}
-  ${investorsRow(ctx)}
+  ${investorsBlock(ctx)}
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">
@@ -137,13 +137,13 @@ function tile(
 ) {
   return html`
 <a class="tile tile--${desk}" href="${ctx.link(desk)}">
-  <span class="tile__shot" aria-hidden="true">${visual}</span>
-  <span class="tile__foot">
+  <span class="tile__head">
     <span>
       <span class="tile__title">${mark(18, '#fff')}${title}</span>
       <span class="tile__text">${text}</span>
     </span>
     <span class="btn btn--light">Learn more</span>
   </span>
+  <span class="tile__shot" aria-hidden="true">${visual}</span>
 </a>`;
 }

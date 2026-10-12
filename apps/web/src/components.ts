@@ -303,12 +303,19 @@ export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
 </div>`;
 }
 
-// The investors: too few to loop, so the row stands still, and ends with the programmes
-// named in words.
-export const investorsRow = (ctx: Ctx) => html`
-<div class="logos logos--investors">
-  <p class="caption muted logos__label">Backed by leading institutions and individuals</p>
-  <ul class="logos__list">${investors.map((f) => firmLogo(ctx, f))}<li class="logos__more"><p class="small muted">Also by ${alsoBackedBy.join(', ')}</p></li></ul>
+// The investors, in step with the numbers block: the statement on the left, with the
+// scout and angel programmes named in words under it; the backers' logos in a 2×2 wall
+// on the right, a hairline over each.
+const inWords = (items: readonly string[]) =>
+  items.length > 1 ? `${items.slice(0, -1).join(', ')} and ${items.at(-1)}` : (items[0] ?? '');
+
+export const investorsBlock = (ctx: Ctx) => html`
+<div class="backers">
+  <div class="backers__lead">
+    <p class="h2">Backed by leading institutions and individuals</p>
+    <p class="small muted">Also by ${inWords(alsoBackedBy)}.</p>
+  </div>
+  <ul class="backers__wall">${investors.map((f) => firmLogo(ctx, f))}</ul>
 </div>`;
 
 // Both rows together, for pages that show them as one block.

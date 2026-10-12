@@ -168,6 +168,26 @@ test.describe('team grid', () => {
   });
 });
 
+// The investors on the welcome page: four logos in a 2×2 wall, every cell the same width,
+// every logo showing.
+test('the investors wall holds two logos to a row', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(BASE);
+  const cells = await page.locator('.backers__wall > li').evaluateAll((els) =>
+    els.map((e) => {
+      const r = e.getBoundingClientRect();
+      return { top: Math.round(r.top), width: Math.round(r.width) };
+    }),
+  );
+  expect(cells).toHaveLength(4);
+  expect(new Set(cells.map((c) => c.top)).size).toBe(2);
+  expect(new Set(cells.map((c) => c.width)).size).toBe(1);
+  for (const img of await page.locator('.backers__wall img').all()) {
+    await img.scrollIntoViewIfNeeded();
+    await expect(img).toBeVisible();
+  }
+});
+
 // The film in the welcome page's hero, drawn in HTML: it steps through its scenes by
 // itself, holds while the pointer rests on it, and a visitor who asks for reduced
 // motion gets it still on its first scene.
