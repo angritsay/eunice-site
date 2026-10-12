@@ -1,5 +1,5 @@
 // "Welcome to Eunice": the landing page. Its sections are the items of the
-// Welcome menu in the header (security, team, history, careers).
+// Welcome menu in the header (security, team, why Eunice, careers).
 // The intro and the name are the owner's words (Sep 2026); the story is
 // the live careers page's, word for word.
 import {
@@ -120,17 +120,12 @@ export default {
   </div>
 </section>
 
-<section class="band section" id="history"><div class="wrap">
-  ${sectionHead('Firm history', team.founded)}
-  <div class="story">
-    <div>
-      <h2 class="h2">${team.storyTitle}</h2>
-      ${team.story.map((p) => html`<p class="body">${p}</p>`)}
-    </div>
-    <div class="story__name">
-      <h2 class="h2">Why Eunice</h2>
-      <p class="body">Eunice Newton Foote discovered the greenhouse effect in 1856, and someone else got the credit for a century. Careful work, spotting what others missed, giving the truth its due: that is the company we want to be.</p>
-    </div>
+<section class="band section" id="why"><div class="wrap">
+  ${sectionHead('So, why “Eunice”?')}
+  <div class="why">
+    <p class="body muted">We get asked this a lot :)</p>
+    <p class="body">In 1856, Eunice Newton Foote found the science behind the greenhouse effect. Then someone else got the credit for over a century. She did all this while raising two children, which makes it even more impressive.</p>
+    <p class="body">We named the company after her because we want to do pioneering work in our industry and make sure good evidence gets the credit it deserves. We also liked that Eunice sounds less like software and more like a sharp, reliable colleague who’s always happy to help.</p>
   </div>
 </div></section>
 

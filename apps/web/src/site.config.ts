@@ -60,7 +60,7 @@ const config: SiteConfig = {
       items: [
         { label: 'Security and Transparency, by Design', to: '', hash: 'trust' },
         { label: 'Team', to: '', hash: 'team' },
-        { label: 'Firm History', to: '', hash: 'history' },
+        { label: 'Why Eunice', to: '', hash: 'why' },
         { label: 'Careers', to: 'careers' },
       ],
     },
@@ -127,7 +127,7 @@ const config: SiteConfig = {
     {
       title: 'Company',
       links: [
-        { label: 'About Us', to: '', hash: 'history' },
+        { label: 'About Us', to: '', hash: 'why' },
         { label: 'Careers', to: 'careers' },
         { label: 'Blog', to: 'blog' },
         { label: 'Security', to: 'security' },
