@@ -104,7 +104,7 @@ Reach for these before writing markup. All markup goes through the `html` tag
 | `sectionHead(label, aside?, action?)` | The heading of every section, with an optional line or button on the right | Add an eyebrow or a number above it |
 | `feature({title, body, visual, flip, desk, stage})` | A product row: text and visual in equal halves, alternating with `flip` | Make one side wider |
 | `facts(items, cols)` | A row of short facts, each `{art, title, text}` with its line drawing from `art.ts` | Add a fact without a drawing. Pick one of: `shield lock noTrain cite seed award sandbox sources globe legal tag library date`, or add one to `art.ts`. |
-| `numbers(items)` | Proof as big figures with a one-line label | Use a figure the site does not already state |
+| `numbers(ctx, { lead, rows })` | Proof: a recognition led by its publisher's logo and the line it gave us, then figures in hairline rows, each with a short note | Use a figure the site does not already state |
 | `badges(items)` | Credentials in outlined pills (SOC 2 Type II, GDPR…) | Explain them inside the pill |
 | `path(stops, {onward})` | A sequence that matters, drawn as stops on one line | Number the steps |
 | `bullets(items, desk)` | A short list inside a feature | Colour the bullets |

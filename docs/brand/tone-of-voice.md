@@ -250,15 +250,18 @@ line with a date or scope.
 
 | Claim | Say it as | Where it may appear |
 |---|---|---|
-| Scale | $1T+ · "Trusted by asset allocators managing over $1 trillion in AUM" | Home, Private Markets |
-| White papers | 1,000+ · "drafted from 1,000+ pre-filled papers" | Home, Digital Assets, Token Disclosure |
-| Jurisdictions | 4 · "MiCA, the UK regime, MAS and VARA" | Home, Digital Assets |
-| Funding | $8m seed · "March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures" | Home, Company |
+| Scale | $1.4T+ · "In assets overseen by the allocators who rely on Eunice" | Home, Private Markets |
+| Institutions | "Trusted by 50+ institutions in the US, Europe and Asia" | Home |
+| White papers | 30+ · "30+ MiCA white papers filed through 4 NCAs" (the library of pre-filled papers is no longer offered) | Home, Digital Assets, Token Disclosure |
+| Jurisdictions | 8 · "Live and expanding: the EU, the UK, the US, MAS, VARA and more" | Digital Assets |
+| Funding | $8m · "Seed and pre-seed" on Home; "March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures" on Company | Home, Company |
+| Investors | "Backed by leading institutions and individuals": Moonfire, Speedinvest, Openspace, Tiny; "also by Sequoia Scout, Accel Scout and Atomico Angel Programme", in words only | Home, Company |
+| Sifted | "100 fastest-growing startups in the UK & Ireland" · "By revenue, 2026", led by Sifted's logo | Home |
 | SOC 2 Type II | "Audited; the report is available on request" | Everywhere |
 | GDPR | "Compliant, with a data processing agreement for every engagement" | Everywhere |
 | No training | "Your documents are never used to train models. They stay yours." | Everywhere; it is a Private Markets trust marker |
 | FCA regulatory sandbox | "Participant since November 2025, testing disclosure standards" | Digital Assets, Token Disclosure, Home, Company; not Private Markets |
-| Fintech 50 | "Fintech 50, 2026" | Home, Company |
+| Fintech 50 | "Fintech 50" · "TechRound, 2026" | Home, Company |
 | CMS | "Reviewed by CMS, where a legal opinion is needed" | Token Disclosure, Digital Assets |
 | Citations | "Every finding cited to the page it came from" | Everywhere |
 
@@ -328,6 +331,9 @@ it changes rendered pages.
 13. **The family offices card reads "Enable you to do more with a lean team."**: a
     fragment with no subject. Yi chose "Do more with a lean team."
 14. **Mixed compounds:** dataroom / data rooms; crypto assets / cryptoassets.
+15. **Jurisdictions:** the Digital Assets page says 8 live; the exchanges page for Digital
+    Assets still says "4 jurisdictions · MiCA, the UK regime, MAS and VARA"
+    (`pages/audience.ts`).
 
 ## Yi's voice check: what changes on the site
 
