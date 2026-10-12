@@ -110,7 +110,7 @@ Reach for these before writing markup. All markup goes through the `html` tag
 | `bullets(items, desk)` | A short list inside a feature | Colour the bullets |
 | `pullQuote(q)` | The one quote a page puts on stage: large, on ink, opening mark in the desk colour | Use more than one per page |
 | `quoteBlock(q)` | Rows of client quotes: warm ground, words in mono, the desk named by its mark | Put them on the grey band |
-| `logoMarquee(ctx, 'clients' \| 'partners')`, `partnersRow(ctx)`, `investorsRow(ctx)` | Logo rows: grey caption on the left, firms drifting left in one grey; the investors row stands still and names the scout programmes in words | Add a firm anywhere but `clients`/`partners` in `content/index.ts` |
+| `logoMarquee(ctx, 'clients' \| 'partners')`, `partnersRow(ctx)`, `investorsBlock(ctx)` | Logo rows: grey caption on the left, firms drifting left in one grey. The investors block mirrors `numbers()`: a statement and the scout programmes in words, the four logos in a 2×2 hairline wall | Add a firm anywhere but `clients`/`partners` in `content/index.ts` |
 | `insightsBlock(...)`, `insightCard`, `insightRow` | Blog and news. One featured card sits left, the list beside it. | Stretch a single card across the page |
 | `eventsBlock(...)` | Upcoming and past events from `content/index.ts` | Hard-code an event on a page |
 | `teamGrid(ctx, ids, hiring?)` | The team: one plain grid, portrait, name, role, LinkedIn; an optional hiring card last | Paste a bio into a page |
@@ -153,7 +153,8 @@ one view) with fictional funds and tokens:
 
 - Background art is abstract, blurred nature generated to the palette. No city or street
   photography, no stock people.
-- Team portraits: 1000×1000 cut-out WebP in `assets/img/people/`, shown square.
+- Team portraits: 720×720 cut-out WebP in `assets/img/people/`, shown square.
+- Blog covers: WebP, at most 1200px wide, in `assets/img/blog/`. A cover a re-import brings in as PNG or JPEG is converted before it is committed.
 - Logos: one grey, sized by height in `content/index.ts`.
 
 ## Motion

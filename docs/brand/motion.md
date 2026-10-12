@@ -33,8 +33,9 @@ first: open the pull request as a draft and say so.
 |---|---|---|---|---|
 | Product drawings (`uiAsk`, `uiRead`, `uiMonitor`, `uiReport`) | markup and copy: `apps/web/src/ui.ts`; motion: `site.css`, "The product, drawn" (`.wf…`, `@keyframes wf-*`) | 9s loop; caret blinks 1.1s; placeholder shimmers 1.4s | keeps playing | all animation off; scan line, placeholders hidden |
 | The film (`uiFilm`: ask and cite, find, watch, the closing line) | markup: `ui.ts`; steps: `site.js` "Product films" (`FILM_STEPS`, `FADE`); look: `site.css` `.wf--film`, `.wf__scene`, `.wf__close` | scenes 6.5s, 6s, 6.5s, 3.5s; a 350ms fade between; each scene's animations play once over 8s | holds | stays on its first scene |
-| Reveal on scroll | `site.js` "Reveal on scroll"; `site.css` `.reveal` | 0.9s, `--wf-ease`, items of a row one after another (up to 7) | — | nothing is hidden or moved |
-| Logo rows ("Clients", "Partners"; the investors row stands still: four logos are too few to loop) | `components.ts` `logoMarquee()`; `site.css` `.logos…`, `@keyframes logos` | 90s and 50s a loop, linear | holds | stands still; the row wraps |
+| Reveal on scroll | `site.js` "Reveal on scroll"; `site.css` `.reveal` | 0.9s, `--wf-ease`, items of a row one after another (up to 7), 90ms apart; a row of facts 220ms apart, one card at a time | — | nothing is hidden or moved |
+| Home tiles | `site.css` `.tile__shot` | the drawing sits tilted (12°, −14°, 3°) and straightens over 0.7s, `--wf-ease` | straightens and lifts 6px | still tilted, no transition |
+| Logo rows ("Clients", "Partners") | `components.ts` `logoMarquee()`; `site.css` `.logos…`, `@keyframes logos` | 90s and 50s a loop, linear | holds | stands still; the row wraps |
 | Hover and focus details | `site.css` (buttons .15s, menus .2s, cards .4–.5s) | short, ease | — | all transitions off |
 
 The team does not move. It was an expanding strip until October 2026; Yi and Philip asked
