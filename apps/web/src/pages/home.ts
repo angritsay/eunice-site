@@ -80,7 +80,7 @@ export default {
 </section>
 
 <section class="band section" id="trust"><div class="wrap">
-  ${sectionHead('Security and transparency, by design', 'How we protect the data clients trust us with.')}
+  ${sectionHead('Security and transparency, by design')}
   ${facts([
     { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
     { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
