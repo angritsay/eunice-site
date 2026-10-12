@@ -113,7 +113,7 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm --filter @eunice/e2e exec playwright install --with-deps chromium
-      - name: Lead flow to the ops inbox, one trace, analytics funnel, outages
+      - name: Lead flow to the ops inbox, one trace, outages
         run: pnpm test:e2e
       - name: Back up the database, then prove the backup restores to the same rows
         run: |

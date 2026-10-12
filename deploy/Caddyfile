@@ -1,6 +1,5 @@
 # The production edge: api.eunice.ai. TLS certificates are obtained and renewed by Caddy
-# (Let's Encrypt). The site itself is on GitHub Pages; only the API and the analytics
-# tracker are served here.
+# (Let's Encrypt). The site itself is on GitHub Pages; only the API is served here.
 {
 	admin off
 	email {$ACME_EMAIL}
@@ -22,13 +21,6 @@
 	}
 	handle_path /intake/* {
 		reverse_proxy intake:3000
-	}
-
-	# Analytics: the tracker and the endpoint it sends to. The dashboard is not routed.
-	@tracker path /analytics/script.js /analytics/api/send
-	handle @tracker {
-		uri strip_prefix /analytics
-		reverse_proxy umami:3000
 	}
 
 	handle {

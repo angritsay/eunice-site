@@ -62,6 +62,6 @@ is `packages/contracts/generated/asyncapi.json`.
 | NATS `INTAKE` stream | The same, inside the event | To deliver it to the notifier | Until acknowledged; 7 days at most | Work-queue retention; max age |
 | Ops / hiring inbox | The email | To reply | The inbox's own policy | Operator (UC-5) |
 | `notifier.deliveries` | Event and submission ids only | Send once | 30 days | Purge timer |
-| Umami | Page URL, referrer, browser, country; funnel events with the entry point | Measure the site | Umami's retention setting | Umami |
+| Google Analytics | Page URL, referrer, browser, country, GA cookie ids (after consent); funnel events with the entry point | Measure the site | The GA property's retention setting | Google |
 | Logs | Method, route, status, duration, ids; personal fields redacted | Operate | Platform log retention | Platform |
 | Traces | Span names, routes, SQL text without parameters | Debug | Collector retention | Collector |

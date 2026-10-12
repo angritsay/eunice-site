@@ -32,18 +32,11 @@ safe in intake.
 3. Read the lead and contact the person by hand:
    `dc exec postgres psql -U postgres -d eunice -c "select * from intake.submissions where id = '<submission id>'"`
 
-## Analytics dashboard
+## Analytics
 
-The Umami dashboard is not on the internet. Forward it to your machine:
-
-```sh
-aws ssm start-session --region eu-west-2 --target <InstanceId> \
-  --document-name AWS-StartPortForwardingSession --parameters portNumber=3001,localPortNumber=3001
-```
-
-Open http://localhost:3001. The user is `admin`; the password is in Parameter Store,
-`/eunice-site/prod/secret/UMAMI_ADMIN_PASSWORD`. To build the funnel report, see
-[analytics-funnel.md](analytics-funnel.md).
+Analytics is Google Analytics 4, in Eunice's own Google account; nothing runs on the
+instance ([ADR-0013](../adr/0013-analytics-google-analytics-with-consent.md)). To read the
+funnel, see [analytics-funnel.md](analytics-funnel.md).
 
 ## Erase a person's data
 
@@ -68,7 +61,7 @@ after 35 days.
   and every table is counted: `systemctl status eunice-restore-check`. CI does the same
   on every pull request and compares the counts with the live database.
 - **Restore for real** (after data loss):
-  1. `dc stop intake notifier umami`
+  1. `dc stop intake notifier`
   2. Get the dump: `aws s3 cp s3://<bucket>/backups/<file>.dump /tmp/restore.dump`
   3. `dc exec -T postgres pg_restore -U postgres -d eunice --clean --if-exists < /tmp/restore.dump`
   4. `dc up -d --wait`

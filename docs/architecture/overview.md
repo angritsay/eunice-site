@@ -49,25 +49,23 @@ flowchart TB
   end
 
   subgraph data["Data"]
-    pg[("PostgreSQL 18<br/>schemas: intake · notifier · umami<br/>one role set per schema")]
+    pg[("PostgreSQL 18<br/>schemas: intake · notifier<br/>one role set per schema")]
     nats[["NATS JetStream<br/>stream INTAKE (work queue)"]]
   end
 
-  umami["Umami<br/>analytics, self-hosted<br/><i>Implemented</i>"]
+  ga["Google Analytics 4<br/>after cookie consent (ADR-0013)<br/><i>Off until a measurement id is set</i>"]
   mailer[("SMTP: Mailpit (local) /<br/>Google Workspace relay (production)")]
   jaeger["Jaeger<br/>traces (local)"]
 
   browser -- "HTML, CSS, JS, fonts" --> caddy
   browser -- "POST /api/intake/v1/submissions<br/>Idempotency-Key, traceparent" --> caddy
-  browser -- "/analytics/script.js, /analytics/api/send" --> caddy
+  browser -. "gtag.js, only after Accept" .-> ga
   caddy --> intake
-  caddy --> umami
   intake -- "submission + outbox row,<br/>one transaction" --> pg
   intake -- "publish, Nats-Msg-Id = event id" --> nats
   nats -- "durable consumer 'notifier'" --> notifier
   notifier -- "delivery log (ids only)" --> pg
   notifier -- "SMTP, TLS in production" --> mailer
-  umami --> pg
   intake -. "OTLP" .-> jaeger
   notifier -. "OTLP" .-> jaeger
 ```
@@ -79,7 +77,7 @@ flowchart TB
 | intake | Submissions, their events until published | **Yes** — until `purge_after` | Instances (rate limit is per instance; see ADR-0007) |
 | NATS `INTAKE` | Events in flight | **Yes** — until acknowledged, 7 days at most | — |
 | notifier | Which events became email | No — event ids and timestamps | Instances (competing consumers) |
-| Umami | Visits and funnel events | No — cookieless, no raw IP | — |
+| Google Analytics (third party) | Visits and funnel events, with Google's cookies after consent | No names, emails or message text; GA's own identifiers | Google |
 
 **Why these boundaries**: [ADR-0004](../adr/0004-service-boundaries-by-data-classification.md).
 They follow what data each part holds and how it fails, not load. What was deliberately
@@ -125,7 +123,7 @@ flowchart LR
 ## Deployment
 
 **Local and CI (implemented)**: `docker compose up --build --wait` starts all the
-containers above, plus one-shot migration jobs and the Umami bootstrap. CI runs the same
+containers above, plus one-shot migration jobs. CI runs the same
 stack and drives it from a browser.
 
 **Production (planned, on existing vendors only; [ADR-0012](../adr/0012-production-on-existing-vendors.md))**:
@@ -137,7 +135,6 @@ flowchart LR
     subgraph ec2["EC2 · api.eunice.ai · same compose stack"]
       caddy["Caddy (TLS)"] --> fi["intake"]
       fi --- fn["nats"] --- fno["notifier"]
-      fu["umami"]
       pg[("Postgres<br/>schemas and roles as locally")]
     end
     s3[("S3: encrypted daily backups")]

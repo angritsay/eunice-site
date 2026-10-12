@@ -26,7 +26,7 @@ What the system must do, and how well, each with where it is verified. Status:
 | FR-5 | The email names desk, entry point and person in the subject; Reply-To is the lead | Met | `email.test.ts`, `e2e/lead-flow.spec.ts` |
 | FR-6 | A retried or double-clicked submission creates one lead | Met | `postgres.test.ts`, `submit.test.ts` |
 | FR-7 | Submissions are deleted after the retention period; an address can be erased on request | Met | `postgres.test.ts`, `submit.test.ts` |
-| FR-8 | Page views and the form funnel (open, start, submit, success, error) are measured per entry point | Met | `e2e/analytics.spec.ts` |
+| FR-8 | Page views and the form funnel (open, start, submit, success, error) are measured per entry point, after cookie consent | Built, off until a GA id is set | `site.js` (ADR-0013) |
 | FR-9 | Without a published privacy notice, production collects nothing: the form falls back to `mailto:` and analytics is off | Met | `forms.spec.ts` (build guards) |
 | FR-10 | Public register of token white papers | Planned (P8) | — |
 
@@ -39,7 +39,7 @@ What the system must do, and how well, each with where it is verified. Status:
 | NFR-3 | **Latency to ops** | Email within 10 s of submission when all parts are up | Met locally (≈1–2 s) | `e2e/lead-flow.spec.ts` (20 s timeout) |
 | NFR-4 | **Availability of the form** | Accepts leads while broker, notifier or email is down | Met | `e2e/resilience.spec.ts` |
 | NFR-5 | **API latency** | p95 < 300 ms for `POST /v1/submissions` at 10 req/s | Planned (P9 load test) | — |
-| NFR-6 | **Privacy by design** | No personal data in logs, traces, analytics or the notifier's store | Met | `logger.test.ts`, `notify.test.ts`, `e2e/analytics.spec.ts` |
+| NFR-6 | **Privacy by design** | No personal data in logs, traces, analytics or the notifier's store | Met | `logger.test.ts`, `notify.test.ts`; analytics events never carry field values (`site.js`) |
 | NFR-7 | **Least privilege** | Each service role can change no schema and read no other service's data | Met | `postgres.test.ts` in both services |
 | NFR-8 | **Security headers** | CSP with no `unsafe-*` and no third-party origins; no CSP violations in the browser | Met | Caddyfile, `e2e/lead-flow.spec.ts` |
 | NFR-9 | **Accessibility** | WCAG 2.2 AA on every page; the known issues can only shrink | Met | `a11y.spec.ts` |

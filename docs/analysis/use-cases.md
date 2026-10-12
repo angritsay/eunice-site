@@ -50,5 +50,5 @@ extra fields, and the desk replies with the redacted report.
 ## UC-6 Read the funnel
 
 **Actor:** marketing or leadership. **Goal:** see which entry points produce leads.
-Umami → Reports → Funnel `form_open → form_start → form_submit → form_success`, filtered by
+Google Analytics → Explore → Funnel `form_open → form_start → form_submit → form_success`, broken down by
 `entry`, `variant` or `placement` ([runbook](../runbooks/analytics-funnel.md)).

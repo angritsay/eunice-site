@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { esc, footer, header, logoStrip } from './src/components.ts';
+import { consentBanner, esc, footer, header, logoStrip } from './src/components.ts';
 import { dialog } from './src/forms.ts';
 import type { Ctx, Page } from './src/lib/types.ts';
 import audiencePagesBuilt from './src/pages/audience.ts';
@@ -107,20 +107,19 @@ function previewCtx(page: Pick<Page, 'slug'>): Ctx {
 // build says otherwise; the local compose stack builds with SITE_ENV=local.
 const SITE_ENV = process.env['SITE_ENV'] || 'production';
 const FORM_ENDPOINT = process.env['PUBLIC_FORM_ENDPOINT'] ?? config.formEndpoint;
-// Self-hosted Umami (ADR-0010): the tracker's URL, where it sends events, and the site's
-// id in Umami. All three, or no analytics at all.
-const ANALYTICS = {
-  src: process.env['PUBLIC_ANALYTICS_SRC'],
-  hostUrl: process.env['PUBLIC_ANALYTICS_HOST'],
-  websiteId: process.env['PUBLIC_ANALYTICS_WEBSITE_ID'],
-};
-const ANALYTICS_ON = Boolean(ANALYTICS.src && ANALYTICS.hostUrl && ANALYTICS.websiteId);
+// Google Analytics 4 (ADR-0013): the measurement id, or no analytics at all. Nothing
+// loads until the visitor accepts the cookie banner.
+const GA_ID = process.env['PUBLIC_GA_MEASUREMENT_ID'] ?? '';
+if (GA_ID && !/^G-[A-Z0-9]+$/.test(GA_ID)) {
+  throw new Error(`PUBLIC_GA_MEASUREMENT_ID must look like G-XXXXXXX, got "${GA_ID}".`);
+}
+const ANALYTICS_ON = Boolean(GA_ID);
 
 // A live form collects personal data, and GDPR (Art. 13) requires the privacy notice
 // to be available at the point of collection. So a production build that points the
 // form at a real endpoint fails unless the site has a privacy page. Until then the
 // form falls back to the visitor's mail app, which collects nothing on our side.
-// Analytics falls under the same rule: cookieless, but the notice must say what is measured.
+// Analytics falls under the same rule: the notice must say what is measured and which cookies are set.
 const HAS_PRIVACY_PAGE = PAGES.some((p) => p.slug === 'privacy');
 if (SITE_ENV === 'production' && FORM_ENDPOINT && !HAS_PRIVACY_PAGE) {
   throw new Error(
@@ -133,12 +132,6 @@ if (SITE_ENV === 'production' && ANALYTICS_ON && !HAS_PRIVACY_PAGE) {
   );
 }
 
-// Umami's tracker: no cookies, and it honours Do Not Track. Loaded from our own instance.
-const analyticsTag = () =>
-  ANALYTICS_ON
-    ? `\n<script src="${esc(ANALYTICS.src)}" data-website-id="${esc(ANALYTICS.websiteId)}" data-host-url="${esc(ANALYTICS.hostUrl)}" data-do-not-track="true" defer></script>`
-    : '';
-
 const pagePath = (page: Pick<Page, 'slug'>) => (page.slug ? `${page.slug}/` : '');
 
 // Data, not code: a JSON block is never executed, so the strict Content-Security-Policy
@@ -148,12 +141,15 @@ const runtimeConfig = (preview: boolean, page: Pick<Page, 'slug' | 'audience'>) 
     preview,
     contactEmail: config.contactEmail,
     formEndpoint: FORM_ENDPOINT,
+    ...(ANALYTICS_ON && !preview ? { analyticsId: GA_ID } : {}),
     page: preview ? '' : pagePath(page),
     ...(page.audience ? { audience: page.audience } : {}),
   }).replace(/</g, '\\u003c')}</script>`;
 
+// The cookie banner and its footer link exist only on the real site with analytics on.
+const withConsent = (ctx: Ctx) => ANALYTICS_ON && !ctx.preview;
 const pageBody = (ctx: Ctx, page: Page): string =>
-  `${logoStrip(ctx)}${header(ctx, page.nav)}\n<main>${page.render(ctx)}</main>\n${footer(ctx)}`;
+  `${logoStrip(ctx)}${header(ctx, page.nav)}\n<main>${page.render(ctx)}</main>\n${footer(ctx, withConsent(ctx))}${withConsent(ctx) ? consentBanner(ctx) : ''}`;
 
 // ---------- Site build ----------
 function buildSite() {
@@ -181,7 +177,7 @@ ${fonts(ctx.asset)}
 ${pageBody(ctx, page)}
 ${dialog(config)}
 ${runtimeConfig(false, page)}
-<script src="${ctx.asset('site.js')}" defer></script>${analyticsTag()}
+<script src="${ctx.asset('site.js')}" defer></script>
 </body>
 </html>`;
     const dir = path.join(DIST, page.slug);

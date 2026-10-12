@@ -40,18 +40,29 @@ test.describe('production guard', () => {
         env: {
           ...process.env,
           SITE_ENV: 'production',
-          PUBLIC_ANALYTICS_SRC: 'https://analytics.example/script.js',
-          PUBLIC_ANALYTICS_HOST: 'https://analytics.example',
-          PUBLIC_ANALYTICS_WEBSITE_ID: '6b0e6c1d-6c3a-4a3e-9d7b-0e1c2f3a4b5c',
+          PUBLIC_GA_MEASUREMENT_ID: 'G-TEST1234',
         },
         stdio: 'pipe',
       });
     expect(build).toThrow(/Analytics is configured .* no privacy page/);
   });
 
-  test('the built site loads no analytics until it is configured', () => {
+  test('a measurement id that is not a GA4 id refuses to build', () => {
+    const build = () =>
+      execFileSync(process.execPath, ['build.ts'], {
+        cwd: WEB,
+        env: { ...process.env, SITE_ENV: 'local', PUBLIC_GA_MEASUREMENT_ID: 'UA-12345-1' },
+        stdio: 'pipe',
+      });
+    expect(build).toThrow(/must look like G-/);
+  });
+
+  test('the built site loads no analytics and shows no cookie banner until it is configured', () => {
     for (const page of ['', 'private-markets/lps/', 'careers/']) {
-      expect(readPage(page)).not.toContain('data-website-id');
+      const html = readPage(page);
+      expect(html).not.toContain('googletagmanager');
+      expect(html).not.toContain('data-consent');
+      expect(configOf(page)).not.toHaveProperty('analyticsId');
     }
   });
 

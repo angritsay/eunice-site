@@ -131,15 +131,13 @@ operator (runbook, P9).
 ```mermaid
 sequenceDiagram
   participant B as Browser
-  participant E as Edge
-  participant U as Umami
-  B->>E: GET /analytics/script.js
-  B->>E: POST /analytics/api/send (page view)
-  B->>E: POST /analytics/api/send form_open / form_start / form_submit / form_success<br/>{variant, entry, page, placement, audience?, role?}
-  E->>U: /api/send
-  Note over B,U: no cookies · Do Not Track honoured · never field values
+  participant G as Google Analytics
+  Note over B: the cookie banner shows until the visitor chooses
+  B->>B: Accept → choice stored on this device
+  B->>G: GET gtag.js, page view
+  B->>G: form_open / form_start / form_submit / form_success / form_error<br/>{variant, entry, page, placement, audience?}
+  Note over B,G: nothing loads after Decline · never field values
 ```
 
-Proven by `e2e/analytics.spec.ts`: the events arrive in order with the entry point, no
-cookie is set, the name and email never reach Umami, and the dashboard is not reachable
-through the edge.
+Off unless the build sets `PUBLIC_GA_MEASUREMENT_ID` ([ADR-0013](../adr/0013-analytics-google-analytics-with-consent.md)).
+`forms.spec.ts` checks that the default build loads nothing from Google and shows no banner.

@@ -33,9 +33,9 @@ sleep 2
 docker exec -i "$NAME" pg_restore -U postgres -d eunice --no-owner --no-privileges --exit-on-error < "$dump"
 
 count_sql="select table_schema || '.' || table_name from information_schema.tables
-           where table_schema in ('intake','notifier','umami') and table_type = 'BASE TABLE' order by 1"
+           where table_schema in ('intake','notifier') and table_type = 'BASE TABLE' order by 1"
 tables=$(docker exec "$NAME" psql -U postgres -d eunice -Atc "$count_sql")
-for schema in intake notifier umami; do
+for schema in intake notifier; do
   grep -q "^$schema\." <<<"$tables" || { echo "restore is missing schema $schema" >&2; exit 1; }
 done
 

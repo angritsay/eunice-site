@@ -14,6 +14,6 @@
 | **Relay** | The loop inside intake that publishes outbox rows to NATS and deletes them once stored |
 | **Work queue** | A NATS stream that deletes each message once it is acknowledged |
 | **Delivery log** | The notifier's record of which events became email: ids only |
-| **Funnel** | `form_open → form_start → form_submit → form_success` in Umami |
+| **Funnel** | `form_open → form_start → form_submit → form_success` in Google Analytics |
 | **Problem details** | RFC 9457 JSON error body, the same from every service |
 | **Go-live gate** | The conditions under which the production site may collect data: privacy notice, secrets, email DNS, SOC 2 sign-off |

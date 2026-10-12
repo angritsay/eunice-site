@@ -78,7 +78,7 @@ A separate pull request adds the approved privacy page and points the Pages buil
 
 1. Submit a form on the live site. It should arrive at `ops@` within seconds, from
    `notify@eunice.ai`. Reply-To should be the address you entered.
-2. Open the Umami dashboard ([operations.md](operations.md#analytics-dashboard)): the
-   visit and the form funnel appear.
+2. If analytics is on, accept the cookie banner, open the form, and check Google
+   Analytics → Realtime: the visit and `form_open` appear ([analytics-funnel.md](analytics-funnel.md)).
 3. Erase your test submission ([operations.md](operations.md#erase-a-persons-data)).
 4. Rehearse a rollback once ([operations.md](operations.md#deploy-and-roll-back)).

@@ -12,7 +12,7 @@
 # Secrets are not here: the instance generates them on first deploy, into SSM
 # Parameter Store, and they never leave AWS.
 AWSTemplateFormatVersion: '2010-09-09'
-Description: eunice.ai forms backend - intake, notifier, NATS, Umami, Postgres on one instance
+Description: eunice.ai forms backend - intake, notifier, NATS, Postgres on one instance
 
 Parameters:
   VpcId:
@@ -47,11 +47,6 @@ Parameters:
     Type: String
     Default: https://eunice.ai
     Description: The site's own address, for links in the ops email.
-  UmamiWebsiteId:
-    Type: String
-    Default: 3f7c9e2a-5b1d-4e8f-9a6c-0d2e4b8f1c37
-    AllowedPattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
-    Description: The site's id in Umami. The Pages build uses the same value (repository variable UMAMI_WEBSITE_ID).
   AlertEmail:
     Type: String
     Description: Who is told when a lead could not be emailed, or the instance is unhealthy.
@@ -173,9 +168,6 @@ Resources:
   ParamSiteUrl:
     Type: AWS::SSM::Parameter
     Properties: { Name: /eunice-site/prod/config/SITE_URL, Type: String, Value: !Ref SiteUrl }
-  ParamUmamiWebsiteId:
-    Type: AWS::SSM::Parameter
-    Properties: { Name: /eunice-site/prod/config/UMAMI_WEBSITE_ID, Type: String, Value: !Ref UmamiWebsiteId }
   ParamAcmeEmail:
     Type: AWS::SSM::Parameter
     Properties: { Name: /eunice-site/prod/config/ACME_EMAIL, Type: String, Value: !Ref AlertEmail }

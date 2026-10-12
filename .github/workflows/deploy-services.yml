@@ -114,5 +114,4 @@ jobs:
             | grep -i '^access-control-allow-origin:' || true)
           echo "$allowed" | grep -q 'https://eunice.ai'
           test "$(curl -s -o /dev/null -w '%{http_code}' "$base/intake/v1/admin/erasures" -X POST)" = 404
-          curl -fsS -o /dev/null "$base/analytics/script.js"
           echo "deployed ${SHA:0:12} to $API_DOMAIN"
