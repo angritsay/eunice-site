@@ -32,7 +32,6 @@ export const POSTS = [
   'balancer-v2-failure',
   'unveiling-eunice-bridging-gaps-in-crypto-transparency-ai-powered-risk-monitoring',
   'cryptoasset-classification-under-mica-other-regimes',
-  'introducing-the-ai-powered-mica-whitepaper-library',
   'macroeconomic-drivers-of-cryptoassets-ethsofia',
   'what-is-the-role-of-risk-management-in-cryptoassets',
   'derisking-defi-consensus',

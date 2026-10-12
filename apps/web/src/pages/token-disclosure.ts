@@ -21,12 +21,12 @@ export default {
   nav: DESK,
   title: 'Eunice Token Disclosure — MiCA white papers, notified and hosted',
   description:
-    'A MiCA white paper drafted from a library of 1,000+ pre-filled papers, reviewed by CMS where a legal opinion is needed, notified to the authority and hosted on a public page.',
+    'A MiCA white paper drafted for you, reviewed by CMS where a legal opinion is needed, notified to the authority and hosted on a public page. 30+ filed through 4 NCAs.',
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
     <h1 class="h1">A white paper accepted once, and true after that</h1>
-    <p class="lead">A MiCA white paper drafted from 1,000+ pre-filled papers, reviewed by CMS, notified and published where any exchange can check it.</p>
+    <p class="lead">A MiCA white paper drafted for you, reviewed by CMS, notified and published where any exchange can check it. 30+ filed through 4 NCAs.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Start a white paper', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
@@ -43,7 +43,7 @@ ${whoCards(ctx, {
     {
       who: 'Issuers',
       line: audienceLine(DESK, 'issuers'),
-      needs: ['Drafted from 1,000+ papers', 'Notified and hosted'],
+      needs: ['30+ filed through 4 NCAs', 'Notified and hosted'],
       to: `${DESK}/issuers`,
     },
     {
@@ -70,15 +70,15 @@ ${whoCards(ctx, {
     },
     { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
     { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
-    { art: 'library', title: '1,000+ pre-filled papers', text: 'The library a new white paper is drafted from' },
+    { art: 'library', title: '30+ MiCA white papers', text: 'Filed through 4 NCAs' },
   ])}
 </section>
 
 ${feature({
   id: 'draft',
-  title: 'Drafted from the library',
+  title: 'Drafted by a team that files them',
   desk: DESK,
-  body: html`<p class="body muted">A MiCA white paper drafted from 1,000+ pre-filled papers, so the starting point is a document that has already been through the regime rather than a blank page.</p>`,
+  body: html`<p class="body muted">A MiCA white paper drafted by the team behind 30+ papers filed through 4 NCAs, so the starting point has already been through the regime rather than a blank page.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiRead(DESK) }),
 })}
 
@@ -97,7 +97,7 @@ ${feature({
   desk: DESK,
   body: html`<p class="body muted">Notified to the authority and published to the register, so there is one address for the version that stands and nobody has to email an attachment to prove it.</p>`,
   visual: html`<ol class="steps steps--${DESK}">
-    <li><span class="h4">Draft</span><span class="small muted">From the library, in the shape the regime asks for.</span></li>
+    <li><span class="h4">Draft</span><span class="small muted">In the shape the regime asks for.</span></li>
     <li><span class="h4">Review</span><span class="small muted">CMS on the points that need an opinion.</span></li>
     <li><span class="h4">Notify</span><span class="small muted">Filed with the authority for the jurisdiction.</span></li>
     <li><span class="h4">Host</span><span class="small muted">Published to the register, open to anyone.</span></li>
@@ -124,7 +124,7 @@ ${insightsBlock(ctx, {
 
 ${cta(ctx, {
   title: 'Start a white paper',
-  text: 'Tell us about the token and the jurisdiction. We will show you the draft the library produces, and what would still need an opinion.',
+  text: 'Tell us about the token and the jurisdiction. We will show you how the draft would come together, and what would still need an opinion.',
   buttons: [
     { label: 'The register', kind: 'outline-light', to: `${DESK}/register` },
     { label: 'Start a white paper', kind: 'light', form: DESK },
