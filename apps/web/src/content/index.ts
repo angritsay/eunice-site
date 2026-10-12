@@ -358,18 +358,18 @@ export const audiencePages = content('audiencePages', AudiencePages, [
 export const people = contentRecord('people', Person, {
   yi: {
     name: 'Yi Luo',
-    role: 'CEO · Finance/Crypto',
+    role: 'CEO · Finance / 2x founder',
     facts: [
-      'Co-Founder at FreeUp · Fintech acquired by Earnd',
+      'Founded FreeUp, a Fintech acquired by Earnd',
       'Scaled teams across the US and UK',
-      'Former VC with 40+ investments',
+      'Former VC with 40+ Fintech investments',
     ],
     photo: 'yi.webp',
     linkedin: 'https://www.linkedin.com/in/loriluoyi/',
   },
   philip: {
     name: 'Philip Lam',
-    role: 'CTO · Product/Engineering',
+    role: 'CTO · Product / Engineering / 3x founder',
     facts: [
       'Co-Founder at NEX · US-based AI startup, raised $40M',
       'VP Eng at Goodnotes (30M MAU), built & led a team of 200 engineers',

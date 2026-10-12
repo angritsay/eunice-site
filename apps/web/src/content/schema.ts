@@ -48,9 +48,9 @@ export const AudiencePages = z.array(AudiencePage).superRefine((pages, ctx) => {
 
 export const Person = z.strictObject({
   name: text,
-  /** Their title, as the live careers page gives it. */
+  /** Their title, as the live careers page gives it or as they have since updated it. */
   role: text,
-  /** The lines under their name on the live careers page, word for word. Empty: none yet. */
+  /** The lines under their name, from the live careers page or their own update. Empty: none yet. */
   facts: z.array(text),
   /** A file under assets/img/people/. Empty: no portrait yet. */
   photo: z.string(),
