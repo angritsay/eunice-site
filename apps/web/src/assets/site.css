@@ -396,8 +396,6 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 /* Why the name: a quieter aside to the story on desktop, left out on tablet and phone. */
 .story__name .h2, .story__name .body { color: var(--muted); }
 @media (max-width: 1100px) { .story { grid-template-columns: minmax(0, 1fr); } .story__name { display: none; } }
-.values { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; list-style: none; margin: 0; padding: 0; }
-.values li { border-top: 1px solid var(--line-strong); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
 .team-block { margin-top: 56px; }
 .founders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
 .founder { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 24px; align-items: start; border-top: 1px solid var(--line-strong); padding-top: 20px; }
@@ -605,7 +603,6 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .who { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .lcards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid--6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .values { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .grid--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .menus { gap: 18px; }
   .nav__links { font-size: 11.2px; }
@@ -636,7 +633,6 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .pstrip__item.is-open .pstrip__info { display: flex; }
   .pstrip__info .h3 { display: none; }
   .founders, .story { grid-template-columns: minmax(0, 1fr); }
-  .values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: #fff; flex-direction: column; gap: 0; padding: 8px var(--gutter) 20px; border-bottom: 1px solid var(--line); box-shadow: 0 20px 40px rgba(17,18,20,.08); }
   .nav__links.is-open { display: flex; }
   .nav__links a { padding: 12px 0; font-size: 12.8px; border-bottom: 1px solid var(--line); }
@@ -713,7 +709,6 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .irow__tag { text-align: left; order: -1; }
   .tile__foot { flex-direction: column; align-items: flex-start; }
   .founder { grid-template-columns: minmax(0, 1fr); }
-  .values { grid-template-columns: minmax(0, 1fr); }
   .founder__media { max-width: 320px; }
   .dialog__in { padding: 24px; }
 }

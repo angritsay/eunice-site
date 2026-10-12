@@ -1,6 +1,6 @@
 // "Welcome to Eunice": the landing page. Its sections are the items of the
-// Welcome menu in the header (security, team, history, values, careers).
-// The intro, the name and the values are the owner's words (Sep 2026); the story is
+// Welcome menu in the header (security, team, history, careers).
+// The intro and the name are the owner's words (Sep 2026); the story is
 // the live careers page's, word for word.
 import {
   button,
@@ -21,14 +21,6 @@ import { type Html, html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
 import { uiFilm, uiMonitor, uiRead } from '../ui.ts';
-
-const VALUES: readonly [string, string][] = [
-  ['Show us the evidence', 'Opinions are fine, but we care about what the data says and where it came from.'],
-  ['Sweat the details', 'In diligence the small stuff turns into big stuff, so we don’t cut corners.'],
-  ['Look where others don’t', 'The biggest risks often hide in plain sight. Finding them is our job.'],
-  ['No black boxes', 'We always show our workings, so you know exactly why we reached an answer.'],
-  ['Raise the bar', '“Good enough” has been the norm in private markets for too long, and we’re here to change that.'],
-];
 
 export default {
   slug: '',
@@ -116,6 +108,13 @@ export default {
   </div>
 </div></section>
 
+<section class="wrap section">
+  ${sectionHead('What the people who use it say')}
+  <div class="grid grid--3 quotes">
+    ${quoteBlock(quotes.fof)}${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}
+  </div>
+</section>
+
 <section class="wrap section" id="team">
   ${sectionHead('Our founders', team.intro)}
   <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
@@ -149,18 +148,6 @@ export default {
     </div>
   </div>
 </div></section>
-
-<section class="wrap section" id="values">
-  ${sectionHead('What we stand for')}
-  <ol class="values">${VALUES.map(([t, d]) => html`<li><p class="h4">${t}</p><p class="small muted">${d}</p></li>`)}</ol>
-</section>
-
-<section class="wrap section">
-  ${sectionHead('What the people who use it say')}
-  <div class="grid grid--3 quotes">
-    ${quoteBlock(quotes.fof)}${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}
-  </div>
-</section>
 
 ${insightsBlock(ctx, { label: 'Insights', aside: 'Notes, analysis and company news, by desk.', featured: 3, rows: 5 })}
 

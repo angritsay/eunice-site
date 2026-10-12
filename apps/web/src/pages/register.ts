@@ -54,7 +54,7 @@ export default {
 
 ${cta(ctx, {
   title: 'Put a paper on the register',
-  text: 'Tell us about the token and the jurisdiction. We will show you the draft the library produces, what would still need an opinion, and where it would be hosted.',
+  text: 'Tell us about the token and the jurisdiction. We will show you how the draft would come together, what would still need an opinion, and where it would be hosted.',
   buttons: [{ label: 'Start a white paper', kind: 'light', form: DESK }],
 })}`,
 } satisfies Page;

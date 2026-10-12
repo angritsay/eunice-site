@@ -61,7 +61,6 @@ const config: SiteConfig = {
         { label: 'Security and transparency, by design', to: '', hash: 'trust' },
         { label: 'Team', to: '', hash: 'team' },
         { label: 'Firm history', to: '', hash: 'history' },
-        { label: 'What we stand for', to: '', hash: 'values' },
         { label: 'Careers', to: 'careers' },
       ],
     },

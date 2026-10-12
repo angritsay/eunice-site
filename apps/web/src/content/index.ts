@@ -248,9 +248,9 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     card: { title: 'Issuers', text: 'A white paper that has to be accepted once, and stay true after that.' },
     title: 'Eunice for issuers — a MiCA white paper accepted once',
     description:
-      'Drafted from a library of 1,000+ pre-filled papers, reviewed where a legal opinion is needed, notified to the authority and hosted where anyone can check it.',
+      'From the team behind 30+ MiCA white papers filed through 4 NCAs: drafted, reviewed where a legal opinion is needed, notified to the authority and hosted where anyone can check it.',
     h1: 'A white paper accepted once',
-    lead: 'Drafted from a library of 1,000+ pre-filled papers, reviewed where a legal opinion is needed, notified to the authority, and hosted on a page anyone can open.',
+    lead: 'From the team behind 30+ MiCA white papers filed through 4 NCAs: drafted, reviewed where a legal opinion is needed, notified to the authority, and hosted on a page anyone can open.',
     now: [
       'The paper has to be right before it is filed, and there is no second first submission.',
       'Every exchange that might list the token asks for the same document a different way.',
@@ -258,8 +258,8 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'Drafted from the library',
-        text: 'A MiCA white paper drafted from 1,000+ pre-filled papers, so the starting point is a document that has already been through this.',
+        title: 'Drafted by a team that files them',
+        text: 'A MiCA white paper drafted by the team behind 30+ papers filed through 4 NCAs, so the starting point has already been through this.',
       },
       {
         title: 'Reviewed where it counts',
@@ -272,7 +272,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     cta: {
       title: 'Start a white paper',
-      text: 'Tell us about the token and the jurisdiction. We will show you the draft the library produces and what would still need an opinion.',
+      text: 'Tell us about the token and the jurisdiction. We will show you how the draft would come together and what would still need an opinion.',
     },
   },
   {
@@ -293,7 +293,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     work: [
       {
         title: 'Structure already settled',
-        text: 'The draft follows the regime’s own shape, drawn from 1,000+ pre-filled papers, so review starts at the substance.',
+        text: 'The draft follows the regime’s own shape, from the team behind 30+ papers filed through 4 NCAs, so review starts at the substance.',
       },
       {
         title: 'Opinions where they are needed',
@@ -306,7 +306,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     cta: {
       title: 'Put a live matter through it',
-      text: 'Bring a paper you are drafting now. We will show you what the library fills and what it leaves to you.',
+      text: 'Bring a paper you are drafting now. We will show you what we would fill and what we would leave to you.',
     },
   },
   {
