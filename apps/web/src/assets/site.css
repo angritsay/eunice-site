@@ -251,8 +251,9 @@ button { font: inherit; color: inherit; }
    start on one line, and every logo sits on the row's vertical centre. */
 .partners { display: flex; flex-direction: column; gap: 48px; margin-top: var(--section); }
 .partners + .quotes { margin-top: var(--section); }
-/* Clients, their words, then the firms we work with: the quotes between two logo rows. */
-.logos + .quotes, .quotes + .logos { margin-top: var(--section-tight); }
+/* Clients, their words, then the firms we work with: the quotes between two logo rows.
+   A quote after a row of facts takes the same air. */
+.logos + .quotes, .quotes + .logos, .facts + .quotes { margin-top: var(--section-tight); }
 .logos { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 32px; align-items: center; }
 .logos__view { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .logos__track { display: flex; width: max-content; animation: logos 90s linear infinite; }
