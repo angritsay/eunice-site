@@ -130,7 +130,7 @@ one view) with fictional funds and tokens:
 
 | Drawing | Shows |
 |---|---|
-| `uiAsk(desk)` | A question asked and an answer where every line is cited |
+| `uiAsk(desk)` | A question asked and an answer where every line is cited. Digital Assets answers with a four-column table (token, event, date, your decision), the decision cited; the token counts in drawings (340 tokens) are fictional copy, not a claim |
 | `uiRead(desk)` | A document read, the passage that matters marked and cited |
 | `uiMonitor(desk)` | Events monitored over time, one change flagged |
 | `uiReport(desk)` | A report built to your template, every line sourced |
