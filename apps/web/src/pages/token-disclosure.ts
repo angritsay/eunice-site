@@ -38,26 +38,10 @@ export default {
 ${whoCards(ctx, {
   desk: DESK,
   title: 'One Paper, Three Readers',
-  lead: 'The issuer who publishes it, the counsel who reviews it and the exchange that checks it.',
   clients: [
-    {
-      who: 'Issuers',
-      line: audienceLine(DESK, 'issuers'),
-      needs: ['30+ filed through 4 NCAs', 'Notified and hosted'],
-      to: `${DESK}/issuers`,
-    },
-    {
-      who: 'Counsel',
-      line: audienceLine(DESK, 'counsel'),
-      needs: ['Reviewed where an opinion is needed', 'UK token classification'],
-      to: `${DESK}/counsel`,
-    },
-    {
-      who: 'Exchanges',
-      line: audienceLine(DESK, 'exchanges'),
-      needs: ['Public disclosure pages', 'The register'],
-      to: `${DESK}/exchanges`,
-    },
+    { who: 'Issuers', line: audienceLine(DESK, 'issuers'), art: 'issuer', to: `${DESK}/issuers` },
+    { who: 'Counsel', line: audienceLine(DESK, 'counsel'), art: 'legal', to: `${DESK}/counsel` },
+    { who: 'Exchanges', line: audienceLine(DESK, 'exchanges'), art: 'exchange', to: `${DESK}/exchanges` },
   ],
 })}
 
@@ -115,7 +99,6 @@ ${feature({
 
 ${insightsBlock(ctx, {
   label: 'Insights on Token Disclosure',
-  aside: 'Regulation and disclosure, as they change.',
   deskFilter: [DESK],
   featured: 1,
   rows: 4,
@@ -123,11 +106,10 @@ ${insightsBlock(ctx, {
 })}
 
 ${cta(ctx, {
-  title: 'Start a White Paper',
-  text: 'Tell us about the token and the jurisdiction. We will show you how the draft would come together, and what would still need an opinion.',
+  demo: DESK,
   buttons: [
-    { label: 'The register', kind: 'outline-light', to: `${DESK}/register` },
-    { label: 'Start a white paper', kind: 'light', form: DESK },
+    { label: 'The register', kind: 'outline', to: `${DESK}/register` },
+    { label: 'Start a white paper', kind: 'outline', form: DESK },
   ],
 })}`,
 } satisfies Page;

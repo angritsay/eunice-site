@@ -73,14 +73,14 @@ test.describe('entry points open the right form', () => {
     {
       page: 'private-markets/lps/',
       button: 'main >> [data-placement="hero"]',
-      title: 'Talk to the Private Markets Desk',
+      title: 'Talk to Us',
       field: 'Name (optional)',
       inputs: 2,
     },
     {
       page: 'digital-assets/',
       button: 'main >> [data-placement="hero"]',
-      title: 'Talk to the Digital Assets Desk',
+      title: 'Talk to Us',
       field: 'What would you like to cover? (optional)',
       inputs: 3,
     },

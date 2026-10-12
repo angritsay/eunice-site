@@ -15,7 +15,7 @@ import {
   quoteBlock,
   sectionHead,
 } from '../components.ts';
-import { quotes, team } from '../content/index.ts';
+import { quotes } from '../content/index.ts';
 import { type Html, html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
@@ -52,7 +52,7 @@ export default {
     },
     rows: [
       { n: '$8m', label: 'Seed and pre-seed raised' },
-      { n: '$1.4T+', label: 'In assets overseen by the allocators who rely on Eunice' },
+      { n: '$1.4T+', label: 'In AUM, managed by the asset allocators who trust Eunice' },
       { n: 'Fintech 50', label: 'TechRound, 2026' },
     ],
   })}
@@ -104,11 +104,11 @@ export default {
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Our Founders', team.intro)}
+  ${sectionHead('Our Founders')}
   <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
 
   <div class="team-block">
-    ${sectionHead('The Team', 'Point at a person, or tap, to read about them.')}
+    ${sectionHead('The Team')}
     ${peopleStrip(
       ctx,
       ['riley', 'vinay', 'petronela', 'chrislyn', 'ana'],
@@ -134,7 +134,7 @@ export default {
 
 ${insightsBlock(ctx, { label: 'Insights', featured: 3, rows: 5 })}
 
-${cta(ctx, { buttons: [{ label: 'Book demo', kind: 'light', form: 'general' }] })}`,
+${cta(ctx, { demo: 'general' })}`,
 } satisfies Page;
 
 function tile(

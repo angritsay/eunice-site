@@ -6,7 +6,6 @@ import {
   facts,
   feature,
   heroField,
-  insightsBlock,
   logoMarquee,
   mark,
   peopleStrip,
@@ -34,14 +33,14 @@ export default {
     <h1 class="h1">Defensible Decisions for Every Asset, in Every Jurisdiction.</h1>
     <p class="lead">Token due diligence in the format your risk committee already uses, and real-time monitoring across 50+ risk types. Built for lean teams covering every asset and every regulator.</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
+      ${button(ctx, { label: 'Book demo', kind: 'desk', form: DESK, placement: 'hero' })}
     </div>
   </div>
   ${heroField({ desk: DESK })}
 </section>
 
 <section class="wrap section" id="working-with">
-  ${logoMarquee(ctx, 'clients', 'Trusted by leading firms')}
+  ${logoMarquee(ctx, 'clients')}
   <div class="grid grid--3 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}${quoteBlock(quotes.libeara)}</div>
 </section>
 
@@ -130,26 +129,20 @@ ${feature({
   <div class="feature__visual">${plate(ctx, { tint: DESK, html: uiReport('token-disclosure') })}</div>
 </div></section>
 
-${insightsBlock(ctx, {
-  label: 'Insights on Digital Assets',
-  aside: 'Exploits, risk and regulation.',
-  deskFilter: [DESK, 'token-disclosure'],
-  featured: 3,
-  rows: 4,
-  band: false,
-})}
-
 <section class="wrap section" id="team">
-  ${sectionHead('The Desk', 'Who runs digital assets, from listing reviews to the FCA sandbox.')}
+  ${sectionHead('The Team')}
   ${peopleStrip(ctx, ['yi', 'philip', 'chrislyn', 'riley'])}
 </section>
 
-${eventsBlock(ctx, { label: 'Where We Have Been', aside: 'Talks, panels and delegations.', desk: DESK, today: ctx.today })}
+${eventsBlock(ctx, {
+  label: 'News and Events',
+  desk: DESK,
+  today: ctx.today,
+  insights: { deskFilter: [DESK, 'token-disclosure'], count: 3 },
+})}
 
 ${cta(ctx, {
-  buttons: [
-    { label: 'See a sample report', kind: 'outline-light', form: 'sample-report' },
-    { label: 'Book demo', kind: 'light', form: DESK },
-  ],
+  demo: DESK,
+  buttons: [{ label: 'See a sample report', kind: 'outline', form: 'sample-report' }],
 })}`,
 } satisfies Page;

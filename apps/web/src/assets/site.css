@@ -194,9 +194,7 @@ button { font: inherit; color: inherit; }
 .band + .section--tight:not(.band) { padding-top: var(--section-tight); }
 .shead { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 48px; }
 .shead__title { font-family: var(--font-head); font-weight: 400; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.15; letter-spacing: -.02em; color: var(--ink); }
-.shead__aside { font-size: 15px; color: var(--muted); max-width: 32em; }
 .shead { align-items: center; }
-.shead__action { flex: 0 0 auto; }
 
 .grid { display: grid; gap: 32px 28px; }
 .grid--1 { grid-template-columns: minmax(0, 1fr); }
@@ -496,19 +494,13 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .prose figcaption { font-size: var(--caption); color: var(--muted); margin-top: 8px; }
 
 /* ---------- CTA ---------- */
-.cta { background: #16171b; color: #fff; border-radius: 16px; padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 52px); display: flex; justify-content: space-between; align-items: center; gap: 32px; }
-.cta .h2 { color: #fff; margin-bottom: 12px; }
-/* With no words there is no band: just the email line, centred on white, its pill drawn
-   with a hairline. */
-.cta.cta--bare { justify-content: center; align-items: center; background: none; padding: 0; }
-.cta--bare .ask { border: 1px solid var(--line); }
-.cta--bare .ask:focus-within { outline-color: var(--ink); }
-.cta__text { font-size: 12px; color: rgba(255,255,255,.72); max-width: 38em; }
-.cta__buttons { display: flex; gap: 12px; flex-wrap: wrap; flex: 0 0 auto; }
-/* The closing "Book demo": a white pill holding the work email and the button. */
-.cta__buttons { align-items: center; max-width: 100%; }
-.ask { display: flex; align-items: center; gap: 4px; width: 480px; max-width: 100%; padding: 4px; border-radius: 999px; background: #fff; }
-.ask:focus-within { outline: 2px solid #fff; outline-offset: 3px; }
+/* The closing call to action, on every page: the work-email line, centred on white, with
+   any other way forward beside it. */
+.cta { display: flex; justify-content: center; }
+.cta__buttons { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; max-width: 100%; }
+/* "Book demo": a pill, drawn with a hairline, holding the work email and the button. */
+.ask { display: flex; align-items: center; gap: 4px; width: 480px; max-width: 100%; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: #fff; }
+.ask:focus-within { outline: 2px solid var(--ink); outline-offset: 3px; }
 .ask__field { flex: 1; min-width: 0; }
 .ask__field input { width: 100%; min-height: 44px; padding: 0 16px; border: 0; background: transparent; font: inherit; font-size: var(--body); color: var(--ink); }
 .ask__field input::placeholder { color: var(--muted); }
@@ -718,7 +710,6 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .footer__brand { grid-column: 1 / -1; }
   .event { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   .event__note { min-height: 0; -webkit-line-clamp: unset; line-clamp: none; }
-  .cta { flex-direction: column; align-items: flex-start; }
   .logos { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .partners { gap: 40px; }
 }

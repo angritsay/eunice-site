@@ -193,9 +193,8 @@ export function footer(ctx: Ctx): Html {
 }
 
 // ---------- Section scaffolding ----------
-// A section's label, with an aside or an action (a button) on the right.
-export const sectionHead = (label: string, aside = '', action: Html | '' = '') =>
-  html`<div class="shead"><h2 class="shead__title">${label}</h2>${aside ? html`<p class="shead__aside">${aside}</p>` : ''}${action ? html`<div class="shead__action">${action}</div>` : ''}</div>`;
+// A section's label: the heading alone, no aside under or beside it (owner's call, Oct 2026).
+export const sectionHead = (label: string) => html`<div class="shead"><h2 class="shead__title">${label}</h2></div>`;
 
 // Every fact carries its picture (art.ts), so the row reads before its words do.
 export const facts = (
@@ -271,13 +270,12 @@ export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
 // them. Each half of the track holds at least ten logos, so a short row still fills
 // the width. Under reduced motion the copies go and the row stands still.
 const FIRMS = {
-  clients: { label: 'Clients', firms: clients },
+  clients: { label: 'Trusted by leading firms', firms: clients },
   partners: { label: 'Partners', firms: partners },
 };
 
-export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS, caption?: string): Html {
-  const { firms } = FIRMS[row];
-  const label = caption ?? FIRMS[row].label;
+export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
+  const { label, firms } = FIRMS[row];
   const list = (hidden: boolean) =>
     html`<ul class="logos__list"${hidden ? html` aria-hidden="true"` : ''}>${firms.map((f: Firm) => {
       const s = imageSize(`img/logos/${f.logo}`);
@@ -400,7 +398,6 @@ export function insightCard(ctx: Ctx, it: Insight, override: Partial<Insight> | 
 export interface InsightsBlockOptions {
   id?: string;
   label: string;
-  aside?: string;
   /** Which desks to include; all when absent. */
   deskFilter?: readonly Desk[];
   /** How many cards on top. */
@@ -413,16 +410,7 @@ export interface InsightsBlockOptions {
 
 export function insightsBlock(
   ctx: Ctx,
-  {
-    id = 'insights',
-    label,
-    aside,
-    deskFilter,
-    featured = 3,
-    rows = 5,
-    override = null,
-    band = false,
-  }: InsightsBlockOptions,
+  { id = 'insights', label, deskFilter, featured = 3, rows = 5, override = null, band = false }: InsightsBlockOptions,
 ): Html {
   const list = insights.filter((i) => !deskFilter || deskFilter.includes(i.desk)).sort(byDateDesc);
   const cards = list.filter((i) => i.featured).slice(0, featured);
@@ -433,7 +421,7 @@ export function insightsBlock(
   const all = html`<p class="all"><a class="more" href="${ctx.link('insights', null, deskFilter && deskFilter.length === 1 ? deskFilter[0] : null)}">All insights</a></p>`;
   return html`
 <section class="${band ? 'band ' : ''}section" id="${id}"><div class="wrap">
-  ${sectionHead(label, aside)}
+  ${sectionHead(label)}
   ${
     only && cards.length === 1
       ? html`<div class="ifeature">${insightCard(ctx, only, override)}<div class="ifeature__list">${rowList}${all}</div></div>`
@@ -451,7 +439,6 @@ export function insightsBlock(
 export interface EventsBlockOptions {
   id?: string;
   label?: string;
-  aside?: string;
   desk?: ProductDesk;
   pastOnly?: boolean;
   band?: boolean;
@@ -470,16 +457,7 @@ interface EventRow {
 
 export function eventsBlock(
   ctx: Ctx,
-  {
-    id = 'events',
-    label = 'Events',
-    aside,
-    desk,
-    pastOnly = false,
-    band = true,
-    today,
-    insights: news,
-  }: EventsBlockOptions,
+  { id = 'events', label = 'Events', desk, pastOnly = false, band = true, today, insights: news }: EventsBlockOptions,
 ): Html {
   const nowYm = today.slice(0, 7);
   const rows: EventRow[] = events
@@ -515,7 +493,7 @@ export function eventsBlock(
   rows.sort((a, b) => (a.key < b.key ? 1 : -1));
   return html`
 <section class="${band ? 'band ' : ''}section" id="${id}"><div class="wrap">
-  ${sectionHead(label, aside)}
+  ${sectionHead(label)}
   <ul class="events">${rows.map((r) => {
     const soon = !r.kind && r.month > nowYm;
     const tag = soon ? 'Upcoming' : r.kind;
@@ -745,31 +723,23 @@ export function peopleStrip(
 // "Book demo" as one line: the visitor's work email and the button, in the desk's
 // colour. A demo request asks nothing else (ADR-0013), so site.js sends it from here and
 // thanks the visitor in place; method="dialog" keeps the address out of the URL when
-// there is no script.
+// there is no script. Token Disclosure's own form is the white paper, which needs a
+// name, so its pages ask for a demo through the general form, in the desk's gold.
 const DEMO = 'Book demo';
-export const demoAsk = (form: string, placement: Placement = 'closing') => html`
-<form class="ask" method="dialog" data-form="${form}" data-placement="${placement}">
+const DEMO_FORMS = new Set(['general', 'private-markets', 'digital-assets']);
+export const demoAsk = (desk: string, placement: Placement = 'closing') => html`
+<form class="ask" method="dialog" data-form="${DEMO_FORMS.has(desk) ? desk : 'general'}" data-placement="${placement}">
   <label class="ask__field"><span class="sr-only">Work email</span><input type="email" name="email" placeholder="What’s your work email?" autocomplete="email" required></label>
-  <button type="submit" class="btn btn--desk-${form}">${DEMO}</button>
+  <button type="submit" class="btn btn--desk-${desk}">${DEMO}</button>
   <p class="ask__msg" role="status"></p>
 </form>`;
 
-// With no title the closing block sits on white, so a button made for the dark band
-// takes its light-ground twin.
-const onWhite = (kind: ButtonOptions['kind'] = 'dark'): NonNullable<ButtonOptions['kind']> =>
-  kind === 'outline-light' ? 'outline' : kind === 'light' ? 'dark' : kind;
-
-export const cta = (
-  ctx: Ctx,
-  { title, text, buttons }: { title?: string; text?: string; buttons: readonly ButtonOptions[] },
-) => html`
+// The closing call to action, the same on every page: the work-email line for a demo, in
+// the desk's colour (`demo`), with any other way forward beside it, centred on white.
+// Careers and the role pages leave the demo out: applications never go through a form here.
+export const cta = (ctx: Ctx, { demo, buttons = [] }: { demo?: string; buttons?: readonly ButtonOptions[] }) => html`
 <section class="wrap section">
-  <div class="cta${title ? '' : ' cta--bare'}">
-    ${title ? html`<div><h2 class="h2">${title}</h2>${text ? html`<p class="cta__text">${text}</p>` : ''}</div>` : ''}
-    <div class="cta__buttons">${buttons.map((b) =>
-      b.form !== undefined && b.label === DEMO
-        ? demoAsk(b.form)
-        : button(ctx, { placement: 'closing', ...b, ...(title ? {} : { kind: onWhite(b.kind) }) }),
-    )}</div>
+  <div class="cta">
+    <div class="cta__buttons">${buttons.map((b) => button(ctx, { placement: 'closing', ...b }))}${demo ? demoAsk(demo) : ''}</div>
   </div>
 </section>`;

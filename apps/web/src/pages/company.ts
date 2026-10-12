@@ -1,5 +1,5 @@
 import { button, cta, facts, insightRow, partnersRow, peopleStrip, plate, sectionHead } from '../components.ts';
-import { insights, team } from '../content/index.ts';
+import { insights } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
@@ -44,7 +44,7 @@ export default {
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Leadership', team.intro)}
+  ${sectionHead('Leadership')}
   ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'])}
   <div class="grid grid--4 people people--row people--team">
     <a class="join" href="${ctx.link('careers', 'roles')}"><span class="h4">Join the Team</span><span class="caption muted">Three open roles</span><span class="small">GTM for digital assets, client implementation for private markets, senior engineering.</span></a>
@@ -52,7 +52,7 @@ export default {
 </section>
 
 <section class="band section" id="press"><div class="wrap">
-  ${sectionHead('News and Press', 'What has been announced.')}
+  ${sectionHead('News and Press')}
   <ul class="irows">${insights
     .filter((i) => i.desk === 'company' || /FCA/.test(i.title))
     .sort((a, b) => (a.date < b.date ? 1 : -1))
@@ -73,11 +73,10 @@ export default {
 </section>
 
 ${cta(ctx, {
-  title: 'Come and Build It',
-  text: 'Three open roles in London, remote-friendly. Your work ships into regulated financial workflows, where every output has to be defensible.',
+  demo: 'general',
   buttons: [
-    { label: 'Email the team', kind: 'outline-light', href: `mailto:${config.careersEmail}` },
-    { label: 'See open roles', kind: 'light', to: 'careers', hash: 'roles' },
+    { label: 'Email the team', kind: 'outline', href: `mailto:${config.careersEmail}` },
+    { label: 'See open roles', kind: 'outline', to: 'careers', hash: 'roles' },
   ],
 })}`,
 } satisfies Page;

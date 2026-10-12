@@ -146,7 +146,7 @@ ${feature({
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('The Desk')}
+  ${sectionHead('The Team')}
   ${peopleStrip(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
 </section>
 
@@ -157,7 +157,7 @@ ${eventsBlock(ctx, {
   insights: { deskFilter: [DESK, 'company'], count: 2 },
 })}
 
-${cta(ctx, { buttons: [{ label: 'Book demo', kind: 'light', form: DESK }] })}`,
+${cta(ctx, { demo: DESK })}`,
 } satisfies Page;
 
 // Figma has no reporting screen yet, so this one stays a drawn stand-in.

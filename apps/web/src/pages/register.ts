@@ -23,7 +23,7 @@ export default {
 </section>
 
 <section class="wrap section" id="entry">
-  ${sectionHead('What an Entry Carries', 'The same fields for every paper, so two can be compared.')}
+  ${sectionHead('What an Entry Carries')}
   ${facts(
     [
       { art: 'library', title: 'The Paper', text: 'The notified white paper as it stands, at a fixed public address' },
@@ -36,12 +36,12 @@ export default {
 </section>
 
 <section class="band section" id="listing"><div class="wrap">
-  ${sectionHead('Published Papers', 'Newest first.')}
+  ${sectionHead('Published Papers')}
   <p class="body placeholder">[The listing is not wired up yet. It will be generated from the papers Eunice has notified, and nothing appears here until it is — see the note in the README.]</p>
 </div></section>
 
 <section class="wrap section" id="how">
-  ${sectionHead('Why It Is Public', 'A disclosure nobody can find is not a disclosure.')}
+  ${sectionHead('Why It Is Public')}
   ${bullets(
     [
       'A listing team reads the paper at its address rather than as an attachment forwarded through a thread.',
@@ -53,8 +53,7 @@ export default {
 </section>
 
 ${cta(ctx, {
-  title: 'Put a Paper on the Register',
-  text: 'Tell us about the token and the jurisdiction. We will show you how the draft would come together, what would still need an opinion, and where it would be hosted.',
-  buttons: [{ label: 'Start a white paper', kind: 'light', form: DESK }],
+  demo: DESK,
+  buttons: [{ label: 'Start a white paper', kind: 'outline', form: DESK }],
 })}`,
 } satisfies Page;

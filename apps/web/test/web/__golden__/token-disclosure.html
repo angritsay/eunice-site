@@ -225,36 +225,40 @@
 <ul class="who who--token-disclosure who--wide-intro who--three">
 <li class="who__intro">
 <h2 class="h2">One Paper, Three Readers</h2>
-<p class="body muted">The issuer who publishes it, the counsel who reviews it and the exchange that checks it.</p>
 </li>
 <li>
 <a class="who__card who__card--link" href="../token-disclosure/issuers/">
+<svg class="art" viewBox="0 0 96 64" width="96" height="64" aria-hidden="true" focusable="false">
+<rect x="26" y="8" width="34" height="46" rx="3" fill="#fff"/>
+<path d="M32 18h22M32 25h22M32 32h14"/>
+<circle cx="62" cy="44" r="9" class="t"/>
+<path d="m58.5 44 2.5 2.5 5-5"/>
+</svg>
 <span class="who__title">Issuers</span>
 <span class="who__line">A white paper that has to be accepted once, and stay true after that.</span>
-<span class="who__needs">
-<span>30+ filed through 4 NCAs</span>
-<span>Notified and hosted</span>
-</span>
 </a>
 </li>
 <li>
 <a class="who__card who__card--link" href="../token-disclosure/counsel/">
+<svg class="art" viewBox="0 0 96 64" width="96" height="64" aria-hidden="true" focusable="false">
+<path d="M48 10v44M38 54h20M26 18h44"/>
+<path d="m26 18-7 15h14Z" class="t"/>
+<path d="m70 18-7 15h14Z" class="t"/>
+<circle cx="48" cy="10" r="2.5" class="f"/>
+</svg>
 <span class="who__title">Counsel</span>
 <span class="who__line">A draft that arrives in the shape the regime asks for.</span>
-<span class="who__needs">
-<span>Reviewed where an opinion is needed</span>
-<span>UK token classification</span>
-</span>
 </a>
 </li>
 <li>
 <a class="who__card who__card--link" href="../token-disclosure/exchanges/">
+<svg class="art" viewBox="0 0 96 64" width="96" height="64" aria-hidden="true" focusable="false">
+<circle cx="24" cy="32" r="12" fill="#fff"/>
+<circle cx="72" cy="32" r="12" class="t"/>
+<path d="M40 27h16m-4-4 4 4-4 4M56 37H40m4-4-4 4 4 4"/>
+</svg>
 <span class="who__title">Exchanges</span>
 <span class="who__line">Check what an issuer published, without asking them for it.</span>
-<span class="who__needs">
-<span>Public disclosure pages</span>
-<span>The register</span>
-</span>
 </a>
 </li>
 </ul>
@@ -658,7 +662,6 @@
 <div class="wrap">
 <div class="shead">
 <h2 class="shead__title">Insights on Token Disclosure</h2>
-<p class="shead__aside">Regulation and disclosure, as they change.</p>
 </div>
 <div class="ifeature">
 <a class="icard icard--token-disclosure" href="../blog/preparing-for-the-new-uk-crypto-regime-getting-ahead-on-a-d-and-marc/">
@@ -712,13 +715,18 @@
 </section>
 <section class="wrap section">
 <div class="cta">
-<div>
-<h2 class="h2">Start a White Paper</h2>
-<p class="cta__text">Tell us about the token and the jurisdiction. We will show you how the draft would come together, and what would still need an opinion.</p>
-</div>
 <div class="cta__buttons">
-<a class="btn btn--outline-light" href="../token-disclosure/register/">The register</a>
-<button type="button" class="btn btn--light" data-form="token-disclosure" data-placement="closing">Start a white paper</button>
+<a class="btn btn--outline" href="../token-disclosure/register/">The register</a>
+<button type="button" class="btn btn--outline" data-form="token-disclosure" data-placement="closing">Start a white paper</button>
+<form class="ask" method="dialog" data-form="general" data-placement="closing">
+<label class="ask__field">
+<span class="sr-only">Work email</span>
+<input type="email" name="email" placeholder="What’s your work email?" autocomplete="email" required>
+</label>
+<button type="submit" class="btn btn--desk-token-disclosure">Book demo</button>
+<p class="ask__msg" role="status">
+</p>
+</form>
 </div>
 </div>
 </section>
@@ -817,8 +825,8 @@
 <input id="f-general-email" name="email" required autocomplete="email" type="email">
 </label>
 </fieldset>
-<fieldset class="form__fields full" data-variant="private-markets" data-title="Talk to the Private Markets Desk" data-lead="Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns." hidden disabled>
-<legend class="sr-only">Talk to the Private Markets Desk</legend>
+<fieldset class="form__fields full" data-variant="private-markets" data-title="Talk to Us" data-lead="Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns." hidden disabled>
+<legend class="sr-only">Talk to Us</legend>
 <label class="field">
 <span>Name (optional)</span>
 <input id="f-private-markets-name" name="name" autocomplete="name" type="text">
@@ -828,8 +836,8 @@
 <input id="f-private-markets-email" name="email" required autocomplete="email" type="email">
 </label>
 </fieldset>
-<fieldset class="form__fields full" data-variant="digital-assets" data-title="Talk to the Digital Assets Desk" data-lead="Pick a token you are reviewing now. We run it and show you the report and the monitoring feed." hidden disabled>
-<legend class="sr-only">Talk to the Digital Assets Desk</legend>
+<fieldset class="form__fields full" data-variant="digital-assets" data-title="Talk to Us" data-lead="Pick a token you are reviewing now. We run it and show you the report and the monitoring feed." hidden disabled>
+<legend class="sr-only">Talk to Us</legend>
 <label class="field">
 <span>Name (optional)</span>
 <input id="f-digital-assets-name" name="name" autocomplete="name" type="text">

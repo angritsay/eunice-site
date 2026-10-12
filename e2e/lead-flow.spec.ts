@@ -30,14 +30,13 @@ test('Private Markets, from the hero on the LPs page', async ({ page }) => {
   const csp = await visit(page, '/private-markets/lps/?utm_source=newsletter&utm_campaign=q4');
   await page.locator('main [data-form="private-markets"][data-placement="hero"]').first().click();
 
-  await expect(page.locator('#talk-title')).toHaveText('Talk to the Private Markets desk');
-  // Name, email and a note: nothing else to fill.
-  await expect(form(page).locator('input, textarea, select')).toHaveCount(3);
+  await expect(page.locator('#talk-title')).toHaveText('Talk to Us');
+  // A demo asks the work email, and offers the name: nothing else to fill (ADR-0013).
+  await expect(form(page).locator('input, textarea, select')).toHaveCount(2);
 
   const email = address();
   await form(page).locator('[name="name"]').fill('Jane Doe');
   await form(page).locator('[name="email"]').fill(email);
-  await form(page).locator('[name="message"]').fill('Gridiron Fund V, committee in October');
   const request = page.waitForRequest((r) => r.url().endsWith('/v1/submissions'));
   await send(page);
   const traceId = (await request).headers()['traceparent']?.split('-')[1] ?? '';
@@ -47,7 +46,6 @@ test('Private Markets, from the hero on the LPs page', async ({ page }) => {
   expect(row).toMatchObject({
     variant: 'private-markets',
     desk: 'Private Markets',
-    message: 'Gridiron Fund V, committee in October',
     details: {},
     entry_page: 'private-markets/lps/',
     entry_placement: 'hero',
@@ -64,7 +62,6 @@ test('Private Markets, from the hero on the LPs page', async ({ page }) => {
   expect(mail?.ReplyTo).toEqual([{ Address: email, Name: 'Jane Doe' }]);
   // One Message-ID per event, so a rare resend is de-duplicated by the mailbox.
   expect(mail?.MessageID).toMatch(/^[0-9a-f-]{36}@eunice\.local$/);
-  expect(mail?.Text).toContain('Gridiron Fund V, committee in October');
   expect(mail?.Text).toContain('utm_source=newsletter, utm_campaign=q4');
 
   // One trace, started in the browser, through intake, the broker and notifier.
@@ -85,7 +82,7 @@ test('Token Disclosure, from the band on the Digital Assets page', async ({ page
   await visit(page, '/digital-assets/');
   await page.locator('[data-form="token-disclosure"][data-placement="band"]').click();
 
-  await expect(page.locator('#talk-title')).toHaveText('Start a white paper');
+  await expect(page.locator('#talk-title')).toHaveText('Start a White Paper');
   const email = address();
   await form(page).locator('[name="name"]').fill('Sam Issuer');
   await form(page).locator('[name="email"]').fill(email);
@@ -104,8 +101,8 @@ test('Token Disclosure, from the band on the Digital Assets page', async ({ page
 });
 
 test('a field the server rejects is marked, and nothing is stored', async ({ page }) => {
-  await visit(page, '/');
-  await page.locator('footer [data-form="general"]').click();
+  await visit(page, '/digital-assets/');
+  await page.locator('main [data-form="digital-assets"][data-placement="hero"]').first().click();
 
   // The browser sets no length limit on the note; intake stops at 4,000 characters.
   const email = address();

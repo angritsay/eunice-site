@@ -30,14 +30,14 @@ export const variants = [
   define({
     id: 'private-markets',
     desk: 'Private Markets',
-    title: 'Talk to the Private Markets Desk',
+    title: 'Talk to Us',
     lead: 'Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns.',
     fields: [optional(common.name), common.email],
   }),
   define({
     id: 'digital-assets',
     desk: 'Digital Assets',
-    title: 'Talk to the Digital Assets Desk',
+    title: 'Talk to Us',
     lead: 'Pick a token you are reviewing now. We run it and show you the report and the monitoring feed.',
     fields: [
       optional(common.name),

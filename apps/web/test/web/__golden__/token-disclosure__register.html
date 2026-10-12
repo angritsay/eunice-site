@@ -130,7 +130,6 @@
 <section class="wrap section" id="entry">
 <div class="shead">
 <h2 class="shead__title">What an Entry Carries</h2>
-<p class="shead__aside">The same fields for every paper, so two can be compared.</p>
 </div>
 <div class="grid grid--2 facts">
 <div class="fact">
@@ -182,7 +181,6 @@
 <div class="wrap">
 <div class="shead">
 <h2 class="shead__title">Published Papers</h2>
-<p class="shead__aside">Newest first.</p>
 </div>
 <p class="body placeholder">[The listing is not wired up yet. It will be generated from the papers Eunice has notified, and nothing appears here until it is — see the note in the README.]</p>
 </div>
@@ -190,7 +188,6 @@
 <section class="wrap section" id="how">
 <div class="shead">
 <h2 class="shead__title">Why It Is Public</h2>
-<p class="shead__aside">A disclosure nobody can find is not a disclosure.</p>
 </div>
 <ul class="bullets bullets--token-disclosure">
 <li>A listing team reads the paper at its address rather than as an attachment forwarded through a thread.</li>
@@ -200,12 +197,17 @@
 </section>
 <section class="wrap section">
 <div class="cta">
-<div>
-<h2 class="h2">Put a Paper on the Register</h2>
-<p class="cta__text">Tell us about the token and the jurisdiction. We will show you how the draft would come together, what would still need an opinion, and where it would be hosted.</p>
-</div>
 <div class="cta__buttons">
-<button type="button" class="btn btn--light" data-form="token-disclosure" data-placement="closing">Start a white paper</button>
+<button type="button" class="btn btn--outline" data-form="token-disclosure" data-placement="closing">Start a white paper</button>
+<form class="ask" method="dialog" data-form="general" data-placement="closing">
+<label class="ask__field">
+<span class="sr-only">Work email</span>
+<input type="email" name="email" placeholder="What’s your work email?" autocomplete="email" required>
+</label>
+<button type="submit" class="btn btn--desk-token-disclosure">Book demo</button>
+<p class="ask__msg" role="status">
+</p>
+</form>
 </div>
 </div>
 </section>
@@ -304,8 +306,8 @@
 <input id="f-general-email" name="email" required autocomplete="email" type="email">
 </label>
 </fieldset>
-<fieldset class="form__fields full" data-variant="private-markets" data-title="Talk to the Private Markets Desk" data-lead="Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns." hidden disabled>
-<legend class="sr-only">Talk to the Private Markets Desk</legend>
+<fieldset class="form__fields full" data-variant="private-markets" data-title="Talk to Us" data-lead="Bring the fund you are reviewing now. A thirty-minute call; we show you what Eunice reads and returns." hidden disabled>
+<legend class="sr-only">Talk to Us</legend>
 <label class="field">
 <span>Name (optional)</span>
 <input id="f-private-markets-name" name="name" autocomplete="name" type="text">
@@ -315,8 +317,8 @@
 <input id="f-private-markets-email" name="email" required autocomplete="email" type="email">
 </label>
 </fieldset>
-<fieldset class="form__fields full" data-variant="digital-assets" data-title="Talk to the Digital Assets Desk" data-lead="Pick a token you are reviewing now. We run it and show you the report and the monitoring feed." hidden disabled>
-<legend class="sr-only">Talk to the Digital Assets Desk</legend>
+<fieldset class="form__fields full" data-variant="digital-assets" data-title="Talk to Us" data-lead="Pick a token you are reviewing now. We run it and show you the report and the monitoring feed." hidden disabled>
+<legend class="sr-only">Talk to Us</legend>
 <label class="field">
 <span>Name (optional)</span>
 <input id="f-digital-assets-name" name="name" autocomplete="name" type="text">

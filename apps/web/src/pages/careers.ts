@@ -30,7 +30,7 @@ export default {
 </section>
 
 <section class="wrap section" id="roles">
-  ${sectionHead('Open Roles', team.hiring)}
+  ${sectionHead('Open Roles')}
   ${roleList(ctx)}
 </section>
 
@@ -51,7 +51,7 @@ export default {
 </div></section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Who You Will Work With', team.intro)}
+  ${sectionHead('Who You Will Work With')}
   ${peopleStrip(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'])}
 </section>
 
@@ -61,11 +61,9 @@ export default {
 </div></section>
 
 ${cta(ctx, {
-  title: 'Your Role Is Not Listed?',
-  text: `Write to ${config.careersEmail} with a CV or a link to something you built, and two lines on why regulated finance. We answer everyone.`,
   buttons: [
-    { label: 'Email the team', kind: 'outline-light', href: `mailto:${config.careersEmail}` },
-    { label: 'See the roles', kind: 'light', to: 'careers', hash: 'roles' },
+    { label: 'Email the team', kind: 'outline', href: `mailto:${config.careersEmail}` },
+    { label: 'See the roles', kind: 'dark', to: 'careers', hash: 'roles' },
   ],
 })}
 

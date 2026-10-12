@@ -13,7 +13,7 @@ import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 interface DeskShared {
   facts: { art: Art; title: string; text: string }[];
   quote: Quote | null;
-  insights: Pick<InsightsBlockOptions, 'label' | 'aside' | 'deskFilter'>;
+  insights: Pick<InsightsBlockOptions, 'label' | 'deskFilter'>;
 }
 
 // What every audience page on a desk has in common: the trust
@@ -54,7 +54,6 @@ const DESK: Record<ProductDesk, DeskShared> = {
     quote: quotes.falconx,
     insights: {
       label: 'Insights on Digital Assets',
-      aside: 'Exploits, risk and regulation.',
       deskFilter: ['digital-assets', 'token-disclosure'],
     },
   },
@@ -73,7 +72,6 @@ const DESK: Record<ProductDesk, DeskShared> = {
     quote: null,
     insights: {
       label: 'Insights on Token Disclosure',
-      aside: 'Regulation and disclosure, as they change.',
       deskFilter: ['token-disclosure'],
     },
   },
@@ -98,7 +96,7 @@ function page(a: AudiencePage): Page {
     <h1 class="h1">${a.h1}</h1>
     <p class="lead">${a.lead}</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Book demo', form: a.desk, placement: 'hero' })}
+      ${button(ctx, { label: 'Book demo', kind: 'desk', form: a.desk, placement: 'hero' })}
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
     </div>
   </div>
@@ -106,12 +104,12 @@ function page(a: AudiencePage): Page {
 </section>
 
 <section class="band section"><div class="wrap">
-  ${sectionHead('What This Looks Like Now', 'The week we hear described most often.')}
+  ${sectionHead('What This Looks Like Now')}
   ${bullets(a.now, a.desk)}
 </div></section>
 
 <section class="wrap section">
-  ${sectionHead('What Eunice Does', 'Three things, in the order they happen.')}
+  ${sectionHead('What Eunice Does')}
   <ol class="steps steps--${a.desk}">
     ${a.work.map((w) => html`<li><span class="h4">${w.title}</span><span class="small muted">${w.text}</span></li>`)}
   </ol>
@@ -124,11 +122,7 @@ function page(a: AudiencePage): Page {
 
 ${insightsBlock(ctx, { ...d.insights, featured: 1, rows: 2 })}
 
-${cta(ctx, {
-  title: a.cta.title,
-  text: a.cta.text,
-  buttons: [{ label: 'Book demo', kind: 'light', form: a.desk }],
-})}`,
+${cta(ctx, { demo: a.desk })}`,
   };
 }
 
