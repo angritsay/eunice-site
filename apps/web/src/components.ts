@@ -203,11 +203,33 @@ export const facts = (
   ${items.map((f) => html`<div class="fact">${art(f.art)}<p class="h4">${f.title}</p><p class="small muted">${f.text}</p></div>`)}
 </div>`;
 
-// Proof as numbers: one big figure and a one-line label each, the way the references
-// show scale. Only figures that already appear elsewhere on the site.
-export const numbers = (items: readonly { n: string; label: string }[]) => html`<ul class="numbers">
-  ${items.map((i) => html`<li><span class="numbers__n">${i.n}</span><span class="numbers__label">${i.label}</span></li>`)}
-</ul>`;
+// Proof as numbers: a lead on the left, a recognition shown by its publisher's logo
+// with the line it gave us, then figures on the right, one per hairline row, each with
+// a short note.
+export const numbers = (
+  ctx: Ctx,
+  {
+    lead,
+    rows,
+  }: {
+    lead: { logo: string; name: string; text: string; note: string };
+    rows: readonly { n: string; label: string }[];
+  },
+) => {
+  const s = imageSize(`img/logos/${lead.logo}`);
+  const h = 44;
+  const w = s ? Math.round((s.width / s.height) * h) : h * 4;
+  return html`<div class="numbers">
+  <div class="numbers__lead">
+    <img src="${ctx.asset(`img/logos/${lead.logo}`)}" alt="${lead.name}" width="${w}" height="${h}">
+    <p class="h2">${lead.text}</p>
+    <p class="small muted">${lead.note}</p>
+  </div>
+  <ul class="numbers__rows">
+    ${rows.map((r) => html`<li><span class="h3">${r.n}</span><span class="small muted">${r.label}</span></li>`)}
+  </ul>
+</div>`;
+};
 
 // A journey read left to right: stops on one line, each a short title and a
 // line of text. With `onward`, the line runs on past the last stop, which is drawn as

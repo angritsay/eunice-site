@@ -251,10 +251,13 @@ button { font: inherit; color: inherit; }
 /* Home: the proof block runs logos, numbers, logos, badges, with the same air between. */
 .proof > .logos:first-child { margin-top: 0; }
 .numbers + .logos { margin-top: clamp(96px, 13vw, 192px); }
-.numbers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: clamp(96px, 13vw, 192px); }
-.numbers li { display: flex; flex-direction: column; gap: 10px; padding-top: 18px; border-top: 1px solid var(--line); }
-.numbers__n { font-family: var(--font-head); font-weight: 400; font-size: clamp(36px, 4.2vw, 56px); line-height: 1; letter-spacing: -.035em; color: var(--ink); }
-.numbers__label { font-size: 12px; line-height: 1.5; color: var(--muted); max-width: 22em; }
+.numbers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 7vw, 112px); align-items: center; margin-top: clamp(96px, 13vw, 192px); }
+.numbers__lead img { display: block; width: auto; height: 44px; filter: brightness(0); }
+.numbers__lead .h2 { margin-top: 20px; max-width: 14em; }
+.numbers__lead .small { margin-top: 10px; }
+.numbers__rows li { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 18px 0; border-top: 1px solid var(--line); }
+.numbers__rows li:last-child { border-bottom: 1px solid var(--line); }
+.numbers__rows .small { text-align: right; max-width: 30em; }
 .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(64px, 8vw, 120px); }
 .badges li { padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 10.4px; letter-spacing: .04em; color: var(--ink); }
 
@@ -654,7 +657,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .hero__visual--field { height: clamp(240px, 56vw, 380px); }
   .hero__visual--field .wf { --u: 1.5cqw; }
   .grid--3, .grid--4, .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
+  .numbers { grid-template-columns: minmax(0, 1fr); }
   .tiles { grid-template-columns: minmax(0, 1fr); }
   .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__brand { grid-column: 1 / -1; }

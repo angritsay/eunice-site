@@ -44,15 +44,19 @@ export default {
 <!-- Proof first: who we work with and what backs us, before any description. -->
 <section class="wrap section section--tight proof" id="proof">
   ${logoMarquee(ctx, 'clients')}
-  ${numbers([
-    { n: '$1.4T+', label: 'AUM managed by the allocators who trust Eunice' },
-    { n: 'Top 100', label: 'Sifted’s fastest-growing startups in the UK and Ireland, by revenue, 2026' },
-    {
-      n: 'Fintech 50',
-      label: 'Named to TechRound’s Fintech 50, May 2026, among the firms building financial services infrastructure',
+  ${numbers(ctx, {
+    lead: {
+      logo: 'sifted.svg',
+      name: 'Sifted',
+      text: '100 fastest-growing startups in the UK & Ireland',
+      note: 'By revenue, 2026',
     },
-    { n: '$8m', label: 'Seed, March 2026 · Moonfire, Speedinvest, Openspace, Locus' },
-  ])}
+    rows: [
+      { n: '$8m', label: 'Seed and pre-seed' },
+      { n: '$1.4T+', label: 'In assets overseen by the allocators who rely on Eunice' },
+      { n: 'Fintech 50', label: 'TechRound, 2026' },
+    ],
+  })}
   ${logoMarquee(ctx, 'partners')}
 </section>
 
