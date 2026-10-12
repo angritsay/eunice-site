@@ -72,7 +72,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'managers',
     desk: 'private-markets',
-    nav: 'For managers',
+    nav: 'For Managers',
     card: { title: 'Fund managers', text: 'The same ODD questionnaire, asked eleven ways, by eleven different LPs.' },
     title: 'Eunice for fund managers — answer the diligence questionnaire once',
     description:
@@ -106,7 +106,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'family-offices',
     desk: 'private-markets',
-    nav: 'For family offices',
+    nav: 'For Family Offices',
     card: { title: 'Family offices', text: 'Enable you to do more with a lean team.' },
     title: 'Eunice for family offices — the diligence of a full team',
     description:
@@ -140,7 +140,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'exchanges',
     desk: 'digital-assets',
-    nav: 'For exchanges',
+    nav: 'For Exchanges',
     card: { title: 'Exchanges', text: 'A listing queue that grows faster than the team reviewing it.' },
     title: 'Eunice for exchanges — listing diligence your committee signs off on',
     description:
@@ -174,7 +174,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'custodians',
     desk: 'digital-assets',
-    nav: 'For custodians',
+    nav: 'For Custodians',
     quote: 'zodia',
     card: { title: 'Custodians', text: 'You hold the asset. You are the last to hear when something moves.' },
     title: 'Eunice for custodians — monitoring with the source attached',
@@ -209,7 +209,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'market-makers',
     desk: 'digital-assets',
-    nav: 'For market makers',
+    nav: 'For Market Makers',
     quote: 'libeara',
     card: { title: 'Market makers', text: 'Inventory in something whose disclosure changed this morning.' },
     title: 'Eunice for market makers — know what changed before the position does',
@@ -244,7 +244,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'issuers',
     desk: 'token-disclosure',
-    nav: 'For issuers',
+    nav: 'For Issuers',
     card: { title: 'Issuers', text: 'A white paper that has to be accepted once, and stay true after that.' },
     title: 'Eunice for issuers — a MiCA white paper accepted once',
     description:
@@ -278,7 +278,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'counsel',
     desk: 'token-disclosure',
-    nav: 'For counsel',
+    nav: 'For Counsel',
     card: { title: 'Counsel', text: 'A draft that arrives in the shape the regime asks for.' },
     title: 'Eunice for counsel — review the paper, not the boilerplate',
     description:
@@ -312,7 +312,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'exchanges',
     desk: 'token-disclosure',
-    nav: 'For exchanges',
+    nav: 'For Exchanges',
     card: { title: 'Exchanges', text: 'Check what an issuer published, without asking them for it.' },
     title: 'Eunice for exchanges — check the disclosure yourself',
     description:
