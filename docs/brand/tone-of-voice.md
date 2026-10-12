@@ -6,10 +6,50 @@ describe the pages ported from the live site (`mica-whitepaper.ts`, `security.ts
 imported blog posts and jobs, or the team lines quoted from the live careers page: those
 keep their own wording on purpose.
 
-**In one line:** we write like a diligence desk talking to a client: plain, specific,
-calm, and never claiming more than we can show.
+**In one line:** we write like a diligence desk talking to a client: credible, short
+and punchy, never claiming more than we can show, and never sounding generated.
+
+The guide was first drawn from the site's copy, then calibrated with Yi Luo in October
+2026: she was shown real lines with alternatives and picked or rewrote each one
+(`docs/brand/voice-check/`). Her three words for the voice: **credible, non-AI, punchy**.
+Where her answers changed a rule, the rule below says so.
+
+## What the reader needs first
+
+The reader is a prospective client, deciding two things, in this order:
+
+1. **Why should I take this firm seriously?** Credentials and proof come early on a
+   page: SOC 2 Type II, GDPR, no training on client data, the clients and the figures in
+   the claims table. Do not make the reader scroll for them.
+2. **How is it different?** Lead with the thesis, not the task. Anyone can run diligence
+   with a general AI assistant today, so "we do diligence" says nothing. Say what the
+   client gets that they cannot get otherwise: better decision governance, a record they
+   can defend, the same standard every time. Yi's proposed Private Markets line: "Better
+   decision governance. Better outcomes."
 
 ## Voice
+
+### Short and punchy
+
+Take the shortest version that keeps the fact. A run of short fragments is fine when
+each one carries something. Cut the setup ("Enable you to", "Ready to see how we can").
+
+| Write | Not |
+|---|---|
+| Every claim comes with its source. | If we cannot show you where it came from, we do not say it. |
+| Do more with a lean team. | Enable you to do more with a lean team. |
+| 50+ risk types. Every asset you support. Every event sourced and logged. | Comprehensive coverage across a wide range of risk categories for all supported assets. |
+
+### Never sounds generated
+
+The site must not read as if an AI wrote it, and it must not be playful. The tells to
+avoid:
+
+- Stacked "X, not Y" lines and triplets on every row. One per section at most.
+- Em dashes as the default joint in a sentence.
+- Setup questions and filler: "Here's the thing", "In today's market", "Imagine if".
+- Abstract nouns in place of the thing: "insights", "solutions", "workflows".
+- Jokes, puns, emoji and exclamation-mark enthusiasm.
 
 ### Specific: name the document, the number, the day
 
@@ -38,7 +78,9 @@ Speed claims stay at "the same day" until there is data behind anything faster.
 ### The client's week, in the client's words
 
 Describe the situation the reader is in, flatly, as they would tell it. No "struggling
-with", no "pain points".
+with", no "pain points". Best of all is what a client actually said: USS described its
+week as "Messy data, slow consolidation, and AI you can’t defend, inside a stack you
+can’t rip out." Quote a named client only with their agreement.
 
 | Write | Not |
 |---|---|
@@ -46,19 +88,20 @@ with", no "pain points".
 | Two answers to the same question disagree, and nobody notices until an LP does. | Inconsistent answers can be a real headache. |
 | The first notice of an exploit is a client asking about it. | Never miss a critical event again! |
 
-### Humble about the machine: the client decides
+### Open about AI; the client decides
 
-Eunice prepares; people approve. The product pages do not lean on the word "AI".
+Name AI plainly (Yi, October 2026: "AI up front"). What makes it credible is who is in
+control: Eunice prepares, people approve, and every line can be checked.
 
 | Write | Not |
 |---|---|
-| Eunice does not approve anything. It prepares the thing you approve. | Let AI make the decision for you. |
-| We show you what Eunice reads and what it returns; you decide. | Our intelligent agents handle everything. |
+| AI-powered analysis, with your team in control. | Let AI make the decision for you. |
+| Eunice does not approve anything. It prepares the thing you approve. | Our intelligent agents handle everything. |
 
-### Calm and balanced
+### Credible, not loud
 
-Full negatives ("do not", "cannot", "is not") rather than contractions. Short sentences.
-Balanced "X, not Y" lines. No exclamation marks.
+Conversational rather than formal: contractions are fine where the full form reads stiff
+("can’t", "don’t"). Short sentences. No hype, no superlatives.
 
 | Write | Not |
 |---|---|
@@ -105,7 +148,7 @@ Balanced "X, not Y" lines. No exclamation marks.
 | Oxford comma | None | LPs, GPs and family offices |
 | "And" or "&" | Write "and"; keep "&" only inside a firm's own name | Insights and news · Drew & Napier |
 | Exclamation marks | Never | |
-| Contractions | Avoid in our copy | do not, cannot |
+| Contractions | Allowed where the full form reads stiff | can’t, don’t |
 | Quotes and apostrophes | Curly | firm’s, “Good enough” |
 | Small counts in prose | Spell out | ten fund documents, a thirty-minute call |
 | Figures in facts, numbers and drawings | Digits | 4 jurisdictions, 12 funds |
@@ -146,11 +189,15 @@ Two shapes:
 
 ### The closing call to action
 
-- **Title:** an imperative about one real item on the client's desk now. "Bring us the
-  fund, or the token, you are reviewing now". "Put one fund through it". "Run it against
-  your book".
-- **Text:** the offer, then "We will show you…". "Pick a token you are reviewing now. We
-  will run it and show you the report and the monitoring feed side by side."
+Short and direct: the reader is not yet convinced, so do not promise to transform their
+process. Yi's line for Home: "Ready to see Eunice in action? Book a demo."
+
+- **Title:** a short question or an imperative about one real item on the client's
+  desk. "Ready to see Eunice in action?" "Put one fund through it". "Run it against your
+  book".
+- **Text:** one line at most, saying what happens on the call. "Pick a token you are
+  reviewing now. We will run it and show you the report and the monitoring feed side by
+  side."
 
 ### Buttons
 
@@ -184,13 +231,22 @@ dataroom, flag.
 
 **Words we do not use:** revolutionary, game-changing, unlock (except "unlock schedule"),
 seamless, leverage, cutting-edge, empower, robust, transform, innovative, world-class,
-best-in-class, enterprise-grade, ironclad, solution(s), leading, "shaping the future".
-"AI-powered" appears only in the owner's home page line; do not spread it.
+best-in-class, ironclad, solution(s), leading, "shaping the future".
+
+- **"AI-powered"** is fine when the next words say who stays in control ("AI-powered
+  analysis, with your team in control").
+- **"Enterprise-grade"** is allowed only as the label of the trust line, followed at
+  once by the credentials it stands for (see Claims).
 
 ## Claims
 
-Only figures and credentials the site already states, in the same words. Name a
-credential, then qualify it in one plain line with a date or scope. Never a superlative.
+Only figures and credentials the site already states, in the same words. Never a
+superlative.
+
+**The trust line.** Where credentials appear together, state them as one line:
+"Enterprise-grade security · SOC 2 Type II, GDPR, and no training on your data." (Yi,
+October 2026.) Where a credential stands alone, name it, then qualify it in one plain
+line with a date or scope.
 
 | Claim | Say it as | Where it may appear |
 |---|---|---|
@@ -205,6 +261,9 @@ credential, then qualify it in one plain line with a date or scope. Never a supe
 | Fintech 50 | "Fintech 50, 2026" | Home, Company |
 | CMS | "Reviewed by CMS, where a legal opinion is needed" | Token Disclosure, Digital Assets |
 | Citations | "Every finding cited to the page it came from" | Everywhere |
+
+Proposed, not yet on the site: **50+ risk types** monitored (from Yi's Monitoring line).
+It needs a source before it is used.
 
 A new figure or credential needs the owner's sign-off and a source, recorded in
 `apps/web/src/content/sources/owner-notes.md`.
@@ -231,6 +290,10 @@ A new figure or credential needs the owner's sign-off and a source, recorded in
 ## Checklist before you publish copy
 
 - [ ] Does each line tell the reader something? Cut the ones that do not.
+- [ ] Is it the shortest version that keeps the fact?
+- [ ] Would a reader suspect an AI wrote it? Look for stacked "X, not Y" lines, triplets
+      and em dashes.
+- [ ] Do credentials and the thesis come early on the page?
 - [ ] Is it specific: a document, a number, a day, a desk?
 - [ ] Is every claim one the site already makes, in the same words?
 - [ ] UK spelling, sentence case, no Oxford comma, no exclamation marks?
@@ -263,5 +326,35 @@ it changes rendered pages.
 11. **"Every firm’s needs are different" is used twice** on Private Markets.
 12. **A bracketed internal note shows on the register page** (`register.ts`).
 13. **The family offices card reads "Enable you to do more with a lean team."**: a
-    fragment with no subject.
+    fragment with no subject. Yi chose "Do more with a lean team."
 14. **Mixed compounds:** dataroom / data rooms; crypto assets / cryptoassets.
+
+## Yi's voice check: what changes on the site
+
+Her picks (October 2026), with what each means for the pages. None of these is on the
+site yet; each is a copy change for the owner to approve.
+
+| Where | Yi's choice | Change |
+|---|---|---|
+| Home hero | Keep as it is | None |
+| Private Markets, LP hero | Lead with the thesis, not diligence: "Better decision governance. Better outcomes." | New H1; the lead to be rewritten to match |
+| Private Markets, "What this looks like now" | Use what USS said: "Messy data, slow consolidation, and AI you can’t defend, inside a stack you can’t rip out." | Replace the scene, if USS agrees to be quoted or unnamed |
+| Company, what we stand for | "Every claim comes with its source." | Shorter line |
+| Company, AI | "AI-powered analysis, with your team in control." | Name AI |
+| Home, closing call to action | "Ready to see Eunice in action? Book a demo" | Shorter title and text |
+| Main button | "Book demo" | None |
+| Digital Assets, custodians | "Know what changed. Act before it spreads. 50+ risk types. Every asset you support. Every event sourced and logged, so you move first when a black swan hits and have the record when a regulator asks." | New hero; "50+ risk types" needs a source |
+| Trust markers | "Enterprise-grade security · SOC 2 Type II, GDPR, and no training on your data." | One trust line |
+| Family offices card | "Do more with a lean team." | Fix the fragment |
+| Careers | "Too much even for careers" | Calm the careers copy (it is imported from the live site, so this needs the owner's go-ahead) |
+
+Asked after she answered, not yet picked: the exchanges, market makers and Digital
+Assets main-page heroes.
+
+Still open between her answers and the rules:
+
+- **Exclamation marks.** Yi wrote "Book a demo!"; the site has none. The guide keeps
+  none until the owner decides.
+- **"Book demo" or "Book a demo".** She kept the button as "Book demo" but wrote "Book a
+  demo" in the call to action. Use "Book demo" on buttons and "Book a demo" in sentences.
+- **A voice she admires:** eliseai.com. Worth a read before rewriting a hero.

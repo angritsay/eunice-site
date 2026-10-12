@@ -16,8 +16,9 @@ plainly: what is fine, what must change, and what is a matter of taste.
    (`https://angritsay.github.io/eunice-site/preview/pr-<N>/`) if you can view it.
 2. Check the diff against:
    - **Words** — [docs/brand/tone-of-voice.md](../../../docs/brand/tone-of-voice.md):
-     plain, specific, UK spelling, sentence case, no hype words, only figures and
-     credentials the site already states, regulation only on Digital Assets.
+     credible, short, specific, never reads as AI-generated or playful, UK spelling,
+     sentence case, no hype words, only figures and credentials the site already
+     states, regulation only on Digital Assets.
    - **Design** — [docs/brand/design-system.md](../../../docs/brand/design-system.md) and
      the rules in `CLAUDE.md`: ink on white, the one grey, desk colour as a hint only,
      four type roles, hairlines not boxes, no numbering or eyebrows, components reused,

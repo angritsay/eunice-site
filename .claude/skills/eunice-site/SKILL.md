@@ -38,8 +38,12 @@ they can read without opening the code.
 Read [docs/brand/tone-of-voice.md](../../../docs/brand/tone-of-voice.md) before writing or
 changing any copy that a visitor reads. The short version:
 
-- Plain and specific, the way a desk talks to a client: say what Eunice does and what
-  the client gets, with a source or a number where there is one.
+- Credible, short and punchy, the way a desk talks to a client: say what the client
+  gets, with a source or a number where there is one. Take the shortest version that
+  keeps the fact.
+- It must never read as AI-generated or playful: no stacked "X, not Y" lines, no
+  triplets on every row, few em dashes.
+- Credentials and the thesis come early; "we do diligence" alone says nothing.
 - UK spelling. Sentence case for headings and buttons. "Book demo" is the primary call
   to action.
 - No hype words (revolutionary, unlock, game-changing, seamless, cutting-edge…).
