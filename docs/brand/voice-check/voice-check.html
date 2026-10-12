@@ -1,0 +1,321 @@
+<title>How Eunice Should Sound</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Inter:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column. Each line from the site sits in a white "page" frame, as it looks on eunice.ai, with the choices under it. */
+:root {
+  --bg: #f5f7fa;
+  --panel: #ffffff;
+  --ink: #111214;
+  --muted: #5f6b7a;
+  --line: #e4e8ef;
+  --pick: #111214;
+  --pick-soft: #eef1f6;
+  --good: #1d7a4c;
+  --shot-bg: #ffffff;   /* the site is light only, so its frame stays white in both themes */
+  --shot-ink: #111214;
+  --shot-muted: #5f6b7a;
+  --shot-line: #e4e8ef;
+  --font-head: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #101216; --panel: #181b21; --ink: #eceef2; --muted: #a2a9b4; --line: #2a2f38; --pick: #eceef2; --pick-soft: #242a35; --good: #5fd39a; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #101216; --panel: #181b21; --ink: #eceef2; --muted: #a2a9b4; --line: #2a2f38; --pick: #eceef2; --pick-soft: #242a35; --good: #5fd39a; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55; padding: 0 16px; }
+.wrap { max-width: 780px; margin: 0 auto; padding-block: 40px 80px; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 500; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(28px, 4.4vw, 38px); letter-spacing: -0.02em; line-height: 1.12; }
+h2 { font-size: 21px; letter-spacing: -0.01em; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.intro { display: grid; gap: 14px; }
+.intro p { max-width: 62ch; }
+.who { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.who label { font-weight: 500; }
+input[type=text], textarea { font: inherit; font-size: 14.5px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; }
+input[type=text] { flex: 1 1 200px; min-width: 0; }
+textarea { width: 100%; min-height: 64px; resize: vertical; }
+input:focus-visible, textarea:focus-visible { outline: 2px solid var(--pick); outline-offset: 1px; }
+.status { font-size: 13px; color: var(--muted); }
+.progress { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 13.5px; color: var(--muted); }
+.progress .bar { flex: 1 1 160px; }
+.bar { flex: 1; height: 5px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background: var(--good); transition: width .3s; }
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+
+.item { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 16px; min-width: 0; }
+.item__where { font-size: 12.5px; color: var(--muted); }
+.item__q { font-weight: 500; }
+.shot { background: var(--shot-bg); color: var(--shot-ink); border: 1px solid var(--shot-line); border-radius: 10px; padding: 24px 22px; display: grid; gap: 10px; }
+.shot .s-h1 { font-family: var(--font-head); font-weight: 400; font-size: clamp(24px, 3.4vw, 32px); line-height: 1.08; letter-spacing: -0.03em; }
+.shot .s-h2 { font-family: var(--font-head); font-weight: 400; font-size: 20px; line-height: 1.15; letter-spacing: -0.02em; }
+.shot .s-lead { font-size: 14px; line-height: 1.6; color: var(--shot-muted); max-width: 46em; }
+.shot .s-btn { justify-self: start; background: #1a1b1e; color: #fff; border-radius: 999px; padding: 10px 18px; font-size: 13px; font-weight: 500; }
+.shot .s-fact { border-top: 1px solid var(--shot-line); padding-top: 12px; display: grid; gap: 4px; max-width: 320px; }
+.shot .s-fact b { font-family: var(--font-head); font-weight: 400; font-size: 16px; }
+.shot .s-fact span { font-size: 13px; color: var(--shot-muted); }
+.shot--ink { background: #16171b; color: #fff; border-color: #16171b; }
+.shot--ink .s-lead { color: rgba(255,255,255,.72); }
+.shot--ink .s-btn { background: #fff; color: #111214; }
+
+.opts { display: grid; gap: 8px; }
+.opt { position: relative; }
+.opt input { position: absolute; opacity: 0; inset: 0; pointer-events: none; }
+.opt label { display: grid; gap: 2px; border: 1px solid var(--line); border-radius: 10px; padding: 11px 14px; cursor: pointer; }
+.opt label:hover { border-color: var(--muted); }
+.opt input:checked + label { border-color: var(--pick); background: var(--pick-soft); }
+.opt input:focus-visible + label { outline: 2px solid var(--pick); outline-offset: 2px; }
+.opt .tag { font-size: 12px; color: var(--muted); }
+.opt .txt { font-size: 14.5px; }
+.rewrite label { font-size: 13.5px; color: var(--muted); display: block; margin-bottom: 6px; }
+
+.scale { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); gap: 12px; align-items: center; font-size: 14px; }
+.scale .r { text-align: right; }
+.scale .l { text-align: left; }
+.dots { display: flex; gap: 6px; }
+.dots input { position: absolute; opacity: 0; pointer-events: none; }
+.dots label { width: 28px; height: 28px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; cursor: pointer; font-size: 12px; color: var(--muted); }
+.dots input:checked + label { background: var(--pick); border-color: var(--pick); color: var(--panel); }
+.dots input:focus-visible + label { outline: 2px solid var(--pick); outline-offset: 2px; }
+@media (max-width: 560px) { .scale { grid-template-columns: 1fr; } .scale .r, .scale .l { text-align: left; } }
+footer { font-size: 13.5px; color: var(--muted); }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <p class="muted" style="font-size:13px">eunice.ai · tone of voice</p>
+    <h1>How should Eunice sound?</h1>
+    <p>Yi, these are real lines from the new site, shown as they appear on the page. For each one, keep it, pick one of the other versions, or write your own. The other versions are written to sound different on purpose, so your picks show which voice you want. At the end there are a few questions about the voice as a whole.</p>
+    <p class="muted">It takes about ten minutes. Answers save as you go; you can stop and come back.</p>
+  </header>
+
+  <div class="progress" aria-live="polite"><div class="bar" aria-hidden="true"><span id="bar"></span></div><span id="count">0 of 0</span><span class="status" id="status">Connecting…</span></div>
+
+  <main id="items" class="wrap" style="padding:0"></main>
+
+  <section class="item" aria-labelledby="g-title">
+    <h2 id="g-title">The voice as a whole</h2>
+    <div id="scales" style="display:grid;gap:14px"></div>
+    <div id="general" style="display:grid;gap:16px"></div>
+  </section>
+
+  <footer>Nastia will turn your answers into the site's tone of voice guide, and every contributor's Claude will write to it.</footer>
+</div>
+
+<script>
+(() => {
+  const ITEMS = [
+    { id: 'home-hero', where: 'Home · the first thing a visitor reads', q: 'Is this the right first impression for a fund manager or an exchange?',
+      shot: { h1: 'We believe when trust is visible, markets move.', lead: 'Source-traced due diligence and monitoring for digital assets and private markets.' },
+      alts: [
+        { tag: 'As it is', h1: 'We believe when trust is visible, markets move.', lead: 'Source-traced due diligence and monitoring for digital assets and private markets.' },
+        { tag: 'Plainer, says what we do', h1: 'Due diligence you can check, line by line.', lead: 'Diligence and monitoring for private markets and digital assets, every finding cited to its source.' },
+        { tag: 'Bolder', h1: 'Trust, shown.', lead: 'The diligence layer for private markets and digital assets.' },
+      ] },
+    { id: 'lp-hero', where: 'Private Markets · page for LPs', q: 'Does this speak to an LP the way you would?',
+      shot: { h1: 'Diligence on every fund, before the committee sits', lead: 'An agent does the messy work — chasing the data down and checking it is right. Investment and operational due diligence, then monitoring, against the checklist you already use.' },
+      alts: [
+        { tag: 'As it is', h1: 'Diligence on every fund, before the committee sits', lead: 'An agent does the messy work — chasing the data down and checking it is right. Investment and operational due diligence, then monitoring, against the checklist you already use.' },
+        { tag: 'Shorter, no "agent"', h1: 'Diligence on every fund, before the committee sits', lead: 'Eunice reads every fund document against your ODD checklist, cites each finding to its page, and asks the same questions again each quarter.' },
+        { tag: 'Punchier', h1: 'Every fund, read in full. Every finding, cited.', lead: 'Investment and operational due diligence your committee can check.' },
+      ] },
+    { id: 'lp-now', where: 'Private Markets · "What this looks like now"', q: 'Do you like describing the client\'s week back to them?',
+      shot: { lead: 'Ten fund documents arrive, the committee date is fixed, and the answer you need is not in the summary.' },
+      alts: [
+        { tag: 'As it is: a scene from their week', text: 'Ten fund documents arrive, the committee date is fixed, and the answer you need is not in the summary.' },
+        { tag: 'The problem, named', text: 'Too many documents, too little time before committee.' },
+        { tag: 'Industry framing', text: 'Manual diligence does not scale with a growing portfolio.' },
+      ] },
+    { id: 'promise', where: 'Company · what we stand for', q: 'Formal ("we do not") or relaxed ("we don\'t")?',
+      shot: { h2: 'Every output cites its page.', lead: 'If we cannot show you where it came from, we do not say it.' },
+      alts: [
+        { tag: 'As it is: no contractions', text: 'If we cannot show you where it came from, we do not say it.' },
+        { tag: 'With contractions', text: 'If we can\'t show you where it came from, we don\'t say it.' },
+        { tag: 'Shorter', text: 'Every claim comes with its source.' },
+      ] },
+    { id: 'ai', where: 'Company · what we stand for', q: 'How should we talk about AI?',
+      shot: { h2: 'Your team signs off.', lead: 'Eunice does not approve anything. It prepares the thing you approve.' },
+      alts: [
+        { tag: 'As it is: AI barely named', text: 'Eunice does not approve anything. It prepares the thing you approve.' },
+        { tag: 'AI named, plainly', text: 'Our AI does the reading. Your team makes the call.' },
+        { tag: 'AI up front', text: 'AI-powered analysis, with your team in control.' },
+      ] },
+    { id: 'cta', where: 'Home · closing call to action', q: 'Is this how you would invite someone to a first call?', ink: true,
+      shot: { h2: 'Bring us the fund, or the token, you are reviewing now', lead: 'A thirty-minute call with the desk that would run it. We show you what Eunice reads and what it returns; you decide.', btn: 'Book demo' },
+      alts: [
+        { tag: 'As it is', text: 'Bring us the fund, or the token, you are reviewing now. A thirty-minute call with the desk that would run it. We show you what Eunice reads and what it returns; you decide.' },
+        { tag: 'Shorter', text: 'See it on your own fund or token. Thirty minutes with the desk; bring something you are reviewing now.' },
+        { tag: 'Classic SaaS', text: 'Ready to see Eunice in action? Book a demo and see how we can transform your diligence process.' },
+      ] },
+    { id: 'button', where: 'Every page · the main button', q: 'Which label for the main button?',
+      shot: { btn: 'Book demo' },
+      alts: [
+        { tag: 'As it is', text: 'Book demo' },
+        { tag: 'With the article', text: 'Book a demo' },
+        { tag: 'A call, not a demo', text: 'Talk to the desk' },
+        { tag: 'About their work', text: 'Try it on your fund' },
+      ] },
+    { id: 'custodians', where: 'Digital Assets · page for custodians', q: 'Which version would a custodian\'s head of risk trust most?',
+      shot: { h1: 'Hear it from the source, not from a client', lead: 'You hold the asset, so you should not be the last to know. Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached.' },
+      alts: [
+        { tag: 'As it is', h1: 'Hear it from the source, not from a client', lead: 'You hold the asset, so you should not be the last to know. Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached.' },
+        { tag: 'Urgent', h1: 'Know about an exploit before your clients do', lead: 'Real-time alerts on exploits, protocol changes, enforcement actions and reserve movements.' },
+        { tag: 'Neutral, descriptive', h1: 'Continuous monitoring for custodians', lead: 'Exploits, protocol changes, enforcement actions and reserve movements, flagged the same day with the source.' },
+      ] },
+    { id: 'trust', where: 'Home and Private Markets · trust markers', q: 'How should we state a credential?',
+      shot: { fact: ['SOC 2 Type II', 'Audited; the report is available on request'] },
+      alts: [
+        { tag: 'As it is: the fact, then where to check it', text: 'SOC 2 Type II · Audited; the report is available on request' },
+        { tag: 'Warmer', text: 'SOC 2 Type II certified · Independently audited. Ask us for the report.' },
+        { tag: 'Big claim', text: 'Enterprise-grade security · SOC 2 Type II, GDPR, and no training on your data.' },
+      ] },
+    { id: 'family', where: 'Private Markets · who we work with', q: 'This card reads oddly. Which would you put?',
+      shot: { fact: ['Family offices', 'Enable you to do more with a lean team.'] },
+      alts: [
+        { tag: 'As it is', text: 'Enable you to do more with a lean team.' },
+        { tag: 'Their situation', text: 'A full team\'s diligence, without the full team.' },
+        { tag: 'Plain', text: 'Do more with a lean team.' },
+      ] },
+    { id: 'careers', where: 'Careers · copied from the current eunice.ai', q: 'Careers is punchier than the rest of the site. Where does this voice belong?',
+      shot: { h2: 'Real stakes', lead: 'Your code ships into regulated financial workflows — where every output has to be defensible. No demo theatre.' },
+      alts: [
+        { tag: '', text: 'This is our voice; the whole site should sound like this' },
+        { tag: '', text: 'Right for careers, calmer for clients' },
+        { tag: '', text: 'Too much even for careers' },
+      ] },
+  ];
+  const SCALES = [
+    { id: 'formal', l: 'Formal', r: 'Conversational' },
+    { id: 'bold', l: 'Modest', r: 'Bold' },
+    { id: 'technical', l: 'Expert terms (ODD, LPA, MiCA)', r: 'Plain words anyone gets' },
+    { id: 'length', l: 'As short as possible', r: 'Explain fully' },
+  ];
+  const GENERAL = [
+    { id: 'reader', label: 'Who do you picture reading the site? Their role, and what they need to decide.' },
+    { id: 'three', label: 'Three words for how Eunice should sound.' },
+    { id: 'never', label: 'Words or phrases you never want on the site.' },
+    { id: 'admire', label: 'A company whose website voice you admire, and why.' },
+    { id: 'else', label: 'Anything else about how we should sound.' },
+  ];
+
+  const el = (tag, attrs = {}, text) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); if (text != null) n.textContent = text; return n; };
+  const shot = (s, ink) => {
+    const box = el('div', { class: 'shot' + (ink ? ' shot--ink' : '') });
+    if (s.h1) box.append(el('p', { class: 's-h1' }, s.h1));
+    if (s.h2) box.append(el('p', { class: 's-h2' }, s.h2));
+    if (s.fact) { const f = el('p', { class: 's-fact' }); f.append(el('b', {}, s.fact[0]), el('span', {}, s.fact[1])); box.append(f); }
+    if (s.lead) box.append(el('p', { class: 's-lead' }, s.lead));
+    if (s.btn) box.append(el('span', { class: 's-btn' }, s.btn));
+    return box;
+  };
+
+  const root = document.getElementById('items');
+  for (const it of ITEMS) {
+    const sec = el('section', { class: 'item', id: it.id, 'aria-labelledby': `q-${it.id}` });
+    sec.append(el('p', { class: 'item__where' }, it.where), shot(it.shot, it.ink), el('p', { class: 'item__q', id: `q-${it.id}` }, it.q));
+    const opts = el('div', { class: 'opts', role: 'radiogroup', 'aria-labelledby': `q-${it.id}` });
+    it.alts.forEach((a, i) => {
+      const id = `o-${it.id}-${i}`;
+      const wrap = el('div', { class: 'opt' });
+      const input = el('input', { type: 'radio', name: it.id, id, value: String(i) });
+      const label = el('label', { for: id });
+      if (a.tag) label.append(el('span', { class: 'tag' }, a.tag));
+      label.append(el('span', { class: 'txt' }, a.text || [a.h1, a.lead].filter(Boolean).join(' — ')));
+      wrap.append(input, label); opts.append(wrap);
+    });
+    const rw = el('div', { class: 'rewrite' });
+    rw.append(el('label', { for: `r-${it.id}` }, 'Or your own version, and why (optional)'), el('textarea', { id: `r-${it.id}`, 'data-field': 'rewrite', 'data-item': it.id }));
+    sec.append(opts, rw);
+    root.append(sec);
+  }
+  const scalesBox = document.getElementById('scales');
+  for (const s of SCALES) {
+    const row = el('div', { class: 'scale', role: 'radiogroup', 'aria-label': `${s.l} to ${s.r}` });
+    const dots = el('div', { class: 'dots' });
+    for (let v = 1; v <= 5; v++) {
+      const id = `s-${s.id}-${v}`;
+      const input = el('input', { type: 'radio', name: `scale-${s.id}`, id, value: String(v) });
+      dots.append(input, el('label', { for: id, title: String(v) }, String(v)));
+    }
+    row.append(el('span', { class: 'r' }, s.l), dots, el('span', { class: 'l' }, s.r));
+    scalesBox.append(row);
+  }
+  const genBox = document.getElementById('general');
+  for (const g of GENERAL) {
+    const d = el('div', { class: 'rewrite' });
+    d.append(el('label', { for: `g-${g.id}` }, g.label), el('textarea', { id: `g-${g.id}`, 'data-field': 'general', 'data-item': g.id }));
+    genBox.append(d);
+  }
+
+  // State: one document per person, with every answer in it.
+  const state = { items: {}, scales: {}, general: {} };
+  const total = ITEMS.length + SCALES.length;
+  const render = () => {
+    let done = 0;
+    for (const it of ITEMS) {
+      const a = state.items[it.id] || {};
+      if (a.choice != null && a.choice !== '' || a.rewrite) done++;
+      for (const inp of document.querySelectorAll(`input[name="${it.id}"]`)) inp.checked = inp.value === a.choice;
+      const ta = document.getElementById(`r-${it.id}`);
+      if (document.activeElement !== ta) ta.value = a.rewrite || '';
+    }
+    for (const s of SCALES) {
+      const v = state.scales[s.id]; if (v) done++;
+      for (const inp of document.querySelectorAll(`input[name="scale-${s.id}"]`)) inp.checked = inp.value === v;
+    }
+    for (const g of GENERAL) { const ta = document.getElementById(`g-${g.id}`); if (document.activeElement !== ta) ta.value = state.general[g.id] || ''; }
+    document.getElementById('count').textContent = `${done} of ${total} answered`;
+    document.getElementById('bar').style.width = `${(done / total) * 100}%`;
+  };
+  render();
+
+  const statusEl = document.getElementById('status');
+  let db = null, timer = null;
+  const docRef = () => (db ? db.doc('responses/yi') : null);
+  const save = () => {
+    clearTimeout(timer);
+    timer = setTimeout(async () => {
+      const ref = docRef();
+      if (!ref) { statusEl.textContent = 'Answers cannot be saved in this view. Send them to Nastia instead.'; return; }
+      try {
+        await ref.set({ items: state.items, scales: state.scales, general: state.general, updatedAt: new Date().toISOString() });
+        statusEl.textContent = 'Saved.';
+      } catch { statusEl.textContent = 'That answer did not save. Check your connection; your answers stay on this page until it does.'; }
+    }, 600);
+  };
+  const listen = () => {
+    const ref = docRef(); if (!ref) return;
+    ref.onSnapshot((snap) => {
+      const d = snap.exists ? snap.data() : null;
+      if (d) { state.items = { ...(d.items || {}) }; state.scales = { ...(d.scales || {}) }; state.general = { ...(d.general || {}) }; render(); }
+      statusEl.textContent = 'Answers save as you go.';
+    }, () => { statusEl.textContent = 'Lost the connection. Reload the page to see saved answers.'; });
+  };
+
+  document.addEventListener('change', (e) => {
+    const t = e.target;
+    if (t.type !== 'radio') return;
+    if (t.name.startsWith('scale-')) state.scales[t.name.slice(6)] = t.value;
+    else state.items[t.name] = { ...(state.items[t.name] || {}), choice: t.value };
+    render(); save();
+  });
+  document.addEventListener('input', (e) => {
+    const t = e.target;
+    if (t.tagName !== 'TEXTAREA') return;
+    const id = t.dataset.item;
+    if (t.dataset.field === 'rewrite') state.items[id] = { ...(state.items[id] || {}), rewrite: t.value };
+    else state.general[id] = t.value;
+    render(); save();
+  });
+
+  (async () => {
+    db = window.claude?.use ? await window.claude.use('db') : null;
+    if (!db) { statusEl.textContent = 'Answers cannot be saved in this view. Send them to Nastia instead.'; return; }
+    listen();
+  })();
+})();
+</script>
