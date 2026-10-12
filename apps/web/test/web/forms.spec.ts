@@ -1,7 +1,9 @@
 // The dialog opens the right form for each entry point, and the production site
-// still never sends a submission anywhere: until a privacy notice is published, the
-// build refuses to point the form at a server, and the form hands off to mail.
+// sends no submission anywhere until a form endpoint is configured: until then the form
+// hands off to mail. A production build with analytics on carries the cookie banner.
 import { execFileSync } from 'node:child_process';
+import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from '@playwright/test';
@@ -21,37 +23,41 @@ test.describe('production guard', () => {
     }
   });
 
-  test('a production build with a form endpoint but no privacy page refuses to build', () => {
+  test('a production build with analytics on builds, and shows the cookie banner linked to the privacy policy', () => {
+    // Built into its own folder, so dist/, which the other tests read, is untouched.
+    const out = fs.mkdtempSync(path.join(os.tmpdir(), 'eunice-ga-'));
+    try {
+      execFileSync(process.execPath, ['build.ts'], {
+        cwd: WEB,
+        env: { ...process.env, SITE_ENV: 'production', PUBLIC_GA_MEASUREMENT_ID: 'G-TEST1234', OUT_DIR: out },
+        stdio: 'pipe',
+      });
+      const home = fs.readFileSync(path.join(out, 'index.html'), 'utf8');
+      expect(home).toContain('data-consent hidden');
+      expect(home).toMatch(/class="consent"[\s\S]*href="privacy-policy\/"/);
+      expect(home).toContain('"analyticsId":"G-TEST1234"');
+      expect(fs.existsSync(path.join(out, 'privacy-policy', 'index.html'))).toBe(true);
+    } finally {
+      fs.rmSync(out, { recursive: true, force: true });
+    }
+  });
+
+  test('a measurement id that is not a GA4 id refuses to build', () => {
     const build = () =>
       execFileSync(process.execPath, ['build.ts'], {
         cwd: WEB,
-        env: { ...process.env, SITE_ENV: 'production', PUBLIC_FORM_ENDPOINT: 'https://intake.example/v1/submissions' },
+        env: { ...process.env, SITE_ENV: 'local', PUBLIC_GA_MEASUREMENT_ID: 'UA-12345-1' },
         stdio: 'pipe',
       });
-    // The guard runs before the build writes anything, so dist/ — which the other,
-    // parallel tests are reading — is left exactly as it was.
-    expect(build).toThrow(/no privacy page/);
+    expect(build).toThrow(/must look like G-/);
   });
 
-  test('a production build with analytics but no privacy page refuses to build', () => {
-    const build = () =>
-      execFileSync(process.execPath, ['build.ts'], {
-        cwd: WEB,
-        env: {
-          ...process.env,
-          SITE_ENV: 'production',
-          PUBLIC_ANALYTICS_SRC: 'https://analytics.example/script.js',
-          PUBLIC_ANALYTICS_HOST: 'https://analytics.example',
-          PUBLIC_ANALYTICS_WEBSITE_ID: '6b0e6c1d-6c3a-4a3e-9d7b-0e1c2f3a4b5c',
-        },
-        stdio: 'pipe',
-      });
-    expect(build).toThrow(/Analytics is configured .* no privacy page/);
-  });
-
-  test('the built site loads no analytics until it is configured', () => {
+  test('the built site loads no analytics and shows no cookie banner until it is configured', () => {
     for (const page of ['', 'private-markets/lps/', 'careers/']) {
-      expect(readPage(page)).not.toContain('data-website-id');
+      const html = readPage(page);
+      expect(html).not.toContain('googletagmanager');
+      expect(html).not.toContain('data-consent');
+      expect(configOf(page)).not.toHaveProperty('analyticsId');
     }
   });
 

@@ -172,7 +172,9 @@ export function header(ctx: Ctx, navKey: NavKey = 'company'): Html {
 }
 
 // ---------- Footer ----------
-export function footer(ctx: Ctx): Html {
+// `consent`: the site runs Google Analytics, so the legal line offers a way back to the
+// cookie choice (GDPR: withdrawing consent is as easy as giving it).
+export function footer(ctx: Ctx, consent = false): Html {
   return html`
 <footer class="wrap footer">
   <div class="footer__grid">
@@ -196,10 +198,24 @@ export function footer(ctx: Ctx): Html {
   </div>
   <div class="footer__legal">
     <span>${config.legalLine}</span>
-    <span class="footer__legal-links"><a href="${ctx.link('privacy-policy')}">Privacy</a><a href="${ctx.link('terms-and-conditions')}">Terms</a><a href="${ctx.link('security')}">Security</a></span>
+    <span class="footer__legal-links"><a href="${ctx.link('privacy-policy')}">Privacy</a><a href="${ctx.link('terms-and-conditions')}">Terms</a><a href="${ctx.link('security')}">Security</a>${consent ? html`<button type="button" class="linklike" data-consent-open>Cookies</button>` : ''}</span>
   </div>
 </footer>`;
 }
+
+// ---------- Cookie consent ----------
+// Shown only when the build turns Google Analytics on (ADR-0013). site.js reveals it
+// until the visitor chooses, and loads Analytics only after "Accept".
+export const consentBanner = (ctx: Ctx): Html => html`
+<section class="consent" data-consent hidden aria-label="Cookies">
+  <div class="wrap consent__inner">
+    <p class="small">We use Google Analytics cookies to see which pages help and which forms work. They load only if you accept. <a href="${ctx.link('privacy-policy')}">Privacy</a></p>
+    <div class="buttons">
+      <button type="button" class="btn btn--sm btn--outline" data-consent-choice="denied">Decline</button>
+      <button type="button" class="btn btn--sm btn--dark" data-consent-choice="granted">Accept</button>
+    </div>
+  </div>
+</section>`;
 
 // ---------- Section scaffolding ----------
 // A section's label, with an aside or an action (a button) on the right.

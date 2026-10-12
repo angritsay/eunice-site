@@ -1,6 +1,6 @@
 # 12. Production runs on vendors the company already has: AWS and Google Workspace
 
-- Status: Accepted
+- Status: Superseded by [ADR-0014](0014-static-site-on-aws.md)
 - Date: 2026-09-25
 - Supersedes: the email transport in [ADR-0009](0009-broker-notifier-email.md), and the
   production proposal (Fly.io, Neon, Resend) in the plan

@@ -1,6 +1,6 @@
 // The building blocks of every form: how a field is shown and how it is validated,
-// defined once. The site renders from the display half; the intake service validates
-// with the schema half. They cannot disagree because they are the same object.
+// defined once. The site renders from the display half; the schema half states what a
+// valid submission is, for whatever receives the form (ADR-0014).
 import { z } from 'zod';
 
 /** One line of text. CR and LF are refused: these values end up in email headers. */

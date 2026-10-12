@@ -2,17 +2,13 @@
   "name": "@eunice/contracts",
   "private": true,
   "type": "module",
-  "description": "The wire format shared by the site and the services: the form registry, HTTP schemas, event schemas",
+  "description": "The contact form registry: the variants, their fields and the entry points, shared by the site's build and its tests",
   "exports": {
     ".": "./src/index.ts",
-    "./forms": "./src/forms/index.ts",
-    "./http": "./src/http/index.ts",
-    "./events": "./src/events/index.ts"
+    "./forms": "./src/forms/index.ts"
   },
   "scripts": {
-    "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json",
-    "asyncapi": "node scripts/asyncapi.ts"
+    "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "zod": "4.6.5"

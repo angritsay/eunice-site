@@ -1,7 +1,7 @@
 // The contact and application dialog, rendered from the form registry in
-// @eunice/contracts. The intake service validates submissions against the same
-// variant definitions, so what a visitor is asked and what the server accepts are
-// one object and cannot drift apart.
+// @eunice/contracts. Whatever receives a submission validates it against the same
+// variant definitions, so what a visitor is asked and what is accepted are one object
+// and cannot drift apart.
 //
 // Every variant is rendered once, as a disabled fieldset. site.js enables the one
 // that matches the button pressed: a disabled fieldset is neither validated nor

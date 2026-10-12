@@ -1,8 +1,8 @@
 // @ts-check
 // Eunice site behaviour. No framework, no dependencies: this file is all the
-// JavaScript a visitor downloads.
+// JavaScript a visitor downloads, unless they accept Google Analytics cookies (ADR-0013).
 (() => {
-  /** @type {{ preview: boolean, contactEmail: string, formEndpoint: string, page: string, audience?: string }} */
+  /** @type {{ preview: boolean, contactEmail: string, formEndpoint: string, analyticsId?: string, page: string, audience?: string }} */
   const CFG = JSON.parse(document.getElementById('eunice-config')?.textContent || '{}');
   const PREVIEW = Boolean(CFG.preview);
 
@@ -125,6 +125,63 @@
     }
   }
 
+  // ---------- Cookie consent and Google Analytics (ADR-0013) ----------
+  // Only when the build set a measurement id. Nothing from Google loads, and no cookie is
+  // set, until the visitor presses Accept. The choice is remembered on this device; the
+  // footer's "Cookies" link brings the banner back to change it.
+  if (CFG.analyticsId) {
+    const KEY = 'eunice-consent';
+    const banner = /** @type {HTMLElement | null} */ (document.querySelector('[data-consent]'));
+    /** @returns {string | null} */
+    const stored = () => {
+      try {
+        return localStorage.getItem(KEY);
+      } catch {
+        return null;
+      }
+    };
+    let loaded = false;
+    const loadAnalytics = () => {
+      if (loaded || !CFG.analyticsId) return;
+      loaded = true;
+      const w = /** @type {{ dataLayer?: unknown[], gtag?: (...args: unknown[]) => void }} */ (
+        /** @type {unknown} */ (window)
+      );
+      w.dataLayer = w.dataLayer || [];
+      w.gtag = function () {
+        // gtag.js reads the arguments object itself, so it is pushed as is.
+        // biome-ignore lint/complexity/noArguments: the documented gtag shape
+        w.dataLayer?.push(arguments);
+      };
+      w.gtag('js', new Date());
+      w.gtag('config', CFG.analyticsId);
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(CFG.analyticsId)}`;
+      document.head.append(s);
+    };
+    const choice = stored();
+    if (choice === 'granted') loadAnalytics();
+    else if (choice !== 'denied' && banner) banner.hidden = false;
+    document.addEventListener('click', (e) => {
+      const t = /** @type {HTMLElement} */ (e.target);
+      const pick = /** @type {HTMLElement | null} */ (t.closest('[data-consent-choice]'));
+      if (pick) {
+        const value = pick.dataset['consentChoice'] || 'denied';
+        try {
+          localStorage.setItem(KEY, value);
+        } catch {
+          // Private mode: the choice holds for this page only.
+        }
+        if (banner) banner.hidden = true;
+        if (value === 'granted') loadAnalytics();
+        // Declining after accepting: the next page loads without Analytics.
+        return;
+      }
+      if (t.closest('[data-consent-open]') && banner) banner.hidden = false;
+    });
+  }
+
   // ---------- Contact dialog ----------
   // Every button that opens it names a form variant (data-form) and where it sits
   // (data-placement). With this page's path and audience, that is the entry point:
@@ -138,12 +195,10 @@
       null
     );
 
-  // ---------- Form funnel analytics (ADR-0010) ----------
-  // Events go to our own Umami, if the page loaded its tracker; otherwise this does
-  // nothing. They describe the form and where it was opened — never what was typed.
-  // Read at call time: the tracker loads after this script.
-  const umami = () =>
-    /** @type {{ umami?: { track(name: string, data: object): void } }} */ (/** @type {unknown} */ (window)).umami;
+  // ---------- Form funnel analytics (ADR-0013) ----------
+  // Events go to Google Analytics, once the visitor has accepted its cookies; otherwise
+  // this does nothing. They describe the form and where it was opened — never what was typed.
+  const gtag = () => /** @type {{ gtag?: (...args: unknown[]) => void }} */ (/** @type {unknown} */ (window)).gtag;
   /** @param {string} name @param {Record<string, string | number>} [extra] */
   function track(name, extra = {}) {
     if (!open) return;
@@ -157,7 +212,7 @@
       ...extra,
     };
     try {
-      umami()?.track(name, data);
+      gtag()?.('event', name, data);
     } catch {
       // Analytics must never get in the way of a lead.
     }

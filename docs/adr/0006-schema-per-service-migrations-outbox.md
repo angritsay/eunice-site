@@ -1,6 +1,6 @@
 # 6. A schema and two roles per service, SQL migrations, a transactional outbox
 
-- Status: Accepted
+- Status: Superseded by [ADR-0014](0014-static-site-on-aws.md)
 - Date: 2026-09-25
 
 ## Context

@@ -1,6 +1,6 @@
 # 4. Service boundaries follow data classification, not load
 
-- Status: Accepted
+- Status: Superseded by [ADR-0014](0014-static-site-on-aws.md)
 - Date: 2026-09-25
 
 ## Context
