@@ -15,7 +15,7 @@ import {
   sectionHead,
   teamGrid,
 } from '../components.ts';
-import { quotes, team } from '../content/index.ts';
+import { quotes } from '../content/index.ts';
 import { type Html, html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
@@ -24,12 +24,12 @@ import { uiFilm, uiMonitor, uiRead } from '../ui.ts';
 export default {
   slug: '',
   nav: 'company',
-  title: 'Welcome to Eunice — AI-powered due diligence and monitoring',
+  title: 'Welcome to Eunice — AI-Powered Due Diligence and Monitoring',
   description:
     'Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong.',
   render: (ctx) => html`
 <section class="wrap hero-center">
-  <h1 class="h1 hero-center__title">We believe when trust is visible, markets move.</h1>
+  <h1 class="h1 hero-center__title">We Believe When Trust Is Visible, Markets Move.</h1>
   <p class="lead hero-center__lead">Source-traced due diligence and monitoring for digital assets and private markets.</p>
   <div class="buttons hero-center__buttons">
     ${button(ctx, { label: 'Book demo', form: 'general', placement: 'hero' })}
@@ -48,12 +48,11 @@ export default {
     lead: {
       logo: 'sifted.svg',
       name: 'Sifted',
-      text: '100 fastest-growing startups in the UK & Ireland',
-      note: 'By revenue, 2026',
+      text: '100 fastest-growing startups in the UK & Ireland by revenue, 2026',
     },
     rows: [
-      { n: '$8m', label: 'Seed and pre-seed' },
-      { n: '$1.4T+', label: 'In assets overseen by the allocators who rely on Eunice' },
+      { n: '$8m', label: 'Seed and pre-seed raised' },
+      { n: '$1.4T+', label: 'In AUM, managed by the asset allocators who trust Eunice' },
       { n: 'Fintech 50', label: 'TechRound, 2026' },
     ],
   })}
@@ -81,16 +80,16 @@ export default {
 </section>
 
 <section class="band section" id="trust"><div class="wrap">
-  ${sectionHead('Security and transparency, by design')}
+  ${sectionHead('Security and Transparency, by Design')}
   ${facts([
     { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; the report is available on request' },
     { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
     {
       art: 'noTrain',
-      title: 'No training on your data',
+      title: 'No Training on Your Data',
       text: 'Your documents are never used to train models. They stay yours.',
     },
-    { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
+    { art: 'cite', title: 'Every Finding', text: 'Cited to the page it came from' },
   ])}
   <div class="buttons">
     ${button(ctx, { label: 'Our Trust Centre on Vanta', href: config.trustCenterUrl, newTab: true })}
@@ -99,14 +98,14 @@ export default {
 </div></section>
 
 <section class="wrap section">
-  ${sectionHead('What the people who use it say')}
+  ${sectionHead('What the People Who Use It Say')}
   <div class="grid grid--3 quotes">
     ${quoteBlock(quotes.fof)}${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}
   </div>
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Our team', team.intro)}
+  ${sectionHead('Our Team')}
   ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'], {
     line: 'GTM for digital assets, client implementation for private markets, senior engineering.',
   })}
@@ -114,7 +113,7 @@ export default {
 </section>
 
 <section class="band section" id="why"><div class="wrap">
-  ${sectionHead('So, why “Eunice”?')}
+  ${sectionHead('So, Why “Eunice”?')}
   <div class="why">
     <p class="body muted">We get asked this a lot :)</p>
     <p class="body">In 1856, Eunice Newton Foote found the science behind the greenhouse effect. Then someone else got the credit for over a century. She did all this while raising two children, which makes it even more impressive.</p>
@@ -124,11 +123,7 @@ export default {
 
 ${insightsBlock(ctx, { label: 'Insights', featured: 3, rows: 5 })}
 
-${cta(ctx, {
-  title: 'Bring us the fund, or the token, you are reviewing now',
-  text: 'A thirty-minute call with the desk that would run it. We show you what Eunice reads and what it returns; you decide.',
-  buttons: [{ label: 'Book demo', kind: 'light', form: 'general' }],
-})}`,
+${cta(ctx, { demo: 'general' })}`,
 } satisfies Page;
 
 function tile(

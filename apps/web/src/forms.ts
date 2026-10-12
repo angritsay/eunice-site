@@ -29,7 +29,9 @@ function control(variant: Variant, f: FieldSpec): Html {
     const options = (f.options ?? []).map((o) => html`<option>${o}</option>`);
     input = html`<select ${attrs}><option value="">Choose one</option>${options}</select>`;
   } else input = html`<input ${attrs} type="${INPUT_TYPES[f.kind]}">`;
-  return html`<label class="field${f.wide ? ' full' : ''}"><span>${f.label}</span>${input}</label>`;
+  // Only the email is ever needed to ask for a demo: anything else says so.
+  const label = f.required ? f.label : `${f.label} (optional)`;
+  return html`<label class="field${f.wide ? ' full' : ''}"><span>${label}</span>${input}</label>`;
 }
 
 const fieldset = (v: Variant) => html`
@@ -45,7 +47,7 @@ export const dialog = ({ contactEmail }: { contactEmail: string }) => html`
 <dialog class="dialog" id="talk" aria-labelledby="talk-title">
   <div class="dialog__in">
     <div class="dialog__head">
-      <h2 class="h3" id="talk-title" data-title>Talk to us</h2>
+      <h2 class="h3" id="talk-title" data-title>Talk to Us</h2>
       <button type="button" class="dialog__close" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
     <p class="small muted dialog__lead" data-lead></p>

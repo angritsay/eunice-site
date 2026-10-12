@@ -55,11 +55,9 @@ ${article(ctx, {
 })}
 
 ${cta(ctx, {
-  title: `Apply: ${live.title}`,
-  text: `Applications go through our application form. Not the right role? Write to ${config.careersEmail}.`,
   buttons: [
-    { label: 'Apply', kind: 'light', href: role.applyUrl, newTab: true },
-    { label: 'All roles', kind: 'outline-light', to: 'careers', hash: 'roles' },
+    { label: 'Apply', kind: 'dark', href: role.applyUrl, newTab: true },
+    { label: 'All roles', kind: 'outline', to: 'careers', hash: 'roles' },
   ],
 })}`,
   } satisfies Page;

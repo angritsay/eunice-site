@@ -37,13 +37,13 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     desk: 'private-markets',
     nav: 'For LPs',
     card: {
-      title: 'LPs and asset owners',
+      title: 'LPs and Asset Owners',
       text: 'Ten fund documents, one committee, and a question you have to answer by Thursday.',
     },
-    title: 'Eunice for LPs and asset owners — operational due diligence',
+    title: 'Eunice for LPs and Asset Owners — Operational Due Diligence',
     description:
       'Every fund document read against the ODD checklist you already use, every finding cited to its page, and the same questions asked again each quarter.',
-    h1: 'Diligence on every fund, before the committee sits',
+    h1: 'Diligence on Every Fund, Before the Committee Sits',
     lead: 'An agent does the messy work — chasing the data down and checking it is right. Investment and operational due diligence, then monitoring, against the checklist you already use.',
     now: [
       'Ten fund documents arrive, the committee date is fixed, and the answer you need is not in the summary.',
@@ -52,20 +52,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'Your checklist, not ours',
+        title: 'Your Checklist, Not Ours',
         text: 'Every PPM, DDQ, LPA, valuation policy and audited statement read against the ODD checklist your committee already signed off.',
       },
       {
-        title: 'What is missing is the finding',
+        title: 'What Is Missing Is the Finding',
         text: 'The gap is the output, not a summary of what is present. Every finding cites the page it came from, so the committee can check it.',
       },
       {
-        title: 'Asked again each quarter',
+        title: 'Asked Again Each Quarter',
         text: 'The same questions run across every fund you hold, as often as suits your cycle. What changed comes back as a diff.',
       },
     ],
     cta: {
-      title: 'Talk to us about the fund you are reviewing now',
+      title: 'Talk to Us About the Fund You Are Reviewing Now',
       text: 'A thirty-minute call with the desk. Bring the fund; we show you what Eunice reads, what it returns and how the quarterly cycle runs.',
     },
   },
@@ -73,11 +73,11 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     id: 'managers',
     desk: 'private-markets',
     nav: 'For Managers',
-    card: { title: 'Fund managers', text: 'The same ODD questionnaire, asked eleven ways, by eleven different LPs.' },
-    title: 'Eunice for fund managers — answer the diligence questionnaire once',
+    card: { title: 'Fund Managers', text: 'The same ODD questionnaire, asked eleven ways, by eleven different LPs.' },
+    title: 'Eunice for Fund Managers — Answer the Diligence Questionnaire Once',
     description:
       'The same ODD questionnaire arrives eleven ways from eleven LPs. Eunice reads your own documents once and answers from them, with the page attached.',
-    h1: 'Answer the same questionnaire once',
+    h1: 'Answer the Same Questionnaire Once',
     lead: 'Eleven LPs, eleven formats, one set of facts. Eunice reads your own documents once and answers from them, so the version that goes out is the version you can stand behind.',
     now: [
       'The same question arrives in eleven shapes, and each one is answered from scratch.',
@@ -86,20 +86,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'Read your side once',
+        title: 'Read Your Side Once',
         text: 'Your fund documents, policies and statements read into one structure, so every answer comes from the same place.',
       },
       {
-        title: 'Answer in the LP’s format',
+        title: 'Answer in the LP’s Format',
         text: 'The questionnaire in front of you filled from that structure, with the page each answer came from attached.',
       },
       {
-        title: 'Stay true after the raise',
+        title: 'Stay True After the Raise',
         text: 'When a document changes, the answers that depended on it are flagged rather than quietly going stale.',
       },
     ],
     cta: {
-      title: 'Bring us the questionnaire on your desk',
+      title: 'Bring Us the Questionnaire on Your Desk',
       text: 'Send the one you are answering this week. We will show you what Eunice fills from your own documents, and what it leaves for you.',
     },
   },
@@ -107,11 +107,11 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     id: 'family-offices',
     desk: 'private-markets',
     nav: 'For Family Offices',
-    card: { title: 'Family offices', text: 'Enable you to do more with a lean team.' },
-    title: 'Eunice for family offices — the diligence of a full team',
+    card: { title: 'Family Offices', text: 'Enable you to do more with a lean team.' },
+    title: 'Eunice for Family Offices — The Diligence of a Full Team',
     description:
       'Run the diligence of a full team, whatever the size of yours. Fewer people, the same rigour, better decisions.',
-    h1: 'The diligence of a full team, whatever the size of yours',
+    h1: 'The Diligence of a Full Team, Whatever the Size of Yours',
     lead: 'Fewer people, the same rigour. The work that would need a diligence team runs against your checklist, and what comes back is a memo your principals can read.',
     now: [
       'The diligence that decides the allocation is done by the person who also runs everything else.',
@@ -120,20 +120,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'One checklist, held for you',
+        title: 'One Checklist, Held for You',
         text: 'Your standard written down once and applied to every fund, so the bar does not move with whoever is free that week.',
       },
       {
-        title: 'The reading done for you',
+        title: 'The Reading Done for You',
         text: 'The dataroom read in full, with the findings and their page references in a memo your principals can take to a meeting.',
       },
       {
-        title: 'A record that outlasts the week',
+        title: 'A Record That Outlasts the Week',
         text: 'What was asked, what came back and what changed since, kept in one place rather than in an inbox.',
       },
     ],
     cta: {
-      title: 'Put one fund through it',
+      title: 'Put One Fund Through It',
       text: 'Pick a fund you are looking at now. We will run it and show you the memo, the findings and the page each one came from.',
     },
   },
@@ -142,10 +142,10 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     desk: 'digital-assets',
     nav: 'For Exchanges',
     card: { title: 'Exchanges', text: 'A listing queue that grows faster than the team reviewing it.' },
-    title: 'Eunice for exchanges — listing diligence your committee signs off on',
+    title: 'Eunice for Exchanges — Listing Diligence Your Committee Signs Off On',
     description:
       'One report per token covering the team, the code, the reserve where there is one, and the jurisdiction, in the shape a listing committee already signs off on.',
-    h1: 'A listing queue the review team can keep up with',
+    h1: 'A Listing Queue the Review Team Can Keep Up With',
     lead: 'One report per token — the team, the code, the reserve where there is one, and the jurisdiction — in the shape your listing committee already signs off on.',
     now: [
       'The queue grows faster than the team reviewing it, and the backlog is the product decision.',
@@ -154,20 +154,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'One report per token',
+        title: 'One Report per Token',
         text: 'Team, code, reserve where there is one, and jurisdiction in a single document, in the format the committee already reads.',
       },
       {
-        title: 'The same standard every time',
+        title: 'The Same Standard Every Time',
         text: 'The review runs the same way whoever is on the desk, and every claim carries the source it came from.',
       },
       {
-        title: 'Cleared once, across regimes',
+        title: 'Cleared Once, Across Regimes',
         text: 'MiCA, the UK regime, MAS and VARA in one view, so a cleared asset is not re-cleared from nothing.',
       },
     ],
     cta: {
-      title: 'Put one token through it',
+      title: 'Put One Token Through It',
       text: 'Pick a token in your queue now. We will run it and show you the report and the monitoring feed side by side.',
     },
   },
@@ -177,10 +177,10 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     nav: 'For Custodians',
     quote: 'zodia',
     card: { title: 'Custodians', text: 'You hold the asset. You are the last to hear when something moves.' },
-    title: 'Eunice for custodians — monitoring with the source attached',
+    title: 'Eunice for Custodians — Monitoring with the Source Attached',
     description:
       'Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached.',
-    h1: 'Hear it from the source, not from a client',
+    h1: 'Hear It from the Source, Not from a Client',
     lead: 'You hold the asset, so you should not be the last to know. Exploits, protocol changes, enforcement actions and reserve movements, surfaced the same day, with the source attached.',
     now: [
       'The first notice of an exploit is a client asking about it.',
@@ -189,20 +189,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'Watched, not sampled',
+        title: 'Watched, Not Sampled',
         text: 'Every token you hold monitored continuously rather than revisited at review time.',
       },
       {
-        title: 'The day it lands',
+        title: 'The Day It Lands',
         text: 'Exploits, protocol changes, enforcement actions and reserve movements surfaced the same day, each with its source named.',
       },
       {
-        title: 'Something you can forward',
+        title: 'Something You Can Forward',
         text: 'What reaches you is specific enough to act on and sourced well enough to send to a client.',
       },
     ],
     cta: {
-      title: 'Point it at what you hold',
+      title: 'Point It at What You Hold',
       text: 'Give us a handful of the assets on your book. We will show you what the monitoring feed would have told you this quarter.',
     },
   },
@@ -211,11 +211,11 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     desk: 'digital-assets',
     nav: 'For Market Makers',
     quote: 'libeara',
-    card: { title: 'Market makers', text: 'Inventory in something whose disclosure changed this morning.' },
-    title: 'Eunice for market makers — know what changed before the position does',
+    card: { title: 'Market Makers', text: 'Inventory in something whose disclosure changed this morning.' },
+    title: 'Eunice for Market Makers — Know What Changed Before the Position Does',
     description:
       'Inventory in an asset whose disclosure changed this morning is a risk you can price, if you hear about it in time.',
-    h1: 'Know what changed before the position does',
+    h1: 'Know What Changed Before the Position Does',
     lead: 'Inventory in an asset whose disclosure changed this morning is a risk you can price — as long as you hear about it in time, and with the source attached.',
     now: [
       'The disclosure changed at 09:00 and the position was still on at noon.',
@@ -224,20 +224,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'A view per token',
+        title: 'A View per Token',
         text: 'The team, the code, the reserve where there is one, and the jurisdiction in one place, so the reason for holding is written down.',
       },
       {
-        title: 'Changes as they land',
+        title: 'Changes as They Land',
         text: 'Protocol changes, enforcement actions and reserve movements surfaced the same day, with the source named.',
       },
       {
-        title: 'Defensible to risk',
+        title: 'Defensible to Risk',
         text: 'Every claim cites where it came from, so the position has a record behind it rather than a recollection.',
       },
     ],
     cta: {
-      title: 'Run it against your book',
+      title: 'Run It Against Your Book',
       text: 'Send us the assets you make markets in. We will show you what changed on them in the last quarter, and when we would have told you.',
     },
   },
@@ -246,10 +246,10 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     desk: 'token-disclosure',
     nav: 'For Issuers',
     card: { title: 'Issuers', text: 'A white paper that has to be accepted once, and stay true after that.' },
-    title: 'Eunice for issuers — a MiCA white paper accepted once',
+    title: 'Eunice for Issuers — A MiCA White Paper Accepted Once',
     description:
       'From the team behind 30+ MiCA white papers filed through 4 NCAs: drafted, reviewed where a legal opinion is needed, notified to the authority and hosted where anyone can check it.',
-    h1: 'A white paper accepted once',
+    h1: 'A White Paper Accepted Once',
     lead: 'From the team behind 30+ MiCA white papers filed through 4 NCAs: drafted, reviewed where a legal opinion is needed, notified to the authority, and hosted on a page anyone can open.',
     now: [
       'The paper has to be right before it is filed, and there is no second first submission.',
@@ -258,20 +258,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'Drafted by a team that files them',
+        title: 'Drafted by a Team That Files Them',
         text: 'A MiCA white paper drafted by the team behind 30+ papers filed through 4 NCAs, so the starting point has already been through this.',
       },
       {
-        title: 'Reviewed where it counts',
-        text: 'CMS reviews the points that need a legal opinion, rather than a legal bill for the whole document.',
+        title: 'Reviewed Where It Counts',
+        text: 'A law firm reviews the points that need a legal opinion, rather than a legal bill for the whole document.',
       },
       {
-        title: 'Notified and hosted',
+        title: 'Notified and Hosted',
         text: 'Notified to the authority and hosted on a public page, so there is one address for the version that stands.',
       },
     ],
     cta: {
-      title: 'Start a white paper',
+      title: 'Start a White Paper',
       text: 'Tell us about the token and the jurisdiction. We will show you how the draft would come together and what would still need an opinion.',
     },
   },
@@ -280,10 +280,10 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     desk: 'token-disclosure',
     nav: 'For Counsel',
     card: { title: 'Counsel', text: 'A draft that arrives in the shape the regime asks for.' },
-    title: 'Eunice for counsel — review the paper, not the boilerplate',
+    title: 'Eunice for Counsel — Review the Paper, Not the Boilerplate',
     description:
       'The draft arrives in the shape the regime asks for, so the hours go on the judgement calls rather than on assembling a document from nothing.',
-    h1: 'Review the paper, not the boilerplate',
+    h1: 'Review the Paper, Not the Boilerplate',
     lead: 'The draft arrives already in the shape the regime asks for, so your hours go on the judgement calls rather than on assembling a document from nothing.',
     now: [
       'The first draft is a blank page, and the first week goes on structure.',
@@ -292,20 +292,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'Structure already settled',
+        title: 'Structure Already Settled',
         text: 'The draft follows the regime’s own shape, from the team behind 30+ papers filed through 4 NCAs, so review starts at the substance.',
       },
       {
-        title: 'Opinions where they are needed',
-        text: 'CMS reviews the points that need one. UK token classification runs with gunnercooke, since July 2026.',
+        title: 'Opinions Where They Are Needed',
+        text: 'A law firm reviews the points that need one. UK token classification runs with gunnercooke, since July 2026.',
       },
       {
-        title: 'A version you can point at',
+        title: 'A Version You Can Point At',
         text: 'What was notified is hosted publicly, so advice given later refers to a document anyone can open.',
       },
     ],
     cta: {
-      title: 'Put a live matter through it',
+      title: 'Put a Live Matter Through It',
       text: 'Bring a paper you are drafting now. We will show you what we would fill and what we would leave to you.',
     },
   },
@@ -314,10 +314,10 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     desk: 'token-disclosure',
     nav: 'For Exchanges',
     card: { title: 'Exchanges', text: 'Check what an issuer published, without asking them for it.' },
-    title: 'Eunice for exchanges — check the disclosure yourself',
+    title: 'Eunice for Exchanges — Check the Disclosure Yourself',
     description:
       'Every paper Eunice notifies is hosted on a public page, so a listing team can read what an issuer published without a request and a wait.',
-    h1: 'Check the disclosure yourself',
+    h1: 'Check the Disclosure Yourself',
     lead: 'Every paper Eunice notifies is hosted on a page anyone can open, so a listing team reads what the issuer published without sending a request and waiting on the answer.',
     now: [
       'The disclosure arrives as an attachment in a thread, and nobody is certain it is the current one.',
@@ -326,20 +326,20 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'One public address',
+        title: 'One Public Address',
         text: 'A notified paper lives on a page anyone can open, so there is nothing to request and nothing to chase.',
       },
       {
-        title: 'The version that stands',
+        title: 'The Version That Stands',
         text: 'The hosted page carries the paper as it stands, so what a listing team reads is what is true today rather than an attachment from a thread.',
       },
       {
-        title: 'Beside the listing report',
+        title: 'Beside the Listing Report',
         text: 'The same desk produces the listing diligence report, so the disclosure and the review sit together.',
       },
     ],
     cta: {
-      title: 'Look up a token you are reviewing',
+      title: 'Look Up a Token You Are Reviewing',
       text: 'Name a token in your queue. We will show you what the register holds on it, and what the listing report adds.',
     },
   },
@@ -417,11 +417,11 @@ export const people = contentRecord('people', Person, {
 });
 
 export const team = content('team', TeamFacts, {
-  headline: 'We build the accountability layer between AI and high-stakes decisions',
+  headline: 'We Build the Accountability Layer Between AI and High-Stakes Decisions',
   standfirst:
     'A team of AI pioneers, domain experts, and founders building due diligence infrastructure for regulated financial markets',
   intro: 'A team of AI pioneers, domain experts and founders shaping the future of private markets.',
-  storyTitle: 'A company built on accountability',
+  storyTitle: 'A Company Built on Accountability',
   founded: 'Founded in 2023 · headquartered in London',
   story: [
     'Generative AI swept into financial workflows — and institutions struggled to use it for anything that mattered. The problem wasn’t capability. It was accountability.',
@@ -429,30 +429,30 @@ export const team = content('team', TeamFacts, {
     'So we built Eunice: AI for monitoring in regulated finance, engineered for decisions that cannot afford to be wrong. Today serving institutions, funds, issuers, and regulators across the US, EU, UK and Singapore.',
   ],
   hiring: 'We’re always ready to hear from smart, curious, and ambitious people who share our mission and vision.',
-  perksTitle: 'A real problem. A real team. Real impact for getting it right',
+  perksTitle: 'A Real Problem. A Real Team. Real Impact for Getting It Right',
   perks: [
     {
-      title: 'Work on AI that matters',
+      title: 'Work on AI That Matters',
       text: 'Your code ships into regulated financial workflows — where every output has to be defensible. No demo theatre.',
     },
     {
-      title: 'London-based, remote-friendly',
+      title: 'London-Based, Remote-Friendly',
       text: 'Work where you do your best work. Regular team gatherings in London to keep the in-person muscle strong.',
     },
     {
-      title: 'Generous time off + flexibility',
+      title: 'Generous Time Off + Flexibility',
       text: 'We trust you to manage your time. Take the breaks you need to do the best work of your career.',
     },
     {
-      title: 'Competitive comp + meaningful equity',
+      title: 'Competitive Comp + Meaningful Equity',
       text: 'Top-of-market salary and material equity for the stage. We share the upside of building the category.',
     },
     {
-      title: 'Learn from people who’ve shipped this before',
+      title: 'Learn from People Who’ve Shipped This Before',
       text: 'Founders with backgrounds in compliance, capital markets law, and ML research. You’ll be in rooms that matter.',
     },
     {
-      title: 'Health plan, learning budget & equipment',
+      title: 'Health Plan, Learning Budget & Equipment',
       text: 'SimplyHealth plan, a dedicated learning budget, the equipment to do your best work from anywhere — and bubble tea on the house.',
     },
   ],
@@ -469,7 +469,7 @@ export const insights = content('insights', z.array(Insight), [
   {
     date: '2026-09-16',
     desk: 'company',
-    type: 'Press',
+    type: 'Note',
     title: 'Our London office has moved to St Paul’s',
     standfirst:
       'We’re now right by St Paul’s, in the heart of the City of London, a short walk from many of the institutions we work with.',
@@ -534,6 +534,7 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Press',
     title: 'Eunice makes the Fintech 50',
     post: 'eunice-makes-the-fintech-50',
+    standfirst: 'TechRound ranked Eunice #43 among the 50 most promising fintech companies of 2026.',
   },
   {
     date: '2026-03-27',
@@ -541,6 +542,8 @@ export const insights = content('insights', z.array(Insight), [
     type: 'Press',
     title: 'Eunice raises $8m to replace manual due diligence with institutional-grade AI infrastructure',
     post: 'eunice-raises-8m-to-replace-manual-due-diligence',
+    standfirst:
+      'Seed funding from Moonfire, Speedinvest, Openspace Capital and Locus Ventures, as we expand into private markets.',
   },
   {
     date: '2025-12-02',
@@ -646,6 +649,7 @@ export const events = content('events', z.array(Event), [
     desks: ['private-markets', 'digital-assets'],
     name: 'London FinTech delegation to Singapore',
     note: 'A week of meetings with the exchanges and custodians that operate under MAS.',
+    post: 'eunice-is-part-of-the-london-fintech-delegation-to-singapore',
   },
   {
     month: '2024-10',

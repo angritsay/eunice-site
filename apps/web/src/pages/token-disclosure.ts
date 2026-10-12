@@ -19,14 +19,14 @@ const DESK = 'token-disclosure';
 export default {
   slug: DESK,
   nav: DESK,
-  title: 'Eunice Token Disclosure — MiCA white papers, notified and hosted',
+  title: 'Eunice Token Disclosure — MiCA White Papers, Notified and Hosted',
   description:
-    'A MiCA white paper drafted for you, reviewed by CMS where a legal opinion is needed, notified to the authority and hosted on a public page. 30+ filed through 4 NCAs.',
+    'A MiCA white paper drafted for you, reviewed by a law firm where a legal opinion is needed, notified to the authority and hosted on a public page. 30+ filed through 4 NCAs.',
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <h1 class="h1">A white paper accepted once, and true after that</h1>
-    <p class="lead">A MiCA white paper drafted for you, reviewed by CMS, notified and published where any exchange can check it. 30+ filed through 4 NCAs.</p>
+    <h1 class="h1">A White Paper Accepted Once, and True After That</h1>
+    <p class="lead">A MiCA white paper drafted for you, reviewed by a law firm, notified and published where any exchange can check it. 30+ filed through 4 NCAs.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Start a white paper', form: DESK, placement: 'hero' })}
       ${button(ctx, { label: 'The register', kind: 'outline', to: `${DESK}/register` })}
@@ -37,27 +37,11 @@ export default {
 
 ${whoCards(ctx, {
   desk: DESK,
-  title: 'One paper, three readers',
-  lead: 'The issuer who publishes it, the counsel who reviews it and the exchange that checks it.',
+  title: 'One Paper, Three Readers',
   clients: [
-    {
-      who: 'Issuers',
-      line: audienceLine(DESK, 'issuers'),
-      needs: ['30+ filed through 4 NCAs', 'Notified and hosted'],
-      to: `${DESK}/issuers`,
-    },
-    {
-      who: 'Counsel',
-      line: audienceLine(DESK, 'counsel'),
-      needs: ['Reviewed where an opinion is needed', 'UK token classification'],
-      to: `${DESK}/counsel`,
-    },
-    {
-      who: 'Exchanges',
-      line: audienceLine(DESK, 'exchanges'),
-      needs: ['Public disclosure pages', 'The register'],
-      to: `${DESK}/exchanges`,
-    },
+    { who: 'Issuers', line: audienceLine(DESK, 'issuers'), art: 'issuer', to: `${DESK}/issuers` },
+    { who: 'Counsel', line: audienceLine(DESK, 'counsel'), art: 'legal', to: `${DESK}/counsel` },
+    { who: 'Exchanges', line: audienceLine(DESK, 'exchanges'), art: 'exchange', to: `${DESK}/exchanges` },
   ],
 })}
 
@@ -68,15 +52,15 @@ ${whoCards(ctx, {
       title: 'FCA Regulatory Sandbox',
       text: 'Participant since November 2025, testing disclosure standards',
     },
-    { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
+    { art: 'legal', title: 'Reviewed by a Law Firm', text: 'Where a legal opinion is needed' },
     { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
-    { art: 'library', title: '30+ MiCA white papers', text: 'Filed through 4 NCAs' },
+    { art: 'library', title: '30+ MiCA White Papers', text: 'Filed through 4 NCAs' },
   ])}
 </section>
 
 ${feature({
   id: 'draft',
-  title: 'Drafted by a team that files them',
+  title: 'Drafted by a Team That Files Them',
   desk: DESK,
   body: html`<p class="body muted">A MiCA white paper drafted by the team behind 30+ papers filed through 4 NCAs, so the starting point has already been through the regime rather than a blank page.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiRead(DESK) }),
@@ -84,21 +68,21 @@ ${feature({
 
 ${feature({
   id: 'review',
-  title: 'Reviewed where it counts',
+  title: 'Reviewed Where It Counts',
   desk: DESK,
   flip: true,
-  body: html`<p class="body muted">CMS reviews the points that need a legal opinion, rather than a legal bill for the whole document. UK token classification runs with gunnercooke.</p>`,
+  body: html`<p class="body muted">A law firm reviews the points that need a legal opinion, rather than a legal bill for the whole document. UK token classification runs with gunnercooke.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiReport(DESK) }),
 })}
 
 ${feature({
   id: 'notify',
-  title: 'Notified, then hosted',
+  title: 'Notified, Then Hosted',
   desk: DESK,
   body: html`<p class="body muted">Notified to the authority and published to the register, so there is one address for the version that stands and nobody has to email an attachment to prove it.</p>`,
   visual: html`<ol class="steps steps--${DESK}">
     <li><span class="h4">Draft</span><span class="small muted">In the shape the regime asks for.</span></li>
-    <li><span class="h4">Review</span><span class="small muted">CMS on the points that need an opinion.</span></li>
+    <li><span class="h4">Review</span><span class="small muted">A law firm on the points that need an opinion.</span></li>
     <li><span class="h4">Notify</span><span class="small muted">Filed with the authority for the jurisdiction.</span></li>
     <li><span class="h4">Host</span><span class="small muted">Published to the register, open to anyone.</span></li>
   </ol>`,
@@ -106,7 +90,7 @@ ${feature({
 
 <section class="band band--td section" id="register"><div class="wrap feature feature--flat">
   <div class="feature__text">
-    <h2 class="h2 td-title">${mark(21, '#b27a14')}The register</h2>
+    <h2 class="h2 td-title">${mark(21, '#b27a14')}The Register</h2>
     <p class="body">Every paper we notify is hosted on a public page. An exchange, a counterparty or an authority can read what an issuer published without asking the issuer for it.</p>
     <div class="buttons">${button(ctx, { label: 'See the register', to: `${DESK}/register` })}</div>
   </div>
@@ -114,8 +98,7 @@ ${feature({
 </div></section>
 
 ${insightsBlock(ctx, {
-  label: 'Insights on token disclosure',
-  aside: 'Regulation and disclosure, as they change.',
+  label: 'Insights on Token Disclosure',
   deskFilter: [DESK],
   featured: 1,
   rows: 4,
@@ -123,11 +106,10 @@ ${insightsBlock(ctx, {
 })}
 
 ${cta(ctx, {
-  title: 'Start a white paper',
-  text: 'Tell us about the token and the jurisdiction. We will show you how the draft would come together, and what would still need an opinion.',
+  demo: DESK,
   buttons: [
-    { label: 'The register', kind: 'outline-light', to: `${DESK}/register` },
-    { label: 'Start a white paper', kind: 'light', form: DESK },
+    { label: 'The register', kind: 'outline', to: `${DESK}/register` },
+    { label: 'Start a white paper', kind: 'outline', form: DESK },
   ],
 })}`,
 } satisfies Page;

@@ -37,7 +37,7 @@ export interface NavItem {
   readonly to?: string | undefined;
   readonly hash?: string | undefined;
   readonly query?: string | undefined;
-  /** An external URL, or 'login' for the product's sign-in page. */
+  /** An external URL. */
   readonly href?: string | undefined;
   /** Opens the contact dialog with this form variant. */
   readonly form?: string | undefined;

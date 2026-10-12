@@ -10,11 +10,9 @@ export interface SiteConfig {
   careersEmail: string;
   formEndpoint: string;
   basePath: string;
-  loginUrl: string;
   trustCenterUrl: string;
   menus: { id: string; label: string; to: string; keys: NavKey[]; items: NavItem[] }[];
   lockups: Partial<Record<NavKey, string>>;
-  loginOn: NavKey[];
   footer: { title: string; links: NavItem[] }[];
 }
 
@@ -45,7 +43,6 @@ const config: SiteConfig = {
   // '/<repo-name>/' while it lives at <user>.github.io/<repo-name>. Only the 404 page uses it.
   basePath: process.env['BASE_PATH'] || '/',
 
-  loginUrl: 'https://app.eunice.ai', // TODO: confirm
   trustCenterUrl: TRUST_CENTER,
 
   // One header on every page: three menus, each a landing page with a dropdown of
@@ -95,8 +92,6 @@ const config: SiteConfig = {
     'digital-assets': 'Digital Assets',
     'token-disclosure': 'Token Disclosure',
   },
-  // The product sign-in is for digital assets clients only, so it shows on those pages.
-  loginOn: ['digital-assets', 'token-disclosure'],
 
   footer: [
     { title: 'Private Markets', links: tabs('private-markets') },
@@ -127,7 +122,7 @@ const config: SiteConfig = {
     {
       title: 'Company',
       links: [
-        { label: 'About Us', to: '', hash: 'why' },
+        { label: 'About Us', to: 'company' },
         { label: 'Careers', to: 'careers' },
         { label: 'Blog', to: 'blog' },
         { label: 'Security', to: 'security' },

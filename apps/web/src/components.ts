@@ -59,7 +59,6 @@ export const fmtMonth = (ym: string) => {
 
 // Resolve a nav/link item to an href.
 export function href(ctx: Ctx, item: Omit<NavItem, 'label'>): string {
-  if (item.href === 'login') return config.loginUrl;
   if (item.href) return item.href;
   return ctx.link(item.to, item.hash, item.query);
 }
@@ -96,7 +95,8 @@ export const deskLabel = (desk: Desk, extra = '') =>
 // the entry point the submission records: which page, which button, which form.
 export interface ButtonOptions {
   label: string;
-  kind?: 'dark' | 'light' | 'outline' | 'outline-light';
+  /** 'desk' fills the button with the colour of the desk its form belongs to. */
+  kind?: 'dark' | 'light' | 'outline' | 'outline-light' | 'desk';
   small?: boolean;
   to?: string;
   hash?: string;
@@ -124,7 +124,8 @@ export function button(
     newTab = false,
   }: ButtonOptions,
 ): Html {
-  const cls = `btn btn--${kind}${small ? ' btn--sm' : ''}`;
+  const fill = kind === 'desk' ? `desk-${form ?? 'general'}` : kind;
+  const cls = `btn btn--${fill}${small ? ' btn--sm' : ''}`;
   if (form !== undefined) {
     return html`<button type="button" class="${cls}" data-form="${form}" data-placement="${placement}">${label}</button>`;
   }
@@ -138,7 +139,6 @@ const CHEVRON = html`<svg width="12" height="12" viewBox="0 0 24 24" fill="none"
 export function header(ctx: Ctx, navKey: NavKey = 'company'): Html {
   const deskForm = navKey === 'company' ? 'general' : navKey;
   const lockup = config.lockups[navKey];
-  const login = config.loginOn.includes(navKey);
   // Keyed by page: preview.html holds every page in one document.
   const idFor = (menu: string) => `menu-${(ctx.slug || 'home').replaceAll('/', '-')}-${menu}`;
   return html`
@@ -157,12 +157,10 @@ export function header(ctx: Ctx, navKey: NavKey = 'company'): Html {
     )}
     </ul>
     <span class="nav__mobile-extra">
-      ${login ? html`<a href="${config.loginUrl}">User login</a>` : ''}
       <button type="button" class="btn btn--dark" data-form="${deskForm}" data-placement="nav">Book demo</button>
     </span>
   </nav>
   <div class="nav__actions">
-    ${login ? html`<a class="btn btn--outline nav__login" href="${config.loginUrl}">User login</a>` : ''}
     <button type="button" class="btn btn--dark" data-form="${deskForm}" data-placement="nav">Book demo</button>
     <button type="button" class="nav__menu" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
@@ -218,9 +216,8 @@ export const consentBanner = (ctx: Ctx): Html => html`
 </section>`;
 
 // ---------- Section scaffolding ----------
-// A section's label, with an aside or an action (a button) on the right.
-export const sectionHead = (label: string, aside = '', action: Html | '' = '') =>
-  html`<div class="shead"><h2 class="shead__title">${label}</h2>${aside ? html`<p class="shead__aside">${aside}</p>` : ''}${action ? html`<div class="shead__action">${action}</div>` : ''}</div>`;
+// A section's label: the heading alone, no aside under or beside it (owner's call, Oct 2026).
+export const sectionHead = (label: string) => html`<div class="shead"><h2 class="shead__title">${label}</h2></div>`;
 
 // Every fact carries its picture (art.ts), so the row reads before its words do.
 export const facts = (
@@ -239,7 +236,7 @@ export const numbers = (
     lead,
     rows,
   }: {
-    lead: { logo: string; name: string; text: string; note: string };
+    lead: { logo: string; name: string; text: string; note?: string };
     rows: readonly { n: string; label: string }[];
   },
 ) => {
@@ -250,7 +247,7 @@ export const numbers = (
   <div class="numbers__lead">
     <img src="${ctx.asset(`img/logos/${lead.logo}`)}" alt="${lead.name}" width="${w}" height="${h}">
     <p class="h2">${lead.text}</p>
-    <p class="small muted">${lead.note}</p>
+    ${lead.note ? html`<p class="small muted">${lead.note}</p>` : ''}
   </div>
   <ul class="numbers__rows">
     ${rows.map((r) => html`<li><span class="h3">${r.n}</span><span class="small muted">${r.label}</span></li>`)}
@@ -296,7 +293,7 @@ export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
 // them. Each half of the track holds at least ten logos, so a short row still fills
 // the width. Under reduced motion the copies go and the row stands still.
 const FIRMS = {
-  clients: { label: 'Clients', firms: clients },
+  clients: { label: 'Trusted by leading firms', firms: clients },
   partners: { label: 'Partners', firms: partners },
 };
 
@@ -328,7 +325,7 @@ const inWords = (items: readonly string[]) =>
 export const investorsBlock = (ctx: Ctx) => html`
 <div class="backers">
   <div class="backers__lead">
-    <p class="h2">Backed by leading institutions and individuals</p>
+    <p class="h2">Backed by Leading Institutions and Individuals</p>
     <p class="small muted">Also by ${inWords(alsoBackedBy)}.</p>
   </div>
   <ul class="backers__wall">${investors.map((f) => firmLogo(ctx, f))}</ul>
@@ -441,7 +438,6 @@ export function insightCard(ctx: Ctx, it: Insight, override: Partial<Insight> | 
 export interface InsightsBlockOptions {
   id?: string;
   label: string;
-  aside?: string;
   /** Which desks to include; all when absent. */
   deskFilter?: readonly Desk[];
   /** How many cards on top. */
@@ -454,16 +450,7 @@ export interface InsightsBlockOptions {
 
 export function insightsBlock(
   ctx: Ctx,
-  {
-    id = 'insights',
-    label,
-    aside,
-    deskFilter,
-    featured = 3,
-    rows = 5,
-    override = null,
-    band = false,
-  }: InsightsBlockOptions,
+  { id = 'insights', label, deskFilter, featured = 3, rows = 5, override = null, band = false }: InsightsBlockOptions,
 ): Html {
   const list = insights.filter((i) => !deskFilter || deskFilter.includes(i.desk)).sort(byDateDesc);
   const cards = list.filter((i) => i.featured).slice(0, featured);
@@ -474,7 +461,7 @@ export function insightsBlock(
   const all = html`<p class="all"><a class="more" href="${ctx.link('insights', null, deskFilter && deskFilter.length === 1 ? deskFilter[0] : null)}">All insights</a></p>`;
   return html`
 <section class="${band ? 'band ' : ''}section" id="${id}"><div class="wrap">
-  ${sectionHead(label, aside)}
+  ${sectionHead(label)}
   ${
     only && cards.length === 1
       ? html`<div class="ifeature">${insightCard(ctx, only, override)}<div class="ifeature__list">${rowList}${all}</div></div>`
@@ -485,36 +472,82 @@ export function insightsBlock(
 }
 
 // ---------- Events ----------
+// One row per event: when, what, and a line about it. With `insights`, the latest posts
+// join the same list in the same rows, newest first, so news and events read as one.
+// Notes (an office move) stay out of it. A row with somewhere to go is one link, the
+// whole row; one without stays text.
 export interface EventsBlockOptions {
   id?: string;
   label?: string;
-  aside?: string;
   desk?: ProductDesk;
   pastOnly?: boolean;
   band?: boolean;
   today: string;
+  insights?: { deskFilter: readonly Desk[]; count: number };
+}
+
+interface EventRow {
+  key: string;
+  month: string;
+  kind?: string;
+  name: string;
+  note: string;
+  href?: string | undefined;
 }
 
 export function eventsBlock(
-  _ctx: Ctx,
-  { id = 'events', label = 'Events', aside, desk, pastOnly = false, band = true, today }: EventsBlockOptions,
+  ctx: Ctx,
+  { id = 'events', label = 'Events', desk, pastOnly = false, band = true, today, insights: news }: EventsBlockOptions,
 ): Html {
   const nowYm = today.slice(0, 7);
-  const list = events
+  const rows: EventRow[] = events
     .filter((e) => !desk || e.desks.includes(desk))
     .filter((e) => !pastOnly || e.month <= nowYm)
-    .sort((a, b) => (a.month < b.month ? 1 : -1));
+    .map((e) => ({
+      key: `${e.month}-01`,
+      month: e.month,
+      name: e.name,
+      note: e.note,
+      href: e.post ? ctx.link(`blog/${e.post}`) : e.url,
+    }));
+  if (news) {
+    const told = new Set(events.map((e) => e.post).filter(Boolean));
+    const posts = insights
+      .filter(
+        (it) =>
+          news.deskFilter.includes(it.desk) && it.type !== 'Note' && !it.placeholder && !(it.post && told.has(it.post)),
+      )
+      .sort(byDateDesc)
+      .slice(0, news.count);
+    for (const it of posts) {
+      rows.push({
+        key: it.date,
+        month: it.date.slice(0, 7),
+        kind: it.type,
+        name: it.title,
+        note: it.standfirst ?? '',
+        href: insightHref(ctx, it),
+      });
+    }
+  }
+  rows.sort((a, b) => (a.key < b.key ? 1 : -1));
   return html`
 <section class="${band ? 'band ' : ''}section" id="${id}"><div class="wrap">
-  ${sectionHead(label, aside)}
-  <ul class="events">${list.map(
-    (e) => html`
-    <li class="event${e.month > nowYm ? ' event--upcoming' : ''}">
-      <span class="event__when">${fmtMonth(e.month)}${e.month > nowYm ? html`<span class="event__soon">Upcoming</span>` : ''}</span>
-      <span class="event__name h4">${e.name}</span>
-      <span class="event__note muted">${e.note}</span>
-    </li>`,
-  )}
+  ${sectionHead(label)}
+  <ul class="events">${rows.map((r) => {
+    const soon = !r.kind && r.month > nowYm;
+    const tag = soon ? 'Upcoming' : r.kind;
+    const inner = html`
+      <span class="event__when">${fmtMonth(r.month)}${tag ? html`<span class="event__soon">${tag}</span>` : ''}</span>
+      <span class="event__name h4">${r.name}</span>
+      <span class="event__note muted">${r.note}</span>`;
+    const cls = `event${soon ? ' event--upcoming' : ''}`;
+    return r.href
+      ? html`
+    <li><a class="${cls} event--link" href="${r.href}">${inner}</a></li>`
+      : html`
+    <li class="${cls}">${inner}</li>`;
+  })}
   </ul>
 </div></section>`;
 }
@@ -549,7 +582,7 @@ export function teamGrid(ctx: Ctx, ids: readonly PersonId[], hiring?: { line: st
     hiring
       ? html`<li class="team__person team__hiring">
     <div class="team__face team__face--open" aria-hidden="true"><span class="small muted">Your photo here</span></div>
-    <p class="h4">We are hiring</p>
+    <p class="h4">We Are Hiring</p>
     <p class="small muted">${hiring.line}</p>
     <a class="more" href="${ctx.link('careers', 'roles')}">See open roles</a>
   </li>`
@@ -569,34 +602,41 @@ export function logoStrip(ctx: Ctx): Html {
 }
 
 // ---------- Who we work with ----------
-// One card per client type: the type, one line and the needs it names.
-// A card links to its client page where there is one. The accent follows the desk.
+// One card per client type: its drawing where it has one, the type, one line and,
+// where given, the needs it names. A card links to its client page where there is
+// one. The accent follows the desk.
 export interface WhoClient {
   who: string;
   line: string;
-  needs: readonly string[];
+  art?: Art;
+  needs?: readonly string[];
   to?: string;
+  /** Where the card goes, said at its foot ("See Token Disclosure"), when the corner arrow is not enough. */
+  more?: string;
 }
 
 export function whoCards(
   ctx: Ctx,
-  { desk, title, lead, clients }: { desk: ProductDesk; title: string; lead: string; clients: readonly WhoClient[] },
+  { desk, title, lead, clients }: { desk: ProductDesk; title: string; lead?: string; clients: readonly WhoClient[] },
 ): Html {
-  // With a multiple of four cards, the intro takes a row of its own so none is left alone.
-  const wide = clients.length % 4 === 0;
+  // With a multiple of four cards, or of three (laid out three across), the intro takes a
+  // row of its own so no card is left alone.
+  const three = clients.length % 3 === 0 && clients.length % 4 !== 0;
+  const wide = clients.length % 4 === 0 || three;
   return html`
 <section class="band section" id="clients"><div class="wrap">
-  <ul class="who who--${desk}${wide ? ' who--wide-intro' : ''}">
+  <ul class="who who--${desk}${wide ? ' who--wide-intro' : ''}${three ? ' who--three' : ''}">
     <li class="who__intro">
       <h2 class="h2">${title}</h2>
-      <p class="body muted">${lead}</p>
+      ${lead ? html`<p class="body muted">${lead}</p>` : ''}
     </li>
     ${clients.map((c) => {
-      const inner = html`<span class="who__title">${c.who}</span>
+      const inner = html`${c.art ? art(c.art) : ''}<span class="who__title">${c.who}</span>
         <span class="who__line">${c.line}</span>
-        <span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>`;
+        ${c.needs ? html`<span class="who__needs">${c.needs.map((x) => html`<span>${x}</span>`)}</span>` : ''}
+        ${c.more ? html`<span class="who__more">${c.more} <span aria-hidden="true">→</span></span>` : ''}`;
       return c.to
-        ? html`<li><a class="who__card who__card--link" href="${ctx.link(c.to)}">${inner}</a></li>`
+        ? html`<li><a class="who__card who__card--link${c.more ? ' who__card--more' : ''}" href="${ctx.link(c.to)}">${inner}</a></li>`
         : html`<li><div class="who__card">${inner}</div></li>`;
     })}
   </ul>
@@ -676,13 +716,26 @@ export const listCards = (cards: readonly ListCard[]): Html => html`
 })}</ul>`;
 
 // ---------- Closing call to action ----------
-export const cta = (
-  ctx: Ctx,
-  { title, text, buttons }: { title: string; text: string; buttons: readonly ButtonOptions[] },
-) => html`
+// "Book demo" as one line: the visitor's work email and the button, in the desk's
+// colour. A demo request asks nothing else (ADR-0015), so site.js sends it from here and
+// thanks the visitor in place; method="dialog" keeps the address out of the URL when
+// there is no script. Token Disclosure's own form is the white paper, which needs a
+// name, so its pages ask for a demo through the general form, in the desk's gold.
+const DEMO = 'Book demo';
+const DEMO_FORMS = new Set(['general', 'private-markets', 'digital-assets']);
+export const demoAsk = (desk: string, placement: Placement = 'closing') => html`
+<form class="ask" method="dialog" data-form="${DEMO_FORMS.has(desk) ? desk : 'general'}" data-placement="${placement}">
+  <label class="ask__field"><span class="sr-only">Work email</span><input type="email" name="email" placeholder="What’s your work email?" autocomplete="email" required></label>
+  <button type="submit" class="btn btn--desk-${desk}">${DEMO}</button>
+  <p class="ask__msg" role="status"></p>
+</form>`;
+
+// The closing call to action, the same on every page: the work-email line for a demo, in
+// the desk's colour (`demo`), with any other way forward beside it, centred on white.
+// Careers and the role pages leave the demo out: applications never go through a form here.
+export const cta = (ctx: Ctx, { demo, buttons = [] }: { demo?: string; buttons?: readonly ButtonOptions[] }) => html`
 <section class="wrap section">
   <div class="cta">
-    <div><h2 class="h2">${title}</h2><p class="cta__text">${text}</p></div>
-    <div class="cta__buttons">${buttons.map((b) => button(ctx, { placement: 'closing', ...b }))}</div>
+    <div class="cta__buttons">${buttons.map((b) => button(ctx, { placement: 'closing', ...b }))}${demo ? demoAsk(demo) : ''}</div>
   </div>
 </section>`;

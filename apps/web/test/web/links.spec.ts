@@ -58,15 +58,13 @@ for (const page of PAGES) {
   });
 }
 
-// The header: the same three menus on every page, and the product sign-in only
-// where its users are (digital assets clients).
-test('every page has the three menus; User login shows only on the crypto pages', () => {
+// The header: the same three menus on every page, and no product sign-in on any of them.
+test('every page has the three menus and no User login', () => {
   for (const page of PAGES) {
     const header = readPage(page).match(/<header class="wrap nav">[\s\S]*?<\/header>/)?.[0] ?? '';
     const menus = [...header.matchAll(/class="menu__top"[^>]*>([^<]+)</g)].map(([, t]) => t);
     expect(menus, page).toEqual(['Welcome to Eunice', 'Private Markets', 'Digital Assets']);
-    const crypto = /^(digital-assets|token-disclosure|mica-whitepaper)\//.test(page);
-    expect(header.includes('User login'), page).toBe(crypto);
+    expect(header.includes('User login'), page).toBe(false);
   }
 });
 

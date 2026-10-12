@@ -9,7 +9,7 @@ import {
   sectionHead,
   teamGrid,
 } from '../components.ts';
-import { insights, team } from '../content/index.ts';
+import { insights } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
@@ -18,13 +18,13 @@ import { uiRead } from '../ui.ts';
 export default {
   slug: 'company',
   nav: 'company',
-  title: 'About Eunice — We read the documents nobody has time to read',
+  title: 'About Eunice — We Read the Documents Nobody Has Time to Read',
   description:
     'A diligence firm for regulated finance. Founded in London in 2023; backed by Moonfire, Speedinvest, Openspace Capital and Locus Ventures.',
   render: (ctx) => html`
 <section class="wrap hero">
   <div class="hero__text">
-    <h1 class="h1">We read the documents nobody has time to read</h1>
+    <h1 class="h1">We Read the Documents Nobody Has Time to Read</h1>
     <p class="lead">A diligence firm for regulated finance. Founded in London in 2023; backed by Moonfire, Speedinvest, Openspace Capital and Locus Ventures.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Meet the team', to: 'company', hash: 'team' })}
@@ -36,15 +36,16 @@ export default {
 
 <section class="wrap section">
   ${facts([
-    { art: 'seed', title: '$8m seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
+    { art: 'seed', title: '$8m Seed', text: 'March 2026 · Moonfire, Speedinvest, Openspace Capital, Locus Ventures' },
+    { art: 'award', title: 'Fintech 50', text: 'May 2026 · TechRound ranked Eunice #43 of 50' },
     {
-      art: 'award',
-      title: 'Fintech 50',
-      text: 'May 2026 · among the 100 fastest-growing startups in the UK and Ireland',
+      art: 'rise',
+      title: 'Sifted',
+      text: '2026 · among the 100 fastest-growing startups in the UK & Ireland, by revenue',
     },
     {
       art: 'sandbox',
-      title: 'FCA regulatory sandbox',
+      title: 'FCA Regulatory Sandbox',
       text: 'Accepted November 2025 for digital asset disclosure standards',
     },
     { art: 'shield', title: 'SOC 2 Type II · GDPR', text: 'Audited; no training on client data' },
@@ -53,7 +54,7 @@ export default {
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Leadership', team.intro)}
+  ${sectionHead('Leadership')}
   ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'], {
     line: 'GTM for digital assets, client implementation for private markets, senior engineering.',
   })}
@@ -61,7 +62,7 @@ export default {
 </section>
 
 <section class="band section" id="press"><div class="wrap">
-  ${sectionHead('News and press', 'What has been announced.')}
+  ${sectionHead('News and Press')}
   <ul class="irows">${insights
     .filter((i) => i.desk === 'company' || /FCA/.test(i.title))
     .sort((a, b) => (a.date < b.date ? 1 : -1))
@@ -71,7 +72,7 @@ export default {
 
 <section class="wrap section feature feature--flat" id="how-we-work">
   <div class="feature__text">
-    <h2 class="h2">How we work</h2>
+    <h2 class="h2">How We Work</h2>
     <p class="body muted">Three rules that have not changed since the first customer.</p>
   </div>
   <ol class="rules">
@@ -82,11 +83,10 @@ export default {
 </section>
 
 ${cta(ctx, {
-  title: 'Come and build it',
-  text: 'Three open roles in London, remote-friendly. Your work ships into regulated financial workflows, where every output has to be defensible.',
+  demo: 'general',
   buttons: [
-    { label: 'Email the team', kind: 'outline-light', href: `mailto:${config.careersEmail}` },
-    { label: 'See open roles', kind: 'light', to: 'careers', hash: 'roles' },
+    { label: 'Email the team', kind: 'outline', href: `mailto:${config.careersEmail}` },
+    { label: 'See open roles', kind: 'outline', to: 'careers', hash: 'roles' },
   ],
 })}`,
 } satisfies Page;

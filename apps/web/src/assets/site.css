@@ -108,6 +108,16 @@ button { font: inherit; color: inherit; }
 .btn--outline:hover { border-color: var(--ink); color: var(--ink); }
 .btn--outline-light { background: transparent; color: #fff; border-color: rgba(255,255,255,.4); }
 .btn--outline-light:hover { border-color: #fff; color: #fff; }
+/* "Book demo" in its desk's colour (the one place colour fills a control, by the owner's
+   choice, Oct 2026). Private Markets blue is deepened a step so white text reads at
+   4.5:1; orange and gold carry ink text instead. Company pages stay ink. */
+.btn--desk-general { background: #1a1b1e; color: #fff; }
+.btn--desk-general:hover { background: #000; color: #fff; }
+.btn--desk-private-markets { background: #3f66e0; color: #fff; }
+.btn--desk-private-markets:hover { background: #3457c4; color: #fff; }
+.btn--desk-digital-assets { background: var(--da-field); color: var(--ink); }
+.btn--desk-token-disclosure { background: var(--td-field); color: var(--ink); }
+.btn--desk-digital-assets:hover, .btn--desk-token-disclosure:hover { filter: brightness(.94); color: var(--ink); }
 .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .more { display: inline-flex; align-items: center; gap: 6px; font-size: 11.2px; color: var(--ink); }
 .more::after { content: ''; width: 12px; height: 12px; background: currentColor;
@@ -147,7 +157,6 @@ button { font: inherit; color: inherit; }
 .menu:hover > .menu__toggle svg, .menu.is-open > .menu__toggle svg { transform: rotate(180deg); }
 /* Escape closes a panel even while the pointer or focus is still inside it. */
 .menu.is-closed > .menu__panel { visibility: hidden; opacity: 0; }
-.nav__login { min-height: 36px; }
 .nav__mobile-extra { display: none; }
 .nav__actions { display: flex; align-items: center; gap: 8px; }
 .nav__menu { display: none; width: 44px; height: 44px; border: 0; background: none; cursor: pointer; align-items: center; justify-content: center; color: var(--ink); }
@@ -164,7 +173,15 @@ button { font: inherit; color: inherit; }
    running off the field's right and bottom edges. Every corner is rounded alike. */
 .hero__visual--field { height: clamp(320px, 34vw, 480px); }
 .hero__visual--field .wf { width: 100%; height: 100%; aspect-ratio: auto; border-radius: var(--radius); }
-.trustline { margin-top: 0; background: var(--band); text-align: center; padding: 16px var(--gutter); font-size: 14px; color: var(--text); }
+/* Proof under a product hero: a client's words in one half, and one big figure with its
+   line under it, centred in the other; a hairline on top. */
+.trustline { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 5vw, 80px); align-items: center; padding-top: var(--section-tight); border-top: 1px solid var(--line); }
+/* The same air above the proof as below it, so it sits centred between hairline and band. */
+.trustline + .band { margin-top: var(--section-tight); }
+.trustline__figure { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.trustline .h1 { font-variant-numeric: tabular-nums; }
+.trustline .lead { max-width: 22em; }
+@media (max-width: 760px) { .trustline { grid-template-columns: minmax(0, 1fr); } }
 
 
 /* ---------- Sections ---------- */
@@ -173,11 +190,10 @@ button { font: inherit; color: inherit; }
 .band { background: var(--band); padding-block: var(--section); margin-top: var(--section); }
 .band + .band { margin-top: 0; }
 .band + .section:not(.band) { padding-top: var(--section); }
+.band + .section--tight:not(.band) { padding-top: var(--section-tight); }
 .shead { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 48px; }
 .shead__title { font-family: var(--font-head); font-weight: 400; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.15; letter-spacing: -.02em; color: var(--ink); }
-.shead__aside { font-size: 15px; color: var(--muted); max-width: 32em; }
 .shead { align-items: center; }
-.shead__action { flex: 0 0 auto; }
 
 .grid { display: grid; gap: 32px 28px; }
 .grid--1 { grid-template-columns: minmax(0, 1fr); }
@@ -201,8 +217,9 @@ button { font: inherit; color: inherit; }
 
 /* Audience cards and facts: a rule on top, never a box. */
 /* A card that leads to a personalised page is the link, not the words inside it. */
-.fact { border-top: 1px solid var(--line); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
-.facts { margin-top: 64px; }
+/* A fact is told apart by its drawing, so it carries no rule of its own (owner's call, Oct 2026). */
+.fact { display: flex; flex-direction: column; gap: 8px; }
+.facts { margin-top: 64px; row-gap: 56px; }
 /* A row of facts that opens its section needs no gap above it: the section padding is the gap. */
 .facts:first-child { margin-top: 0; }
 /* The fact's picture (art.ts): line drawing in ink, a soft tint for what matters. */
@@ -233,6 +250,9 @@ button { font: inherit; color: inherit; }
    start on one line, and every logo sits on the row's vertical centre. */
 .partners { display: flex; flex-direction: column; gap: 48px; margin-top: var(--section); }
 .partners + .quotes { margin-top: var(--section); }
+/* Clients, their words, then the firms we work with: the quotes between two logo rows.
+   A quote after a row of facts takes the same air. */
+.logos + .quotes, .quotes + .logos, .facts + .quotes { margin-top: var(--section-tight); }
 .logos { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 32px; align-items: center; }
 .logos__view { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .logos__track { display: flex; width: max-content; animation: logos 90s linear infinite; }
@@ -300,6 +320,8 @@ section.feature { padding-top: var(--section); }
 .steps--token-disclosure li::before { color: var(--td-ink); }
 /* A film on a photograph, full width under a feature's text and visual. */
 .feature__stage { grid-column: 1 / -1; }
+/* A film under a section's facts, with the same air as between blocks. */
+.section-stage { margin-top: var(--section-tight); }
 .stage { margin: 0; }
 .stage .wf { border-radius: var(--radius); }
 .bullets--token-disclosure li::before { background: var(--td-ink); }
@@ -368,10 +390,18 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .empty { padding: 24px 0; }
 
 /* ---------- Events ---------- */
-.event { display: grid; grid-template-columns: 200px minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: baseline; padding: 20px 0; border-top: 1px solid var(--line); }
-.event__when { font-size: 11.2px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; }
-.event__soon { align-self: flex-start; font-size: 12px; color: var(--pm-ink); }
-.event__note { font-size: var(--small); }
+/* Every row the same height: the note keeps room for two lines whether it needs them or not. */
+.event { display: grid; grid-template-columns: 160px minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: baseline; padding: 20px 0; border-top: 1px solid var(--line); }
+.event__when { font-size: 11.2px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; }
+.event__soon::before { content: '·'; margin-right: 6px; color: var(--muted); }
+.event__soon { font-size: 11.2px; color: var(--pm-ink); }
+.event__note { font-size: var(--small); min-height: 2lh; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+/* A post with no standfirst: an empty note has no baseline to line up, so it sits at the top. */
+.event__note:empty { align-self: start; }
+/* A row that goes somewhere is one link, the whole row: a tap target its full height. */
+.event--link { color: var(--ink); text-decoration: none; }
+.event--link:hover { color: var(--ink); }
+.event--link:hover .event__name { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- People ---------- */
 /* Bio: slides down on hover, focus or tap. Grid rows animate height without measuring it. */
@@ -384,22 +414,27 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .hero-center__visual { width: 100%; max-width: 1120px; margin: clamp(40px, 6vw, 72px) auto 0; }
 .hero-center__visual .wf { border-radius: var(--radius); }
 
-/* Private Markets: the approach in three parts, and who we work with. */
-.approach { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px); }
-.approach__item { display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-strong); }
+/* Who we work with: each desk sets its accent. */
 .who--private-markets { --accent: var(--pm-ink); --accent-tint: var(--pm-tint); }
 .who--digital-assets { --accent: var(--da-ink); --accent-tint: var(--da-tint); }
 .who--token-disclosure { --accent: var(--td-ink); --accent-tint: var(--td-tint); }
 .who--wide-intro .who__intro { grid-column: 1 / -1; padding-bottom: 8px; }
+.who.who--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .who { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
 .who__intro { display: flex; flex-direction: column; gap: 14px; padding: 8px 12px 24px 0; }
 .who > li { display: flex; }
 .who__card { display: flex; flex-direction: column; gap: 12px; width: 100%; min-height: 280px; padding: 28px 24px; border-radius: 20px; background: #fff; color: var(--ink); transition: transform .2s ease, box-shadow .2s ease; }
 .who__card--link:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(17,18,20,.08); color: var(--ink); }
+.who__card .art { margin: 0 0 12px -4px; }
 .who__title { font-family: var(--font-head); font-size: 20px; line-height: 1.25; letter-spacing: -.01em; }
 .who__card--link { position: relative; }
 .who__card--link::after { content: '→'; position: absolute; top: 24px; right: 24px; color: var(--accent); transition: transform .2s ease; }
 .who__card--link:hover::after { transform: translateX(3px); }
+/* A card that says where it goes: the line at its foot is the cue, not the corner arrow. */
+.who__card--more::after { content: none; }
+.who__more { margin-top: auto; padding-top: 16px; font-size: var(--small); font-weight: 500; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.who__more span { display: inline-block; transition: transform .2s ease; }
+.who__card--more:hover .who__more span { transform: translateX(3px); }
 .who__line { font-size: var(--small); line-height: 1.5; color: var(--muted); }
 .who__needs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 12px; }
 .who__needs span { padding: 5px 10px; border-radius: 999px; background: var(--accent-tint); color: var(--accent); font-size: var(--caption); line-height: 1.3; }
@@ -439,7 +474,6 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .rules li { display: grid; grid-template-columns: minmax(0, 1fr); padding: 18px 0; border-top: 1px solid var(--line); }
 .rules b { font-weight: 500; color: var(--ink); }
 .rules span { color: var(--text); }
-.perks { gap: 36px 28px; }
 .foote__text { display: flex; flex-direction: column; gap: 16px; color: var(--text); max-width: 40em; }
 
 /* ---------- Long-form copy: job descriptions, blog posts ----------
@@ -469,10 +503,23 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .prose figcaption { font-size: var(--caption); color: var(--muted); margin-top: 8px; }
 
 /* ---------- CTA ---------- */
-.cta { background: #16171b; color: #fff; border-radius: 16px; padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 52px); display: flex; justify-content: space-between; align-items: center; gap: 32px; }
-.cta .h2 { color: #fff; margin-bottom: 12px; }
-.cta__text { font-size: 12px; color: rgba(255,255,255,.72); max-width: 38em; }
-.cta__buttons { display: flex; gap: 12px; flex-wrap: wrap; flex: 0 0 auto; }
+/* The closing call to action, on every page: the work-email line, centred on white, with
+   any other way forward beside it. */
+.cta { display: flex; justify-content: center; }
+.cta__buttons { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; max-width: 100%; }
+/* "Book demo": a pill, drawn with a hairline, holding the work email and the button. */
+.ask { display: flex; align-items: center; gap: 4px; width: 480px; max-width: 100%; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: #fff; }
+.ask:focus-within { outline: 2px solid var(--ink); outline-offset: 3px; }
+.ask__field { flex: 1; min-width: 0; }
+.ask__field input { width: 100%; min-height: 44px; padding: 0 16px; border: 0; background: transparent; font: inherit; font-size: var(--body); color: var(--ink); }
+.ask__field input::placeholder { color: var(--muted); }
+.ask__field input:focus { outline: none; }
+.ask .btn { flex: none; }
+@media (max-width: 480px) { .ask__field input { padding: 0 10px 0 14px; } .ask .btn { padding: 0 16px; } }
+/* Sent: the line becomes the thank-you, in the same pill. */
+.ask__msg { display: none; flex: 1; align-items: center; min-height: 44px; margin: 0; padding: 0 16px; font-size: var(--body); color: var(--ink); }
+.ask.is-done .ask__field, .ask.is-done .btn { display: none; }
+.ask.is-done .ask__msg { display: flex; }
 
 /* ---------- Footer ---------- */
 .footer { margin-top: var(--section); padding-bottom: 32px; }
@@ -602,7 +649,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
-  .who { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .who, .who.who--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .lcards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid--6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .grid--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -614,7 +661,6 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .footer__brand { grid-column: 1 / -1; }
 }
 @media (max-width: 960px) {
-  .approach { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .backers { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .backers__wall li { height: 88px; }
   /* Tablet and phone: the cover drops under the date, inside the card. */
@@ -639,7 +685,6 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .nav__mobile-extra .btn { align-self: flex-start; }
   .nav__mobile-extra a { color: var(--muted); }
   .nav__menu { display: inline-flex; }
-  .nav__login { display: none; }
   .hero, .feature, .ifeature { grid-template-columns: minmax(0, 1fr); }
   .feature--flip .feature__text { order: 0; }
   .hero__visual--field { height: clamp(240px, 56vw, 380px); }
@@ -650,7 +695,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__brand { grid-column: 1 / -1; }
   .event { grid-template-columns: minmax(0, 1fr); gap: 6px; }
-  .cta { flex-direction: column; align-items: flex-start; }
+  .event__note { min-height: 0; -webkit-line-clamp: unset; line-clamp: none; }
   .logos { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .partners { gap: 40px; }
 }
@@ -684,7 +729,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 }
 
 @media (max-width: 600px) {
-  .who { grid-template-columns: minmax(0, 1fr); }
+  .who, .who.who--three { grid-template-columns: minmax(0, 1fr); }
   .who__card { min-height: 0; }
   .hero-center__buttons .btn { width: 100%; justify-content: center; }
   .acard { padding: 20px; border-radius: 20px; gap: 24px; }

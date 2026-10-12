@@ -13,7 +13,7 @@ import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 interface DeskShared {
   facts: { art: Art; title: string; text: string }[];
   quote: Quote | null;
-  insights: Pick<InsightsBlockOptions, 'label' | 'aside' | 'deskFilter'>;
+  insights: Pick<InsightsBlockOptions, 'label' | 'deskFilter'>;
 }
 
 // What every audience page on a desk has in common: the trust
@@ -25,15 +25,14 @@ const DESK: Record<ProductDesk, DeskShared> = {
       { art: 'lock', title: 'GDPR', text: 'Compliant, with a data processing agreement for every engagement' },
       {
         art: 'noTrain',
-        title: 'No training on your data',
+        title: 'No Training on Your Data',
         text: 'Your documents are never used to train models. They stay yours.',
       },
-      { art: 'cite', title: 'Every finding', text: 'Cited to the page it came from' },
+      { art: 'cite', title: 'Every Finding', text: 'Cited to the page it came from' },
     ],
     quote: quotes.fof,
     insights: {
-      label: 'Insights and news',
-      aside: 'Private markets notes will appear here as the desk publishes them.',
+      label: 'Insights and News',
       deskFilter: ['private-markets', 'company'],
     },
   },
@@ -45,13 +44,16 @@ const DESK: Record<ProductDesk, DeskShared> = {
         text: 'Participant since November 2025, testing disclosure standards',
       },
       { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
-      { art: 'cite', title: 'Every claim', text: 'Cited to the source it came from' },
-      { art: 'globe', title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
+      { art: 'cite', title: 'Every Claim', text: 'Cited to the source it came from' },
+      {
+        art: 'globe',
+        title: '8 Jurisdictions',
+        text: 'Live and expanding: the EU, the UK, the US, MAS, VARA and more',
+      },
     ],
     quote: quotes.falconx,
     insights: {
-      label: 'Insights on digital assets',
-      aside: 'Exploits, risk and regulation.',
+      label: 'Insights on Digital Assets',
       deskFilter: ['digital-assets', 'token-disclosure'],
     },
   },
@@ -62,15 +64,14 @@ const DESK: Record<ProductDesk, DeskShared> = {
         title: 'FCA Regulatory Sandbox',
         text: 'Participant since November 2025, testing disclosure standards',
       },
-      { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
+      { art: 'legal', title: 'Reviewed by a Law Firm', text: 'Where a legal opinion is needed' },
       { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
-      { art: 'library', title: '30+ MiCA white papers', text: 'Filed through 4 NCAs' },
+      { art: 'library', title: '30+ MiCA White Papers', text: 'Filed through 4 NCAs' },
     ],
     // No client quote on this desk yet; the section is left out until there is one.
     quote: null,
     insights: {
-      label: 'Insights on token disclosure',
-      aside: 'Regulation and disclosure, as they change.',
+      label: 'Insights on Token Disclosure',
       deskFilter: ['token-disclosure'],
     },
   },
@@ -95,7 +96,7 @@ function page(a: AudiencePage): Page {
     <h1 class="h1">${a.h1}</h1>
     <p class="lead">${a.lead}</p>
     <div class="buttons">
-      ${button(ctx, { label: 'Book demo', form: a.desk, placement: 'hero' })}
+      ${button(ctx, { label: 'Book demo', kind: 'desk', form: a.desk, placement: 'hero' })}
       ${button(ctx, { label: `All of ${label}`, kind: 'outline', to: a.desk })}
     </div>
   </div>
@@ -103,12 +104,12 @@ function page(a: AudiencePage): Page {
 </section>
 
 <section class="band section"><div class="wrap">
-  ${sectionHead('What this looks like now', 'The week we hear described most often.')}
+  ${sectionHead('What This Looks Like Now')}
   ${bullets(a.now, a.desk)}
 </div></section>
 
 <section class="wrap section">
-  ${sectionHead('What Eunice does', 'Three things, in the order they happen.')}
+  ${sectionHead('What Eunice Does')}
   <ol class="steps steps--${a.desk}">
     ${a.work.map((w) => html`<li><span class="h4">${w.title}</span><span class="small muted">${w.text}</span></li>`)}
   </ol>
@@ -121,11 +122,7 @@ function page(a: AudiencePage): Page {
 
 ${insightsBlock(ctx, { ...d.insights, featured: 1, rows: 2 })}
 
-${cta(ctx, {
-  title: a.cta.title,
-  text: a.cta.text,
-  buttons: [{ label: 'Book demo', kind: 'light', form: a.desk }],
-})}`,
+${cta(ctx, { demo: a.desk })}`,
   };
 }
 
