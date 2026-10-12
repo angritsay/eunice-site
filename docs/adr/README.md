@@ -21,6 +21,7 @@ accepted: a changed mind is a new record that supersedes the old one, so the his
 | [0012](0012-production-on-existing-vendors.md) | Production runs on vendors the company already has: AWS and Google Workspace | Superseded by 0014 |
 | [0013](0013-analytics-google-analytics-with-consent.md) | Analytics: Google Analytics 4, loaded only after cookie consent | Accepted |
 | [0014](0014-static-site-on-aws.md) | A static site on S3 and CloudFront, defined in Terraform; the never-deployed backend removed | Accepted |
+| [0015](0015-demo-request-is-one-email.md) | A demo request is one work email, sent from the page | Accepted |
 
 To add one: copy the most recent record, take the next number, and link it here in the
 same pull request.

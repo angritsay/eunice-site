@@ -11,9 +11,10 @@ const recorded = source('eunice-careers.txt');
 const owner = source('owner-notes.md');
 
 // Typography may differ from the page; the words may not. Curly quotes are straight
-// quotes, any dash is a hyphen, and "·" between two parts is the page's "-".
+// quotes, any dash is a hyphen, "·" between two parts is the page's "-", and case is
+// ignored, since our headings are in Title Case.
 const norm = (s: string) =>
-  s.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[—–·]/g, '-').replace(/\s+/g, ' ').trim();
+  s.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[—–·]/g, '-').replace(/\s+/g, ' ').trim().toLowerCase();
 const page = norm(
   recorded
     .split('\n')

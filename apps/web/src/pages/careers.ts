@@ -1,4 +1,5 @@
-import { button, cta, plate, quoteBlock, sectionHead, teamGrid } from '../components.ts';
+import type { Art } from '../art.ts';
+import { button, cta, facts, plate, quoteBlock, sectionHead, teamGrid } from '../components.ts';
 import { quotes, team } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
@@ -6,10 +7,14 @@ import config from '../site.config.ts';
 import { uiAsk } from '../ui.ts';
 import { roleList } from './jobs.ts';
 
+// The perks' drawings, in the order team.perks lists them: AI that matters, London and
+// remote, time off, pay and equity, the people, health and learning.
+const PERK_ART: readonly Art[] = ['cite', 'globe', 'date', 'seed', 'roles', 'library'];
+
 export default {
   slug: 'careers',
   nav: 'company',
-  title: 'Careers at Eunice — We build the accountability layer',
+  title: 'Careers at Eunice — We Build the Accountability Layer',
   description: team.standfirst,
   render: (ctx) => html`
 <section class="wrap hero">
@@ -25,7 +30,7 @@ export default {
 </section>
 
 <section class="wrap section" id="roles">
-  ${sectionHead('Open roles', team.hiring)}
+  ${sectionHead('Open Roles')}
   ${roleList(ctx)}
 </section>
 
@@ -39,32 +44,31 @@ export default {
 
 <section class="band section"><div class="wrap">
   ${sectionHead(team.perksTitle)}
-  <div class="grid grid--3 perks">
-    ${team.perks.map((p) => html`<div class="fact"><p class="h4">${p.title}</p><p class="small muted">${p.text}</p></div>`)}
-  </div>
+  ${facts(
+    team.perks.map((p, i) => ({ ...p, art: PERK_ART[i] ?? 'cite' })),
+    3,
+  )}
 </div></section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Who you will work with', team.intro)}
+  ${sectionHead('Who You Will Work With')}
   ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'])}
 </section>
 
 <section class="band section"><div class="wrap">
-  ${sectionHead('What clients say')}
+  ${sectionHead('What Clients Say')}
   <div class="grid grid--2 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}</div>
 </div></section>
 
 ${cta(ctx, {
-  title: 'Your role is not listed?',
-  text: `Write to ${config.careersEmail} with a CV or a link to something you built, and two lines on why regulated finance. We answer everyone.`,
   buttons: [
-    { label: 'Email the team', kind: 'outline-light', href: `mailto:${config.careersEmail}` },
-    { label: 'See the roles', kind: 'light', to: 'careers', hash: 'roles' },
+    { label: 'Email the team', kind: 'outline', href: `mailto:${config.careersEmail}` },
+    { label: 'See the roles', kind: 'dark', to: 'careers', hash: 'roles' },
   ],
 })}
 
 <section class="wrap section feature feature--flat foote">
-  <div class="feature__text"><h2 class="h2">Named after Eunice Foote</h2></div>
+  <div class="feature__text"><h2 class="h2">Named After Eunice Foote</h2></div>
   <div class="foote__text body">
     <p>Eunice Newton Foote, 1819–1888, scientist and campaigner for women’s rights. In 1856 she showed that carbon dioxide traps heat, the first person to connect it to the Earth’s temperature. Someone else took the credit; her result was overlooked until 2011.</p>
     <p>We took her name because the finding sat in plain sight for a hundred and fifty years and nobody read it carefully. That is the failure this company exists to prevent.</p>

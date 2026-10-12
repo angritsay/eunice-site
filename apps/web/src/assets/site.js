@@ -199,12 +199,15 @@
   // Events go to Google Analytics, once the visitor has accepted its cookies; otherwise
   // this does nothing. They describe the form and where it was opened — never what was typed.
   const gtag = () => /** @type {{ gtag?: (...args: unknown[]) => void }} */ (/** @type {unknown} */ (window)).gtag;
-  /** @param {string} name @param {Record<string, string | number>} [extra] */
-  function track(name, extra = {}) {
-    if (!open) return;
-    const { page = '', placement = '', audience } = open.entry;
+  /**
+   * @param {string} name @param {Record<string, string | number>} [extra]
+   * @param {{ variant: string, entry: Record<string, string> } | null} [state] the form it describes
+   */
+  function track(name, extra = {}, state = open) {
+    if (!state) return;
+    const { page = '', placement = '', audience } = state.entry;
     const data = {
-      variant: open.variant,
+      variant: state.variant,
       entry: `${page || 'home'} · ${placement}`,
       page: `/${page}`,
       placement,
@@ -290,10 +293,9 @@
   }
 
   /** Hands the message to the visitor's own mail app. Returns who it is addressed to. */
-  function mailtoFallback(/** @type {Record<string, string>} */ fields) {
-    if (!open) return '';
+  function mailtoFallback(/** @type {Record<string, string>} */ fields, /** @type {string} */ variant) {
     const to = CFG.contactEmail;
-    const subject = [open.variant, fields['name']].filter(Boolean).join(' — ');
+    const subject = [variant, fields['name'] || fields['email']].filter(Boolean).join(' — ');
     const body = Object.entries(fields)
       .map(([k, v]) => `${k}: ${v}`)
       .join('\n');
@@ -303,6 +305,80 @@
     link.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     link.click();
     return to;
+  }
+
+  /**
+   * Sends one submission to intake.
+   * @param {{ variant: string, entry: Record<string, string>, idempotencyKey: string, openedAt: number }} state
+   * @param {Record<string, string>} fields @param {string} website the honeypot
+   */
+  function post(state, fields, website) {
+    return fetch(CFG.formEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, application/problem+json',
+        'Idempotency-Key': state.idempotencyKey,
+        traceparent: traceparent(),
+      },
+      body: JSON.stringify({
+        variant: state.variant,
+        fields,
+        entry: state.entry,
+        attribution: { referrer: document.referrer.slice(0, 500), utm: utm() },
+        website,
+        elapsedMs: Math.round(performance.now() - state.openedAt),
+      }),
+    });
+  }
+
+  // ---------- The closing "Book demo" line ----------
+  // A demo request asks only the work email (ADR-0015), so this line sends it as it
+  // stands: no form opens. It thanks the visitor in place. Until intake is live, the
+  // visitor's mail app sends it instead, as the dialog does.
+  for (const ask of /** @type {NodeListOf<HTMLFormElement>} */ (document.querySelectorAll('form.ask[data-form]'))) {
+    const input = /** @type {HTMLInputElement} */ (ask.querySelector('input[name="email"]'));
+    const msg = /** @type {HTMLElement} */ (ask.querySelector('.ask__msg'));
+    /** @type {Record<string, string>} */
+    const entry = { page: CFG.page || '', placement: ask.dataset['placement'] || 'closing' };
+    if (CFG.audience) entry['audience'] = CFG.audience;
+    const state = {
+      variant: ask.dataset['form'] || 'general',
+      entry,
+      idempotencyKey: crypto.randomUUID(),
+      openedAt: 0,
+    };
+    const thank = (/** @type {string} */ text) => {
+      msg.textContent = text;
+      ask.classList.add('is-done');
+    };
+    input.addEventListener('input', () => input.setCustomValidity(''));
+    ask.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (ask.classList.contains('is-done')) return;
+      const fields = { email: input.value.trim() };
+      track('form_submit', {}, state);
+      if (!CFG.formEndpoint) {
+        track('form_success', { channel: 'mailto' }, state);
+        if (!PREVIEW) mailtoFallback(fields, state.variant);
+        thank(PREVIEW ? 'Thanks — the desk will email you.' : 'Your mail app has the request ready: press send.');
+        return;
+      }
+      const button = /** @type {HTMLButtonElement} */ (ask.querySelector('[type="submit"]'));
+      button.disabled = true;
+      try {
+        const res = await post(state, fields, '');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        track('form_success', { channel: 'api' }, state);
+        thank('Thanks — the desk will email you within one working day.');
+      } catch (err) {
+        track('form_error', { reason: err instanceof Error ? err.message.slice(0, 40) : 'network' }, state);
+        input.setCustomValidity(`That did not send. Try again, or email ${CFG.contactEmail}.`);
+        input.reportValidity();
+      } finally {
+        button.disabled = false;
+      }
+    });
   }
 
   /** Marks the inputs the server rejected, from RFC 9457 problem details. */
@@ -354,30 +430,14 @@
         // No endpoint (the default until a privacy notice is published): the visitor's
         // own mail app sends it, and nothing is collected on our side.
         track('form_success', { channel: 'mailto' });
-        done(PREVIEW ? 'the desk' : mailtoFallback(fields) || 'the desk');
+        done(PREVIEW ? 'the desk' : mailtoFallback(fields, current.variant) || 'the desk');
         return;
       }
 
       const submit = /** @type {HTMLButtonElement | null} */ (form.querySelector('[type="submit"]'));
       if (submit) submit.disabled = true;
       try {
-        const res = await fetch(CFG.formEndpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json, application/problem+json',
-            'Idempotency-Key': current.idempotencyKey,
-            traceparent: traceparent(),
-          },
-          body: JSON.stringify({
-            variant: current.variant,
-            fields,
-            entry: current.entry,
-            attribution: { referrer: document.referrer.slice(0, 500), utm: utm() },
-            website,
-            elapsedMs: Math.round(performance.now() - current.openedAt),
-          }),
-        });
+        const res = await post(current, fields, website);
         if (res.ok) {
           track('form_success', { channel: 'api' });
           done('the desk');
