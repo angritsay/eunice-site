@@ -191,6 +191,7 @@ button { font: inherit; color: inherit; }
 .band { background: var(--band); padding-block: var(--section); margin-top: var(--section); }
 .band + .band { margin-top: 0; }
 .band + .section:not(.band) { padding-top: var(--section); }
+.band + .section--tight:not(.band) { padding-top: var(--section-tight); }
 .shead { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 48px; }
 .shead__title { font-family: var(--font-head); font-weight: 400; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.15; letter-spacing: -.02em; color: var(--ink); }
 .shead__aside { font-size: 15px; color: var(--muted); max-width: 32em; }

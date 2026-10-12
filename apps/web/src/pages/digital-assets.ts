@@ -35,16 +35,14 @@ export default {
     <p class="lead">Token due diligence in the format your risk committee already uses, and real-time monitoring across 50+ risk types. Built for lean teams covering every asset and every regulator.</p>
     <div class="buttons">
       ${button(ctx, { label: 'Book demo', form: DESK, placement: 'hero' })}
-      ${button(ctx, { label: 'Trusted by the leading firms', kind: 'outline', to: DESK, hash: 'working-with' })}
     </div>
   </div>
   ${heroField({ desk: DESK })}
 </section>
 
 <section class="wrap section" id="working-with">
-  ${logoMarquee(ctx, 'clients')}
+  ${logoMarquee(ctx, 'clients', 'Trusted by leading firms')}
   <div class="grid grid--3 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}${quoteBlock(quotes.libeara)}</div>
-  ${logoMarquee(ctx, 'partners')}
 </section>
 
 ${whoCards(ctx, {
@@ -78,6 +76,10 @@ ${whoCards(ctx, {
   ],
 })}
 
+<section class="wrap section section--tight" id="partners">
+  ${logoMarquee(ctx, 'partners')}
+</section>
+
 <section class="wrap section section--tight">
   ${facts([
     {
@@ -110,7 +112,7 @@ ${feature({
 
 ${feature({
   id: 'jurisdictions',
-  title: 'Jurisdiction by Jurisdiction',
+  title: 'Compliant by Jurisdiction',
   desk: DESK,
   body: html`<p class="body muted">Eight jurisdictions live, among them the EU, the UK, the US, MAS and VARA, in one view, so an asset cleared in one place is not re-cleared from scratch in another.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiReport(DESK) }),
@@ -119,7 +121,7 @@ ${feature({
 <section class="band band--td section" id="token-disclosure"><div class="wrap feature feature--flat">
   <div class="feature__text">
     <h2 class="h2 td-title">${mark(21, '#b27a14')}Token Disclosure</h2>
-    <p class="body">The other side of the desk: a MiCA white paper drafted for you, reviewed by CMS and published where any exchange can check it. 30+ filed through 4 NCAs.</p>
+    <p class="body">The other side of the desk: a MiCA white paper drafted for you, reviewed by law firms and published where any exchange can check it. 30+ filed through 4 NCAs.</p>
     <div class="buttons">
       ${button(ctx, { label: 'See Token Disclosure', to: 'token-disclosure' })}
       ${button(ctx, { label: 'Start a white paper', kind: 'outline', form: 'token-disclosure', placement: 'band' })}

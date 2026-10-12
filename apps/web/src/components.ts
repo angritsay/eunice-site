@@ -275,8 +275,9 @@ const FIRMS = {
   partners: { label: 'Partners', firms: partners },
 };
 
-export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
-  const { label, firms } = FIRMS[row];
+export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS, caption?: string): Html {
+  const { firms } = FIRMS[row];
+  const label = caption ?? FIRMS[row].label;
   const list = (hidden: boolean) =>
     html`<ul class="logos__list"${hidden ? html` aria-hidden="true"` : ''}>${firms.map((f: Firm) => {
       const s = imageSize(`img/logos/${f.logo}`);
