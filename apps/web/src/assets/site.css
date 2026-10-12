@@ -560,8 +560,7 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
 
 /* ---------- Welcome: intro band ---------- */
 .band--ink { background: #16171b; color: #fff; margin-top: var(--section); padding-bottom: var(--section); }
-.intro .kicker { color: rgba(255,255,255,.6); }
-.intro__lead { margin-top: 18px; font-family: var(--font-head); font-size: clamp(22px, 2.6vw, 34px); line-height: 1.25; letter-spacing: -.015em; max-width: 26em; }
+.intro__lead { font-family: var(--font-head); font-size: clamp(22px, 2.6vw, 34px); line-height: 1.25; letter-spacing: -.015em; max-width: 26em; }
 
 /* ---------- Path (path()): a journey on one line ----------
    The line joins the stops; each stop is a dot on it, then its number, title and text.

@@ -11,7 +11,6 @@ import {
   logoMarquee,
   mark,
   numbers,
-  path,
   peopleStrip,
   quoteBlock,
   sectionHead,
@@ -55,24 +54,7 @@ export default {
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">
-  <p class="intro__lead">Eunice is an AI-powered due diligence and monitoring company built for institutional investors who cannot afford to get the details wrong.</p>
-  ${path(
-    [
-      {
-        title: 'Digital assets, first',
-        text: 'We started in digital assets, where Eunice became trusted infrastructure for leading exchanges to assess tokens and monitor risk.',
-      },
-      {
-        title: 'Private markets, next',
-        text: 'Then we brought the same source-traced rigour to private markets: LPs, GPs and family offices.',
-      },
-      {
-        title: 'Diligence beyond the close',
-        text: 'One conviction runs through both: every conclusion traces back to its source, and diligence continues well beyond the close.',
-      },
-    ],
-    { onward: true, label: 'How Eunice got here' },
-  )}
+  <p class="intro__lead">Due diligence and ongoing monitoring for private markets and digital assets. Trusted by 50+ institutions in the US, Europe and Asia.</p>
 </div></section>
 
 <section class="wrap section tiles" id="products">
