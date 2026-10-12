@@ -3,7 +3,6 @@
 // The intro, the name and the values are the owner's words (Sep 2026); the story is
 // the live careers page's, word for word.
 import {
-  badges,
   button,
   cta,
   facts,
@@ -56,12 +55,11 @@ export default {
   ${logoMarquee(ctx, 'clients')}
   ${numbers([
     { n: '$1T+', label: 'AUM managed by the allocators who trust Eunice' },
-    { n: '1,000+', label: 'Pre-filled MiCA white papers' },
-    { n: '4', label: 'Jurisdictions: MiCA, the UK, MAS and VARA' },
+    { n: 'Top 100', label: 'Sifted’s fastest-growing startups in the UK and Ireland, by revenue, 2026' },
+    { n: 'Fintech 50', label: 'Named in May 2026, among the firms building the infrastructure of financial services' },
     { n: '$8m', label: 'Seed, March 2026 · Moonfire, Speedinvest, Openspace, Locus' },
   ])}
   ${logoMarquee(ctx, 'partners')}
-  ${badges(['SOC 2 Type II', 'GDPR', 'FCA regulatory sandbox', 'Fintech 50, 2026', 'US · EU · UK · Singapore'])}
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">

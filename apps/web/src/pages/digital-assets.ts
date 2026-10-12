@@ -87,7 +87,7 @@ ${whoCards(ctx, {
     },
     { art: 'shield', title: 'SOC 2 Type II', text: 'Audited; GDPR compliant' },
     { art: 'cite', title: 'Every claim', text: 'Cited to the source it came from' },
-    { art: 'globe', title: '4 jurisdictions', text: 'MiCA, the UK regime, MAS and VARA' },
+    { art: 'globe', title: '8 jurisdictions', text: 'Live and expanding: the EU, the UK, the US, MAS, VARA and more' },
   ])}
 </section>
 
@@ -112,7 +112,7 @@ ${feature({
   id: 'jurisdictions',
   title: 'Jurisdiction by jurisdiction',
   desk: DESK,
-  body: html`<p class="body muted">MiCA, the UK regime, MAS and VARA in one view, so an asset cleared in one place is not re-cleared from scratch in another.</p>`,
+  body: html`<p class="body muted">Eight jurisdictions live, among them the EU, the UK, the US, MAS and VARA, in one view, so an asset cleared in one place is not re-cleared from scratch in another.</p>`,
   visual: plate(ctx, { tint: DESK, html: uiReport(DESK) }),
 })}
 
