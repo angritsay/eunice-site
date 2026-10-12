@@ -6,14 +6,14 @@ import {
   button,
   cta,
   facts,
-  founder,
   insightsBlock,
+  investorsRow,
   logoMarquee,
   mark,
   numbers,
-  peopleStrip,
   quoteBlock,
   sectionHead,
+  teamGrid,
 } from '../components.ts';
 import { quotes, team } from '../content/index.ts';
 import { type Html, html } from '../lib/html.ts';
@@ -58,6 +58,7 @@ export default {
     ],
   })}
   ${logoMarquee(ctx, 'partners')}
+  ${investorsRow(ctx)}
 </section>
 
 <section class="band--ink section" id="about"><div class="wrap intro">
@@ -105,23 +106,11 @@ export default {
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Our founders', team.intro)}
-  <div class="founders">${founder(ctx, 'yi')}${founder(ctx, 'philip')}</div>
-
-  <div class="team-block">
-    ${sectionHead('The team', 'Point at a person, or tap, to read about them.')}
-    ${peopleStrip(
-      ctx,
-      ['riley', 'vinay', 'petronela', 'chrislyn', 'ana'],
-      {
-        title: 'Client Implementation Consultant, Private Markets',
-        slug: 'client-implementation-consultant-private-markets',
-        line: 'Sit with LPs and fund managers while Eunice reads their first dataroom.',
-      },
-      'petronela',
-    )}
-    <div class="buttons">${button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', to: 'careers' })}</div>
-  </div>
+  ${sectionHead('Our team', team.intro)}
+  ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'], {
+    line: 'GTM for digital assets, client implementation for private markets, senior engineering.',
+  })}
+  <div class="buttons">${button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', to: 'careers' })}</div>
 </section>
 
 <section class="band section" id="why"><div class="wrap">

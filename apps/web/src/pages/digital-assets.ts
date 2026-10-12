@@ -9,10 +9,10 @@ import {
   insightsBlock,
   mark,
   partnersRow,
-  peopleStrip,
   plate,
   quoteBlock,
   sectionHead,
+  teamGrid,
   whoCards,
 } from '../components.ts';
 import { quotes } from '../content/index.ts';
@@ -139,7 +139,7 @@ ${insightsBlock(ctx, {
 
 <section class="wrap section" id="team">
   ${sectionHead('The desk', 'Who runs digital assets, from listing reviews to the FCA sandbox.')}
-  ${peopleStrip(ctx, ['yi', 'philip', 'chrislyn', 'riley'])}
+  ${teamGrid(ctx, ['yi', 'philip', 'chrislyn', 'riley'])}
 </section>
 
 ${eventsBlock(ctx, { label: 'Where we have been', aside: 'Talks, panels and delegations.', desk: DESK, today: ctx.today })}

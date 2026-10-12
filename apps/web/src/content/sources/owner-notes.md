@@ -45,3 +45,17 @@ Founded FreeUp, a Fintech acquired by Earnd
 Former VC with 40+ Fintech investments
 
 CTO - Product / Engineering / 3x founder
+
+## Investors, from Yi Luo (2026-10-12)
+
+Yi asked for a row headed "Backed by leading institutions and individuals", with the
+logos in this order, from files she supplied:
+
+Moonfire
+Speedinvest
+Openspace
+Tiny (Tiny Supercomputer Investment Company, TSIC)
+
+and, in words only, never as logos: "also by Sequoia Scout, Accel Scout, Atomico Angel
+Programme". Locus Ventures stays in the funding lines elsewhere (owner's decision, same
+day).
