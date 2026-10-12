@@ -7,11 +7,11 @@ import {
   feature,
   heroField,
   insightsBlock,
-  peopleStrip,
   plate,
   pullQuote,
   sectionHead,
   stage,
+  teamGrid,
   type WhoClient,
   whoCards,
 } from '../components.ts';
@@ -147,7 +147,7 @@ ${insightsBlock(ctx, {
 
 <section class="wrap section" id="team">
   ${sectionHead('The desk', 'Who runs private markets, and who builds what it runs on.')}
-  ${peopleStrip(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
+  ${teamGrid(ctx, ['petronela', 'yi', 'philip', 'vinay'])}
 </section>
 
 ${eventsBlock(ctx, { label: 'Events', aside: 'Where the desk will be, and where it has been.', desk: DESK, today: ctx.today })}

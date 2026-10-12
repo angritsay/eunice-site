@@ -70,18 +70,27 @@ test('every page has the three menus; User login shows only on the crypto pages'
   }
 });
 
-test('the open role in the team strip leads to its job description', () => {
+test('the hiring card in the team grid leads to the open roles', () => {
   const html = readPage('');
-  expect(html).toMatch(/class="pstrip"[\s\S]*?href="careers\/client-implementation-consultant-private-markets\/"/);
+  expect(html).toMatch(/class="team__person team__hiring"[\s\S]*?href="careers\/#roles"/);
 });
 
-// One people component everywhere: every team section is the strip, with its own people.
-test('every team section uses the one people strip', () => {
+// Every LinkedIn link on a team card goes to a LinkedIn profile.
+test('team LinkedIn links are profile links', () => {
+  for (const page of PAGES) {
+    for (const [, href] of readPage(page).matchAll(/class="team__in" href="([^"]+)"/g))
+      expect(href, page).toMatch(/^https:\/\/www\.linkedin\.com\/in\/[^/]+\/$/);
+  }
+});
+
+// One people component everywhere: every team section is the grid, with its own people.
+test('every team section uses the one team grid', () => {
   const withTeam = PAGES.filter((p) => readPage(p).includes('id="team"'));
   expect(withTeam.length).toBeGreaterThanOrEqual(5);
   for (const page of withTeam) {
     const html = readPage(page);
-    expect(html, page).toContain('class="pstrip"');
+    expect(html, page).toContain('class="team"');
+    expect(html, page).not.toContain('pstrip');
     expect(html, page).not.toContain('class="person ');
   }
 });

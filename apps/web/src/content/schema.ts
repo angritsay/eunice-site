@@ -48,9 +48,9 @@ export const AudiencePages = z.array(AudiencePage).superRefine((pages, ctx) => {
 
 export const Person = z.strictObject({
   name: text,
-  /** Their title, as the live careers page gives it. */
+  /** Their title, as the live careers page gives it, or as recorded in sources/owner-notes.md. */
   role: text,
-  /** The lines under their name on the live careers page, word for word. Empty: none yet. */
+  /** The lines under their name, from the live careers page or sources/owner-notes.md, word for word. Empty: none yet. */
   facts: z.array(text),
   /** A file under assets/img/people/. Empty: no portrait yet. */
   photo: z.string(),
@@ -105,7 +105,7 @@ export type Event = z.infer<typeof Event>;
 
 export const Quote = z.strictObject({ desk: Desk, text, who: text });
 
-/** A firm shown by its logo in the "Clients" or "Legal partners" row: an SVG under assets/img/logos/, from its own brand assets. */
+/** A firm shown by its logo in the "Clients" or "Partners" row: an SVG under assets/img/logos/, from its own brand assets. */
 export const Firm = z.strictObject({
   name: text,
   logo: z.string().regex(/^[a-z0-9-]+\.svg$/),

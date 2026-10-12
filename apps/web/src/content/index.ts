@@ -72,7 +72,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'managers',
     desk: 'private-markets',
-    nav: 'For managers',
+    nav: 'For Managers',
     card: { title: 'Fund managers', text: 'The same ODD questionnaire, asked eleven ways, by eleven different LPs.' },
     title: 'Eunice for fund managers — answer the diligence questionnaire once',
     description:
@@ -106,7 +106,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'family-offices',
     desk: 'private-markets',
-    nav: 'For family offices',
+    nav: 'For Family Offices',
     card: { title: 'Family offices', text: 'Enable you to do more with a lean team.' },
     title: 'Eunice for family offices — the diligence of a full team',
     description:
@@ -140,7 +140,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'exchanges',
     desk: 'digital-assets',
-    nav: 'For exchanges',
+    nav: 'For Exchanges',
     card: { title: 'Exchanges', text: 'A listing queue that grows faster than the team reviewing it.' },
     title: 'Eunice for exchanges — listing diligence your committee signs off on',
     description:
@@ -174,7 +174,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'custodians',
     desk: 'digital-assets',
-    nav: 'For custodians',
+    nav: 'For Custodians',
     quote: 'zodia',
     card: { title: 'Custodians', text: 'You hold the asset. You are the last to hear when something moves.' },
     title: 'Eunice for custodians — monitoring with the source attached',
@@ -209,7 +209,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'market-makers',
     desk: 'digital-assets',
-    nav: 'For market makers',
+    nav: 'For Market Makers',
     quote: 'libeara',
     card: { title: 'Market makers', text: 'Inventory in something whose disclosure changed this morning.' },
     title: 'Eunice for market makers — know what changed before the position does',
@@ -244,13 +244,13 @@ export const audiencePages = content('audiencePages', AudiencePages, [
   {
     id: 'issuers',
     desk: 'token-disclosure',
-    nav: 'For issuers',
+    nav: 'For Issuers',
     card: { title: 'Issuers', text: 'A white paper that has to be accepted once, and stay true after that.' },
     title: 'Eunice for issuers — a MiCA white paper accepted once',
     description:
-      'Drafted from a library of 1,000+ pre-filled papers, reviewed where a legal opinion is needed, notified to the authority and hosted where anyone can check it.',
+      'From the team behind 30+ MiCA white papers filed through 4 NCAs: drafted, reviewed where a legal opinion is needed, notified to the authority and hosted where anyone can check it.',
     h1: 'A white paper accepted once',
-    lead: 'Drafted from a library of 1,000+ pre-filled papers, reviewed where a legal opinion is needed, notified to the authority, and hosted on a page anyone can open.',
+    lead: 'From the team behind 30+ MiCA white papers filed through 4 NCAs: drafted, reviewed where a legal opinion is needed, notified to the authority, and hosted on a page anyone can open.',
     now: [
       'The paper has to be right before it is filed, and there is no second first submission.',
       'Every exchange that might list the token asks for the same document a different way.',
@@ -258,8 +258,8 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     work: [
       {
-        title: 'Drafted from the library',
-        text: 'A MiCA white paper drafted from 1,000+ pre-filled papers, so the starting point is a document that has already been through this.',
+        title: 'Drafted by a team that files them',
+        text: 'A MiCA white paper drafted by the team behind 30+ papers filed through 4 NCAs, so the starting point has already been through this.',
       },
       {
         title: 'Reviewed where it counts',
@@ -272,13 +272,13 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     cta: {
       title: 'Start a white paper',
-      text: 'Tell us about the token and the jurisdiction. We will show you the draft the library produces and what would still need an opinion.',
+      text: 'Tell us about the token and the jurisdiction. We will show you how the draft would come together and what would still need an opinion.',
     },
   },
   {
     id: 'counsel',
     desk: 'token-disclosure',
-    nav: 'For counsel',
+    nav: 'For Counsel',
     card: { title: 'Counsel', text: 'A draft that arrives in the shape the regime asks for.' },
     title: 'Eunice for counsel — review the paper, not the boilerplate',
     description:
@@ -293,7 +293,7 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     work: [
       {
         title: 'Structure already settled',
-        text: 'The draft follows the regime’s own shape, drawn from 1,000+ pre-filled papers, so review starts at the substance.',
+        text: 'The draft follows the regime’s own shape, from the team behind 30+ papers filed through 4 NCAs, so review starts at the substance.',
       },
       {
         title: 'Opinions where they are needed',
@@ -306,13 +306,13 @@ export const audiencePages = content('audiencePages', AudiencePages, [
     ],
     cta: {
       title: 'Put a live matter through it',
-      text: 'Bring a paper you are drafting now. We will show you what the library fills and what it leaves to you.',
+      text: 'Bring a paper you are drafting now. We will show you what we would fill and what we would leave to you.',
     },
   },
   {
     id: 'exchanges',
     desk: 'token-disclosure',
-    nav: 'For exchanges',
+    nav: 'For Exchanges',
     card: { title: 'Exchanges', text: 'Check what an issuer published, without asking them for it.' },
     title: 'Eunice for exchanges — check the disclosure yourself',
     description:
@@ -358,18 +358,18 @@ export const audiencePages = content('audiencePages', AudiencePages, [
 export const people = contentRecord('people', Person, {
   yi: {
     name: 'Yi Luo',
-    role: 'CEO · Finance/Crypto',
+    role: 'CEO · Finance / 2x founder',
     facts: [
-      'Co-Founder at FreeUp · Fintech acquired by Earnd',
+      'Founded FreeUp, a Fintech acquired by Earnd',
       'Scaled teams across the US and UK',
-      'Former VC with 40+ investments',
+      'Former VC with 40+ Fintech investments',
     ],
     photo: 'yi.webp',
     linkedin: 'https://www.linkedin.com/in/loriluoyi/',
   },
   philip: {
     name: 'Philip Lam',
-    role: 'CTO · Product/Engineering',
+    role: 'CTO · Product / Engineering / 3x founder',
     facts: [
       'Co-Founder at NEX · US-based AI startup, raised $40M',
       'VP Eng at Goodnotes (30M MAU), built & led a team of 200 engineers',
@@ -581,13 +581,6 @@ export const insights = content('insights', z.array(Insight), [
     post: 'cryptoasset-classification-under-mica-other-regimes',
   },
   {
-    date: '2025-03-06',
-    desk: 'token-disclosure',
-    type: 'Press',
-    title: 'Introducing Eunice’s AI-powered MiCA white paper library',
-    post: 'introducing-the-ai-powered-mica-whitepaper-library',
-  },
-  {
     date: '2024-10-16',
     desk: 'digital-assets',
     type: 'Video',
@@ -687,11 +680,12 @@ export const quotes = contentRecord('quotes', Quote, {
   },
 });
 
-// Two rows of logos, "Clients" and "Legal partners". Each file is the firm's own mark: from
+// Two rows of logos, "Clients" and "Partners". Each file is the firm's own mark: from
 // its website header or logo file (Copper, Crypto.com, Zodia Custody, FalconX, Kraken,
-// Libeara, Zero Hash, Flowdesk, CMS, gunnercooke, Drew & Napier, Orrick, Cahill), or for
+// Libeara, Zero Hash, Flowdesk, CMS, gunnercooke, Drew & Napier, Orrick, Cahill), for
 // Coinbase, whose site blocks automated visits, the public-domain wordmark on Wikimedia
-// Commons. Shown in one grey, so none outshouts the others.
+// Commons, and for the IA, CCRI, CryptoUK and Grow London, traced from the logo files
+// the team supplied (October 2026). Shown in one grey, so none outshouts the others.
 //
 // "Clients": clients and the exchanges, custodians and market makers Eunice works
 // alongside, in the order of the team's slide (October 2026). Stripe and OKX wait for the
@@ -708,13 +702,33 @@ export const clients = content('clients', z.array(Firm), [
   { name: 'Flowdesk', logo: 'flowdesk.svg', height: 18 },
 ]);
 
-// "Legal partners": the law firms Eunice works with on token classification and disclosure.
+// "Partners": the law firms Eunice works with on token classification and disclosure, then
+// the industry bodies and programmes it belongs to.
 export const partners = content('partners', z.array(Firm), [
   { name: 'gunnercooke', logo: 'gunnercooke.svg', height: 22 },
   { name: 'CMS', logo: 'cms.svg', height: 30 },
   { name: 'Drew & Napier', logo: 'drew-napier.svg', height: 20 },
   { name: 'Orrick', logo: 'orrick.svg', height: 34 },
   { name: 'Cahill', logo: 'cahill.svg', height: 18 },
+  { name: 'The Investment Association, Fintech member', logo: 'ia-fintech.svg', height: 30 },
+  { name: 'CCRI', logo: 'ccri.svg', height: 22 },
+  { name: 'CryptoUK', logo: 'cryptouk.svg', height: 18 },
+  { name: 'Grow London', logo: 'grow-london.svg', height: 28 },
+]);
+
+// "Backed by leading institutions and individuals": the investors, in Yi's order (October
+// 2026), traced from the logo files she supplied, sized so the four look equally heavy. The scout and angel programmes are
+// named in words only, at her request: their logos are not ours to show.
+export const investors = content('investors', z.array(Firm), [
+  { name: 'Moonfire', logo: 'moonfire.svg', height: 23 },
+  { name: 'Speedinvest', logo: 'speedinvest.svg', height: 28 },
+  { name: 'Openspace Capital', logo: 'openspace.svg', height: 40 },
+  { name: 'Tiny Supercomputer Investment Company', logo: 'tsic.svg', height: 24 },
+]);
+export const alsoBackedBy = content('alsoBackedBy', z.array(z.string().min(1)), [
+  'Sequoia Scout',
+  'Accel Scout',
+  'Atomico Angel Programme',
 ]);
 
 export const roles = content('roles', z.array(Role), [

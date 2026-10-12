@@ -1,7 +1,18 @@
 // Shared building blocks. Pages compose these; nothing here holds page copy.
 import type { Placement } from '@eunice/contracts/forms';
-import { audiencePages, clients, desks, events, insights, integrations, partners, people } from './content/index.ts';
-import type { Firm, Insight, Person, Quote } from './content/schema.ts';
+import {
+  alsoBackedBy,
+  audiencePages,
+  clients,
+  desks,
+  events,
+  insights,
+  integrations,
+  investors,
+  partners,
+  people,
+} from './content/index.ts';
+import type { Firm, Insight, Quote } from './content/schema.ts';
 import type { Ctx, Desk, NavItem, NavKey, ProductDesk } from './lib/types.ts';
 import config from './site.config.ts';
 
@@ -219,11 +230,33 @@ export const facts = (
   ${items.map((f) => html`<div class="fact">${art(f.art)}<p class="h4">${f.title}</p><p class="small muted">${f.text}</p></div>`)}
 </div>`;
 
-// Proof as numbers: one big figure and a one-line label each, the way the references
-// show scale. Only figures that already appear elsewhere on the site.
-export const numbers = (items: readonly { n: string; label: string }[]) => html`<ul class="numbers">
-  ${items.map((i) => html`<li><span class="numbers__n">${i.n}</span><span class="numbers__label">${i.label}</span></li>`)}
-</ul>`;
+// Proof as numbers: a lead on the left, a recognition shown by its publisher's logo
+// with the line it gave us, then figures on the right, one per hairline row, each with
+// a short note.
+export const numbers = (
+  ctx: Ctx,
+  {
+    lead,
+    rows,
+  }: {
+    lead: { logo: string; name: string; text: string; note: string };
+    rows: readonly { n: string; label: string }[];
+  },
+) => {
+  const s = imageSize(`img/logos/${lead.logo}`);
+  const h = 44;
+  const w = s ? Math.round((s.width / s.height) * h) : h * 4;
+  return html`<div class="numbers">
+  <div class="numbers__lead">
+    <img src="${ctx.asset(`img/logos/${lead.logo}`)}" alt="${lead.name}" width="${w}" height="${h}">
+    <p class="h2">${lead.text}</p>
+    <p class="small muted">${lead.note}</p>
+  </div>
+  <ul class="numbers__rows">
+    ${rows.map((r) => html`<li><span class="h3">${r.n}</span><span class="small muted">${r.label}</span></li>`)}
+  </ul>
+</div>`;
+};
 
 // A journey read left to right: stops on one line, each a short title and a
 // line of text. With `onward`, the line runs on past the last stop, which is drawn as
@@ -264,17 +297,19 @@ export const quoteBlock = (q: Quote, { withDesk = true } = {}) => html`
 // the width. Under reduced motion the copies go and the row stands still.
 const FIRMS = {
   clients: { label: 'Clients', firms: clients },
-  partners: { label: 'Legal partners', firms: partners },
+  partners: { label: 'Partners', firms: partners },
+};
+
+const firmLogo = (ctx: Ctx, f: Firm, hidden = false) => {
+  const s = imageSize(`img/logos/${f.logo}`);
+  const width = s ? Math.round((s.width / s.height) * f.height) : f.height * 4;
+  return html`<li><img src="${ctx.asset(`img/logos/${f.logo}`)}" alt="${hidden ? '' : f.name}" width="${width}" height="${f.height}" loading="lazy"></li>`;
 };
 
 export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
   const { label, firms } = FIRMS[row];
   const list = (hidden: boolean) =>
-    html`<ul class="logos__list"${hidden ? html` aria-hidden="true"` : ''}>${firms.map((f: Firm) => {
-      const s = imageSize(`img/logos/${f.logo}`);
-      const width = s ? Math.round((s.width / s.height) * f.height) : f.height * 4;
-      return html`<li><img src="${ctx.asset(`img/logos/${f.logo}`)}" alt="${hidden ? '' : f.name}" width="${width}" height="${f.height}" loading="lazy"></li>`;
-    })}</ul>`;
+    html`<ul class="logos__list"${hidden ? html` aria-hidden="true"` : ''}>${firms.map((f: Firm) => firmLogo(ctx, f, hidden))}</ul>`;
   const perHalf = Math.max(1, Math.ceil(10 / firms.length));
   const copies = Array.from({ length: perHalf * 2 }, (_, i) => list(i > 0));
   return html`
@@ -283,6 +318,21 @@ export function logoMarquee(ctx: Ctx, row: keyof typeof FIRMS): Html {
   <div class="logos__view"><div class="logos__track">${copies}</div></div>
 </div>`;
 }
+
+// The investors, in step with the numbers block: the statement on the left, with the
+// scout and angel programmes named in words under it; the backers' logos in a 2×2 wall
+// on the right, with no rules between them.
+const inWords = (items: readonly string[]) =>
+  items.length > 1 ? `${items.slice(0, -1).join(', ')} and ${items.at(-1)}` : (items[0] ?? '');
+
+export const investorsBlock = (ctx: Ctx) => html`
+<div class="backers">
+  <div class="backers__lead">
+    <p class="h2">Backed by leading institutions and individuals</p>
+    <p class="small muted">Also by ${inWords(alsoBackedBy)}.</p>
+  </div>
+  <ul class="backers__wall">${investors.map((f) => firmLogo(ctx, f))}</ul>
+</div>`;
 
 // Both rows together, for pages that show them as one block.
 export const partnersRow = (ctx: Ctx) => html`
@@ -470,8 +520,6 @@ export function eventsBlock(
 }
 
 // ---------- People ----------
-// variant 'row': small portrait beside the name (product pages). 'portrait': tall photo (company, careers).
-
 const initials = (name: string) =>
   name
     .split(/\s+/)
@@ -479,28 +527,34 @@ const initials = (name: string) =>
     .join('')
     .slice(0, 2);
 
-// The lines under a person's name, from the fact base. Nothing when there are none yet.
-const factList = (p: Person, size: 'body' | 'small') =>
-  p.facts.length ? html`<ul class="pfacts ${size}">${p.facts.map((f) => html`<li>${f}</li>`)}</ul>` : '';
+const LINKEDIN = html`<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="1.5" width="17" height="17" rx="3"/><path d="M6 8.5v5.5M6 6v.01M9.5 14V8.5M9.5 11c0-1.6 1-2.6 2.4-2.6 1.4 0 2.1.9 2.1 2.6V14"/></svg>`;
 
-// A founder, larger: portrait (or their film, once there is one), name, role, bio.
-export function founder(ctx: Ctx, id: PersonId): Html {
-  const p = people[id];
-  const portrait = html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="${p.name}" loading="lazy">`;
-  return html`
-<article class="founder">
-  <div class="founder__media">${
-    p.video
-      ? html`<video controls preload="none" poster="${ctx.asset(`img/people/${p.photo}`)}"><source src="${ctx.asset(`video/${p.video}`)}" type="video/mp4"><p>${p.name}: <a href="${ctx.asset(`video/${p.video}`)}">watch the film</a>.</p></video>`
-      : portrait
-  }</div>
-  <div class="founder__text">
-    <h3 class="h3">${p.name}</h3>
-    <p class="caption muted">${p.role}</p>
-    ${factList(p, 'body')}
-    ${p.linkedin ? html`<a class="more" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>` : ''}
-  </div>
-</article>`;
+// The team as a plain grid, everyone the same (Yi and Philip, October 2026, after the
+// Tetrix about page): portrait, name, role, LinkedIn. Founders come first by order, not by
+// size. `hiring`: a last card pointing at the open roles.
+export function teamGrid(ctx: Ctx, ids: readonly PersonId[], hiring?: { line: string }): Html {
+  return html`<ul class="team">${ids.map((id) => {
+    const p = people[id];
+    return html`<li class="team__person">
+    <div class="team__face">${
+      p.photo
+        ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="${p.name}" loading="lazy">`
+        : html`<span class="team__initials" aria-hidden="true">${initials(p.name)}</span>`
+    }</div>
+    <p class="h4">${p.name}</p>
+    <p class="small muted">${p.role}</p>
+    ${p.linkedin ? html`<a class="team__in" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">${LINKEDIN}</a>` : ''}
+  </li>`;
+  })}${
+    hiring
+      ? html`<li class="team__person team__hiring">
+    <div class="team__face team__face--open" aria-hidden="true"><span class="small muted">Your photo here</span></div>
+    <p class="h4">We are hiring</p>
+    <p class="small muted">${hiring.line}</p>
+    <a class="more" href="${ctx.link('careers', 'roles')}">See open roles</a>
+  </li>`
+      : ''
+  }</ul>`;
 }
 
 // The integrations strip along the top of every page: a slow loop of logos. The
@@ -620,54 +674,6 @@ export const listCards = (cards: readonly ListCard[]): Html => html`
     ? html`<li class="lcard lcard--split">${media}<a class="lcard__link" href="${c.href}">${text}</a><span class="lcard__actions">${c.actions}</span></li>`
     : html`<li><a class="lcard" href="${c.href}">${media}${text}</a></li>`;
 })}</ul>`;
-
-// ---------- People strip ----------
-// The team in one row. One person is always open: their portrait and, to its right,
-// who they are. Pointing at, focusing or tapping another opens them instead; the row
-// never snaps back to empty. On tablet and phone it is an accordion.
-// `open`: who is open when the page loads (the first person unless given).
-export function peopleStrip(
-  ctx: Ctx,
-  ids: readonly PersonId[],
-  opening?: { title: string; slug: string; line: string },
-  open: PersonId | undefined = ids[0],
-): Html {
-  const key = (ctx.slug || 'home').replaceAll('/', '-');
-  const item = (id: string, open: boolean, face: Html, label: Html, info: Html) => html`
-  <li class="pstrip__item${open ? ' is-open' : ''}">
-    <button type="button" class="pstrip__face" aria-expanded="${String(open)}" aria-controls="ps-${key}-${id}">${face}<span class="pstrip__label">${label}</span></button>
-    <div class="pstrip__info" id="ps-${key}-${id}">${info}</div>
-  </li>`;
-  return html`<ul class="pstrip" data-strip>${ids.map((id) => {
-    const p = people[id];
-    const face = p.photo
-      ? html`<img src="${ctx.asset(`img/people/${p.photo}`)}" alt="" loading="lazy">`
-      : html`<span class="pstrip__initials" aria-hidden="true">${initials(p.name)}</span>`;
-    return item(
-      id,
-      id === open,
-      face,
-      html`<span class="pstrip__name">${p.name}</span><span class="pstrip__role">${p.role}</span>`,
-      html`<p class="h3">${p.name}</p>
-      <p class="caption muted">${p.role}</p>
-      ${factList(p, 'small')}
-      ${p.linkedin ? html`<a class="more" href="${p.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${p.name} on LinkedIn">LinkedIn</a>` : ''}`,
-    );
-  })}${
-    opening
-      ? item(
-          'opening',
-          false,
-          html`<span class="pstrip__empty">Your photo here</span>`,
-          html`<span class="pstrip__name">We are hiring</span><span class="pstrip__role">${opening.title}</span>`,
-          html`<p class="h3">${opening.title}</p>
-      <p class="caption muted">Open role</p>
-      <p class="small">${opening.line}</p>
-      <a class="more" href="${ctx.link(`careers/${opening.slug}`)}">Read the role and apply</a>`,
-        )
-      : ''
-  }</ul>`;
-}
 
 // ---------- Closing call to action ----------
 export const cta = (

@@ -64,7 +64,7 @@ const DESK: Record<ProductDesk, DeskShared> = {
       },
       { art: 'legal', title: 'Reviewed by CMS', text: 'Where a legal opinion is needed' },
       { art: 'tag', title: 'gunnercooke', text: 'UK token classification, since July 2026' },
-      { art: 'library', title: '1,000+ pre-filled papers', text: 'The library a new white paper is drafted from' },
+      { art: 'library', title: '30+ MiCA white papers', text: 'Filed through 4 NCAs' },
     ],
     // No client quote on this desk yet; the section is left out until there is one.
     quote: null,

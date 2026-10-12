@@ -34,3 +34,28 @@ section, the wording of two lines on the live careers page:
 
 Scaled teams across the US and UK
 Co-Founder at NEX - US-based AI startup, raised $40M
+
+## Bios from Yi Luo and Philip Lam (2026-10-12)
+
+Their updated titles and lines, as Yi gave them in the site's build chat (Yi wrote
+"2X founders"; shown as "2x founder" / "3x founder"):
+
+CEO - Finance / 2x founder
+Founded FreeUp, a Fintech acquired by Earnd
+Former VC with 40+ Fintech investments
+
+CTO - Product / Engineering / 3x founder
+
+## Investors, from Yi Luo (2026-10-12)
+
+Yi asked for a row headed "Backed by leading institutions and individuals", with the
+logos in this order, from files she supplied:
+
+Moonfire
+Speedinvest
+Openspace
+Tiny (Tiny Supercomputer Investment Company, TSIC)
+
+and, in words only, never as logos: "also by Sequoia Scout, Accel Scout, Atomico Angel
+Programme". Locus Ventures stays in the funding lines elsewhere (owner's decision, same
+day).

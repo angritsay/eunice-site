@@ -58,10 +58,9 @@ const config: SiteConfig = {
       to: '',
       keys: ['company'],
       items: [
+        { label: 'Security', to: '', hash: 'trust' },
         { label: 'Team', to: '', hash: 'team' },
-        { label: 'Firm history', to: '', hash: 'history' },
-        { label: 'What we stand for', to: '', hash: 'values' },
-        { label: 'Eunice AI Trust Centre', to: '', hash: 'trust' },
+        { label: 'Why Eunice', to: '', hash: 'why' },
         { label: 'Careers', to: 'careers' },
       ],
     },
@@ -83,11 +82,11 @@ const config: SiteConfig = {
       to: 'digital-assets',
       keys: ['digital-assets', 'token-disclosure'],
       items: [
-        { label: 'Listing diligence', to: 'digital-assets', hash: 'listing' },
+        { label: 'Listing Diligence', to: 'digital-assets', hash: 'listing' },
         { label: 'Monitoring', to: 'digital-assets', hash: 'monitoring' },
         { label: 'Token Disclosure', to: 'token-disclosure' },
-        { label: 'MiCA white paper', to: 'mica-whitepaper' },
-        { label: 'The register', to: 'token-disclosure/register' },
+        { label: 'MiCA White Paper', to: 'mica-whitepaper' },
+        { label: 'The Register', to: 'token-disclosure/register' },
       ],
     },
   ],
@@ -100,35 +99,35 @@ const config: SiteConfig = {
   loginOn: ['digital-assets', 'token-disclosure'],
 
   footer: [
-    { title: 'Private markets', links: tabs('private-markets') },
+    { title: 'Private Markets', links: tabs('private-markets') },
     {
-      title: 'Digital assets',
+      title: 'Digital Assets',
       links: [
-        { label: 'Listing diligence', to: 'digital-assets', hash: 'listing' },
+        { label: 'Listing Diligence', to: 'digital-assets', hash: 'listing' },
         { label: 'Monitoring', to: 'digital-assets', hash: 'monitoring' },
         ...tabs('digital-assets'),
       ],
     },
     {
-      title: 'Token disclosure',
+      title: 'Token Disclosure',
       links: [
         ...tabs('token-disclosure'),
-        { label: 'MiCA white paper', to: 'mica-whitepaper' },
-        { label: 'The register', to: 'token-disclosure/register' },
+        { label: 'MiCA White Paper', to: 'mica-whitepaper' },
+        { label: 'The Register', to: 'token-disclosure/register' },
       ],
     },
     {
       title: 'Insights',
       links: [
-        { label: 'Digital assets', to: 'insights', query: 'digital-assets' },
-        { label: 'Token disclosure', to: 'insights', query: 'token-disclosure' },
-        { label: 'Company news', to: 'insights', query: 'company' },
+        { label: 'Digital Assets', to: 'insights', query: 'digital-assets' },
+        { label: 'Token Disclosure', to: 'insights', query: 'token-disclosure' },
+        { label: 'Company News', to: 'insights', query: 'company' },
       ],
     },
     {
       title: 'Company',
       links: [
-        { label: 'About us', to: '', hash: 'history' },
+        { label: 'About Us', to: '', hash: 'why' },
         { label: 'Careers', to: 'careers' },
         { label: 'Blog', to: 'blog' },
         { label: 'Security', to: 'security' },
