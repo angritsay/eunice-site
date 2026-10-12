@@ -7,8 +7,8 @@ import {
   feature,
   heroField,
   insightsBlock,
+  logoMarquee,
   mark,
-  partnersRow,
   peopleStrip,
   plate,
   quoteBlock,
@@ -74,8 +74,9 @@ ${whoCards(ctx, {
 })}
 
 <section class="wrap section" id="working-with">
-  ${partnersRow(ctx)}
+  ${logoMarquee(ctx, 'clients')}
   <div class="grid grid--3 quotes">${quoteBlock(quotes.falconx)}${quoteBlock(quotes.zodia)}${quoteBlock(quotes.libeara)}</div>
+  ${logoMarquee(ctx, 'partners')}
 </section>
 
 <section class="wrap section section--tight">
