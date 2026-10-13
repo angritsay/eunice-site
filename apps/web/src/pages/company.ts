@@ -9,7 +9,7 @@ import {
   sectionHead,
   teamGrid,
 } from '../components.ts';
-import { insights } from '../content/index.ts';
+import { insights, teamPeople } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import config from '../site.config.ts';
@@ -54,8 +54,8 @@ export default {
 </section>
 
 <section class="wrap section" id="team">
-  ${sectionHead('Leadership')}
-  ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn'], {
+  ${sectionHead('Our Team')}
+  ${teamGrid(ctx, teamPeople, {
     line: 'GTM for digital assets, client implementation for private markets, senior engineering.',
   })}
   ${investorsBlock(ctx)}

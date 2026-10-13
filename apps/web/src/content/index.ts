@@ -413,8 +413,49 @@ export const people = contentRecord('people', Person, {
     photo: 'ana.webp',
     linkedin: 'https://www.linkedin.com/in/ana-beslija/',
   },
-  riley: { name: 'Riley Lee', role: 'Developer · Digital Assets', facts: [], photo: 'riley.webp' },
+  riley: {
+    name: 'Riley Lee',
+    role: 'Developer',
+    facts: [],
+    photo: 'riley.webp',
+    linkedin: 'https://www.linkedin.com/in/rileylyw/',
+  },
+  kelvin: {
+    name: 'Kelvin Wong',
+    role: 'Senior AI Engineer',
+    facts: [],
+    photo: 'kelvin.webp',
+    linkedin: 'https://www.linkedin.com/in/wl-kelvin-wong/',
+  },
+  vijay: {
+    name: 'Vijay Sundar',
+    role: 'Due Diligence Analyst',
+    facts: [],
+    photo: 'vijay.webp',
+    linkedin: 'https://www.linkedin.com/in/vijay-s-b3694018b/',
+  },
+  anastasia: {
+    name: 'Anastasia Gritsai',
+    role: 'Design',
+    facts: [],
+    photo: 'anastasia.webp',
+    linkedin: 'https://www.linkedin.com/in/gritsay-design/',
+  },
 });
+
+// One team across company and product pages; founders first.
+export const teamPeople = [
+  'yi',
+  'philip',
+  'petronela',
+  'vinay',
+  'chrislyn',
+  'ana',
+  'riley',
+  'kelvin',
+  'vijay',
+  'anastasia',
+] as const;
 
 export const team = content('team', TeamFacts, {
   headline: 'We Build the Accountability Layer Between AI and High-Stakes Decisions',
