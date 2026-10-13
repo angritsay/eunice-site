@@ -14,7 +14,7 @@ import {
   teamGrid,
   whoCards,
 } from '../components.ts';
-import { quotes } from '../content/index.ts';
+import { quotes, teamPeople } from '../content/index.ts';
 import { html } from '../lib/html.ts';
 import type { Page } from '../lib/types.ts';
 import { uiMonitor, uiRead, uiReport } from '../ui.ts';
@@ -131,7 +131,7 @@ ${feature({
 
 <section class="wrap section" id="team">
   ${sectionHead('The Team')}
-  ${teamGrid(ctx, ['yi', 'philip', 'chrislyn', 'riley'])}
+  ${teamGrid(ctx, teamPeople)}
 </section>
 
 ${eventsBlock(ctx, {

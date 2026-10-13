@@ -59,3 +59,26 @@ Tiny (Tiny Supercomputer Investment Company, TSIC)
 and, in words only, never as logos: "also by Sequoia Scout, Accel Scout, Atomico Angel
 Programme". Locus Ventures stays in the funding lines elsewhere (owner's decision, same
 day).
+
+## Team update from Yi and the owner (2026-10-13)
+
+Yi asked to show one team without dividing people between Private Markets and Digital Assets.
+The owner supplied these titles, portraits and LinkedIn links:
+
+Kelvin Wong
+Senior AI Engineer
+https://www.linkedin.com/in/wl-kelvin-wong
+
+Vijay Sundar
+Due Diligence Analyst
+https://www.linkedin.com/in/vijay-s-b3694018b/
+
+Anastasia Gritsai
+Design
+https://www.linkedin.com/in/gritsay-design/
+
+Riley Lee
+Developer
+https://www.linkedin.com/in/rileylyw/
+
+Riley’s role omits the product assignment to match the shared team presentation.

@@ -15,7 +15,7 @@ import {
   sectionHead,
   teamGrid,
 } from '../components.ts';
-import { quotes } from '../content/index.ts';
+import { quotes, teamPeople } from '../content/index.ts';
 import { type Html, html } from '../lib/html.ts';
 import type { Ctx, Page, ProductDesk } from '../lib/types.ts';
 import config from '../site.config.ts';
@@ -106,7 +106,7 @@ export default {
 
 <section class="wrap section" id="team">
   ${sectionHead('Our Team')}
-  ${teamGrid(ctx, ['yi', 'philip', 'petronela', 'vinay', 'chrislyn', 'ana', 'riley'], {
+  ${teamGrid(ctx, teamPeople, {
     line: 'GTM for digital assets, client implementation for private markets, senior engineering.',
   })}
   <div class="buttons">${button(ctx, { label: 'Life at Eunice and all roles', kind: 'outline', to: 'careers' })}</div>
