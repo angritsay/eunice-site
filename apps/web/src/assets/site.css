@@ -402,6 +402,9 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .event--link { color: var(--ink); text-decoration: none; }
 .event--link:hover { color: var(--ink); }
 .event--link:hover .event__name { text-decoration: underline; text-underline-offset: 3px; }
+.event__in { display: inline-flex; vertical-align: -0.1em; margin-left: 8px; color: var(--muted); }
+.event__in svg { width: 0.9em; height: 0.9em; }
+.event--link:hover .event__in { color: var(--ink); }
 
 /* ---------- People ---------- */
 /* Bio: slides down on hover, focus or tap. Grid rows animate height without measuring it. */

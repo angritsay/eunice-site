@@ -397,6 +397,7 @@ export const people = contentRecord('people', Person, {
       'Ex-BMAT — led Audiovisual Engineering dept',
     ],
     photo: 'vinay.webp',
+    linkedin: 'https://www.linkedin.com/in/vinay-manektalla/',
   },
   chrislyn: {
     name: 'Chrislyn Pereira',
@@ -666,24 +667,28 @@ export const events = content('events', z.array(Event), [
     desks: ['private-markets'],
     name: 'Grow London Germany Trade Mission',
     note: 'Petronela Pell attending a week of meetings with local institutional clients & prospects.',
+    url: 'https://www.linkedin.com/feed/update/urn:li:activity:7500881398849789952/',
   },
   {
     month: '2026-09',
     desks: ['private-markets', 'digital-assets'],
     name: 'Grow London Global, with the Mayor of London',
     note: 'Yi Luo met Sadiq Khan as a founder in the Grow London Global cohort.',
+    url: 'https://www.linkedin.com/feed/update/urn:li:activity:7503376005059764226/',
   },
   {
     month: '2026-08',
     desks: ['digital-assets'],
     name: 'FCA Regulatory Sandbox, testing completed',
     note: 'Standardised digital asset disclosure templates, tested with Kraken, Coinbase and Crypto.com, with support from CMS and Aon.',
+    url: 'https://www.linkedin.com/feed/update/urn:li:activity:7495845039776980992/',
   },
   {
     month: '2026-07',
     desks: ['digital-assets'],
     name: 'Webinar: the new UK crypto regime',
     note: 'Admissions & Disclosures and market abuse, from consultation to final rules, with Zodia Custody and CryptoUK; Chrislyn Pereira speaking.',
+    post: 'preparing-for-the-new-uk-crypto-regime-getting-ahead-on-a-d-and-marc',
   },
   {
     month: '2026-06',
@@ -697,8 +702,15 @@ export const events = content('events', z.array(Event), [
     desks: ['digital-assets'],
     name: 'ETHSofia, Sofia · Talk',
     note: 'Macroeconomic drivers of crypto assets.',
+    post: 'macroeconomic-drivers-of-cryptoassets-ethsofia',
   },
-  { month: '2024-05', desks: ['digital-assets'], name: 'Consensus, Austin · Panel', note: 'De-risking DeFi.' },
+  {
+    month: '2024-05',
+    desks: ['digital-assets'],
+    name: 'Consensus, Austin · Panel',
+    note: 'De-risking DeFi.',
+    post: 'derisking-defi-consensus',
+  },
 ]);
 
 export const quotes = contentRecord('quotes', Quote, {

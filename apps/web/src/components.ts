@@ -537,11 +537,13 @@ export function eventsBlock(
   <ul class="events">${rows.map((r) => {
     const soon = !r.kind && r.month > nowYm;
     const tag = soon ? 'Upcoming' : r.kind;
+    const cls = `event${soon ? ' event--upcoming' : ''}`;
+    // A row that opens a LinkedIn post says so before the click, with the icon the team cards use.
+    const onLinkedIn = r.href?.startsWith('https://www.linkedin.com/');
     const inner = html`
       <span class="event__when">${fmtMonth(r.month)}${tag ? html`<span class="event__soon">${tag}</span>` : ''}</span>
-      <span class="event__name h4">${r.name}</span>
+      <span class="event__name h4">${r.name}${onLinkedIn ? html`<span class="event__in">${LINKEDIN}<span class="sr-only"> (LinkedIn)</span></span>` : ''}</span>
       <span class="event__note muted">${r.note}</span>`;
-    const cls = `event${soon ? ' event--upcoming' : ''}`;
     return r.href
       ? html`
     <li><a class="${cls} event--link" href="${r.href}">${inner}</a></li>`
