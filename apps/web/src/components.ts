@@ -539,10 +539,14 @@ export function eventsBlock(
     const tag = soon ? 'Upcoming' : r.kind;
     const cls = `event${soon ? ' event--upcoming' : ''}`;
     // A row that opens a LinkedIn post says so before the click, with the icon the team cards use.
+    // The icon leads the title, so a long title never leaves it alone on a line.
     const onLinkedIn = r.href?.startsWith('https://www.linkedin.com/');
+    const name = onLinkedIn
+      ? html`<span class="event__in">${LINKEDIN}<span class="sr-only">LinkedIn: </span></span>${r.name}`
+      : r.name;
     const inner = html`
       <span class="event__when">${fmtMonth(r.month)}${tag ? html`<span class="event__soon">${tag}</span>` : ''}</span>
-      <span class="event__name h4">${r.name}${onLinkedIn ? html`<span class="event__in">${LINKEDIN}<span class="sr-only"> (LinkedIn)</span></span>` : ''}</span>
+      <span class="event__name h4">${name}</span>
       <span class="event__note muted">${r.note}</span>`;
     return r.href
       ? html`
