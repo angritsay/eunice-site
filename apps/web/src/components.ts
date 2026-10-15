@@ -537,11 +537,17 @@ export function eventsBlock(
   <ul class="events">${rows.map((r) => {
     const soon = !r.kind && r.month > nowYm;
     const tag = soon ? 'Upcoming' : r.kind;
+    const cls = `event${soon ? ' event--upcoming' : ''}`;
+    // A row that opens a LinkedIn post says so before the click, with the icon the team cards use.
+    // The icon leads the title, so a long title never leaves it alone on a line.
+    const onLinkedIn = r.href?.startsWith('https://www.linkedin.com/');
+    const name = onLinkedIn
+      ? html`<span class="event__in">${LINKEDIN}<span class="sr-only">LinkedIn: </span></span>${r.name}`
+      : r.name;
     const inner = html`
       <span class="event__when">${fmtMonth(r.month)}${tag ? html`<span class="event__soon">${tag}</span>` : ''}</span>
-      <span class="event__name h4">${r.name}</span>
+      <span class="event__name h4">${name}</span>
       <span class="event__note muted">${r.note}</span>`;
-    const cls = `event${soon ? ' event--upcoming' : ''}`;
     return r.href
       ? html`
     <li><a class="${cls} event--link" href="${r.href}">${inner}</a></li>`
@@ -560,7 +566,8 @@ const initials = (name: string) =>
     .join('')
     .slice(0, 2);
 
-const LINKEDIN = html`<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="1.5" y="1.5" width="17" height="17" rx="3"/><path d="M6 8.5v5.5M6 6v.01M9.5 14V8.5M9.5 11c0-1.6 1-2.6 2.4-2.6 1.4 0 2.1.9 2.1 2.6V14"/></svg>`;
+// LinkedIn's own "in" mark (the Simple Icons path, CC0), not a redrawing, in the one grey the logos use.
+const LINKEDIN = html`<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`;
 
 // The team as a plain grid, everyone the same (Yi and Philip, October 2026, after the
 // Tetrix about page): portrait, name, role, LinkedIn. Founders come first by order, not by
