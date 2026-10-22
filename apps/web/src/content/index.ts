@@ -506,6 +506,16 @@ export const integrations = content('integrations', z.array(Integration), []);
 // type: 'Article' | 'Note' | 'Video' | 'Press'. Newest first is not required; pages sort by date.
 // url: where the piece lives today. Empty = not linked yet.
 export const insights = content('insights', z.array(Insight), [
+  // Our response to the SEC consultation, led by Ana; dated the day Yi shared it (20 Oct 2026).
+  // TODO: add url once the letter is on the SEC docket (S7-2026-27) or posted on LinkedIn.
+  {
+    date: '2026-10-20',
+    desk: 'token-disclosure',
+    type: 'Article',
+    title: 'Our response to the SEC’s proposed Regulation Crypto Assets',
+    standfirst:
+      'One core disclosure adapted for the US, EU and UK, dated version records, a transition report the market can rely on, and no trading restrictions only because an issuer has not filed.',
+  },
   // From Eunice's own LinkedIn posts (read 29 Sep 2026); the dates are the posts' own.
   {
     date: '2026-09-16',
