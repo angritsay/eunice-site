@@ -661,6 +661,8 @@ export const insights = content('insights', z.array(Insight), [
 
 // month: 'YYYY-MM'. desks: which product pages list it (the home page lists every past event).
 // The 2026 entries from July on are from Eunice's own LinkedIn posts (read 29 Sep 2026).
+// updates: a day's post from an event while it runs, one line each under its row, e.g.
+//   { date: '2026-10-26', place: 'Frankfurt', note: 'One line on the day.', url: 'https://www.linkedin.com/…' }
 export const events = content('events', z.array(Event), [
   {
     month: '2026-10',
@@ -668,6 +670,8 @@ export const events = content('events', z.array(Event), [
     name: 'Grow London Germany Trade Mission',
     note: 'Petronela Pell attending a week of meetings with local institutional clients & prospects.',
     url: 'https://www.linkedin.com/feed/update/urn:li:activity:7500881398849789952/',
+    // Petronela's daily posts from Frankfurt and Berlin, 25 to 29 October.
+    updates: [],
   },
   {
     month: '2026-09',
