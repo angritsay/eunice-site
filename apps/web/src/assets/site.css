@@ -405,6 +405,13 @@ a.icard:hover .icard__img { transform: scale(1.03); }
 .event__in { display: inline-flex; vertical-align: -0.1em; margin-right: 8px; color: var(--muted); }
 .event__in svg { width: 0.9em; height: 0.9em; }
 .event--link:hover .event__in { color: var(--ink); }
+/* An event's daily updates: small lines under its row, in line with its title, no rules between them. */
+.event__days { list-style: none; margin: -8px 0 0 192px; padding: 0 0 20px; display: grid; gap: 10px; }
+.event__day { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: baseline; color: var(--ink); text-decoration: none; }
+.event__day-when { font-size: var(--small); }
+.event__day-note { font-size: var(--small); color: var(--muted); }
+.event__day:hover .event__day-when { text-decoration: underline; text-underline-offset: 3px; }
+.event__day:hover .event__in { color: var(--ink); }
 
 /* ---------- People ---------- */
 /* Bio: slides down on hover, focus or tap. Grid rows animate height without measuring it. */
@@ -699,6 +706,8 @@ a.lcard:hover .lcard__title, .lcard__link:hover .lcard__title { text-decoration:
   .footer__brand { grid-column: 1 / -1; }
   .event { grid-template-columns: minmax(0, 1fr); gap: 6px; }
   .event__note { min-height: 0; -webkit-line-clamp: unset; line-clamp: none; }
+  .event__days { margin-left: 0; margin-top: -4px; gap: 12px; }
+  .event__day { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   .logos { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .partners { gap: 40px; }
 }

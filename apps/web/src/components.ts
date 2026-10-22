@@ -12,7 +12,7 @@ import {
   partners,
   people,
 } from './content/index.ts';
-import type { Firm, Insight, Quote } from './content/schema.ts';
+import type { EventUpdate, Firm, Insight, Quote } from './content/schema.ts';
 import type { Ctx, Desk, NavItem, NavKey, ProductDesk } from './lib/types.ts';
 import config from './site.config.ts';
 
@@ -472,6 +472,23 @@ export function insightsBlock(
 }
 
 // ---------- Events ----------
+// An event's day-by-day updates, one link each, under its row and in line with its title.
+// No updates: nothing, so the row reads as before.
+export function eventUpdates(updates: readonly EventUpdate[] = []): Html | '' {
+  if (!updates.length) return '';
+  return html`
+    <ul class="event__days">${updates.map((u) => {
+      const onLinkedIn = u.url.startsWith('https://www.linkedin.com/');
+      const when = `${fmtDayLong(u.date).replace(/ \d{4}$/, '')}${u.place ? `, ${u.place}` : ''}`;
+      return html`
+      <li><a class="event__day" href="${u.url}">
+        <span class="event__day-when">${onLinkedIn ? html`<span class="event__in">${LINKEDIN}<span class="sr-only">LinkedIn: </span></span>` : ''}${when}</span>
+        <span class="event__day-note">${u.note}</span>
+      </a></li>`;
+    })}
+    </ul>`;
+}
+
 // One row per event: when, what, and a line about it. With `insights`, the latest posts
 // join the same list in the same rows, newest first, so news and events read as one.
 // Notes (an office move) stay out of it. A row with somewhere to go is one link, the
@@ -493,6 +510,7 @@ interface EventRow {
   name: string;
   note: string;
   href?: string | undefined;
+  updates?: readonly EventUpdate[] | undefined;
 }
 
 export function eventsBlock(
@@ -509,6 +527,7 @@ export function eventsBlock(
       name: e.name,
       note: e.note,
       href: e.post ? ctx.link(`blog/${e.post}`) : e.url,
+      updates: e.updates,
     }));
   if (news) {
     const told = new Set(events.map((e) => e.post).filter(Boolean));
@@ -548,10 +567,14 @@ export function eventsBlock(
       <span class="event__when">${fmtMonth(r.month)}${tag ? html`<span class="event__soon">${tag}</span>` : ''}</span>
       <span class="event__name h4">${name}</span>
       <span class="event__note muted">${r.note}</span>`;
+    const days = eventUpdates(r.updates);
     return r.href
       ? html`
-    <li><a class="${cls} event--link" href="${r.href}">${inner}</a></li>`
-      : html`
+    <li><a class="${cls} event--link" href="${r.href}">${inner}</a>${days}</li>`
+      : days
+        ? html`
+    <li><div class="${cls}">${inner}</div>${days}</li>`
+        : html`
     <li class="${cls}">${inner}</li>`;
   })}
   </ul>

@@ -2,6 +2,7 @@
 // markup, and content that does not match its schema stops the build.
 import fs from 'node:fs';
 import { expect, test } from '@playwright/test';
+import { eventUpdates } from '../../src/components.ts';
 import { people } from '../../src/content/index.ts';
 import { AudiencePages, content, Insight } from '../../src/content/schema.ts';
 import { html, join, raw } from '../../src/lib/html.ts';
@@ -117,4 +118,26 @@ test.describe('imported copy (richText)', () => {
       expect(() => richText(ctx, bad, 'test')).toThrow(/^test: /);
     });
   }
+});
+
+test.describe('event updates', () => {
+  test('lists each day under its event as one link, and nothing when there are none', () => {
+    expect(eventUpdates()).toBe('');
+    expect(eventUpdates([])).toBe('');
+    const out = String(
+      eventUpdates([
+        {
+          date: '2026-10-26',
+          place: 'Frankfurt',
+          note: 'Day one & more.',
+          url: 'https://www.linkedin.com/feed/update/x/',
+        },
+        { date: '2026-10-28', note: 'Berlin.', url: 'https://example.com/post' },
+      ]),
+    );
+    expect(out.match(/<a class="event__day"/g)).toHaveLength(2);
+    expect(out).toContain('26 October, Frankfurt');
+    expect(out).toContain('Day one &amp; more.');
+    expect(out.match(/LinkedIn: /g)).toHaveLength(1);
+  });
 });

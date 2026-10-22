@@ -95,6 +95,17 @@ export const Insight = z.strictObject({
 });
 export type Insight = z.infer<typeof Insight>;
 
+/** A day's update from an event, posted while it runs: one line under the event's row. */
+export const EventUpdate = z.strictObject({
+  date: isoDay,
+  /** The city it came from, when the event moves (Frankfurt, Berlin). */
+  place: text.optional(),
+  note: text,
+  /** Where the update was posted, usually a LinkedIn post. */
+  url: z.url(),
+});
+export type EventUpdate = z.infer<typeof EventUpdate>;
+
 export const Event = z.strictObject({
   month: isoMonth,
   desks: z.array(ProductDesk).min(1),
@@ -104,6 +115,8 @@ export const Event = z.strictObject({
   url: z.url().optional(),
   /** Its write-up on this site, blog/<post>/. The post then is not listed again beside it. */
   post: slugId.optional(),
+  /** Its day-by-day updates, oldest first, listed under the row. */
+  updates: z.array(EventUpdate).optional(),
 });
 export type Event = z.infer<typeof Event>;
 
