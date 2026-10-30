@@ -15,11 +15,11 @@
     "import:live": "node scripts/import-live.ts"
   },
   "devDependencies": {
-    "@axe-core/playwright": "4.13.0",
-    "@playwright/test": "1.63.0"
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1"
   },
   "dependencies": {
     "@eunice/contracts": "workspace:*",
-    "zod": "4.6.5"
+    "zod": "4.6.7"
   }
 }
